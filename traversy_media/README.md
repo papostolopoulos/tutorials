@@ -11,3 +11,4 @@ PERHAPS YOU SHOULD START WITH THE VIDEOS THAT HAVE MOST VIEWS AND THEREFORE PERH
 - Building an Ember.js App (includes handlebars and bootstrap): https://www.youtube.com/playlist?list=PLillGF-RfqbYlw550JoiJrHsy0BT0tCgU
 - Restful API - Node, Express and Angular: https://www.youtube.com/playlist?list=PLillGF-RfqbYLBAkywyB2cCy8y87GAket
 - Build An HTML5 Template With Bootstrap & SASS: https://www.youtube.com/playlist?list=PLillGF-RfqbbpWowfjk9_Vv8XUuTBFPut
+- Meteor.js in 50 minutes: https://www.youtube.com/watch?v=vSFH1T3SnBY
