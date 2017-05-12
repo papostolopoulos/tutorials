@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://unpkg.com/vue@2.2.6"></script>
+  <script type="text/javascript" src="main.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css">
+  <link rel="stylesheet" href="./master.css">
+  <title>laracasts vue tutorial</title>
+</head>
+<body>
+CONTINUE FROM HERE: https://laracasts.com/series/learn-vue-2-step-by-step/episodes/12?autoplay=true
+SEE PREVIOUS CHAPTER FIRST
+<!-- 11 - PRACTICAL COMPONENT EXERCISE 3: TABS -->
+  <hr>
+  <h2>11 - Practical Component Exercise #3: Tabs</h2>
+  <div id="root11" class="container">
+
+    <tabs>
+      <tab name="About us" v-bind:selected="true">
+        <h1>Content about us</h1>
+      </tab>
+      <tab name="About our culture">
+        <h1>Content about our culture</h1>
+      </tab>
+      <tab name="About our vision">
+        <h1>Content about our vision</h1>
+      </tab>
+    </tabs>
+
+  </div>
+
+  <script type="text/javascript">
+    Vue.component('tabs', {
+      template: `
+        <div>
+          <div class="tabs">
+            <ul>
+              <li v-for="tab in tabs" v-bind:class="{'is-active': tab.isActive}">
+                <a v-bind:href="tab.href" v-on:click="selectTab(tab)">{{tab.name}}</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tabs-details">
+            <slot></slot>
+          </div>
+        </div>
+
+      `,
+
+      data() {
+        return {tabs: []}
+      },
+
+      created() {
+        this.tabs = this.$children;
+      },
+
+      methods: {
+        selectTab(selectedTab) {
+          this.tabs.forEach(tab => {
+            // tab.isActive = (tab === selectedTab);
+            tab.isActive = (tab.name === selectedTab.name)
+          });
+
+        }
+      }
+    });
+
+    Vue.component('tab', {
+      template: `
+        <div v-show="isActive"><slot></slot></div>
+      `,
+
+      props: {
+        name: {required: true},
+        selected: {default: false}
+      },
+
+      data() {
+        return {
+          isActive: false
+        }
+      },
+
+      computed: {
+        href() {
+          return '#' + this.name.toLowerCase().replace(/ /g, '-');
+        }
+
+      },
+
+      mounted() {
+        this.isActive = this.selected;
+      }
+    });
+
+
+    var app11 = new Vue ({
+      el: "#root11"
+    })
+  </script>
+
+
+
+
+  <!-- 10 - PRACTICAL COMPONENT EXERCISE 2: MODAL-->
+  <hr>
+  <h2>10 - Practical Component Exercise #2: Modal</h2>
+  <div id="root10" class="container">
+    <modal v-show="showModal" @close="showModal = false">
+      We insert any test here
+    </modal>
+    <button type="button" name="button" v-on:click="showModal = true">Show modal</button>
+  </div>
+
+  <script type="text/javascript">
+    Vue.component('modal', {
+      template: `
+      <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="box">
+            <slot></slot>
+          </div>
+        </div>
+        <button class="modal-close" @click="$emit('close')"></button>
+      </div>
+      `
+    })
+
+    var app10 = new Vue({
+      el: "#root10",
+      data: {
+        showModal: false
+      }
+    })
+  </script>
+
+
+
+<!-- 9 - PRACTICAL COMPONENT EXERCISE 1: MESSAGE-->
+  <hr>
+  <h2>9 - Practical Component Exercise #1: Message</h2>
+  <div id="root9" class="container">
+
+    <message title="Hello World" body="Lorem ipsum dolar sit amet."></message>
+    <message title="Hello Universe" body="blah blah blah"></message>
+
+  </div>
+
+  <script type="text/javascript">
+    Vue.component('message', {
+      props: ['title', 'body'],
+
+      data() {
+        return {
+          isVisible: true
+        };
+      },
+
+      template: `
+      <article class="message" v-show="isVisible">
+        <div class="message-header">
+          {{title}}
+          <button class="delete" v-on:click="hideModal"></button>
+        </div>
+        <div class="message-body">
+          {{body}}
+        </div>
+      </article>
+      `,
+      methods: {
+        hideModal() {
+          this.isVisible = false;
+        }
+      }
+    })
+
+    var app9 = new Vue ({
+      el: "#root9"
+    })
+  </script>
+
+
+
+
+<!-- 8 COMPONENTS WITHIN COMPONENTS -->
+  <hr>
+  <h2>8 - Components within components</h2>
+  <p>We created a <code>task-list</code> component that has a template of a <code>ul</code> that is wrapped around a <code>task</code> component.<br>
+  The <code>task</code> component is having a <code>v-for</code> directive and it iterates through the <code>data: function(){return {tasks: []}}</code> object of the component.<br>
+  As a component on its own, <code>task</code> has a template of <code>li</code>, <code>slot</code> tags</p>.
+  <div id="root8">
+    <task-list>
+
+    </task-list>
+  </div>
+
+  <script type="text/javascript">
+    Vue.component("task-list", {
+      template: `
+        <ul>
+          <task v-for="task in tasks">{{task.task}}</task>
+        </ul>
+      `,
+      data() {
+        return {
+          tasks: [
+            {task: 'Go to the store', complete: true},
+            {task: 'Go to the mall', complete: false},
+            {task: 'Go to the farm', complete: true},
+            {task: 'Go to work', complete: false}
+          ]
+        }
+      }
+    }),
+
+    Vue.component("task", {
+      template: '<li><slot></slot></li>'
+    });
+
+    var app8 = new Vue({
+      el: "#root8"
+    });
+  </script>
+
+
+
+
+<!-- 7 - COMPONENTS 101 -->
+  <hr>
+  <h2>7 - Components 101</h2>
+  <div id="root7">
+    <ul>
+      <task>Go to the bank</task>
+      <task>Go to the store</task>
+      <task>Go and buy milk</task>
+    </ul>
+  </div>
+
+  <script type="text/javascript">
+  Vue.component('task', {
+    template: '<li><slot></slot></li>'
+  });
+
+  var app7 = new Vue({
+    el: "#root7"
+  });
+
+  </script>
+
+
+
+
+
+<!-- 6 - COMPUTED PROPERTIES -->
+  <hr>
+  <h2>6a - Computed properties challenge</h2>
+  <p>Have a list of tasks and a button to check them off. <br>
+    As the button is clicked, it should automatically update the other list. <br>
+    All tasks, incomplete and complete.
+  Based upon on how I click each button, it should dynamically update the lists</p>
+
+  <table>
+    <thead>
+      <th>First way</th>
+      <th>Second way</th>
+      <th>Third way</th>
+    </thead>
+    <tbody>
+      <tr>
+        <!-- FIRST WAY -->
+        <td>
+          <div id="root6a">
+            <h3>All tasks</h3>
+            <ul>
+              <li v-for="task in tasks"><input type="checkbox" v-model="task.completed"/>{{ task.description }}</li>
+            </ul>
+
+            <h3>Incomplete tasks</h3>
+            <ul>
+              <li v-for="task in incompleteTasks" v-text="task.description"></li>
+            </ul>
+
+
+            <h3>Completed tasks</h3>
+            <ul>
+              <li v-for="task in completeTasks" v-text="task.description"></li>
+            </ul>
+          </div>
+        </td>
+
+      <!-- SECOND WAY -->
+        <td>
+          <div id="root6b">
+            <h3>All tasks</h3>
+            <ul>
+              <li v-for="(task, key) in tasks">{{task.description}} <button v-on:click="toggleStatusB(key)" v-bind:class="{'task-complete' : task.completed, 'task-incomplete' : ! task.completed}">Change task status</button></li>
+            </ul>
+            <h3>Incomplete Tasks</h3>
+            <ul>
+              <li v-for="task in incompleteTasksB" v-text="task.description"></li>
+            </ul>
+            <h3>Completed tasks</h3>
+            <ul>
+              <li v-for="task in completeTasksB" v-text="task.description"></li>
+            </ul>
+          </div>
+        </td>
+
+      <!-- THIRD WAY -->
+        <td>
+          <div id="root6c">
+            <h3>All tasks</h3>
+            <ul>
+              <li v-for="(task, key) in tasks" v-text="task.description"></li>
+            </ul>
+            <h3>Incomplete tasks</h3>
+            <ul>
+              <li v-for="task in incompleteTasksC">
+                {{task.description}}
+                <button type="button" name="button" v-on:click="toggleStatusC(task)">Mark as complete</button>
+              </li>
+            </ul>
+            <h3>Completed tasks</h3>
+            <ul>
+              <li v-for="task in completeTasksC">
+                {{task.description}}
+                <button type="button" name="button" v-on:click="toggleStatusC(task)">Mark as incomplete</button>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <script type="text/javascript">
+    // FIRST WAY
+    var app6a = new Vue({
+      el: "#root6a",
+      data: {
+        tasks: [
+          {description: "Go to the store", completed: true},
+          {description: "Finish screencast", completed: false},
+          {description: "Make donation", completed: false},
+          {description: "Clear inbox", completed: false},
+          {description: "Make dinner", completed: false},
+          {description: "Clean room", completed: true}
+        ]
+      },
+      methods: {
+        toggleStatus() {
+          console.log(task)
+        }
+      },
+      computed: {
+        incompleteTasks(){
+          return this.tasks.filter(task => ! task.completed)
+        },
+        completeTasks(){
+          return this.tasks.filter(task => task.completed)
+        }
+      }
+    });
+
+    // SECOND WAY
+    var app6b = new Vue({
+      el: "#root6b",
+      data: {
+        tasks: [
+          {description: "Go to the store", completed: true},
+          {description: "Finish screencast", completed: false},
+          {description: "Make donation", completed: false},
+          {description: "Clear inbox", completed: false},
+          {description: "Make dinner", completed: false},
+          {description: "Clean room", completed: true}
+        ]
+      },
+      methods: {
+        toggleStatusB(key) {
+          this.tasks[key].completed === false ?  this.tasks[key].completed = true : this.tasks[key].completed = false;
+        },
+      },
+      computed: {
+        incompleteTasksB(){
+          return this.tasks.filter(function (task) {
+            return ! task.completed;
+          })
+        },
+        completeTasksB(){
+          return this.tasks.filter(task => task.completed);
+        }
+      }
+    });
+
+    var app6c = new Vue ({
+      el: "#root6c",
+      data: {
+        tasks: [
+          {description: "Go to the store", completed: true},
+          {description: "Finish screencast", completed: false},
+          {description: "Make donation", completed: false},
+          {description: "Clear inbox", completed: false},
+          {description: "Make dinner", completed: false},
+          {description: "Clean room", completed: true}
+        ]
+      },
+      methods: {
+        toggleStatusC(task) {
+          task.completed === false ? task.completed = true : task.completed = false;
+        }
+      },
+      computed: {
+        incompleteTasksC() {
+          return this.tasks.filter(task => ! task.completed);
+        },
+        completeTasksC() {
+          return this.tasks.filter(task => task.completed);
+        }
+      }
+    })
+  </script>
+
+
+  <hr>
+  <h2>6 - The need for computed properties</h2>
+  <div id="root6">
+    <h2>All tasks</h2>
+    <ul>
+      <li v-for="task in tasks" v-text="task.description"></li>
+    </ul>
+
+    <h2>Incomplete tasks</h2>
+    <ul>
+      <li v-for="task in incompleteTasks" v-text="task.description"></li>
+    </ul>
+  </div>
+
+  <script type="text/javascript">
+    var app6 = new Vue ({
+      el: "#root6",
+      data: {
+        tasks: [
+          {description: "Go to the store", completed: true},
+          {description: "Finish screencast", completed: false},
+          {description: "Make donation", completed: false},
+          {description: "Clear inbox", completed: false},
+          {description: "Make dinner", completed: false},
+          {description: "Clean room", completed: true}
+        ]
+      },
+
+      computed: {
+        incompleteTasks(){
+          return this.tasks.filter(task => ! task.completed);
+        }
+      }
+    });
+  </script>
+
+
+
+  <hr>
+  <h2>5a - disabled attribute of the button. Determine if the button is disabled</h2>
+  <div id="root5a">
+    <button name="button" v-bind:disabled="isDisabled" v-on:click="disableMe">Click to disable me</button>
+  </div>
+
+  <script type="text/javascript">
+    var app5a = new Vue ({
+      el: "#root5a",
+      data: {
+        isDisabled: false
+      },
+      methods: {
+        disableMe() {
+          this.isDisabled = true;
+        }
+      }
+    });
+  </script>
+
+
+  <hr>
+  <h2>5 - Attribute and Class Binding</h2>
+  <div id="root5">
+    <button v-bind:class="{'is-loading': isLoading}" v-on:click="toggleClass" id="button5">Toggle colors of button</button>
+  </div>
+
+
+  <script>
+    var app5 = new Vue({
+      el: '#root5',
+      data: {
+        isLoading: false
+      },
+      methods: {
+        toggleClass(){
+          this.isLoading === false ? this.isLoading = true : this.isLoading = false;
+        }
+      }
+    });
+  </script>
+
+
+  <hr>
+  <h2>4 - Vue event listeners</h2>
+  <div id="root4">
+    <ul>
+      <li v-for="name in names" v-text="name"></li>
+    </ul>
+
+    <input type="text" v-model="newName">
+    <button v-on:click="addName">Add name</button>
+  </div>
+
+  <script type="text/javascript">
+    var app2 = new Vue ({
+      el: "#root4",
+      data: {
+        names: ['Joe', 'Mary', 'Jane', 'Jack'],
+        newName: ''
+      },
+      methods: {
+        addName() {
+          this.newName !== '' ? this.names.push(this.newName) : alert("You need to enter a name");
+          this.newName = ''
+        }
+      }
+    });
+  </script>
+
+
+  <hr>
+  <h2>3 - Lists</h2>
+  <div id="root3">
+    <ul>
+      <li v-for="name in names" v-text="name"></li>
+    </ul>
+
+    <input type="text" id="input3">
+    <button id="button3">Add name</button>
+  </div>
+
+  <script type="text/javascript">
+    var app2 = new Vue ({
+      el: "#root3",
+      data: {
+        names: ['Joe', 'Mary', 'Jane', 'Jack']
+      },
+      mounted() {
+        document.querySelector("#button3").addEventListener("click", ()=>{
+          let name = document.querySelector("#input3");
+
+          app2.names.push(name.value);
+          name.value = "";
+        });
+      }
+    });
+  </script>
+
+
+  <hr>
+  <h2>1 - Basic data binding</h2>
+  <div id="root1">
+    <input type="text" id="input1" v-model="message">
+    <p>The value of the input is: {{message}}</p>
+  </div>
+
+  <script type="text/javascript">
+    var app1 = new Vue ({
+      el: "#root1",
+      data: {
+        message: "Hello world"
+      }
+    });
+  </script>
+
+</body>
+</html>

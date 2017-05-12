@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css"> -->
+
+  <style media="screen">
+    body {
+      background-color: #e6ffe6;
+      padding: 15px;
+    }
+    h2 {
+      /*font-family: verdana;*/
+      margin-bottom: -10px;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: bold;
+    }
+  </style>
+  <title>JS - understanding the weird parts</title>
+</head>
+
+<body>
+  <h1>JS understanding the weird parts</h1>
+  <h2>Big word: Syntax Parser</h2>
+  <p>A program that reads your code and determines what it does and if its grammar is valid</p>
+
+  <h2>Big word: Lexical environment</h2>
+  <p>Where something sits physically in the code you write.<br>
+  A lexical environment exists in programming languages in which <b>where</b> you write something is <i>important</i></p>
+  <p>Σύμφωνα με το που είναι γραμμένο κάτι, μας δίνει μια ιδέα για το πως διαφορετικές συνιστώσες (μεταβλητές) αλληλοεπηρεάζονται.</p>
+
+  <h2>Big word: Execution context</h2>
+  <p>A wrapper to help manage the code that is running. Example:<br>
+  The Global Object and the "this" variable are in the Global environment. This is the BASE Execution Context</p>
+
+  <h2>Big word: Object</h2>
+  <p>A collection of name value pairs (key - value is how you have learned it)</p>
+
+  <h2>What is Global</h2>
+  <p>Answer: When it is not inside a function</p>
+
+  <h2>Execution context (Relates to hoisting - 41:43)</h2>
+
+  <h2>Big word: Single threaded</h2>
+  <p>One command at a time</p>
+
+  <h2>Big word: Synchronous</h2>
+  <p>One at a time, and in the order that it appears</p>
+
+  <h2>Big word: INVOCATION means running a function</h2>
+  <p>In javascript, by using parenthesis ()</p>
+
+  <h2>Big word: Variable Environment</h2>
+  <p>Where the variables live - And how they relate to each other in memory</p>
+
+  <h2>Big word: Scope</h2>
+  <p>where a variable is available in your code</p>
+
+  <h2>Big word: Asynchronous</h2>
+  <p>More than one at a time</p>
+
+  <h2>Big word alert: Dynamic typing</h2>
+  <p>: You don't tell the engine what type of data a variable holds,
+    it figures it out while your code is running. <br>
+    Variables can hold different types of values because it is all figured out
+    during execution.</p>
+
+  <h2>Big word alert: Primitive type</h2>
+  <p>A type of data that represents a single value. That is- NOT an object</p>
+
+  <h2>Big word: Operator</h2>
+  <p>A special function that is syntactically written differently. <br>
+    Generally, operators take two parameters and return one result.</p>
+
+    <h2>Big word: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">Operator Precedence</a></h2>
+    <p>Which operator function gets called first. Functions are called in order of precedence. Higher precedence wins</p>
+
+    <h2>Big word: Associativity</h2>
+    <p>What order operator functions get called in: Left to right or right to left (When functions have the same precedence)</p>
+
+    <h2>Big word: Coersion</h2>
+    <p>Converting a value from one type to another. This happens often in JavaScript because it is dynamically typed. SEE ALSO
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness">Equality comparisons and sameness</a></p>
+
+    <h1>Lecture 32</h1>
+    <h2>Big Word: Namespace</h2>
+    <p>A container for variables and for functions. <br>
+    Used to keep variables and functions with the same name separate.</p>
+
+
+    <h1>Lecture 46: Understanding closures</h1>
+    <h1>Lecture 46: Understanding closures part 2</h1>
+
+
+
+  TUTORIAL SOURCE: <a href="https://www.udemy.com/understand-javascript/learn/v4/content">HERE</a>
+  <script type="text/javascript" src="./app.js"></script>
+</body>
+</html>

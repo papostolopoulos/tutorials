@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="https://unpkg.com/vue@2.2.6"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style media="screen">
+  body {
+    padding: 15px;
+  }
+  </style>
+
+  <title>005 - Conditional Rendering - Vue website tutorial</title>
+</head>
+<body>
+
+  <a href="https://vuejs.org/v2/guide/conditional.html"><h3>Source</h3></a>
+
+  <h1>5 - Conditional Rendering</h1>
+  <div id="conditional">
+    <p>If - else statement as a Vue directive.
+      The conditional can have a <code>v-if</code>, <code>v-else-if</code> and a <code>v-else</code>
+    directives in back to back tags</p>
+    <div v-if="Math.random() > 0.5">
+      Now you see me
+    </div>
+    <div v-else>
+      Now you don't
+    </div>
+  </div>
+
+  <h3>Toggle between different placeholders and labels with the v-if directive. <br>
+
+
+    <h4>Controlling Reusable Elements with <code>key</code></h4>
+    The <code>key</code> attribute in the <code>input</code> tag is the one that defines that the <code>input</code> tags are separate from each other.
+    In some cases we want the same tags to just have different content while in some other cases we want the tags to be completely differet.</h3>
+  <div id="conditional2">
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input type="text" placeholder="Enter your username" key="username-input">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input type="text" placeholder="Enter your email address" key="email-input">
+    </template><br>
+    <button type="button" name="button" id="toggleInputs" v-on:click="toggleInputs()">Switch between username and email</button>
+  </div>
+
+  <h3>v-show</h3>
+  <p>Another option for conditionally displaying an element is the v-show directive. The usage is largely the same. <br>
+    The difference is that an element with v-show will always be rendered and remain in the DOM; v-show simply toggles the display CSS property of the element.<br>
+    Note that v-show doesn’t support the <code>template</code> syntax, nor does it work with v-else.</p>
+
+
+
+
+  <script type="text/javascript">
+    var conditional = new Vue ({
+      el: "#conditional"
+    });
+
+    var conditional2 = new Vue ({
+      el: "#conditional2",
+      data: {
+        loginType: "username"
+      },
+      methods: {
+        toggleInputs() {
+          this.loginType === "username" ? this.loginType = "email" : this.loginType = "username";
+        }
+      }
+    })
+  </script>
+
+
+  <a href="./004.html">Previous - Class and Style Bindings</a> <a href="./006.html">Next - List rendering</a>
+</body>
+</html>

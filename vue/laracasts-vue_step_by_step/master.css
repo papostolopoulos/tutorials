@@ -1,0 +1,23 @@
+body{
+  padding: 15px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 22px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 18px;
+}
+.is-loading {
+  background: red;
+}
+.task-complete {
+  background: green;
+}
+.task-incomplete {
+  background: red;
+}
+.yellow-background {
+  background: yellow;
+}

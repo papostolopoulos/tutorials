@@ -7,3 +7,4 @@
 * [] Skrollr Tutorials https://www.youtube.com/playlist?list=PLkEZWD8wbltnJLZHZyqGV0VzoNe2eSR3u (ihatetomatoes)
 * [] GreenSock For Beginners (front end animation) - https://www.youtube.com/playlist?list=PLkEZWD8wbltlSS_d_7tx_H_FBNVro8918 (ihatetomatoes)
 * [] Front End Development Tutorials https://www.youtube.com/playlist?list=PLkEZWD8wbltmJcrB2uYHhYvThhyGAGefL (i hate tomatoes)
+* [] SVG Animation - With HTML - CSS & Javascript - https://www.youtube.com/playlist?list=PLxi1fvNe2-i2tBroW_94QifOZ2mwOTGXs (digital i learning)
