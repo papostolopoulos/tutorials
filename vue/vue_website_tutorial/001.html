@@ -19,11 +19,193 @@
 
   <h1>1 - Introduction</h1>
 
+  <!-- DECLARATIVE RENDERING -->
+  <h2>1 - Declarative rendering</h2>
+  <p>VUE is a system that enables us to declaratively render data to the DOM using template syntax.</p>
+    <div id="app">
+      {{ message }}
+    </div>
+
+    <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        message: "Hello Vue! Hi there"
+      }
+    });
+    </script>
+
+
+
+    <!-- REACTIVE DIRECTIVE -->
+    <h2>2 - Reactive directive (v-bind attribute)</h2>
+    <p>
+      Directives are prefixed with <code>v-</code> to indicate that they are special attributes provided by Vue.<br>
+      They apply special reactive behavior to the rendered DOM.
+    </p>
+    <div id="app-2">
+      <span v-bind:title="message">
+        Hover your mouse over me for e few seconds to see my dynamically bound title!
+      </span><br>
+      <input type="text" v-bind:value="message">
+    </div>
+
+    <script type="text/javascript">
+      var app2 = new Vue({
+        el: "#app-2",
+        data: {
+          message: "You loaded this page on " + new Date()
+        }
+      });
+    </script>
+
+
+    <!-- CONDITIONAL -->
+    <h2>3 - Conditional (v-if)</h2>
+    <p>Data can be binded not only with text and attributes, but also with the structure of the DOM.
+    Vue provides a transition effect system that can automatically apply <a href="https://vuejs.org/v2/guide/transitions.html">transition effects</a>
+    when elements are inserted/updated/removed by Vue.</p>
+    <div id="app-3">
+      <p v-if="seen">Now you see me</p>
+      <p v-else="seen">Now you don't see me</p>
+      <button v-on:click="toggleSeen">Toggle text view</button>
+    </div>
+
+    <script type="text/javascript">
+      var app3 = new Vue({
+        el: "#app-3",
+        data: {
+          seen: true
+        },
+        methods: {
+          toggleSeen() {
+            this.seen === false ? this.seen = true : this.seen = false
+          }
+        }
+      })
+    </script>
+
+
+
+    <!-- LOOP -->
+    <h2>4 - Loop (v-for)</h2>
+    <p><code>v-for</code> is one of the directives that can be used for displaying a list of items using the data from an Array. <br>
+    Other directives have their own functionality.</p>
+    <div id="app-4">
+      <ol>
+        <li v-for="todo in todos">{{todo.text}}</li>
+      </ol>
+    </div>
+
+    <script>
+      var app4 = new Vue({
+        el: "#app-4",
+        data: {
+          todos: [
+            {text: "Learn JavaScript"},
+            {text: "Learn Vue"},
+            {text: "build something awesome"}
+          ]
+        }
+      });
+    </script>
+
+
+
+    <!-- HANDLING USER INPUT -->
+    <h2>5 - Handling user input</h2>
+    <p>Tu let users interact with a Vue app, the developer can use the <code>v-on</code> directive to attach event listeners that
+    invoke methods on the Vue instances.</p>
+    <div id="app-5">
+        <p>{{message}}</p>
+        <button type="button" name="button" v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+
+    <script type="text/javascript">
+      var app5 = new Vue ({
+        el: "#app-5",
+        data: {
+          message: "Hello vue.js"
+        },
+        methods: {
+          reverseMessage() {
+            this.message = this.message.split("").reverse().join("");
+          }
+        }
+      })
+    </script>
+
+
+
+    <!-- V-MODEL DIRECTIVE AND TWO WAY BINDING BETWEEN FORM INPUT AND APP STATE -->
+    <h2>6 - v-model directive and two way binding between form input and app state</h2>
+    <p>Vue also provides the <code>v-model</code> directive that makes it easy to have a two-way bind between form input and the application you are building.</p>
+    <div id="app-6">
+      <p>{{message}}</p>
+      <input type="text" name="" value="" v-model="message">
+    </div>
+
+    <script type="text/javascript">
+      var app6 = new Vue ({
+        el: "#app-6",
+        data: {
+          message: "Hello Vue"
+        }
+      });
+    </script>
+
+
+
+    <!-- COMPOSING WITH COMPONENTS AND BINDING -->
+    <h2>7 - Composing with components and binding (v-bind)</h2>
+    <p>in Vue, a component is essentially a Vue instance with pre-defined options.</p>
+    <p>In order to pass data from the <b>parent scope</b> into <b>child components</b>, we can use a <code>prop</code>.<br>
+    A component can accept a <code>prop</code> which is like a <b>custom attribute</b>. <br>
+    </p>
+    <div class="" id="app-7">
+
+
+      <p>This ul is using a "for" directive but with {{}} brackets within the <code>&#60;li&#62; tags</code>
+        and not the v-bind directive as done above in the <code>&#60;ol&#62;</code>.</p>
+        <p>Also the <code>&#60;ol&#62;</code> is using components</p>
+        <ul>
+          <li v-for="item in groceryList">{{item.text}}</li>
+        </ul>
+
+
+      <ol>
+        <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+      </ol>
+    </div>
+
+    <script type="text/javascript">
+      Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+      });
+
+      var app7 = new Vue({
+        el: "#app-7",
+        data: {
+          groceryList: [
+            {text: "Vegetables"},
+            {text: "Cheese"},
+            {text: "Whatever else humans are supposed to eat"}
+          ]
+        }
+      });
+    </script>
+
+
+
+  <!-- COMPONENTS COMPOSITION (2) -->
   <div id="app-7a">
     <h2>7a - Components composition (my test)</h2>
+    <h3>Grocery List</h3>
     <ol>
       <purchase-item v-for="grocery in groceryList" v-bind:todo="grocery"></purchase-item>
     </ol>
+    <h3>Candy List</h3>
     <ol>
       <purchase-item v-for="candy in candyList" v-bind:todo="candy"></purchase-item>
     </ol>
@@ -55,165 +237,9 @@
   </script>
 
 
-  <div class="" id="app-7">
-    <h2>7 - Composing with components and binding (v-bind)</h2>
-
-
-    <p>This ul is using a "for" directive but with {{}} brackets within the <code>&#60;li&#62; tags</code>
-      and not the v-bind directive as done above in the <code>&#60;ol&#62;</code>.</p>
-      <p>Also the <code>&#60;ol&#62;</code> is using components</p>
-      <ul>
-        <li v-for="item in groceryList">{{item.text}}</li>
-      </ul>
-
-
-    <ol>
-      <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
-    </ol>
-  </div>
-
-  <script type="text/javascript">
-    Vue.component('todo-item', {
-      props: ['todo'],
-      template: '<li>{{ todo.text }}</li>'
-    });
-
-    var app7 = new Vue({
-      el: "#app-7",
-      data: {
-        groceryList: [
-          {text: "Vegetables"},
-          {text: "Cheese"},
-          {text: "Whatever else humans are supposed to eat"}
-        ]
-      }
-    });
-  </script>
-
-
-
-  <div id="app-6">
-    <h2>6 - v-model directive and two way binding between form input and app state</h2>
-    <p>{{message}}</p>
-    <input type="text" name="" value="" v-model="message">
-  </div>
-
-  <script type="text/javascript">
-    var app6 = new Vue ({
-      el: "#app-6",
-      data: {
-        message: "Hello Vue"
-      }
-    });
-  </script>
-
-
-
-  <div id="app-5">
-    <h2>5 - Handling user input</h2>
-      <p>{{message}}</p>
-      <button type="button" name="button" v-on:click="reverseMessage">Reverse Message</button>
-  </div>
-
-  <script type="text/javascript">
-    var app5 = new Vue ({
-      el: "#app-5",
-      data: {
-        message: "Hello vue.js"
-      },
-      methods: {
-        reverseMessage() {
-          this.message = this.message.split("").reverse().join("");
-        }
-      }
-    })
-  </script>
-
-
-
-  <div id="app-4">
-    <h2>4 - Loop (v-for)</h2>
-    <ol>
-      <li v-for="todo in todos">{{todo.text}}</li>
-    </ol>
-  </div>
-
-  <script>
-    var app4 = new Vue({
-      el: "#app-4",
-      data: {
-        todos: [
-          {text: "Learn JavaScript"},
-          {text: "Learn Vue"},
-          {text: "build something awesome"}
-        ]
-      }
-    });
-  </script>
-
-
-
-  <div id="app-3">
-    <h2>3 - Conditional (v-if)</h2>
-    <p v-if="seen">Now you see me</p>
-    <p v-else="seen">Now you don't see me</p>
-    <button v-on:click="toggleSeen">Toggle text view</button>
-  </div>
-
-  <script type="text/javascript">
-    var app3 = new Vue({
-      el: "#app-3",
-      data: {
-        seen: true
-      },
-      methods: {
-        toggleSeen() {
-          this.seen === false ? this.seen = true : this.seen = false
-        }
-      }
-    })
-  </script>
-
-
-
-  <div id="app-2">
-    <h2>2 - Reactive directive (v-bind attribute)</h2>
-    <span v-bind:title="message">
-      Hover your mouse over me for e few seconds to see my dynamically bound title!
-    </span>
-    <input type="text" v-bind:value="message">
-  </div>
-
-  <script type="text/javascript">
-    var app2 = new Vue({
-      el: "#app-2",
-      data: {
-        message: "You loaded this page on " + new Date()
-      }
-    });
-  </script>
-
-
-
-  <div id="app">
-    <h2>1 - Declarative rendering</h2>
-    {{ message }}
-  </div>
-
-  <script>
-  var app = new Vue({
-    el: "#app",
-    data: {
-      message: "Hello Vue! Hi there"
-    }
-  });
-  </script>
 
 
   <br>
   <a href="./002.html">Next - The Vue instance</a>
-
-
-
 </body>
 </html>

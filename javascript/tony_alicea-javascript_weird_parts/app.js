@@ -27,3 +27,18 @@ var sayHiEs = sayHi('spanish');
 
 console.log(sayHiEn("Rena"));
 console.log(sayHiEs("Rena"));
+
+var person = {
+  firstName: "Paris",
+  lastName: "Apostolopoulos",
+  getFullName: function () {
+    var fullName = this.firstName + " " + this.lastName;
+    return fullName;
+  }
+}
+
+var logName = function (lang1, lang2) {
+  console.log("The name is: " + this.getFullName());
+}
+
+logName.bind(person);
