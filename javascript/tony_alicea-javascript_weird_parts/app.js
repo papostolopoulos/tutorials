@@ -42,3 +42,12 @@ var logName = function (lang1, lang2) {
 }
 
 logName.bind(person);
+
+
+function log(a) {
+  console.log(a);
+}
+
+log((function () {
+  console.log('hi');
+})())

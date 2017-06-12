@@ -12,16 +12,19 @@
       background-color: #e6ffe6;
       padding: 15px;
     }
-    h2 {
+    h3 {
       /*font-family: verdana;*/
       margin-bottom: -10px;
       margin-top: 10px;
       font-weight: bold;
+      font-size: 18px;
+    }
+    h2 {
       font-size: 24px;
+      font-weight: bold;
     }
     h1 {
       font-size: 32px;
-      font-weight: bold;
     }
   </style>
   <title>JS - understanding the weird parts</title>
@@ -29,106 +32,106 @@
 
 <body>
   <h1>JS understanding the weird parts</h1>
-  <h2>Big word: Syntax Parser</h2>
+  <h3>Big word: Syntax Parser</h3>
   <p>A program that reads your code and determines what it does and if its grammar is valid</p>
 
-  <h2>Big word: Lexical environment</h2>
+  <h3>Big word: Lexical environment</h3>
   <p>Where something sits physically in the code you write.<br>
   A lexical environment exists in programming languages in which <b>where</b> you write something is <i>important</i></p>
   <p>Σύμφωνα με το που είναι γραμμένο κάτι, μας δίνει μια ιδέα για το πως διαφορετικές συνιστώσες (μεταβλητές) αλληλοεπηρεάζονται.</p>
 
-  <h2>Big word: Execution context</h2>
+  <h3>Big word: Execution context</h3>
   <p>A wrapper to help manage the code that is running. Example:<br>
   The Global Object and the "this" variable are in the Global environment. This is the BASE Execution Context</p>
 
-  <h2>Big word: Object</h2>
+  <h3>Big word: Object</h3>
   <p>A collection of name value pairs (key - value is how you have learned it)</p>
 
-  <h2>What is Global</h2>
+  <h3>What is Global</h3>
   <p>Answer: When it is not inside a function</p>
 
-  <h2>Execution context (Relates to hoisting - 41:43)</h2>
+  <h3>Execution context (Relates to hoisting - 41:43)</h3>
 
-  <h2>Big word: Single threaded</h2>
+  <h3>Big word: Single threaded</h3>
   <p>One command at a time</p>
 
-  <h2>Big word: Synchronous</h2>
+  <h3>Big word: Synchronous</h3>
   <p>One at a time, and in the order that it appears</p>
 
-  <h2>Big word: INVOCATION means running a function</h2>
+  <h3>Big word: INVOCATION means running a function</h3>
   <p>In javascript, by using parenthesis ()</p>
 
-  <h2>Big word: Variable Environment</h2>
+  <h3>Big word: Variable Environment</h3>
   <p>Where the variables live - And how they relate to each other in memory</p>
 
-  <h2>Big word: Scope</h2>
+  <h3>Big word: Scope</h3>
   <p>where a variable is available in your code</p>
 
-  <h2>Big word: Asynchronous</h2>
+  <h3>Big word: Asynchronous</h3>
   <p>More than one at a time</p>
 
-  <h2>Big word alert: Dynamic typing</h2>
+  <h3>Big word alert: Dynamic typing</h3>
   <p>: You don't tell the engine what type of data a variable holds,
     it figures it out while your code is running. <br>
     Variables can hold different types of values because it is all figured out
     during execution.</p>
 
-  <h2>Big word alert: Primitive type</h2>
+  <h3>Big word alert: Primitive type</h3>
   <p>A type of data that represents a single value. That is- NOT an object</p>
 
-  <h2>Big word: Operator</h2>
+  <h3>Big word: Operator</h3>
   <p>A special function that is syntactically written differently. <br>
     Generally, operators take two parameters and return one result.</p>
 
-    <h2>Big word: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">Operator Precedence</a></h2>
+    <h3>Big word: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">Operator Precedence</a></h3>
     <p>Which operator function gets called first. Functions are called in order of precedence. Higher precedence wins</p>
 
-    <h2>Big word: Associativity</h2>
+    <h3>Big word: Associativity</h3>
     <p>What order operator functions get called in: Left to right or right to left (When functions have the same precedence)</p>
 
-    <h2>Big word: Coersion</h2>
+    <h3>Big word: Coersion</h3>
     <p>Converting a value from one type to another. This happens often in JavaScript because it is dynamically typed. SEE ALSO
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness">Equality comparisons and sameness</a></p>
 
-    <h1>Lecture 32</h1>
-    <h2>Big Word: Namespace</h2>
+    <h2>Lecture 32</h2>
+    <h3>Big Word: Namespace</h3>
     <p>A container for variables and for functions. <br>
     Used to keep variables and functions with the same name separate.</p>
 
-    <h1>Lecture 33: JSON and object literals</h1>
-    <h1>Lecture 34: Functions are objects</h1>
-    <h2>Big word: First class functions</h2>
+    <h2>Lecture 33: JSON and object literals</h2>
+    <h2>Lecture 34: Functions are objects</h2>
+    <h3>Big word: First class functions</h3>
     <p>Everything you can do with other types you can do with functions <br>
     You can: Assign them to variables, pass them around, create them on the fly.</p>
 
-    <h1>Lecture 35: Function statements and function expressions</h1>
-    <h2>Big word: Expression</h2>
+    <h2>Lecture 35: Function statements and function expressions</h2>
+    <h3>Big word: Expression</h3>
     <p>A unit of code that results in a value. It does not have to save to a variable.</p>
 
 
-    <h1>Lecture 46: Understanding closures</h1>
-    <h1>Lecture 47: Understanding closures part 2</h1>
-    <h1>Lecture 48: Function Factories</h1>
-    <h1>Lecture 49: Closures and callbacks</h1>
-    <h2>Big Word: Callback function</h2>
+    <h2>Lecture 46: Understanding closures</h2>
+    <h2>Lecture 47: Understanding closures part 2</h2>
+    <h2>Lecture 48: Function Factories</h2>
+    <h2>Lecture 49: Closures and callbacks</h2>
+    <h3>Big Word: Callback function</h3>
     <p>A function you give to another function, to be run when the other function is finished. <br>
     So the function you call (invoke), "calls back" by calling the function you gave it when it finishes</p>
 
-    <h1>Lecture 50. Call, Apply and Bind</h1>
+    <h2>Lecture 50. Call, Apply and Bind</h2>
     <p>bind creates a copy of the function, call executes it. The apply method needs an array of parameters</p>
 
-    <h1>Lecture 53: Object Oriented JavaScript and prototypal inheritance</h1>
-    <h2>Big word: Inheritance</h2>
+    <h2>Lecture 53: Object Oriented JavaScript and prototypal inheritance</h2>
+    <h3>Big word: Inheritance</h3>
     <p>One object gets access to the properties and methods of another object</p>
-    <h1>Lecture 54: Understanding the prototype</h1>
-    <h1>Lecture 55: Everyting is an object (or a primitive)</h1>
-    <h1>Lecture 56: Reflection and Extend</h1>
-    <h2>Big word: Reflection</h2>
+    <h2>Lecture 54: Understanding the prototype</h2>
+    <h2>Lecture 55: Everyting is an object (or a primitive)</h2>
+    <h2>Lecture 56: Reflection and Extend</h2>
+    <h3>Big word: Reflection</h3>
     <p>An object can look at itself, listing and changing its properties and methods</p>
-    <h1>Lecture 57: Function constructors, the "new" operator and the history of JavaScript</h1>
+    <h2>Lecture 57: Function constructors, the "new" operator and the history of JavaScript</h2>
     <p>An object is created via a function with the use of the "new" operator. <br>
       So we call a function that is used specificaly to construct an object a function constructor</p>
-      <h2>Big word: Function Constructors</h2>
+      <h3>Big word: Function Constructors</h3>
       <p>A normal function that is used to construct objects <br>
       The "this" variable points a new empty object, and that object is returned from the function automatically</p>
 

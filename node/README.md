@@ -9,3 +9,4 @@
 * [] NodeJS Tutorials (using mongo and mongoose): https://www.youtube.com/playlist?list=PLVBXNyNyLNq3MGbopdcvWc25xijtWaA6X (manthan_dave)
 * [] Node.js and PostgreSQL Recipe App: https://www.youtube.com/playlist?list=PLillGF-RfqbaEmlPcX5e_ejaK7Y5MydkW (traversy_media)
 * [] Node.js Tutorials for Beginners: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBMdkKFn3HasZnnAqVjzHn_ (the new Boston)
+* [] Learn and understand Node.js: https://www.udemy.com/understand-nodejs/learn/v4/content (Tony Alicea)
