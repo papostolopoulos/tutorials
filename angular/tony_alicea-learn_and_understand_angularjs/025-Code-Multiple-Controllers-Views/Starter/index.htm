@@ -34,12 +34,16 @@
 			</nav>
 		</header>
 
+        <h1>25. Angular Aside: Multiple controllers, multiple views</h1>
         <div class="container">
 
             <div ng-controller="mainController">
+                <h1>This is the {{name}}</h1>
 
-                <h1>Hello world!</h1>
+            </div>
 
+            <div ng-controller="secondController">
+                <h1>This is the {{name}}</h1>
             </div>
 
 		</div>

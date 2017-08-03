@@ -38,9 +38,18 @@
 
             <div ng-controller="mainController">
 
-                <h1>Hello world!</h1>
+                <h1>20. Watchers and the digest loop.</h1>
+                <div>
+                  <label>What is your twitter handle?</label>
+                  <input type="text" ng-model="handle">
+
+                  <hr>
+
+                  <h1>twitter.com/{{lowercasehandle()}}</h1>
+                </div>
 
             </div>
+
 
 		</div>
 
