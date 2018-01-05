@@ -42,7 +42,7 @@ NOTE: we prefer to add the methods outside of the function constructor as:
 "Person.prototype.getAddress = function(){ ... }"
 In that way we are earning in memory space. If we would add the methods directly in the function
 constructor then that means that a new method would have to be created for each object so this would
-be redundant and would occupy a lot of memory space. 
+be redundant and would occupy a lot of memory space. k
 */
 function OtherPerson(firstname, lastname) {
   console.log(this);
