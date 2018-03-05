@@ -1,4 +1,5 @@
-//polyfill
+//polyfill in order to fill the gap in the event older browsers do not have
+// Object.create
 if (!Object.create) {
   Object.create = function (o) {
     if (arguments.length > 1) {
@@ -9,7 +10,7 @@ if (!Object.create) {
     return new F();
   }
 }
-
+//------------------------------------
 
 var person = {
   firstname: "Default",
