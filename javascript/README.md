@@ -8,3 +8,4 @@
 * [] Let's Learn ES6: https://www.youtube.com/playlist?list=PL57atfCFqj2h5fpdZD-doGEIs0NZxeJTX (ryan_christiani)
 * [] JavaScript ES6 / ES2015 Tutorials: https://www.youtube.com/playlist?list=PLillGF-RfqbZ7s3t6ZInY3NjEOOX7hsBv (traversy_media)
 * [] ECMAScript 6 / ES6 New Features Tutorials: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBhgcpA8eTYYWg7im72LgLt (the new Boston)
+* [] Javascript 30 https://courses.wesbos.com/account
