@@ -9,13 +9,25 @@
   big O notation:
   how scalable is an algoritm and how much time it takes
 */
-function harmlessRansomNote(noteText, magazineText) {
 
+
+
+// My solution
+function harmlessRansomNote(noteText, magazineText) {
+  let textArr = noteText.split(" ");
+  for(word of textArr){
+    if (magazineText.indexOf(word) !== -1) {
+      magazineText.slice(0, magazineText.indexOf(word)) +
+      magazineText.slice(magazineText.indexOf(word) + word.length);
+    }
+    else return false;
+  }
+  return true;
 }
 
 harmlessRansomNote("this is a secret note for you from a secret admirer",
 `puerto rico is a great place you must hike far from town to find a secret waterfall that
 i am an admirer of but note that it is not as hard as it seems this is my advice to you`); // == false
-harmlessRansomNote("this is a note for you from a secret admirer",
+harmlessRansomNote("this is a note to you from a secret admirer",
 `puerto rico is a great place you must hike far from town to find a secret waterfall that
 i am an admirer of but note that it is not as hard as it seems this is my advice to you`); // == true
