@@ -12,7 +12,7 @@
 
 
 
-// My solution
+// My solution before I saw the video
 function harmlessRansomNote(noteText, magazineText) {
   let textArr = noteText.split(" ");
   for(word of textArr){
