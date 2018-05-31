@@ -183,10 +183,16 @@
         <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
       </ol>
 
-      <p>This was created in May 29, 2018 as a refresher:</p>
-      <ul>
-        <li v-for="name in namesOfPals">{{name}}</li>
-      </ul>
+
+      <p>This was created on May 30, 2018 as practice / reminder. The first set of paragraphs
+      is using the <code>v-bind</code> directive while the second one is using the brackets.</p>
+
+      <h4>With <code>v-bind</code> </h4>
+      <meat-item v-for="meat in meatList" v-bind:meats="meat"></meat-item>
+
+      <h4>With curly braces</h4>
+      <p v-for="meat in meatList">{{meat.text}}</p>
+
     </div>
 
 
@@ -196,6 +202,12 @@
         template: '<li>{{ todo.text }}</li>'
       });
 
+      // A test component that I created for practice at a later date (May 2018)
+      Vue.component("meat-item", {
+        props: ["meats"],
+        template: "<p>{{meats.text}}</p>"
+      })
+
 
       var app7 = new Vue({
         el: "#app-7",
@@ -204,6 +216,11 @@
             {text: "Vegetables"},
             {text: "Cheese"},
             {text: "Whatever else humans are supposed to eat"}
+          ],
+          meatList: [
+            {text: "Pork"},
+            {text: "Beef"},
+            {text: "Chicken"}
           ]
         }
       });
