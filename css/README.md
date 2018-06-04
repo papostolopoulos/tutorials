@@ -1,7 +1,7 @@
 ## CSS List of videos
 
 Ordered by the date of upload
-* [] Responsive web design and web development with html5 and css3: https://www.udemy.com/design-and-develop-a-killer-website-with-html5-and-css3/learn/v4/content (jonas scmedtmann) 
+* [] Responsive web design and web development with html5 and css3: https://www.udemy.com/design-and-develop-a-killer-website-with-html5-and-css3/learn/v4/content (jonas scmedtmann)
 * [] Flexbox Tutorial (CSS): Real Layout Examples: https://www.youtube.com/watch?v=k32voqQhODc (learnWebCode)
 * [] Responsive HTML/CSS Parallax Website From Scratch: https://www.youtube.com/watch?v=eDIZoNlJ60o&t=23s (drew ryan)
 * [] Responsive Social Media Buttons With HTML5 & CSS3: https://www.youtube.com/watch?v=zC8M-p1Vpz4 (drew ryan)
@@ -15,3 +15,4 @@ Ordered by the date of upload
 * [] Build a website with foundation and Sass: https://www.youtube.com/playlist?list=PLillGF-RfqbZmD0PK6TRJwEd5GHM8f7om (traversy_media)
 * [] Flexbox CSS in 20 minutes: https://www.youtube.com/watch?v=JJSoEo8JSnc&index=16&list=PLillGF-RfqbYeckUaD1z6nviTp31GLTH8 (traversy_media)
 * [] Sass & SCSS Tutorial for Beginners Playlist: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBxQO2r_kmxn-0UqL_Rkj0t (the new Boston)
+* [] Mozilla CSS tutorial https://developer.mozilla.org/en-US/docs/Web/CSS
