@@ -171,16 +171,19 @@
     <div class="" id="app-7">
 
 
-      <p>This ul is using a "for" directive but with {{}} brackets within the <code>&#60;li&#62; tags</code>
-        and not the v-bind directive as done above in the <code>&#60;ol&#62;</code>.</p>
-        <p>Also the <code>&#60;ol&#62;</code> is using components</p>
+      <p>This ul is using a "for" directive but with {{}} brackets within the <code>&#60;li&#62; tags</code>.</p>
         <ul>
           <li v-for="item in groceryList">{{item.text}}</li>
         </ul>
 
 
+      <p>The <code>&#60;ol&#62;</code> is using components</p>
       <ol>
-        <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+        <todo-item
+          v-for="item in groceryList"
+          v-bind:todo="item"
+          v-bind:key="item.id">
+        </todo-item>
       </ol>
 
 
@@ -188,7 +191,7 @@
       is using the <code>v-bind</code> directive while the second one is using the brackets.</p>
 
       <h4>With <code>v-bind</code> </h4>
-      <meat-item v-for="meat in meatList" v-bind:meats="meat"></meat-item>
+      <meat-item v-for="meat in meatList" v-bind:meats="meat" v-bind:key="meat.id"></meat-item>
 
       <h4>With curly braces</h4>
       <p v-for="meat in meatList">{{meat.text}}</p>
@@ -213,14 +216,14 @@
         el: "#app-7",
         data: {
           groceryList: [
-            {text: "Vegetables"},
-            {text: "Cheese"},
-            {text: "Whatever else humans are supposed to eat"}
+            {id: 0, text: "Vegetables"},
+            {id: 1, text: "Cheese"},
+            {id: 2, text: "Whatever else humans are supposed to eat"}
           ],
           meatList: [
-            {text: "Pork"},
-            {text: "Beef"},
-            {text: "Chicken"}
+            {id: 0, text: "Pork"},
+            {id: 1, text: "Beef"},
+            {id: 2, text: "Chicken"}
           ]
         }
       });
