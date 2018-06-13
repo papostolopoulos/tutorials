@@ -19,6 +19,16 @@
   <a href="https://vuejs.org/v2/guide/index.html"><h3>Source</h3></a>
 
   <h1>1 - Introduction</h1>
+  <p>Each Vue instance goes through a series of initialization steps when it’s created
+    - for example, it needs to
+    <ol>
+      <li>set up data observation,</li>
+      <li>compile the template.</li>
+      <li>mount the instance to the DOM, and</li>
+      <li>update the DOM when data changes.</li>
+    </ol>
+    Along the way, it also runs functions called lifecycle hooks,
+    giving users the opportunity to add their own code at specific stages.</p>
 
   <!-- DECLARATIVE RENDERING -->
   <h2>1 - Declarative rendering</h2>
@@ -35,6 +45,8 @@
       }
     });
     </script>
+
+
 
 
 
@@ -60,6 +72,9 @@
         }
       });
     </script>
+
+
+
 
 
     <!-- CONDITIONAL -->
@@ -90,6 +105,8 @@
 
 
 
+
+
     <!-- LOOP -->
     <h2>4 - Loop (v-for)</h2>
     <p><code>v-for</code> is one of the directives that can be used for displaying
@@ -113,6 +130,8 @@
         }
       });
     </script>
+
+
 
 
 
@@ -141,6 +160,8 @@
 
 
 
+
+
     <!-- V-MODEL DIRECTIVE AND TWO WAY BINDING BETWEEN FORM INPUT AND APP STATE -->
     <h2>6 - v-model directive and two way binding between form input and app state</h2>
     <p>Vue also provides the <code>v-model</code> directive that makes it easy to
@@ -158,6 +179,8 @@
         }
       });
     </script>
+
+
 
 
 
@@ -212,6 +235,9 @@
       })
 
 
+
+
+
       var app7 = new Vue({
         el: "#app-7",
         data: {
@@ -231,6 +257,8 @@
 
 
 
+
+
   <!-- COMPONENTS COMPOSITION (2) -->
   <div id="app-7a">
     <h2>7a - Components composition (my test)</h2>
@@ -243,6 +271,7 @@
       <purchase-item v-for="candy in candyList" v-bind:todo="candy"></purchase-item>
     </ol>
   </div>
+
 
   <script type="text/javascript">
     Vue.component("purchase-item", {
@@ -267,6 +296,45 @@
         ]
       }
     });
+  </script>
+
+
+
+
+  <!-- COMPONENTS COMPOSITION 3 -->
+  <div id="app-7b">
+    <h2>7b-Components composition</h2>
+    <p>With the brackets:</p>
+    <ul>
+      <li v-for="content in contents">
+        The food today is soup but the color is {{content.text}}
+      </li>
+    </ul>
+
+    <p>With brackets and v-bind</p>
+    <ul>
+      <colors v-for="content in contents" v-bind:color="content" v-bind:key="content.id">Hello</colors>
+    </ul>
+  </div>
+
+  <script>
+  var app7b = new Vue({
+    el: "#app-7b",
+    data: {
+      contents: [
+        {text: "red"},
+        {text: "green"},
+        {text: "blue"},
+        {text: "yellow"}
+      ]
+    },
+    components: {colors: colors}
+  });
+
+  var colors = Vue.component("colors", {
+    props: ["color"],
+    template: "<li>{{color.text}}</li>"
+  });
   </script>
 
 
