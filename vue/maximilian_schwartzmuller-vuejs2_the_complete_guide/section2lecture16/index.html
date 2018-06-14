@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>VueJS section 2 lecture 12</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="" id="app">
+      <button v-on:click="addOne">Click me</button>
+      <p>{{counter}}</p>
+      <p v-on:mousemove="updateCoordinates">Coordinates: {{x}}/{{y}}</p>
+    </div>
+  </body>
+</html>
+
+<script>
+var app = new Vue({
+  el: "#app",
+  data: {
+    counter: 0,
+    x: 0,
+    y: 0
+  },
+  methods: {
+    addOne: function() {
+      return this.counter += 1;
+    },
+    updateCoordinates: function(event) {
+      this.x = event.clientX;
+      this.y = event.clientY;
+
+    }
+  }
+});
+
+</script>
