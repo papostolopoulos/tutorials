@@ -37,3 +37,76 @@
     }
   });
 </script>
+
+<div id="app2">
+  <p>I am going to make a list and see how it renders with binds and components</p>
+  <ul>
+    <groceries v-for="fruit in fruits" v-bind:tobuy="fruit" v-bind:key="fruit.id"></groceries>
+  </ul>
+
+  <ul>
+    <li v-for="fruit in fruits">{{fruit.text}}</li>
+  </ul>
+
+
+</div>
+
+<script>
+  Vue.component('groceries',
+  {
+    props: ["tobuy"],
+    template: "<li>{{tobuy.text}}</li>"
+  });
+
+
+  var app2 = new Vue({
+    el: "#app2",
+    data: {
+      fruits: [
+        {id: 1, text: "banana"},
+        {id: 2, text: "watermelon"},
+        {id: 3, text: "orange"}
+      ]
+    }
+  });
+
+
+</script>
+
+
+
+<div id="app-7">
+  <ul>
+    <todo-item v-for="groceries in groceryList" v-bind:todo="groceries" v-bind:key="groceries.id">
+    </todo-item>
+  </ul>
+</div>
+
+<script>
+
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+});
+
+
+var app7 = new Vue({
+  el: "#app-7",
+  data: {
+    groceryList: [
+      {id: 0, text: "Vegetables"},
+      {id: 1, text: "Cheese"},
+      {id: 2, text: "Whatever else humans are supposed to eat"}
+    ],
+    meatList: [
+      {id: 0, text: "Pork"},
+      {id: 1, text: "Beef"},
+      {id: 2, text: "Chicken"}
+    ],
+    self: this
+  },
+  created: ()=>{self.groceryList}
+});
+
+
+</script>
