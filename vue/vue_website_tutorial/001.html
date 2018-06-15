@@ -311,13 +311,22 @@
       </li>
     </ul>
 
-    <p>With brackets and v-bind</p>
+    <h4>With brackets and v-bind</h4>
+    <b>REMEMBER <code>Vue.component</code> needs to be written before the
+    <code>new Vue</code> instance. </b>
     <ul>
       <colors v-for="content in contents" v-bind:color="content" v-bind:key="content.id">Hello</colors>
     </ul>
   </div>
 
   <script>
+
+  var colors = Vue.component("colors", {
+    props: ["color"],
+    template: "<li>{{color.text}}</li>"
+  });
+
+
   var app7b = new Vue({
     el: "#app-7b",
     data: {
@@ -327,14 +336,9 @@
         {text: "blue"},
         {text: "yellow"}
       ]
-    },
-    components: {colors: colors}
+    }
   });
 
-  var colors = Vue.component("colors", {
-    props: ["color"],
-    template: "<li>{{color.text}}</li>"
-  });
   </script>
 
 
