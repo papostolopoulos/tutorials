@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script type="text/javascript" src="https://unpkg.com/vue@2.2.6"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <style media="screen">
   body {
@@ -34,7 +34,10 @@
   <h2>1 - Declarative rendering</h2>
   <p>VUE is a system that enables us to declaratively render data to the DOM using template syntax.</p>
     <div id="app">
-      {{ message }}
+      <div class="jumbotron">
+        <h4>Example (with mustaches)</h4>
+        {{ message }}
+      </div>
     </div>
 
     <script>
@@ -58,10 +61,13 @@
       They apply special reactive behavior to the rendered DOM.
     </p>
     <div id="app-2">
-      <span v-bind:title="message">
-        Hover your mouse over me for e few seconds to see my dynamically bound title!
-      </span><br>
-      <input type="text" v-bind:value="message">
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <span v-bind:title="message">
+          Hover your mouse over me for e few seconds to see my dynamically bound title!
+        </span><br>
+        <input type="text" v-bind:value="message">
+      </div>
     </div>
 
     <script type="text/javascript">
@@ -83,10 +89,15 @@
     Vue provides a transition effect system that can automatically apply
     <a href="https://vuejs.org/v2/guide/transitions.html">transition effects</a>
     when elements are inserted/updated/removed by Vue.</p>
+
+
     <div id="app-3">
-      <p v-if="seen">Now you see me</p>
-      <p v-else="seen">Now you don't see me</p>
-      <button v-on:click="toggleSeen">Toggle text view</button>
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p v-if="seen">Now you see me</p>
+        <p v-else="seen">Now you don't see me</p>
+        <button v-on:click="toggleSeen">Toggle text view</button>
+      </div>
     </div>
 
     <script type="text/javascript">
@@ -112,10 +123,15 @@
     <p><code>v-for</code> is one of the directives that can be used for displaying
       a list of items using the data from an Array. <br>
     Other directives have their own functionality.</p>
+
+
     <div id="app-4">
-      <ol>
-        <li v-for="todo in todos">{{todo.text}}</li>
-      </ol>
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <ol>
+          <li v-for="todo in todos">{{todo.text}}</li>
+        </ol>
+      </div>
     </div>
 
     <script>
@@ -140,8 +156,11 @@
     <p>To let users interact with a Vue app, the developer can use the <code>v-on</code>
       directive to attach event listeners that invoke methods on the Vue instances.</p>
     <div id="app-5">
+      <div class="jumbotron">
+        <h4>Example</h4>
         <p>{{message}}</p>
         <button type="button" name="button" v-on:click="reverseMessage">Reverse Message</button>
+      </div>
     </div>
 
     <script type="text/javascript">
@@ -167,8 +186,11 @@
     <p>Vue also provides the <code>v-model</code> directive that makes it easy to
       have a two-way bind between form input and the application you are building.</p>
     <div id="app-6">
-      <p>{{message}}</p>
-      <input type="text" name="" value="" v-model="message">
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>{{message}}</p>
+        <input type="text" name="" value="" v-model="message">
+      </div>
     </div>
 
     <script type="text/javascript">
@@ -192,17 +214,17 @@
     A component can accept a <code>prop</code> which is like a <b>custom attribute</b>. <br>
     </p>
     <div class="" id="app-7">
-
-
-      <p>This ul is using a "for" directive but with {{}} brackets within the <code>&#60;li&#62; tags</code>.</p>
+      <div class="jumbotron">
+        <h4>Examples</h4>
+        <p>This ul is using a "for" directive but with {{}} brackets within the <code>&#60;li&#62; tags</code>.</p>
         <ul>
           <li v-for="item in groceryList">{{item.text}}</li>
         </ul>
 
 
-      <p>The <code>&#60;ol&#62;</code> is using components</p>
-      <ol>
-        <todo-item
+        <p>The <code>&#60;ol&#62;</code> is using components</p>
+        <ol>
+          <todo-item
           v-for="item in groceryList"
           v-bind:todo="item"
           v-bind:key="item.id">
@@ -211,13 +233,14 @@
 
 
       <p>This was created on May 30, 2018 as practice / reminder. The first set of paragraphs
-      is using the <code>v-bind</code> directive while the second one is using the brackets.</p>
+        is using the <code>v-bind</code> directive while the second one is using the brackets.</p>
 
-      <h4>With <code>v-bind</code> </h4>
-      <meat-item v-for="meat in meatList" v-bind:meats="meat" v-bind:key="meat.id"></meat-item>
+        <h4>With <code>v-bind</code> </h4>
+        <meat-item v-for="meat in meatList" v-bind:meats="meat" v-bind:key="meat.id"></meat-item>
 
-      <h4>With curly braces</h4>
-      <p v-for="meat in meatList">{{meat.text}}</p>
+        <h4>With curly braces</h4>
+        <p v-for="meat in meatList">{{meat.text}}</p>
+      </div>
 
     </div>
 
@@ -233,9 +256,6 @@
         props: ["meats"],
         template: "<p>{{meats.text}}</p>"
       })
-
-
-
 
 
       var app7 = new Vue({
@@ -262,14 +282,17 @@
   <!-- COMPONENTS COMPOSITION (2) -->
   <div id="app-7a">
     <h2>7a - Components composition (my test)</h2>
-    <h3>Grocery List</h3>
-    <ol>
-      <purchase-item v-for="grocery in groceryList" v-bind:todo="grocery"></purchase-item>
-    </ol>
-    <h3>Candy List</h3>
-    <ol>
-      <purchase-item v-for="candy in candyList" v-bind:todo="candy"></purchase-item>
-    </ol>
+    <div class="jumbotron">
+      <h3>Grocery List</h3>
+      <ol>
+        <purchase-item v-for="grocery in groceryList" v-bind:todo="grocery"></purchase-item>
+      </ol>
+      <h3>Candy List</h3>
+      <ol>
+        <purchase-item v-for="candy in candyList" v-bind:todo="candy"></purchase-item>
+      </ol>
+
+    </div>
   </div>
 
 
@@ -304,19 +327,22 @@
   <!-- COMPONENTS COMPOSITION 3 -->
   <div id="app-7b">
     <h2>7b-Components composition</h2>
-    <p>With the brackets:</p>
-    <ul>
-      <li v-for="content in contents">
-        The food today is soup but the color is {{content.text}}
-      </li>
-    </ul>
+    <div class="jumbotron">
+      <h4>With the brackets:</h4>
+      <ul>
+        <li v-for="content in contents">
+          The food today is soup but the color is {{content.text}}
+        </li>
+      </ul>
 
-    <h4>With brackets and v-bind</h4>
-    <b>REMEMBER <code>Vue.component</code> needs to be written before the
-    <code>new Vue</code> instance. </b>
-    <ul>
-      <colors v-for="content in contents" v-bind:color="content" v-bind:key="content.id">Hello</colors>
-    </ul>
+      <h4>With brackets and v-bind</h4>
+      <b>REMEMBER <code>Vue.component</code> needs to be written before the
+        <code>new Vue</code> instance. </b>
+        <ul>
+          <colors v-for="content in contents" v-bind:color="content" v-bind:key="content.id">Hello</colors>
+        </ul>
+
+    </div>
   </div>
 
   <script>
