@@ -140,3 +140,8 @@ There is no connection to the internet.
 * 650K users.
 * 16K merchants connected to the service.
 * This service can be connected to someone's bank account.
+
+
+2, 3, 2, 2, 3, 2 NEXT
+Hello and thank you for reaching out. All API URLs should use the domain api.kraken.com.
+To get more information, follow the url: https://www.kraken.com/help/api
