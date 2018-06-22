@@ -37,30 +37,30 @@ can go and look at the code.
 * It gets its value by what people are willing to pay for it. Therefore its value fluctuates
 according to the people's perception of what this currency should be valued over time.
 * Also people value the bitcoin because:
-** There is no government control. The governments cannot manipulate the currency but it is
+  * There is no government control. The governments cannot manipulate the currency but it is
 solely valued by the people trading it.
-** There is protection of the currency from inflation.
-** The currency's protocol is trusted.
+  * There is protection of the currency from inflation.
+  * The currency's protocol is trusted.
 
 ## What is money and how it is defined
 * Money is the means we use to exchange goods and services.
 * The most prevalent ways to exchange goods and services in history have been the typical currency
 (like dollars) or gold.
 * There are four properties that money has:
-** It needs to be divisible (broken into smaller pieces)
-** It needs to be durable, stand the pressure of time.
-** It needs to be fungible like a commodity. That means for example that a dollar is equally valued
+  * It needs to be divisible (broken into smaller pieces)
+  * It needs to be durable, stand the pressure of time.
+  * It needs to be fungible like a commodity. That means for example that a dollar is equally valued
 to another dollar.
-** It needs to be verifiable.
+  * It needs to be verifiable.
 
 ## How does bitcoin work?
 * The bitcoin is stored in a public ledger (λογιστικό βιβλίο).
 *  Sending and receiving coins is an easy process.
 * Coins can be stored in different types of wallets. These wallets can be:
-** A local hard drive
-** A portable hard drive (stick)
-** Hosted online
-** Write the codes associated to the coins on pieces of paper
+  * A local hard drive
+  * A portable hard drive (stick)
+  * Hosted online
+  * Write the codes associated to the coins on pieces of paper
 
 ## Account for having Bitcoins
 * A public key which is similar to an account number / address
@@ -113,27 +113,28 @@ some problems that might exist in the crypto-currency world.
 * These are ways to store your bitcoins. The different ways are:
 1. A certain software in your local hard drive (internal or external) -- https://bitcoin.org/en/choose-your-wallet
 https://blockchain.info/wallet/#/
-** It provides control and anonymity
-** The coins are stored in the hard drive
-** Bitcoin-qt is a popular wallet software.
-** The whole blockchain will need to be downloaded in order to use the wallet.
+  * It provides control and anonymity
+  * The coins are stored in the hard drive
+  * Bitcoin-qt is a popular wallet software.
+  * The whole blockchain will need to be downloaded in order to use the wallet.
 2. Hosted online (cloud)
-** You can access online from anywhere.
-** They can act as exchanges. You can buy and sell through their website.
-** Risks: hackers, non-anonymity, the company could default.
-** Information needs to be verified therefore it is not anonymous.
-** blockchain.info, coinbase.com
+  * You can access online from anywhere.
+  * They can act as exchanges. You can buy and sell through their website.
+  * Risks: hackers, non-anonymity, the company could default.
+  * Information needs to be verified therefore it is not anonymous.
+  * blockchain.info, coinbase.com
 3. Mobile phone wallet.
-** Same like the online hosts but for a mobile phones.
+  * Same like the online hosts but for a mobile phones.
 4. Paper - Write the coins' numbers on paper https://en.bitcoin.it/wiki/Paper_wallet
-** This is considered as the safest way of storing coins. It cannot be hacked.
+  * This is considered as the safest way of storing coins. It cannot be hacked.
 There is no connection to the internet.
-** The browser generates a public and a private key or a generator can be downloaded.
+  * The browser generates a public and a private key or a generator can be downloaded.
 
 ##Bitcoin exchanges
 * You can buy and sell coins with the following ways:
-** Person to Person through physically  meeting someone
-** A bitcoin online area.
+  * Person to Person through physically meeting someone or using the appropriate
+  software
+  * A bitcoin online area.
 
 ##Coinbase
 * Coinbase is an online hosted wallet. https://www.coinbase.com/
@@ -145,3 +146,40 @@ There is no connection to the internet.
 2, 3, 2, 2, 3, 2 NEXT
 Hello and thank you for reaching out. All API URLs should use the domain api.kraken.com.
 To get more information, follow the url: https://www.kraken.com/help/api
+
+
+
+
+---In this scenario, the customer is charged the taker fees since he/she does not have enough trading volume over the last 30 days---
+Hello and thank you for reaching out.
+According to the current market prices (June 21st) the market value for 1BTC is $6,719.00. Therefore, for your short position of $1,000, you will be trading 0.15BTC.
+This is how your fees are broken down:
+Based on your last 30 day trading volume, your order will be executed with taker fees.
+$1,000 * 0.26% = $2.6
+Since you are opening a position, there is an opening fee of 0.01%.
+$1,000 * 0.01% = $0.1
+
+The rollover fee is 0.01% per 4 hours. Therefore, since you will keep your short position open for 72 hours, the rollover fee will be applied 72/4 = 18 times.
+$1,000 * 0.01% = $0.1
+$0.1 * 18 = $1.8
+
+Finally, there is a closing fee of 0.26% that is applied to the closing price. Assuming that the value of the 0.15BTC you are trading is dropped to $800, then the closing fee will be:
+0.15BTC * $800 = $120
+$120 * 0.26% = $0.312
+
+Summary of fees
+Taker trade fee: $2.6
+Position opening: $0.1
+Rollover fees: $1.8
+Closing fee: $0.312
+
+Approximate total fees: $2.6 + $0.1 + $1.8 + $0.312 = $4.812
+To get a full list of the current fee schedule, you can visit https://www.kraken.com/en-us/help/fees
+Let me know if I can be of any additional assistance to you.
+
+
+
+
+Hello and thank you for reaching out.
+Since your order would be placed below the sell price (if you are buying) or placed above the buy price (if you are selling), then your price would be considered a maker order since it would not be filled immediately. Therefore, you would be charged the maker fees and not any taker fees.
+If you would like to review the current fees schedule, you can refer to the following link: https://www.kraken.com/en-us/help/fees
