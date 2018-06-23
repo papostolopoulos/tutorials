@@ -49,8 +49,8 @@
       In order to output real HTML, you will need to use the <code>v-html</code> directive.</p>
       <div class="jumbotron">
         <h4>Example</h4>
-        <p>Using mustaches: <br> {{ rawHtml }}</p>
-        <p>Using <code>v-html</code> directive:
+        <p>Using mustaches, we display the raw html: <br> {{ rawHtml }}</p>
+        <p>Using <code>v-html</code> directive we can interpret the data as html:
           <span v-html="rawHtml"></span>
         </p>
       </div>
@@ -69,11 +69,45 @@
     For example:
     <code>&lt;button v-bind:disabled="isButtonDisabled"&gt;Button&lt;/button&gt;</code>,
     If the <code>isButtonDisabled</code> has a value of null, false, undefined, then the
-    value will not be included in the in the button element</p>
+    value will not be included in the button element.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>Open up the document's console. See that when you toggle between <code>disabled</code>
+      and not disabled button, the attribute is either there (when true) or it is removed (when false).</p>
+      <button type="button" name="button" v-bind:title="title" v-bind:disabled="isButtonDisabled">Button</button>
+      <button type="button" name="button" v-on:click="enableDisableButton">Enable / disable button</button>
+    </div>
 
 
-    <button type="button" name="button" v-bind:disabled="isButtonDisabled">Button</button>
-    <button type="button" name="button" v-on:click="enableDisableButton">Enable / disable button</button>
+
+    <h3>Using JavaScript expressions</h3>
+    <p>Other than getting properties or methods from the Vue object, we can also
+      add JavaScript expessions inside data bindings. </p>
+
+    <div class="jumbotron">
+      <h4>Examples</h4>
+      <code>
+        { { number + 1 } } <br>
+        { { ok ? 'YES' : 'NO' } }<br>
+        { { message.split('').reverse().join('') } }<br>
+        &lt;div v-bind:id="'list-' + id"&gt;&lt;/div&gt;
+      </code>
+    </div>
+    <p>These expressions are evaluated as JavaScript within the <code>data</code> scope (property)
+    of the Vue instance that includes them. </p>
+    <p>Each binding can only include one single expression. It will not work if there are:</p>
+    <ul>
+      <li>More than one expressions. Ex: <code>{ { number + 1; number + 2 } }</code> </li>
+      <li>JavaScript statements <code>{ {var x = 1} }</code></li>
+      <li>Flow controls</li>
+    </ul>
+    <p>These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance.
+      One restriction is that each binding can only contain one single expression,
+      so the following will NOT work:
+</p>
+
+
 
 
 
@@ -89,13 +123,15 @@
     data: {
       message: '"This message changes?"',
       rawHtml: "<h4>This is an h4 tag with <i>some italic</i> text.</h4>",
-      isButtonDisabled: "disabled"
+      isButtonDisabled: true,
+      title: "Hello",
+      number: 5
     },
-    methods: [
-      enableDisableButton: function() {
+    methods: {
+      enableDisableButton: function(event) {
         return this.isButtonDisabled ? this.isButtonDisabled = false : this.isButtonDisabled = true;
       }
-    ]
+    }
   })
   </script>
 
