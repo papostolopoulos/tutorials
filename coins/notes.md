@@ -183,3 +183,7 @@ Let me know if I can be of any additional assistance to you.
 Hello and thank you for reaching out.
 Since your order would be placed below the sell price (if you are buying) or placed above the buy price (if you are selling), then your price would be considered a maker order since it would not be filled immediately. Therefore, you would be charged the maker fees and not any taker fees.
 If you would like to review the current fees schedule, you can refer to the following link: https://www.kraken.com/en-us/help/fees
+
+2,3,1
+UBS/Swiss Bank, Skandiabanken, Circle (Goldman Sachs), Fisco, Barclays
+3,2
