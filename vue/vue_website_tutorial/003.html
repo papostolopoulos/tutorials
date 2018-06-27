@@ -27,10 +27,8 @@
 
   <h1>003 - Template Syntax</h1>
 
-  <h2>1 - Interpolations</h2>
-
-
   <div id="app1">
+    <h2>1 - Interpolations</h2>
     <h3>#Text</h3>
     <p>The most basic form of data binding is text interpolation using the
       “Mustache” syntax (double curly braces):</p>
@@ -146,21 +144,60 @@
       <h4>Example</h4>
       <code>&lt;a v-on:click="doSomething"&gt; ... &lt;/a&gt;</code> <br>
 
-      <a href="#" v-on:click="switchBorder">Switch the border</a>
+      <a href="#" v-on:click.prevent="switchBorder">Switch the border</a>
+    </div>
+
+
+
+    <h3>Modifiers</h3>
+    <p>Modifiers are postfixes denoted by a dot. They are the equivalent of
+    built in methods in JavaScript.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>The <code>.prevent</code> modifier is similar to the
+      <code>event.preventDefault()</code> method. It can be added after the
+      <code>v-bind:someEvent</code> to indicate that the browser should not behave
+      in its typical way.</p>
+
+      <code>&lt;form v-on:submit.prevent="onSubmit"&gt; ... &lt;/form&gt;</code>
     </div>
 
 
 
 
+    <h2>Shorthands</h2>
+    <p>The <code>v-</code> prefix is used to indicate Vue attributes in the html code.
+    For some, this can be a quite repetitive typing process that is not desired, especially
+    when some directives are used frequently. Also, the use of the <code>v-</code> prefix
+    might be considered as not necessary for Single Page Applications (SPA) where Vue manages
+    every template. Vue gives the option of using two different shorthands for the
+    most frequently used directives, the <code>v-bind</code> and the <code>v-on</code>.</p>
+
+    <h3> <code>v-bind</code> shorthand </h3>
+    <div class="jumbotron">
+      <p></p>
+      <h5>Full syntax</h5>
+      <code>&lt;a v-bind:href="url"&gt; ... &lt;/a&gt;</code>
+
+      <h5>Shorthand</h5>
+      <code>&lt;a :href="url"&gt; ... &lt;/a&gt;</code>
+    </div>
 
 
+    <h3> <code>v-on</code> shorthand </h3>
+    <div class="jumbotron">
+      <h5>Full syntax</h5>
+      <code>&lt;a v-on:click="doSomething"&gt; ... &lt;/a&gt;</code>
 
-
-
-
-    <h3>Javascript bindings</h3>
-    <p>Vue.js supports the full power of JavaScript expressions inside all data bindings</p>
+      <h5>Shorthand</h5>
+      <code>&lt;a @click="doSomething"&gt; ... &lt;/a&gt;</code>
+    </div>
   </div>
+
+
+
+
 
   <script type="text/javascript">
   var app1 = new Vue({
@@ -182,7 +219,7 @@
         this.seen ? this.seen = false : this.seen = true;
       },
       switchBorder: function(event) {
-        event.preventDefault();
+        // event.preventDefault(); //Not needed because I put a modifier (v-on:click.prevent="switchBorder")
         var r = Math.floor(Math.random() * (255 - 0) + 0);
         var g = Math.floor(Math.random() * (255 - 0) + 0);
         var b = Math.floor(Math.random() * (255 - 0) + 0);
@@ -195,7 +232,7 @@
 
 
 
-  <a href="./002.html">Previous - The Vue instance</a> <a href="./003.html">Next - Computer properties and watchers</a>
+  <a href="./002.html">Previous - The Vue instance</a> <a href="./004.html">Next - Computed properties and watchers</a>
 
 </body>
 </html>
