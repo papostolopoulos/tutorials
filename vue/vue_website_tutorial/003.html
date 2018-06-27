@@ -100,12 +100,33 @@
     <ul>
       <li>More than one expressions. Ex: <code>{ { number + 1; number + 2 } }</code> </li>
       <li>JavaScript statements <code>{ {var x = 1} }</code></li>
-      <li>Flow controls</li>
+      <li>Flow controls (ex: if statements). Ternary opearators work though.</li>
     </ul>
-    <p>These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance.
-      One restriction is that each binding can only contain one single expression,
-      so the following will NOT work:
-</p>
+
+
+
+    <h2>Directives</h2>
+    <p>Directives are attributes that represent <b>single Javascript expressions</b>.
+    These attributes' job is to apply effects to the DOM when the JavaScript expressions
+    change.</p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>This example is using a <code>v-if / v-else</code> directive which has a
+      <code>true</code> initial value in the <code>data</code> property of the
+      Vue instance.</p>
+      <p>When the <code>button</code> is clicked, then the value toggles from true to
+      false, resulting the display of the content that is attached to the <code>v-else</code>
+    directive.</p>
+
+    <p v-if="seen"><b>Now you see me</b></p>
+    <p v-else="seen"><b>Now you don't see me</b></p>
+
+    <button type="button" name="button" v-on:click="seenUnseen">Change text</button>
+
+    </div>
+
+
+
 
 
 
@@ -125,11 +146,15 @@
       rawHtml: "<h4>This is an h4 tag with <i>some italic</i> text.</h4>",
       isButtonDisabled: true,
       title: "Hello",
-      number: 5
+      number: 5,
+      seen: true
     },
     methods: {
       enableDisableButton: function(event) {
         return this.isButtonDisabled ? this.isButtonDisabled = false : this.isButtonDisabled = true;
+      },
+      seenUnseen: function() {
+        this.seen ? this.seen = false : this.seen = true;
       }
     }
   })
