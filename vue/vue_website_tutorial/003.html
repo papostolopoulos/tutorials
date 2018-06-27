@@ -118,12 +118,35 @@
       <p>When the <code>button</code> is clicked, then the value toggles from true to
       false, resulting the display of the content that is attached to the <code>v-else</code>
     directive.</p>
+    <code>&lt;p v-if="seen"&gt;&lt;b&gt;Now you see me&lt;/b&gt;&lt;/p&gt; <br>
+    &lt;p v-else="seen"&gt;&lt;b&gt;Now you don't see me&lt;/b&gt;&lt;/p&gt;</code>
 
     <p v-if="seen"><b>Now you see me</b></p>
     <p v-else="seen"><b>Now you don't see me</b></p>
 
     <button type="button" name="button" v-on:click="seenUnseen">Change text</button>
+    </div>
 
+
+    <h3>Arguments</h3>
+    <p>Directives can also take arguments. These arguments are added after a
+    collon. Therefore, html attributes can get a value through the <code>data</code>
+    property of the Vue instance by using the v-bind. Hence there is no need for the attributes
+    to be manually entered.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+       <code>&lt;a v-bind:href="url"&gt;Some link here&lt;/a&gt;</code>
+    </div>
+
+    <p>Another argument example is with the <code>v-on</code> directive.
+      This directive listens to DOM events (ex: click, mouseover etc).</p>
+
+    <div class="jumbotron" v-bind:style="jumboBorder">
+      <h4>Example</h4>
+      <code>&lt;a v-on:click="doSomething"&gt; ... &lt;/a&gt;</code> <br>
+
+      <a href="#" v-on:click="switchBorder">Switch the border</a>
     </div>
 
 
@@ -148,7 +171,8 @@
       isButtonDisabled: true,
       title: "Hello",
       number: 5,
-      seen: true
+      seen: true,
+      jumboBorder: "border:black solid 3px"
     },
     methods: {
       enableDisableButton: function(event) {
@@ -156,6 +180,14 @@
       },
       seenUnseen: function() {
         this.seen ? this.seen = false : this.seen = true;
+      },
+      switchBorder: function(event) {
+        event.preventDefault();
+        var r = Math.floor(Math.random() * (255 - 0) + 0);
+        var g = Math.floor(Math.random() * (255 - 0) + 0);
+        var b = Math.floor(Math.random() * (255 - 0) + 0);
+        this.jumboBorder = `border:rgb(${r},${g},${b}) solid 3px`;
+        // this.jumboBorder === "border:red solid 3px" ? this.jumboBorder = "border:black solid 3px" : this.jumboBorder = "border:red solid 3px";
       }
     }
   })
