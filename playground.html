@@ -36,5 +36,34 @@ function load() {
   </tr>
 </table>
 
+<p>-----------------------------------</p>
+
+<div class="" id="wrapper">
+  <p>"div is here"</p>
+  <button type="button" name="button" id="button">Click me</button>
+</div>
+
+<script>
+
+function buttonClick() {
+  console.log('button', window['button']);
+}
+
+function wrapperClick() {
+  console.log('wrapper', window['wrapper']);
+}
+
+// Option 1
+// document.querySelector("#button").onclick = buttonClick;
+
+// Option 2
+// document.getElementById("button").addEventListener("click", buttonClick);
+
+// Option 3
+window["wrapper"].addEventListener("click", wrapperClick);
+window['button'].addEventListener("click", buttonClick);
+
+</script>
+
 </body>
 </html>
