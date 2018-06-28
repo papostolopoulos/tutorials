@@ -27,28 +27,70 @@
     can be bloated in size if the application we are building tends to be more complex.</p>
     <div class="jumbotron">
       <h4>Example</h4>
-      <div id="example">
-  {{ message.split('').reverse().join('') }}
-</div>
-
+      <code>
+        &lt;div id="example"&gt; <br>
+        { { message.split('').reverse().join('') } } <br>
+        &lt;/div&gt;
+      </code>
     </div>
 
-    <p>Computed properties are useful when we want to use complex logics that are
-      probably going to be frequently repeated. In-template expressions
-    ({{somethingHere}}) should be simple.</p>
+    <p>At the above example, the template loses its simplicity since it becomes long.
+    Therefore it is no longer declarative. Also if the same methods have to be incorporated
+    in more than one locations in the html text, the code tends to be repetitive in
+    an unecessary way.</p>
+    <p>The computed properties are serving the purpose of simplyfying a complex logic
+    like the above.</p>
 
 
 
-    <p>Original message: "{{message}}"</p>
-    <p>"Computed" reversed message - 	&#123; &#123;reversedMessage	&#125; &#125;: "{{reversedMessage}}"</p>
-    <p>"Methods" reversed message - 	&#123; &#123;reverseMessage()&#125; &#125;: "{{reverseMessage()}}"</p>
+    <h3>NOTE (as I understand it from
+      <a href="https://stackoverflow.com/questions/44350862/method-vs-computed-in-vue">Github</a>)
+    </h3>
+    <p>A computed property is a <b>property</b> of the Vue instance that is <b>"COMPUTED"</b>
+    - meaning that it is created from the existing properties in <code>data</code>.</p>
+    <p>The computed property is NOT a method, because it does not have to be called but
+    it is automatically computed every time the <code>data</code> is updated.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>The code here:</p>
+      <pre>
+        &lt;div id="example"&gt;
+          &lt;p&gt;Original message: "{{ message }}"&lt;/p&gt;
+          &lt;p&gt;Computed reversed message: "{{ reversedMessage }}"&lt;/p&gt;
+        &lt;/div&gt;
+      </pre>
+      <p>with the vue here:</p>
+      <pre>
+          var computedProperties1 = new Vue ({
+            el: "#computedProperties1",
+            data: {
+              message: "Hello"
+            },
+            computed: {
+              reversedMessage() {
+                return this.message.split("").reverse().join("");
+              }
+            }
+          });
+      </pre>
+      <p>can display the following:</p>
+      <p>Original message: "{{ message }}" - <code>{ { message } }</code></p>
+      <p>Computed reversed message: "{{ reversedMessage }}" - <code>{ { reversedMessage } }</code> </p>
+    </div>
+
     <p>Instead of a computed property, we can define the same function as a method instead.
       For the end result, the two approaches are indeed exactly the same. <br>
       However, the difference is that computed properties are cached based on their dependencies. <br>
       A computed property will only re-evaluate when some of its dependencies have changed. <br>
-      This means as long as message has not changed, multiple access to the reversedMessage computed property will immediately return the previously computed result without having to run the function again.<br>
-    In comparison, a method invocation will <b>always</b> run the function whenever a re-render happens.<br>
-  </p>
+      This means as long as <code>message</code> has not changed, multiple access
+      to the reversedMessage computed property will immediately return the
+      previously computed result without having to run the function again.<br>
+      In comparison, a method invocation will <b>always</b> run the function
+      whenever a re-render happens.<br>
+    </p>
+
+
 
   <h4>Why do we need caching?</h4>
   <p> Imagine we have an expensive computed property A, which requires looping through a huge Array and doing a lot of computations.<br>
@@ -77,6 +119,11 @@
   <!-- gives you the freedom to just use what you're familiar with. -->
   <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
   <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+
+
+
+
+
   <script type="text/javascript">
     var computedProperties1 = new Vue ({
       el: "#computedProperties1",
@@ -85,13 +132,7 @@
       },
       computed: {
         reversedMessage() {
-          console.log(this.message);
           return this.message.split("").reverse().join("");
-        }
-      },
-      methods: {
-        reverseMessage() {
-          return this.message.split("").reverse().join("")
         }
       }
     });
