@@ -79,22 +79,29 @@
       <p>Computed reversed message: "{{ reversedMessage }}" - <code>{ { reversedMessage } }</code> </p>
     </div>
 
-    <p>Instead of a computed property, we can define the same function as a method instead.
+
+
+    <h3>Computed properties vs Methods</h3>
+    <p>Instead of a computed property, we can define the same function as a method.
       For the end result, the two approaches are indeed exactly the same. <br>
-      However, the difference is that computed properties are cached based on their dependencies. <br>
+      However, the difference is that computed properties are cached based on their
+      dependencies. (meaning the data they are binded on)<br>
       A computed property will only re-evaluate when some of its dependencies have changed. <br>
       This means as long as <code>message</code> has not changed, multiple access
-      to the reversedMessage computed property will immediately return the
+      to the <code>reverseMessage</code> computed property will immediately return the
       previously computed result without having to run the function again.<br>
       In comparison, a method invocation will <b>always</b> run the function
       whenever a re-render happens.<br>
     </p>
+    <p></p>
 
 
 
   <h4>Why do we need caching?</h4>
-  <p> Imagine we have an expensive computed property A, which requires looping through a huge Array and doing a lot of computations.<br>
-    Then we may have other computed properties that in turn depend on A. Without caching, we would be executing A’s getter many more times than necessary! <br>
+  <p> Imagine we have an expensive computed property A, which requires looping
+    through a huge Array and doing a lot of computations.<br>
+    Then we may have other computed properties that in turn depend on A.
+    Without caching, we would be executing A’s getter many more times than necessary! <br>
     In cases where you do not want caching, use a method instead.</p>
   </div>
 

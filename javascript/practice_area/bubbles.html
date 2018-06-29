@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>bubbling and propagation practice</title>
+    <style media="screen">
+      .outer {
+        border: 2px solid black;
+        padding: 20px;
+        background-color: white;
+        width: 200px;
+        height: 200px;
+        margin-bottom: 10px;
+      }
+
+      .middle {
+        padding: 20px;
+        background-color: red;
+        width: 160px;
+        height: 160px;
+      }
+
+      .inner{
+        padding: 20px;
+        background-color: green;
+        width: 120px;
+        height: 120px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h3>Classic bubble</h3>
+    <div class="outer" id="outerBubble">
+      <div class="middle" id="middleBubble">
+        <div class="inner" id="innerBubble">
+        </div>
+      </div>
+    </div>
+
+
+
+    <h3>Reverse bubble</h3>
+    <div class="outer" id="outerBubbleReverse">
+      <div class="middle" id="middleBubbleReverse">
+        <div class="inner" id="innerBubbleReverse">
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script type="text/javascript">
+
+    // Typical bubble
+      let innerBubble = window['innerBubble'];
+        innerBubble.addEventListener('click', ()=>{
+          console.log("innerBubble clicked");
+          innerBubble.style.backgroundColor = "lime";
+        });
+
+      let middleBubble = window['middleBubble'];
+        middleBubble.addEventListener('click', ()=>{
+          console.log("middleBubble clicked");
+          middleBubble.style.backgroundColor = "pink";
+        });
+
+      let outerBubble = window['outerBubble'];
+        outerBubble.addEventListener('click', ()=>{
+          console.log("outerBubble clicked");
+          outerBubble.style.backgroundColor = "gray";
+        });
+
+
+        // reversed bubble
+          let innerBubbleReverse = window['innerBubbleReverse'];
+            innerBubbleReverse.addEventListener('click', ()=>{
+              console.log("innerBubbleReverse clicked");
+              innerBubbleReverse.style.backgroundColor = "lime";
+            }, true);
+
+          let middleBubbleReverse = window['middleBubbleReverse'];
+            middleBubbleReverse.addEventListener('click', function(){
+              console.log("middleBubbleReverse clicked");
+              middleBubbleReverse.style.backgroundColor = "pink";
+            }, true);
+
+          let outerBubbleReverse = window['outerBubbleReverse'];
+            outerBubbleReverse.addEventListener('click', function(){
+              console.log("outerBubbleReverse clicked");
+              outerBubbleReverse.style.backgroundColor = "gray";
+            }, true);
+
+
+
+    </script>
+  </body>
+</html>
