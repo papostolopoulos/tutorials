@@ -40,10 +40,18 @@
 
 
 
-    <h3>Reverse bubble</h3>
+    <h3>Reverse bubble (Timeout set so the effect is visiually better to understand)</h3>
     <div class="outer" id="outerBubbleReverse">
       <div class="middle" id="middleBubbleReverse">
         <div class="inner" id="innerBubbleReverse">
+        </div>
+      </div>
+    </div>
+
+    <h3>Stop Propagation</h3>
+    <div class="outer" id="outerStopPropagation">
+      <div class="middle" id="middleStopPropagation">
+        <div class="inner" id="innerStopPropagation">
         </div>
       </div>
     </div>
@@ -73,24 +81,55 @@
         });
 
 
-        // reversed bubble
-          let innerBubbleReverse = window['innerBubbleReverse'];
-            innerBubbleReverse.addEventListener('click', ()=>{
-              console.log("innerBubbleReverse clicked");
-              innerBubbleReverse.style.backgroundColor = "lime";
-            }, true);
+    // reversed bubble
+      let innerBubbleReverse = window['innerBubbleReverse'];
+        innerBubbleReverse.addEventListener('click', ()=>{
+          setTimeout(()=>{
+            console.log("innerBubbleReverse clicked");
+            innerBubbleReverse.style.backgroundColor = "lime";
+          }, 1000);
+        }, true);
 
-          let middleBubbleReverse = window['middleBubbleReverse'];
-            middleBubbleReverse.addEventListener('click', function(){
-              console.log("middleBubbleReverse clicked");
-              middleBubbleReverse.style.backgroundColor = "pink";
-            }, true);
+      let middleBubbleReverse = window['middleBubbleReverse'];
+        middleBubbleReverse.addEventListener('click', function(){
+          setTimeout(()=>{
+            console.log("middleBubbleReverse clicked");
+            middleBubbleReverse.style.backgroundColor = "pink";
+          }, 500);
+        }, true);
 
-          let outerBubbleReverse = window['outerBubbleReverse'];
-            outerBubbleReverse.addEventListener('click', function(){
-              console.log("outerBubbleReverse clicked");
-              outerBubbleReverse.style.backgroundColor = "gray";
-            }, true);
+      let outerBubbleReverse = window['outerBubbleReverse'];
+        outerBubbleReverse.addEventListener('click', function(){
+          console.log("outerBubbleReverse clicked");
+          outerBubbleReverse.style.backgroundColor = "gray";
+        }, true);
+
+
+
+
+    // Stop Propagation
+    let innerStopPropagation = window["innerStopPropagation"];
+    innerStopPropagation.addEventListener("click", (event)=>{
+      event.stopPropagation();
+      console.log("innerStopPropagation clicked");
+      innerStopPropagation.style.background = "lime";
+    });
+
+    let middleStopPropagation = window["middleStopPropagation"];
+    middleStopPropagation.addEventListener("click", (event)=>{
+      event.stopPropagation();
+      console.log("middleStopPropagation clicked");
+      middleStopPropagation.style.background = "pink";
+    });
+
+    let outerStopPropagation = window["outerStopPropagation"];
+    outerStopPropagation.addEventListener("click", (event)=>{
+      event.stopPropagation();
+      console.log("outerStopPropagation clicked");
+      outerStopPropagation.style.background = "gray";
+    });
+
+
 
 
 
