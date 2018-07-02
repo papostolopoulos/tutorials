@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <title>bubbling and propagation practice</title>
     <style media="screen">
+
+      * {
+        box-sizing: border-box;
+      }
+
       .outer {
         border: 2px solid black;
         padding: 20px;
@@ -16,15 +21,15 @@
       .middle {
         padding: 20px;
         background-color: red;
-        width: 160px;
-        height: 160px;
+        width: auto;
+        height: 100%;
       }
 
       .inner{
         padding: 20px;
         background-color: green;
-        width: 120px;
-        height: 120px;
+        width: auto;
+        height: 100%;
       }
     </style>
   </head>
