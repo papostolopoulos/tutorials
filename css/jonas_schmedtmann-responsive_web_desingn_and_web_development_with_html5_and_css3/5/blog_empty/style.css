@@ -40,6 +40,9 @@ p {
 
 .author-text {
   font-size: 22px;
+    float: left;
+    margin-left: 15px;
+    line-height: 100px;
 }
 
 .container {
@@ -51,6 +54,7 @@ p {
     width: 75%;
     float: left;
     padding-right: 30px;
+    position: relative;
 }
 
 .other-posts {
@@ -61,4 +65,26 @@ p {
 .author-box {
     border-top: 1px solid #808080;
     padding-top: 20px;
+}
+
+.other {
+    margin-bottom: 40px;
+}
+
+.author-box img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    float: left;
+}
+
+.blog-post img {
+    height: 150px;
+    width: auto;
+}
+
+.date {
+   position: absolute;
+    top: 10px;
+    right: 30px;
 }
