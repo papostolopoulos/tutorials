@@ -15,7 +15,61 @@
 
 
       <script type="text/javascript">
+      var myCar = new Object();
+      myCar.make = 'Ford';
+      myCar.model = 'Mustang';
+      myCar.year = 1969;
 
+      for(var key in myCar) {
+        console.log(key + ": " + myCar[key]);
+      }
+
+
+
+        var myObj = new Object(),
+        str = "myString",
+        rand = Math.floor(Math.random() * 100),
+        obj = new Object();
+
+        myObj.type = "Dot Syntax";
+        myObj["date created"] = "String with space";
+        myObj[str] = "string value";
+        myObj[rand] = "random number";
+        myObj[obj] = 'Object';
+        myObj[''] = 'Even an empty string';
+
+
+
+
+//For Rena
+        var animals = [
+          {
+            name: "Fluffy",
+            species: "dog"
+          },
+          {
+            name: "Sparkle",
+            species: "cat"
+          },
+          {
+            name: "Chuck",
+            species: "dog"
+          },
+          {
+            name: "Princess",
+            species: "cat"
+          }
+        ];
+
+        function filterAnimals(array, animal) {
+          return array.filter((el)=>el.species === animal).length;
+        };
+
+        var dogs = filterAnimals(animals, "dog");
+        var cats = filterAnimals(animals, "cat");
+
+
+        console.log(myObj);
       </script>
   </body>
 </html>
