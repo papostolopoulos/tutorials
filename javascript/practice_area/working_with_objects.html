@@ -14,62 +14,63 @@
       <code>script</code> tag.</p>
 
 
-      <script type="text/javascript">
-      var myCar = new Object();
-      myCar.make = 'Ford';
-      myCar.model = 'Mustang';
-      myCar.year = 1969;
+    <form class="" action="#" method="post">
+      <input type="text" name="" value="" placeholder="Age" size="5">
+      <button type="submit" name="button">submit</button>
+    </form>
 
-      for(var key in myCar) {
-        console.log(key + ": " + myCar[key]);
+
+    <script type="text/javascript">
+    console.log(document.getElementsByTagName("form"));
+
+    function validate(obj, min, max){
+      console.log(obj);
+      if (obj.value < min || obj.value > max) alert("Bad entry");
+    }
+
+    document.getElementsByTagName("input")[0].onchange = validate(inputAge, 1, 99); //fix this
+
+
+    // var inputAge = document.getElementsByTagName("input")[0];
+    // inputAge.addEventListener("change", function () {
+    //   validate(this, 1, 99);
+    // });
+
+    var myCar = new Object();
+    myCar.make = 'Ford';
+    myCar.model = 'Mustang';
+    myCar.year = 1969;
+
+
+
+
+      var myObj = new Object(),
+      str = "myString",
+      rand = Math.floor(Math.random() * 100),
+      obj = new Object();
+
+      myObj.type = "Dot Syntax";
+      myObj["date created"] = "String with space";
+      myObj[str] = "string value";
+      myObj[rand] = "random number";
+      myObj[obj] = 'Object';
+      myObj[''] = 'Even an empty string';
+
+// ----------------------------------
+
+      function Car(make, model, year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
       }
 
+      var ford = new Car("Ford", "Mustang", "2001");
+      var mazda = new Car("Mazda", "Miata", "2005");
 
+      Car.prototype.color = null;
 
-        var myObj = new Object(),
-        str = "myString",
-        rand = Math.floor(Math.random() * 100),
-        obj = new Object();
+// -----------------------------------
 
-        myObj.type = "Dot Syntax";
-        myObj["date created"] = "String with space";
-        myObj[str] = "string value";
-        myObj[rand] = "random number";
-        myObj[obj] = 'Object';
-        myObj[''] = 'Even an empty string';
-
-
-
-
-//For Rena
-        var animals = [
-          {
-            name: "Fluffy",
-            species: "dog"
-          },
-          {
-            name: "Sparkle",
-            species: "cat"
-          },
-          {
-            name: "Chuck",
-            species: "dog"
-          },
-          {
-            name: "Princess",
-            species: "cat"
-          }
-        ];
-
-        function filterAnimals(array, animal) {
-          return array.filter((el)=>el.species === animal).length;
-        };
-
-        var dogs = filterAnimals(animals, "dog");
-        var cats = filterAnimals(animals, "cat");
-
-
-        console.log(myObj);
-      </script>
+    </script>
   </body>
 </html>
