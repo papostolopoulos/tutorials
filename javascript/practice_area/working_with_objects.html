@@ -28,13 +28,20 @@
       if (obj.value < min || obj.value > max) alert("Bad entry");
     }
 
-    document.getElementsByTagName("input")[0].onchange = validate(inputAge, 1, 99); //fix this
+    var inputAge = document.getElementsByTagName("input")[0];
 
+    // Method 1
+    // inputAge.onchange = validate(inputAge, 1, 99);
 
-    // var inputAge = document.getElementsByTagName("input")[0];
-    // inputAge.addEventListener("change", function () {
-    //   validate(this, 1, 99);
-    // });
+    // Method 2
+    // inputAge.addEventListener("change", ()=>validate(inputAge, 1, 99));
+
+    // Method 3 The "this" points to the input object.
+    // If the Callback was in ES6, it would point to the window
+    inputAge.addEventListener("change", function() {
+      validate(this, 1, 99);
+    });
+
 
     var myCar = new Object();
     myCar.make = 'Ford';
