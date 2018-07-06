@@ -83,7 +83,7 @@
       lastName: "Smith",
       get fullName(){
         return this.firstName + " " + this.lastName;
-      }
+      },
       set fullName(name){
         var firstLast = name.toString().split(" ");
         this.firstName = firstLast[0];
@@ -91,9 +91,9 @@
       }
     }
 
-    console.log(person.fullName); //Will give Geogre Smith
-    person.fullName = "Paraskevas Apostolopoulos";
-    console.log(person.fullName);
+    console.log(person.fullName); //Will give Geogre Smith (from getter)
+    person.fullName = "Paraskevas Apostolopoulos"; //setter will set to "PApostolopoulos"
+    console.log(person.fullName); //Will give Paraskevas Apostolopoulos from getter
 
 
 
