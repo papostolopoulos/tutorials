@@ -23,7 +23,7 @@
 
   <div id="computedProperties1">
     <h2>Computed properties</h2>
-    <p>The in-template expressions are useful for relatively simple operations but
+    <p>The expressions that are inside the template are useful for relatively simple operations but
     can be bloated in size if the application we are building tends to be more complex.</p>
     <div class="jumbotron">
       <h4>Example</h4>
@@ -93,8 +93,6 @@
       In comparison, a method invocation will <b>always</b> run the function
       whenever a re-render happens.<br>
     </p>
-    <p></p>
-
 
 
   <h4>Why do we need caching?</h4>
@@ -103,13 +101,31 @@
     Then we may have other computed properties that in turn depend on A.
     Without caching, we would be executing A’s getter many more times than necessary! <br>
     In cases where you do not want caching, use a method instead.</p>
+
+
+
+
   </div>
+
+
+
+
+
+
+
+
+
+
+
 
   <div id="watch-example">
     <h3>Watchers</h3>
-    <p>While computed properties are more appropriate in most cases, there are times when a custom watcher is necessary.<br>
-      That’s why Vue provides a more generic way to react to data changes through the watch option. <br>
-      This is most useful when you want to perform asynchronous or expensive operations in response to changing data.</p>
+    <p>While computed properties are more appropriate in most cases, there are
+      times when a custom watcher is necessary.<br>
+      That’s why Vue provides a more generic way to react to data changes
+      through the watch option. <br>
+      This is most useful when you want to perform asynchronous or expensive
+      operations in response to changing data.</p>
 
       <p>Ask a yes or no question
       <input v-model="question">
