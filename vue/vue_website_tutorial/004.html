@@ -103,6 +103,23 @@
     In cases where you do not want caching, use a method instead.</p>
 
 
+  <h4>Computed Setter</h4>
+  <p>Even though computed properties are getters only, they can also provide a setter.</p>
+  <div class="jumbotron">
+    <h4>Example</h4>
+    <p>The following displays a computed property that is binded on properties
+      from <code>data</code>. The computed property is </p>
+      <h5>{{fullName}}</h5>
+      <p>It can change from the value of the input box. Need to fix that. How
+      can I be able to use the setter? It currently works with a method and not
+      with the setter in the computed property.</p>
+      <input type="text" id="someInput" name="" v-on:keyup.enter="nameMe($event)" value="">
+
+
+
+  </div>
+
+
 
 
   </div>
@@ -151,11 +168,30 @@
     var computedProperties1 = new Vue ({
       el: "#computedProperties1",
       data: {
-        message: "Hello"
+        message: "Hello",
+        firstName: "John",
+        lastName: "Doe"
       },
       computed: {
         reversedMessage() {
           return this.message.split("").reverse().join("");
+        },
+        fullName: {
+          get: function() {
+            return this.firstName + " " + this.lastName;
+          },
+          set: function(nameValue) {
+            var names = nameValue.split(' ');
+            this.firstName = names[0];
+            this.lastName = names[names.length - 1];
+          }
+        }
+      },
+      methods: {
+        nameMe: function(event) {
+          var names = event.target.value.split(' ');
+          this.firstName = names[0];
+          this.lastName = names[names.length - 1];
         }
       }
     });
