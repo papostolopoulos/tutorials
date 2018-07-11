@@ -2,12 +2,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>VueJS section 2 lecture 12</title>
+    <title>VueJS section 2</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
   <body>
     <div class="" id="app">
-      <button v-on:click="increase(5, $event)">Click me</button>
+      <button v-on:click="increase(5, $event)">Increase by 5</button>
+      <button v-on:click="counter++">Increase by 1</button>
       <p>{{counter}}</p>
       <p v-on:mousemove="updateCoordinates">Coordinates: {{x}}/{{y}}
         -<span v-on:mousemove.stop="">DEAD SPOT</span>
