@@ -21,7 +21,7 @@
 
   <h1>004 - Computed Properties and Watchers</h1>
 
-  <div id="computedProperties1">
+  <div id="vm">
     <h2>Computed properties</h2>
     <p>The expressions that are inside the template are useful for relatively simple operations but
     can be bloated in size if the application we are building tends to be more complex.</p>
@@ -62,8 +62,8 @@
       </pre>
       <p>with the vue here:</p>
       <pre>
-          var computedProperties1 = new Vue ({
-            el: "#computedProperties1",
+          var vm = new Vue ({
+            el: "#",
             data: {
               message: "Hello"
             },
@@ -95,39 +95,30 @@
     </p>
 
 
-  <h4>Why do we need caching?</h4>
-  <p> Imagine we have an expensive computed property A, which requires looping
-    through a huge Array and doing a lot of computations.<br>
-    Then we may have other computed properties that in turn depend on A.
-    Without caching, we would be executing A’s getter many more times than necessary! <br>
-    In cases where you do not want caching, use a method instead.</p>
+    <h4>Why do we need caching?</h4>
+    <p> Imagine we have an expensive computed property A, which requires looping
+      through a huge Array and doing a lot of computations.<br>
+      Then we may have other computed properties that in turn depend on A.
+      Without caching, we would be executing A’s getter many more times than necessary! <br>
+      In cases where you do not want caching, use a method instead.</p>
 
 
-  <h4>Computed Setter</h4>
-  <p>Even though computed properties are getters only, they can also provide a setter.</p>
-  <div class="jumbotron">
-    <h4>Example</h4>
-    <p>The following displays a computed property that is binded on properties
-      from <code>data</code>. The computed property is </p>
-      <h5>{{fullName}}</h5>
-      <p>It can change from the value of the input box. Need to fix that. How
-      can I be able to use the setter? It currently works with a method and not
-      with the setter in the computed property.</p>
-      <input type="text" id="someInput" name="" v-on:keyup.enter="nameMe($event)" value="">
-
-
+    <h4>Computed Setter</h4>
+    <p>Even though computed properties are getters only, they can also provide a setter.</p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>The following displays a computed property that is binded on properties
+        from <code>data</code>. The computed property is </p>
+        <h5>{{fullName}}</h5>
+        <p>It can change from the value of the input box.</p>
+        <h5>Method invocation</h5>
+        <input type="text" id="someInput" name="" v-on:keyup.enter="nameMe($event)" value="">
+        (<code>nameMe($event)</code>)
+        <h5>Computed property value change</h5>
+        <input type="text" id="someInput" name="" v-on:keyup.enter="fullName = $event.target.value" value="">
+        (<code>fullName = $event.target.value</code>)
+    </div>
   </div>
-
-
-
-
-  </div>
-
-
-
-
-
-
 
 
 
@@ -136,21 +127,41 @@
 
   <div id="watch-example">
     <h3>Watchers</h3>
-    <p>While computed properties are more appropriate in most cases, there are
-      times when a custom watcher is necessary.<br>
-      That’s why Vue provides a more generic way to react to data changes
-      through the watch option. <br>
-      This is most useful when you want to perform asynchronous or expensive
-      operations in response to changing data.</p>
+    <p>The watchers (<code>watch</code>) is another property used in the <code>Vue</code> instance, same like
+      <code>el</code> <code>data</code>, <code>methods</code>, <code>computed</code>.
+      This property is used instead of <code>computed</code> when there is a data change that
+      is very expensive in functionality or is <b>asynchronous</b>.</p>
 
-      <p>Ask a yes or no question
-      <input v-model="question">
-      </p>
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>In this case, using the <code>watch</code> option allows us to
+          <ul>
+            <li>perform an asynchronous operation (accessing an API),</li>
+            <li>limit how often we perform that operation, and</li>
+            <li>set intermediary states until we get a final answer. </li>
+          </ul>
+          None of that would be possible with a computed property.</p>
 
-      <p>In this case, using the watch option allows us to perform an asynchronous operation (accessing an API), limit how often we perform that operation, <br>
-        and set intermediary states until we get a final answer. None of that would be possible with a computed property.</p>
-      <p>{{answer}}</p>
+        <p>Ask a yes or no question
+          <input v-model="question">
+        </p>
+        <h5>{{answer}}</h5>
+        <p>
+          <i>There is another example that I have used with <code>setTimeout</code>
+          in a different Vue tutorial.</i>
+        </p>
+
+      </div>
+
+
   </div>
+
+
+
+
+
+
+
 
   <!-- Since there is already a rich ecosystem of ajax libraries    -->
   <!-- and collections of general-purpose utility methods, Vue core -->
@@ -160,12 +171,9 @@
   <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
 
 
-
-
-
   <script type="text/javascript">
-    var computedProperties1 = new Vue ({
-      el: "#computedProperties1",
+    var vm = new Vue ({
+      el: "#vm",
       data: {
         message: "Hello",
         firstName: "John",
@@ -195,6 +203,8 @@
       }
     });
 
+
+    // Vue instance for the watchers example
     var watchExampleVM = new Vue({
       el: "#watch-example",
       data: {
@@ -241,7 +251,7 @@
   </script>
 
 
-  <a href="./002.html">Previous - Template Syntax</a> <a href="./004.html">Next - Class and Style bindings</a>
+  <a href="./003.html">Previous - Template Syntax</a> <a href="./005.html">Next - Class and Style bindings</a>
 
 </body>
 </html>
