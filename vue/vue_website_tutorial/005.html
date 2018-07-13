@@ -11,6 +11,18 @@
   body {
     padding: 15px;
   }
+
+  .borders {
+    border:#000099 solid 3px;
+    }
+
+  .color {
+    color: blue;
+  }
+
+  .background {
+    background-color: #ccccff;
+  }
   </style>
 
   <title>004 - Class and Style bindings - Vue website tutorial</title>
@@ -39,14 +51,16 @@
     <p>
       We can pass an object to <code>v-bind:class</code> to dynamically toggle classes.
     </p>
+    <p>
+      See the how in the following code, the <code>class</code> attribute is binded
+      to an object that can be enabled based on if the <code>isActive</code>
+      property - which resides in the Vue instance -
+      is <code>true</code> or <code>false</code>.
+    </p>
+
+
     <div class="jumbotron">
       <h4>Example</h4>
-      <p>
-        See the how in the following code, the <code>class</code> attribute is binded
-        to an object that can be enabled based on if the <code>isActive</code>
-        property - which resides in the Vue instance -
-        is <code>true</code> or <code>false</code>.
-      </p>
       <code>&lt;div v-bind:class="{ active: isActive }"&gt;&lt;/div&gt;</code>
       <div v-bind:class="{divActiveClass: divActive}">
         <p>
@@ -54,13 +68,134 @@
           no background for the enclosing div tag.
         </p>
         <button type="button" name="button" v-on:click="divActive === true ? divActive = false : divActive = true">Change</button>
-
       </div>
     </div>
 
     <p>
-
+      Multiple classes can be toggled by having more fields in the object that is
+      used for the activation of classes. Also the <code>v-bind:class</code> directive
+      can co-exist with a simple <code>class</code> attribute.
     </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>If the initial html code looks like this:</p>
+      <code>
+        &lt;div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"&gt;&lt;/div&gt;
+      </code>
+      <p>And the script in the Vue instance looks like this:</p>
+      <code><pre>
+        data: {
+          isActive: true,
+          hasError: false
+        }
+      </pre></code>
+      <p>then the final html code will be like this:</p>
+      &gt;div class="static active"&lt;&gt;/div&lt;
+    </div>
+
+    <p>
+      When one of the binded properties changes its value from <code>false</code>
+      to <code>true</code> or vice versa, then the code changes. In the above example,
+      if the <code>hasError</code> property changes to <code>true</code>, then the
+      final html code will be: <code>class="static active text-danger"</code>
+    </p>
+    <p>
+      The bound object property does not have to be written inline. Instead, we can bind a
+      property that has another object as its value. This object value can be
+      constituted by several key-value pairs which have the class name as their key
+      and a boolean value as their value.
+    </p>
+    <div class="jumbotron" v-bind:class="massClass">
+      <h4>Example</h4>
+      <p>The html can look like:</p>
+      <code>&lt;div v-bind:class="classObject"&gt;&lt;/div&gt;</code>
+      <p>The script in the Vue instance can look like:</p>
+      <pre>
+        data: {
+          classObject: {
+          active: true,
+          'text-danger': false
+          }
+        }
+      </pre>
+      <p>
+        Click on the following buttons to toggle between different classes that
+        are affecting this <code>div</code> tag. You can check on the console to
+        see how the extra classes are added and removed.
+      </p>
+      <button v-on:click="massClass.background === true ? massClass.background = false : massClass.background = true">
+        Change background color
+      </button>
+      <button v-on:click="massClass.color === true ? massClass.color = false : massClass.color = true">
+        Change font color
+      </button>
+      <button v-on:click="massClass.borders === true ? massClass.borders = false : massClass.borders = true">
+        Change border color
+      </button>
+    </div>
+
+
+    <p>
+      Moreover, the object class can be further enhanced by adding it in a computed
+      property.
+    </p>
+
+    <div class="jumbotron">
+      <pre>
+        data: {
+        isActive: true,
+        error: null
+        },
+        computed: {
+          classObject: function () {
+            return {
+              active: this.isActive && !this.error,
+              'text-danger': this.error && this.error.type === 'fatal'
+            }
+          }
+        }
+      </pre>
+    </div>
+
+
+    <h3>Array syntax</h3>
+    <p>
+      Same like objects, arrays can be used to bind classes in the html.
+    </p>
+    <div class="jumbotron">
+      <p>The html can look like:</p>
+      <code>&lt;div v-bind:class="[activeClass, errorClass]"&gt;&lt;/div&gt;</code>
+      <p>The object in the Vue instance can look like:</p>
+      <pre>
+        data: {
+          activeClass: 'active',
+          errorClass: 'text-danger'
+        }
+      </pre>
+      <p>The above will render:</p>
+      <code>&lt;div class="active text-danger"&gt;&lt;/div&gt;</code>
+    </div>
+
+
+    <h3>With Vue components</h3>
+    <p>
+      When a class is added in a Vue component, the class will be added to the component's
+      root element. No classes will be removed but all of them will be added.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        If a component with classes is declared:
+      </p>
+      <pre>
+        Vue.component('my-component', {
+          template: "&lt;p class="foo bar"&gt;Hi there&lt;/p&gt;"
+        });
+      </pre>
+      <p>and some more classes are being declared in the html:</p>
+      <code>&lt;my-component class="baz boo"&gt;&lt;/my-component&gt;</code>
+    </div>
+
 
 
 
@@ -81,8 +216,12 @@
       {
         el: "#vm",
         data: {
-          jumboBorder: "border:black solid 3px",
-          divActive: true
+          divActive: true,
+          massClass: {
+            borders: false,
+            color: false,
+            background: false
+          }
         },
         methods: {
           functionOne: function() {
