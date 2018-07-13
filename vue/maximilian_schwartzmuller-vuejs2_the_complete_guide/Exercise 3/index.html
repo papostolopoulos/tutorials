@@ -28,16 +28,20 @@
       var vm = new Vue({
         el: "#exercise",
         data: {
-          value: 0
+          value: 0,
+          output: ""
         },
         computed: {
-          result: {
-            get: function() {
-              return this.value === 37 ? this.result = "done" : this.result = "Not there yet";
-            },
-            set: function() {
-              
-            }
+          result: function() {
+            return this.value === 37 ? this.output = "done" : this.output = "Not there yet";
+          }
+        },
+        watch: {
+          value: function() {
+            var self = this;
+            setTimeout(function() {
+              self.value = 0;
+            }, 15000);
           }
         }
       });
