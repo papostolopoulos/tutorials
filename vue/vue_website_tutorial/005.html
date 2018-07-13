@@ -12,6 +12,12 @@
     padding: 15px;
   }
 
+
+  .divActiveClass{
+    background-color: white;
+    padding: 5px;
+  }
+
   .borders {
     border:#000099 solid 3px;
     }
@@ -46,7 +52,7 @@
     </p>
 
 
-    <h2>Binding html classes</h2>
+    <h2>Binding html classes (v-bind:class)</h2>
     <h3>Object syntax</h3>
     <p>
       We can pass an object to <code>v-bind:class</code> to dynamically toggle classes.
@@ -199,10 +205,57 @@
     </div>
 
 
+
+    <h2>Binding inline styles (v-bind:style)</h2>
+    <h3>Object syntax</h3>
+    <p>
+      JavaScript objects can also be used for inline CSS styles.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        In the following html, we are using the objects to represent the values applied
+        in the CSS style. The typing convention can include either a camelback or a kebab style but
+        if kebab style is used, then it has to be included in quotation marks.
+      </p>
+      <code>&lt;div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"&gt;&lt;/div&gt;</code>
+      <p>And the code within the Vue instance can look like this:</p>
+      <pre>
+        data: {
+          activeColor: 'red',
+          fontSize: 30
+        }
+      </pre>
+    </div>
+
+    <p>
+      For a structuraly cleaner code, the object's properties can include the
+      desired CSS rules and the object's key can act as the CSS inline description.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <code>&lt;div v-bind:style="styleObject"&gt;&lt;/div&gt;</code>
+      <pre>
+        data: {
+          styleObject: {
+            color: 'red',
+            fontSize: '13px'
+          }
+        }
+      </pre>
+      <p>For the above example, we can have this result:</p>
+      <div v-bind:style="styleObject">Hello, I am a div tag and I have red fonts that
+        are 13px big. My style comes from a binded object.</div>
+    </div>
+
+
+    <h3>Array Syntax</h3>
+
+
   </div>
 
 
-    <a href="./003.html">Previous - Computed properties and watchers</a> <a href="./005.html">Next - Conditional rendering</a>
+    <a href="./004.html">Previous - Computed properties and watchers</a> <a href="./006.html">Next - Conditional rendering</a>
 
 
 
@@ -220,6 +273,10 @@
             borders: false,
             color: false,
             background: false
+          },
+          styleObject: {
+            color: 'red',
+            fontSize: '13px'
           }
         },
         methods: {
