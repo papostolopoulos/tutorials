@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script type="text/javascript" src="https://unpkg.com/vue@2.2.6"></script>
+  <script type="text/javascript" src="./vue.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <style media="screen">
@@ -234,7 +234,9 @@
     </p>
     <div class="jumbotron">
       <h4>Example</h4>
+      <p>The html code can look like:</p>
       <code>&lt;div v-bind:style="styleObject"&gt;&lt;/div&gt;</code>
+      <p>And the Vue instance can look like:</p>
       <pre>
         data: {
           styleObject: {
@@ -250,6 +252,18 @@
 
 
     <h3>Array Syntax</h3>
+    <p>
+      The array syntax allows us to apply multiple style objects to the same html
+      element.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        In this example, two different objects are used. Each object may have different
+        CSS properties.
+      </p>
+      <code>&lt;div v-bind:style="[baseStyles, overridingStyles]"&gt;&lt;/div&gt;</code>
+    </div>
 
 
   </div>
