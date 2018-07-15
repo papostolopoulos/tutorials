@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue.js section 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style media="screen">
+      .demo {
+        width: 100px;
+        height: 100px;
+        background-color: gray;
+        display: inline-block;
+        margin: 10px;
+      }
+
+      .red {
+        background-color: red;
+      }
+
+      .green {
+        background-color: green;
+      }
+
+      .blue {
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <div class="demo" :class="{red: enableRed}" @click="enableRed = !enableRed">
+
+      </div>
+      <div class="demo" :class="{green: enableGreen}" @click="enableGreen = !enableGreen">
+
+      </div>
+      <div class="demo" :class="{blue: enableBlue}" @click="enableBlue = !enableBlue">
+
+      </div>
+
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          enableRed: false,
+          enableBlue: false,
+          enableGreen: false
+        }
+      });
+    </script>
+
+  </body>
+</html>
