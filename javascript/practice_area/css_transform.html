@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Transformation effects with css</title>
     <style media="screen">
       div {
         width: 100px;
@@ -14,6 +14,11 @@
         padding: 10px;
         margin-left: 200px;
         }
+
+      .line {
+        height: 1px;
+        padding: 0;
+      }
 
       code {
         color: red;
@@ -97,6 +102,14 @@
         transform: rotate(-90deg) translate(150px);
       }
 
+
+      .transform-rotate-translate2 {
+        transition: transform 4s;
+      }
+
+      .transform-rotate-translate2:hover {
+        transform: rotate(-90deg) translate(150px);
+      }
 
 
     </style>
@@ -232,5 +245,30 @@
       hover over me
     </div>
 
+
+
+    <h3>8. Tranform rotate translate</h3>
+    <h4>Transform rotate and translate after 4 seconds. -90 degrees and 150 pixels</h4>
+    <pre><code>
+      .transform-rotate-translate {
+        transition: transform 4s;
+      }
+
+      .transform-rotate-translate:hover {
+        transform: rotate(-90deg) translate(150px);
+      }
+    </code></pre>
+    <div class="line transform-rotate-translate2">
+      hover over me
+    </div>
+    <pre><code>
+      .transform-rotate-translate {
+        transition: transform 4s;
+      }
+
+      .transform-rotate-translate:hover {
+        transform: rotate(-90deg) translate(150px);
+      }
+    </code></pre>
   </body>
 </html>
