@@ -108,7 +108,8 @@
       }
 
       .transform-rotate-translate2:hover {
-        transform: rotate(-90deg) translate(150px);
+        transform: rotate(-180deg);
+        transform-origin: left;
       }
 
 
@@ -247,28 +248,22 @@
 
 
 
-    <h3>8. Tranform rotate translate</h3>
-    <h4>Transform rotate and translate after 4 seconds. -90 degrees and 150 pixels</h4>
+    <h3>9. Tranform rotate translate</h3>
+    <h4>Transform rotate and translate after 4 seconds. -180 degrees with Transform
+    origin on the left.</h4>
     <pre><code>
-      .transform-rotate-translate {
+      .transform-rotate-translate2 {
         transition: transform 4s;
       }
 
-      .transform-rotate-translate:hover {
-        transform: rotate(-90deg) translate(150px);
+      .transform-rotate-translate2:hover {
+        transform: rotate(-180deg);
+        transform-origin: left;
       }
     </code></pre>
     <div class="line transform-rotate-translate2">
       hover over me
     </div>
-    <pre><code>
-      .transform-rotate-translate {
-        transition: transform 4s;
-      }
-
-      .transform-rotate-translate:hover {
-        transform: rotate(-90deg) translate(150px);
-      }
-    </code></pre>
+  
   </body>
 </html>
