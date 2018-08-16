@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Vue - Udemy. Exercise 1</title>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
   </head>
   <body>
@@ -164,7 +164,7 @@
 
 <!-- APP5 -->
     <div id="app5">
-      <h3>App 5</h5>
+      <h3>App 5</h3>
       <p>This is done with vanilla and not with Vue. I need to learn how to do This
       in Vue.</p>
       <p>Click to see the color of the tags changing</p>
@@ -205,6 +205,39 @@
       }
     }
   });
+</script>
+
+
+
+<div id="app6">
+  <h3>App6</h3>
+  <p>An effort to do the transition with Vue through a method and the data usage</p>
+  <h5 :class="{updateStyle: activateVanilla}" name="vanilla" v-on:click="enableClass($event)">Vanilla</h5>
+  <h5 :class="{updateStyle: activateJQuery}" name="jquery" v-on:click="enableClass($event)">jQuery</h5>
+  <h5 :class="{updateStyle: activateVue}" name="vue" v-on:click="enableClass($event)">Vue</h5>
+</div>
+
+
+<script>
+var app6 = new Vue({
+  el:"#app6",
+  data: {
+    activateVanilla: true,
+    activateJQuery: false,
+    activateVue: false
+  },
+  methods: {
+    enableClass: function (event) {
+      const headingName = event.currentTarget.getAttribute("name");
+      headingName === "vanilla" && this.activateVanilla === false ?
+      (this.activateVanilla = true, this.activateJQuery = false, this.activateVue = false) :
+      headingName === "jquery" && this.activateJQuery === false ?
+      (this.activateJQuery = true, this.activateVanilla = false, this.activateVue = false) :
+      (this.activateVue = true, this.activateVanilla = false, this.activateJQuery = false);
+    }
+  }
+});
+
 </script>
   </body>
 </html>
