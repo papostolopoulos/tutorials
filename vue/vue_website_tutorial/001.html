@@ -66,9 +66,16 @@
       <div class="jumbotron">
         <h4>Example</h4>
         <span v-bind:title="message">
-          Hover your mouse over me for e few seconds to see my dynamically bound title!
+          Hover your mouse over me for a few seconds to see my dynamically bound title!
         </span><br>
         <input type="text" v-bind:value="message">
+        <hr>
+        <h4>Example (2)</h4>
+        <p>
+          Using <code>v-model</code> to be able to update the <code>{ {message} }</code>.
+        </p>
+        <input type="text" name="" value="" v-model="message">
+        <p>{{message}}</p>
       </div>
     </div>
 
