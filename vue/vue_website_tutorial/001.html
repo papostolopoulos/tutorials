@@ -73,6 +73,8 @@
         <h4>Example (2)</h4>
         <p>
           Using <code>v-model</code> to be able to update the <code>{ {message} }</code>.
+          Contrary to the above <code>input</code> this one does not have a <code>v-bind:value</code>
+          but it has a <code>v-model</code>.
         </p>
         <input type="text" name="" value="" v-model="message">
         <p>{{message}}</p>
@@ -96,13 +98,20 @@
     <h2>3 - Conditional (v-if)</h2>
     <p>Data can be binded not only with text and attributes, but also with the structure of the DOM.
     Vue provides a transition effect system that can automatically apply
-    <a href="https://vuejs.org/v2/guide/transitions.html">transition effects</a>
+    <a href="https://vuejs.org/v2/guide/transitions.html" target="_blank">transition effects</a>
     when elements are inserted/updated/removed by Vue.</p>
 
 
     <div id="app-3">
       <div class="jumbotron">
         <h4>Example</h4>
+        <p>
+          The following text changes because a method fires during the press of
+          the button. The method changes the data property called "seen" from
+          true to false. Therefore: <br>
+          <code>< p v-if="seen">Now you see me (because true)</ p></code> <br>
+          <code>< p v-else="seen">Now you don't see me (because false)</ p></code>
+        </p>
         <p v-if="seen">Now you see me</p>
         <p v-else="seen">Now you don't see me</p>
         <button v-on:click="toggleSeen">Toggle text view</button>
@@ -117,7 +126,6 @@
         },
         methods: {
           toggleSeen() {
-            alert("Hello");
             this.seen === false ? this.seen = true : this.seen = false
           }
         }
@@ -138,6 +146,11 @@
     <div id="app-4">
       <div class="jumbotron">
         <h4>Example</h4>
+        <code>
+          < ol > <br>
+            < li v-for="todo in todos" >{ {todo.text} }</ li > <br>
+          </ ol >
+        </code>
         <ol>
           <li v-for="todo in todos">{{todo.text}}</li>
         </ol>
@@ -168,6 +181,11 @@
     <div id="app-5">
       <div class="jumbotron">
         <h4>Example</h4>
+        <p>
+          The following message is being reversed by a method that is attached to
+          the button. <br>
+          <code>this.message = this.message.split("").reverse().join("");</code>
+        </p>
         <p>{{message}}</p>
         <button type="button" name="button" v-on:click="reverseMessage">Reverse Message</button>
       </div>
@@ -198,6 +216,11 @@
     <div id="app-6">
       <div class="jumbotron">
         <h4>Example</h4>
+        <p>
+          The <code>v-model="message"</code> directive is added as an attribute to <thead>
+            <code>input</code> tag and updates the data in the paragraph.
+          </thead>
+        </p>
         <p>{{message}}</p>
         <input type="text" name="" value="" v-model="message">
       </div>
