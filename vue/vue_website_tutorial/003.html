@@ -39,6 +39,13 @@
         The <code>v-once</code> directive is used so even if the <code>message</code>
         property in the <code>data</code> property changes, <code>v-once</code> keeps
         it unchanged. </span>
+        <p>
+          The following input has a <code>v-model</code> that displays the same
+          <code>message</code>. As soon as the message will change in the
+          <code>input</code> and the first <code>paragraph</code>, you will see that
+          it will not change in the second paragraph.
+        </p>
+        <input type="text" name="" value="" v-model="message">
     </div>
 
 
@@ -51,6 +58,9 @@
         <p>Using mustaches, we display the raw html: <br> {{ rawHtml }}</p>
         <p>Using <code>v-html</code> directive we can interpret the data as html:
           <span v-html="rawHtml"></span>
+          The above text is a <code>span</code> tag that has a <code>v-html="rawHtml"</code>
+          attribute. The <code>rawHtml</code> from the Vue data property is an html
+          h4 tag in a string that is used as is in the DOM.
         </p>
       </div>
 
@@ -203,7 +213,7 @@
   var app1 = new Vue({
     el: "#app1",
     data: {
-      message: '"This message changes?"',
+      message: "This message changes?",
       rawHtml: "<h4>This is an h4 tag with <i>some italic</i> text.</h4>",
       isButtonDisabled: true,
       title: "Hello",
