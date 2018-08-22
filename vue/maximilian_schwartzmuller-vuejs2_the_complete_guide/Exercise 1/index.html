@@ -165,8 +165,7 @@
 <!-- APP5 -->
     <div id="app5">
       <h3>App 5</h3>
-      <p>This is done with vanilla and not with Vue. I need to learn how to do This
-      in Vue.</p>
+      <p>This is done with vanilla and not with Vue.</p>
       <p>Click to see the color of the tags changing</p>
       <p>
         Used <code>event.target</code> and <code>event.path[1].children</code>
@@ -238,6 +237,47 @@ var app6 = new Vue({
   }
 });
 
+</script>
+
+
+
+
+<div id="app7">
+  <h3>App7</h3>
+  <p>An effort to do this with a computed property</p>
+  <h5 v-bind:class="{updateStyle: active[0].vanilla}" name="vanilla" v-on:click="styleChange = $event.currentTarget">Vanilla</h5>
+  <h5 v-bind:class="{updateStyle: active[1].jquery}" name="jquery" v-on:click="styleChange = $event.target">jQuery</h5>
+  <h5 v-bind:class="{updateStyle: active[2].vue}" name="vue" v-on:click="styleChange = $event.target">Vue</h5>
+</div>
+
+<script>
+  var app7 = new Vue({
+    el: "#app7",
+    data: {
+      highlight: {
+        color: "red"
+      },
+      active: [
+        {vanilla: true},
+        {jquery: false},
+        {vue: false}
+      ]
+    },
+    computed: {
+      styleChange: {
+        get: function () {
+
+        },
+        set: function (style) {
+          var attr = style.getAttribute("name");
+          this.active.forEach(function(el) {
+            var keyValue = Object.keys(el)[0];
+            keyValue === attr ? el[keyValue] = true : el[keyValue] = false;
+          });
+        }
+      }
+    }
+  });
 </script>
   </body>
 </html>

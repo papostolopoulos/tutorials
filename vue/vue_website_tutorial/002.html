@@ -6,8 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- <script type="text/javascript" src="https://unpkg.com/vue@2.2.6"></script> -->
   <script type="text/javascript" src="./vue.js"></script>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <link rel="stylesheet" href="./styles.css">
   <style media="screen">
   body {
@@ -15,91 +14,236 @@
   }
   </style>
 
-  <title>002 - The Vue instance - Vue website tutorial</title>
+  <title>003 - Template syntax - Vue website tutorial</title>
 </head>
+
+
+
+
+
 <body>
 
   <a href="https://vuejs.org/v2/guide/instance.html"><h3>Source</h3></a>
 
-  <h1>2 - The Vue Instance</h1>
+  <h1>003 - Template Syntax</h1>
 
-  <h2>Shorthands</h2>
-  <p>Alternatives for <code>v-bind</code> and for <code>v-on</code> are the <code>:</code> and <code>@</code> symbols. Example:<br>
-  <code>&#60;a v-bind:href="url"&#62;&#60;/a&#62;</code> can be written as <code>&#60;a :href="url"&#62;&#60;/a&#62;</code> instead.<br>
-  <code>&#60;a v-on:click="doSomething"&#62;&#60;/a&#62;</code> can be written as <code>&#60;a @click="doSomething"&#62;&#60;/a&#62;</code> instead</p>
-  <code></code>
-
-
-  <h2>Filters</h2>
-  <p>Vue.js allows you to define filters that can be used to apply common text formatting. <br>
-    Filters are usable in two places: mustache interpolations and v-bind expressions. <br>
-    Filters should be appended to the end of the JavaScript expression, denoted by the “pipe” symbol</p>
-
-
-  <h2>2 - Directives</h2>
-  <p>Directives are special attributes with the v- prefix.
-    Directive attribute values are expected to be a single JavaScript expression (with the exception for v-for).<br>
-    <b>A directive’s job is to reactively apply side effects to the DOM when the value of its expression changes.</b></p>
-
-  <h3>#Arguments</h3>
-  <p>Some directives can take an “argument”, denoted by a colon after the directive name.<br>
-  For example, the v-bind directive is used to reactively update an HTML attribute.<br>
-  Another example is the v-on directive, which listens to DOM events</p>
-
-  <h3>#Modifiers</h3>
-  <p>
-    Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.<br>
-    For example, the .prevent modifier tells the v-on directive to call event.preventDefault() on the triggered event.<br>
-    <code>&#60;form v-on:submit.prevent="onSubmit"&#62;&#60;/form&#62;</code>
-  </p>
-
-
-
-
-  <h2>1 - Interpolations</h2>
-
-  <h3>#Text</h3>
-  <p>The most basic form of data binding is text interpolation using the “Mustache” syntax (double curly braces):</p>
   <div id="app1">
-    <span>Message: {{message}}</span><br>
-    <span v-once>This will never change: {{message}} The <code>v-once</code> directive is used</span>
+    <h2>1 - Interpolations</h2>
+    <h3>#Text</h3>
+    <p>The most basic form of data binding is text interpolation using the
+      “Mustache” syntax (double curly braces):</p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <span>Message: {{message}}</span><br>
+      <span v-once>The text after the colon will never change: {{message}}. <br>
+        The <code>v-once</code> directive is used so even if the <code>message</code>
+        property in the <code>data</code> property changes, <code>v-once</code> keeps
+        it unchanged. </span>
+        <p>
+          The following <code>input</code> tag has a <code>v-model</code> that displays the same
+          <code>message</code>. As soon as the message will change in the
+          <code>input</code> and the first <code>paragraph</code>, you will see that
+          it will not change in the second paragraph.
+        </p>
+        <input type="text" name="" value="" v-model="message">
+    </div>
+
+
 
     <h3>#html</h3>
-    <p>The double mustaches interprets the data as plain text, not HTML. In order to output real HTML, you will need to use the <code>v-html</code> directive:</p>
-    <div v-html="rawHtml"></div>
+    <p>The double mustaches interprets the data as plain text, not HTML.
+      In order to output real HTML, you will need to use the <code>v-html</code> directive.</p>
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>Using mustaches, we display the raw html: <br> {{ rawHtml }}</p>
+        <p>Using <code>v-html</code> directive we can interpret the data as html:
+          <span v-html="rawHtml"></span>
+          The above text is a <code>span</code> tag that has a <code>v-html="rawHtml"</code>
+          attribute. The <code>rawHtml</code> from the Vue data property is an html
+          h4 tag in a string that is used as is in the DOM.
+        </p>
+      </div>
+
+
+
 
     <h3>Attributes</h3>
     <p>Mustaches cannot be used inside HTML attributes, instead use a <code>v-bind</code> directive:</p>
-    <h3>Javascript bindings</h3>
-    <p>Vue.js supports the full power of JavaScript expressions inside all data bindings</p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <code> &lt;div v-bind:id="dynamicId"&gt;&lt;/div&gt; </code>
+    </div>
+
+    <p>When it comes to boolean attributes, v-bind works in a different way.
+    For example:
+    <code>&lt;button v-bind:disabled="isButtonDisabled"&gt;Button&lt;/button&gt;</code>,
+    If the <code>isButtonDisabled</code> has a value of null, false, undefined, then the
+    value will not be included in the button element.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>Inspect the document in the "elements" tab. See that when you click on the
+        "Enable/Disable button", the <code>disabled</code> attribute is either
+        attached (when binded property is true) or it is removed (when false).</p>
+      <button type="button" name="button" v-bind:title="title" v-bind:disabled="isButtonDisabled">Button</button>
+      <button type="button" name="button" v-on:click="enableDisableButton">&lt;-- Enable / disable button</button>
+    </div>
+
+
+
+    <h3>Using JavaScript expressions</h3>
+    <p>Other than getting properties or methods from the Vue object, we can also
+      add JavaScript expessions inside data bindings. </p>
+
+    <div class="jumbotron">
+      <h4>Examples</h4>
+      <code>
+        { { number + 1 } } <br>
+        { { ok ? 'YES' : 'NO' } }<br>
+        { { message.split('').reverse().join('') } }<br>
+        &lt;div v-bind:id="'list-' + id"&gt;&lt;/div&gt;
+      </code>
+    </div>
+    <p>These expressions are evaluated as JavaScript within the <code>data</code> scope (property)
+    of the Vue instance that includes them. </p>
+    <p>Each binding can only include one single expression. It will not work if there are:</p>
+    <ul>
+      <li>More than one expressions. Ex: <code>{ { number + 1; number + 2 } }</code> </li>
+      <li>JavaScript statements <code>{ {var x = 1} }</code></li>
+      <li>Flow controls (ex: if statements). Ternary opearators work though.</li>
+    </ul>
+
+
+
+    <h2>Directives</h2>
+    <p>Directives are attributes that represent <b>single Javascript expressions</b>.
+    These attributes' job is to apply effects to the DOM when the JavaScript expressions
+    change.</p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>This example is using a <code>v-if / v-else</code> directive which has a
+      <code>true</code> initial value in the <code>data</code> property of the
+      Vue instance.</p>
+      <p>When the <code>button</code> is clicked, then the value toggles from true to
+      false, resulting the display of the content that is attached to the <code>v-else</code>
+    directive.</p>
+    <code>&lt;p v-if="seen"&gt;&lt;b&gt;Now you see me&lt;/b&gt;&lt;/p&gt; <br>
+    &lt;p v-else="seen"&gt;&lt;b&gt;Now you don't see me&lt;/b&gt;&lt;/p&gt;</code>
+
+    <p v-if="seen"><b>Now you see me</b></p>
+    <p v-else="seen"><b>Now you don't see me</b></p>
+
+    <button type="button" name="button" v-on:click="seenUnseen">Change text</button>
+    </div>
+
+
+    <h3>Arguments</h3>
+    <p>Directives can also take arguments. These arguments are added after a
+    collon. Therefore, html attributes can get a value through the <code>data</code>
+    property of the Vue instance by using the v-bind. Hence there is no need for the attributes
+    to be manually entered.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+       <code>&lt;a v-bind:href="url"&gt;Some link here&lt;/a&gt;</code>
+    </div>
+
+    <p>Another argument example is with the <code>v-on</code> directive.
+      This directive listens to DOM events (ex: click, mouseover etc).</p>
+
+    <div class="jumbotron" v-bind:style="jumboBorder">
+      <h4>Example</h4>
+      <code>&lt;a v-on:click.prevent="doSomething"&gt;Click for something to happen&lt;/a&gt;</code> <br>
+
+      <a href="#" v-on:click.prevent="switchBorder">Switch the border</a>
+    </div>
+
+
+
+    <h3>Modifiers</h3>
+    <p>Modifiers are postfixes denoted by a dot. They are the equivalent of
+    built in methods in JavaScript.</p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>The <code>.prevent</code> modifier is similar to the
+      <code>event.preventDefault()</code> method. It can be added after the
+      <code>v-bind:someEvent</code> to indicate that the browser should not behave
+      in its typical way.</p>
+
+      <code>&lt;form v-on:submit.prevent="onSubmit"&gt; ... &lt;/form&gt;</code>
+    </div>
+
+
+
+
+    <h2>Shorthands</h2>
+    <p>The <code>v-</code> prefix is used to indicate Vue attributes in the html code.
+    For some, this can be a quite repetitive typing process that is not desired, especially
+    when some directives are used frequently. Also, the use of the <code>v-</code> prefix
+    might be considered as not necessary for Single Page Applications (SPA) where Vue manages
+    every template. Vue gives the option of using two different shorthands for the
+    most frequently used directives, the <code>v-bind</code> and the <code>v-on</code>.</p>
+
+    <h3> <code>v-bind</code> shorthand </h3>
+    <div class="jumbotron">
+      <p></p>
+      <h5>Full syntax</h5>
+      <code>&lt;a v-bind:href="url"&gt; ... &lt;/a&gt;</code>
+
+      <h5>Shorthand</h5>
+      <code>&lt;a :href="url"&gt; ... &lt;/a&gt;</code>
+    </div>
+
+
+    <h3> <code>v-on</code> shorthand </h3>
+    <div class="jumbotron">
+      <h5>Full syntax</h5>
+      <code>&lt;a v-on:click="doSomething"&gt; ... &lt;/a&gt;</code>
+
+      <h5>Shorthand</h5>
+      <code>&lt;a @click="doSomething"&gt; ... &lt;/a&gt;</code>
+    </div>
   </div>
 
-  <script type="text/javascript">
-    var app1 = new Vue({
-      el: "#app1",
-      data: {
-        message: '"This message changes?"',
-        rawHtml: "<h4>This is an h4 tag with <i>some italic</i> text.</h4>"
-      }
-    })
-  </script>
 
 
 
 
   <script type="text/javascript">
-    var vm = new Vue({
-      data: {
-        a: 1
+  var app1 = new Vue({
+    el: "#app1",
+    data: {
+      message: "This message changes?",
+      rawHtml: "<h4>This is an h4 tag with <i>some italic</i> text.</h4>",
+      isButtonDisabled: true,
+      title: "Hello",
+      number: 5,
+      seen: true,
+      jumboBorder: "border:black solid 3px"
+    },
+    methods: {
+      enableDisableButton: function(event) {
+        return this.isButtonDisabled ? this.isButtonDisabled = false : this.isButtonDisabled = true;
       },
-      created: function () {
-        console.log("a is:", this.a);
+      seenUnseen: function() {
+        this.seen ? this.seen = false : this.seen = true;
+      },
+      switchBorder: function(event) {
+        // event.preventDefault(); //Not needed because I put a modifier (v-on:click.prevent="switchBorder")
+        var r = Math.floor(Math.random() * (255 - 0) + 0);
+        var g = Math.floor(Math.random() * (255 - 0) + 0);
+        var b = Math.floor(Math.random() * (255 - 0) + 0);
+        this.jumboBorder = `border:rgb(${r},${g},${b}) solid 3px`;
+        // this.jumboBorder === "border:red solid 3px" ? this.jumboBorder = "border:black solid 3px" : this.jumboBorder = "border:red solid 3px";
       }
-    });
+    }
+  })
   </script>
 
 
-  <a href="./001.html">Previous - Introduction</a> <a href="./003.html">Next - Template Syntax</a>
+
+  <a href="./001.html">Previous - The Vue instance</a> <a href="./003.html">Next - Computed properties and watchers</a>
 
 </body>
 </html>

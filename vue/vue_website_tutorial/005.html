@@ -6,304 +6,76 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script type="text/javascript" src="./vue.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css">
-  <style media="screen">
+  <link rel="stylesheet" href="styles.css">  <style media="screen">
   body {
     padding: 15px;
   }
-
-
-  .divActiveClass{
-    background-color: white;
-    padding: 5px;
-  }
-
-  .borders {
-    border:#000099 solid 3px;
-    }
-
-  .color {
-    color: blue;
-  }
-
-  .background {
-    background-color: #ccccff;
-  }
   </style>
 
-  <title>004 - Class and Style bindings - Vue website tutorial</title>
+  <title>005 - Conditional Rendering - Vue website tutorial</title>
 </head>
 <body>
 
+  <a href="https://vuejs.org/v2/guide/conditional.html"><h3>Source</h3></a>
 
-  <h1>4 - Class and Style Bindings</h1>
-  <h2><a href="https://vuejs.org/v2/guide/class-and-style.html">Source</a></h2>
-
-
-
-  <div id="vm">
-    <p>
-      Vue provides special enhancements when v-bind is used with
-      <code>class</code> and <code>style</code> attributes.
-      In addition to strings, the expressions can also evaluate to objects or arrays.
-      That is convenient since the usage of strings can result into errors. On the
-      other hand, arrays and objects can help us in maintaining and managing a cleaner
-      set of code.
-    </p>
-
-
-    <h2>Binding html classes (v-bind:class)</h2>
-    <h3>Object syntax</h3>
-    <p>
-      We can pass an object to <code>v-bind:class</code> to dynamically toggle classes.
-    </p>
-    <p>
-      See the how in the following code, the <code>class</code> attribute is binded
-      to an object that can be enabled based on if the <code>isActive</code>
-      property - which resides in the Vue instance -
-      is <code>true</code> or <code>false</code>.
-    </p>
-
-
-    <div class="jumbotron">
-      <h4>Example</h4>
-      <code>&lt;div v-bind:class="{ active: isActive }"&gt;&lt;/div&gt;</code>
-      <div v-bind:class="{divActiveClass: divActive}">
-        <p>
-          Click on the following button to toggle between a white background and
-          no background for the enclosing div tag.
-        </p>
-        <button type="button" name="button" v-on:click="divActive === true ? divActive = false : divActive = true">Change</button>
-      </div>
+  <h1>5 - Conditional Rendering</h1>
+  <div id="conditional">
+    <p>If - else statement as a Vue directive.
+      The conditional can have a <code>v-if</code>, <code>v-else-if</code> and a <code>v-else</code>
+    directives in back to back tags</p>
+    <div v-if="Math.random() > 0.5">
+      Now you see me
     </div>
-
-    <p>
-      Multiple classes can be toggled by having more fields in the object that is
-      used for the activation of classes. Also the <code>v-bind:class</code> directive
-      can co-exist with a simple <code>class</code> attribute.
-    </p>
-    <div class="jumbotron">
-      <h4>Example</h4>
-      <p>If the initial html code looks like this:</p>
-      <code>
-        &lt;div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"&gt;&lt;/div&gt;
-      </code>
-      <p>And the script in the Vue instance looks like this:</p>
-      <code><pre>
-        data: {
-          isActive: true,
-          hasError: false
-        }
-      </pre></code>
-      <p>then the final html code will be like this:</p>
-      <code>&lt;div class="static active"&gt;&lt;/div&gt;</code>
+    <div v-else>
+      Now you don't
     </div>
-
-    <p>
-      When one of the binded properties changes its value from <code>false</code>
-      to <code>true</code> or vice versa, then the code changes. In the above example,
-      if the <code>hasError</code> property changes to <code>true</code>, then the
-      final html code will be: <code>class="static active text-danger"</code>
-    </p>
-    <p>
-      The bound object property does not have to be written inline. Instead, we can bind a
-      property that has another object as its value. This object value can be
-      constituted by several key-value pairs which have the class name as their key
-      and a boolean value as their value.
-    </p>
-    <div class="jumbotron" v-bind:class="massClass">
-      <h4>Example</h4>
-      <p>The html can look like:</p>
-      <code>&lt;div v-bind:class="classObject"&gt;&lt;/div&gt;</code>
-      <p>The script in the Vue instance can look like:</p>
-      <pre>
-        data: {
-          classObject: {
-          active: true,
-          'text-danger': false
-          }
-        }
-      </pre>
-      <p>
-        Click on the following buttons to toggle between different classes that
-        are affecting this <code>div</code> tag. You can check on the console to
-        see how the extra classes are added and removed.
-      </p>
-      <button v-on:click="massClass.background === true ? massClass.background = false : massClass.background = true">
-        Change background color
-      </button>
-      <button v-on:click="massClass.color === true ? massClass.color = false : massClass.color = true">
-        Change font color
-      </button>
-      <button v-on:click="massClass.borders === true ? massClass.borders = false : massClass.borders = true">
-        Change border color
-      </button>
-    </div>
-
-
-    <p>
-      Moreover, the object class can be further enhanced by adding it in a computed
-      property.
-    </p>
-
-    <div class="jumbotron">
-      <pre>
-        data: {
-        isActive: true,
-        error: null
-        },
-        computed: {
-          classObject: function () {
-            return {
-              active: this.isActive && !this.error,
-              'text-danger': this.error && this.error.type === 'fatal'
-            }
-          }
-        }
-      </pre>
-    </div>
-
-
-    <h3>Array syntax</h3>
-    <p>
-      Same like objects, arrays can be used to bind classes in the html.
-    </p>
-    <div class="jumbotron">
-      <p>The html can look like:</p>
-      <code>&lt;div v-bind:class="[activeClass, errorClass]"&gt;&lt;/div&gt;</code>
-      <p>The object in the Vue instance can look like:</p>
-      <pre>
-        data: {
-          activeClass: 'active',
-          errorClass: 'text-danger'
-        }
-      </pre>
-      <p>The above will render:</p>
-      <code>&lt;div class="active text-danger"&gt;&lt;/div&gt;</code>
-    </div>
-
-
-    <h3>With Vue components</h3>
-    <p>
-      When a class is added in a Vue component, the class will be added to the component's
-      root element. No classes will be removed but all of them will be added.
-    </p>
-    <div class="jumbotron">
-      <h4>Example</h4>
-      <p>
-        If a component with classes is declared:
-      </p>
-      <pre>
-        Vue.component('my-component', {
-          template: "&lt;p class="foo bar"&gt;Hi there&lt;/p&gt;"
-        });
-      </pre>
-      <p>and some more classes are being declared in the html:</p>
-      <code>&lt;my-component class="baz boo"&gt;&lt;/my-component&gt;</code>
-      <p>then all the class selectors will be added in the html:</p>
-      <code>&lt;my-component class="baz boo foo bar"&gt;&lt;/my-component&gt;</code>
-    </div>
-
-
-
-    <h2>Binding inline styles (v-bind:style)</h2>
-    <h3>Object syntax</h3>
-    <p>
-      JavaScript objects can also be used for inline CSS styles.
-    </p>
-    <div class="jumbotron">
-      <h4>Example</h4>
-      <p>
-        In the following html, we are using the objects to represent the values applied
-        in the CSS style. The typing convention can include either a camelback or a kebab style but
-        if kebab style is used, then it has to be included in quotation marks.
-      </p>
-      <code>&lt;div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"&gt;&lt;/div&gt;</code>
-      <p>And the code within the Vue instance can look like this:</p>
-      <pre>
-        data: {
-          activeColor: 'red',
-          fontSize: 30
-        }
-      </pre>
-    </div>
-
-    <p>
-      For a structuraly cleaner code, the object's properties can include the
-      desired CSS rules and the object's key can act as the CSS inline description.
-    </p>
-    <div class="jumbotron">
-      <h4>Example</h4>
-      <p>The html code can look like:</p>
-      <code>&lt;div v-bind:style="styleObject"&gt;&lt;/div&gt;</code>
-      <p>And the Vue instance can look like:</p>
-      <pre>
-        data: {
-          styleObject: {
-            color: 'red',
-            fontSize: '13px'
-          }
-        }
-      </pre>
-      <p>For the above example, we can have this result:</p>
-      <div v-bind:style="styleObject">Hello, I am a div tag and I have red fonts that
-        are 13px big. My style comes from a binded object.</div>
-    </div>
-
-
-    <h3>Array Syntax</h3>
-    <p>
-      The array syntax allows us to apply multiple style objects to the same html
-      element.
-    </p>
-    <div class="jumbotron">
-      <h4>Example</h4>
-      <p>
-        In this example, two different objects are used. Each object may have different
-        CSS properties.
-      </p>
-      <code>&lt;div v-bind:style="[baseStyles, overridingStyles]"&gt;&lt;/div&gt;</code>
-    </div>
-
-
   </div>
 
-
-    <a href="./004.html">Previous - Computed properties and watchers</a> <a href="./006.html">Next - Conditional rendering</a>
-
+  <h3>Toggle between different placeholders and labels with the v-if directive. <br>
 
 
+    <h4>Controlling Reusable Elements with <code>key</code></h4>
+    The <code>key</code> attribute in the <code>input</code> tag is the one that defines that the <code>input</code> tags are separate from each other.
+    In some cases we want the same tags to just have different content while in some other cases we want the tags to be completely differet.</h3>
+  <div id="conditional2">
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input type="text" placeholder="Enter your username" key="username-input">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input type="text" placeholder="Enter your email address" key="email-input">
+    </template><br>
+    <button type="button" name="button" id="toggleInputs" v-on:click="toggleInputs()">Switch between username and email</button>
+  </div>
+
+  <h3>v-show</h3>
+  <p>Another option for conditionally displaying an element is the v-show directive. The usage is largely the same. <br>
+    The difference is that an element with v-show will always be rendered and remain in the DOM; v-show simply toggles the display CSS property of the element.<br>
+    Note that v-show doesn’t support the <code>template</code> syntax, nor does it work with v-else.</p>
 
 
 
 
-  <script>
-    var vm = new Vue(
-      {
-        el: "#vm",
-        data: {
-          divActive: true,
-          massClass: {
-            borders: false,
-            color: false,
-            background: false
-          },
-          styleObject: {
-            color: 'red',
-            fontSize: '13px'
-          }
-        },
-        methods: {
-          functionOne: function() {
-            console.log("I am function one");
-          },
-          functionTwo: function() {
-            console.log("I am function two");
-          }
+  <script type="text/javascript">
+    var conditional = new Vue ({
+      el: "#conditional"
+    });
+
+    var conditional2 = new Vue ({
+      el: "#conditional2",
+      data: {
+        loginType: "username"
+      },
+      methods: {
+        toggleInputs() {
+          this.loginType === "username" ? this.loginType = "email" : this.loginType = "username";
         }
       }
-    );
+    })
   </script>
 
+
+  <a href="./004.html">Previous - Class and Style Bindings</a> <a href="./006.html">Next - List rendering</a>
 </body>
 </html>
