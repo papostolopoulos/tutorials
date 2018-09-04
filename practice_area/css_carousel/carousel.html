@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>CSS carousel practice</title>
+    <style media="screen">
+      .slideshow{
+        margin: 0 auto;
+        padding-top: 50px;
+        height: 700px;
+        background: skyblue;
+        box-sizing: border-box;
+      }
+
+      .content{
+        margin: auto;
+        background-color: yellow;
+        perspective: 1000px; /*What is this?*/
+        position: relative;
+        padding-top: 80px;
+      }
+
+      .content-carrousel{
+        width: 100%;
+        position: absolute;
+        float: right;
+        animation: rotate 15s infinite linear; /*what is this?*/
+        transform-style: preserve-3d; /*what is this?*/
+        background-color: pink;
+      }
+
+      .content-carrousel:hover{
+        animation-play-state: paused; /*what is this?*/
+        cursor: pointer;
+      }
+
+      .content-carrousel figure{
+        width: 30vw;
+        height: 30vh;
+        border: 2px solid #4d444d;
+        overflow: hidden; /*what is this?*/
+        position: absolute;
+      }
+
+      .content-carrousel figure:nth-child(1){
+        transform: rotateY(0deg) translateZ(300px);
+      }
+    </style>
+  </head>
+
+
+  <body>
+    <section class="slideshow">
+      <div class="content">
+        <div class="content-carrousel">
+          <figure class="shadow">
+            <img src="./images/001.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/002.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/003.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/004.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/005.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/006.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/007.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/008.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/009.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/010.jpg" alt="">
+          </figure>
+          <figure class="shadow">
+            <img src="./images/011.jpg" alt="">
+          </figure>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
