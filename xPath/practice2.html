@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML_2</title>
+  <style>
+        body {
+            text-align: center;
+        }
+
+        .navitem {
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        td {
+            display: block;
+            margin: 15px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        img {
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .table1 {
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>HTML_2 😄</h1>
+        <nav>
+            <a class="navitem" href="https://docs.google.com/presentation/d/1PrlF0snbSDPyAn32jEYaEJMxCFMNMq-SDodqCLFCN08/edit#slide=id.g2b76acef44_0_71" target="_blank">SDE</a>
+            <a class="navitem" href="https://docs.google.com/presentation/d/1lvcpBJsl-2ibyQsltaJ8GHqQuPfZud9xkEmQJI-_uAs/edit?ts=5aac3247#slide=id.g11a7eeaf8b_2_75" target="_blank">Regex</a>
+            <a class="navitem" href="https://docs.google.com/presentation/d/1Wyp-A6BMwBBvSme1nWpxxxYDaIJ_UGHxaYIINEjlVsk/edit?ts=5ab2b535#slide=id.p" target="_blank">JavaScript</a>
+            <a class="navitem" href="https://docs.google.com/document/d/15Kyb0SbwcleFlG_vLssKt8b1d-n1uvTqcKDvZpxclSM/edit" target="_blank">Scarlett</a>
+        </nav>
+        <h3>Hello Jeanne Doe</h3>
+        <div>Here are today's deals</div>
+        <table class="table1">
+            <tr>
+                <td>
+                    <a href="#">
+                        <img class="coupon" src="#" alt="50% off everything">
+                    </a>
+                    <span>Expires: 2019-04-05</span>
+                </td>
+                <td>
+                    <a class="coupon" href="#"> Save $30 on Swimsuit</a>
+                    <div>Expires: 2019-04-13</div>
+                </td>
+                <td>
+                    <div>
+                        <a href="#">
+                            <strong class="coupon">Save 15% on Kids Shoes</strong>
+                        </a>
+                        <div>Expires: 2019-04-22</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#">
+                        <img src="#" alt="Shop for your baby">
+                    </a>
+                </td>
+                <td>
+                    <a href="#">
+                        <img src="#" alt="Check out those coupons">
+                    </a>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <br>
+        <div>
+            <a href="#">More deals here...</a>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <h2>BOGO FREE</h2>
+                    <a href="#">
+                        <img class="coupon" src="#" alt="BOGO FREE">
+                    </a>
+                    <div>Expires: 2019-04-05</div>
+                </td>
+                <td>
+                    <div>
+                        <a href="#">Shop what everyone's loving ❤❤❤❤
+												<img src="#" alt="Shop what everyone's loving">
+										</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <h2>Kids shoes</h2>
+                        <a href="#">New arrivals</a>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <div>
+                        <h2>Women shoes</h2>
+                        <a href="#">
+                            <strong>Find the best deals!</strong>
+                            <img alt="Find the best deals!" src="#">
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <h2>Women dresses</h2>
+                        <div>
+                            <a href="#">
+                                <span>Find the best deals!</span>
+                                <img alt="Find the best deals!" src="#">
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="coupon" href="#">Free shipping when you spend $50 online</a>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <hr>
+        <div id="footer">
+            <p>Created for training purposes</p>
+            <p>Contact information:
+                <a href="mailto:someone@example.com">
+  someone@example.com</a>.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+<!--
+1. Select the footer
+  //div[@id = "footer"]
+  //descendant::div[@id = "footer"]
+  //hr/following-sibling::div[@id = "footer"]
+  //p[text() = "Created for training purposes"]/..
+  //div[contains(., "training")]/div[3]
+
+2. Select the descriptions
+  //*[@class = "coupon"]
+  //strong[@class = "coupon"] | //img[@class = "coupon"] | //a[@class = "coupon"]
+  //table/descendant::*[contains(@alt, "coupon") or contains(text(), "%") or contains(text(), "$")]
+  //table/descendant::*[contains(@alt, "coupon") or contains(text(), "%") or contains(text(), "$") or contains(@alt, "FREE")]
+
+3. Select the URLs
+    //*[@class = "coupon"]/@href (2)
+    //a[contains(., "%") or contains(., "$")]/@href (3)
+    //a[contains(., "%") or contains(., "$")]/@href | //*[@class = "coupon"]/../@href (5)
+
+4. Select the valid through dates
+    //div[contains(text(), "Expires")]
+    //a/following-sibling::div[contains(text(), "Expires")]
+
+
+
+  -->
