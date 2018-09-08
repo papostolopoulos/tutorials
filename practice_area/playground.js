@@ -110,6 +110,8 @@ function transform(data) {
 }
 
 
+
+
 //20180906 - Work 2
 var str = `*Limited time offer: $20 Off + Free Delivery Offer: Minimum $49 purchase required. Enter Promo Code: TWENTY at online checkout. SERVICE FEE MAY APPLY. Order by 9/30/18. OFFER VALID ONLY FOR 1ST TIME ONLINE GROCERY ORDERS. LIMIT 1 PER HOUSEHOLD. May not be combined with any other free or reduced delivery fee or service fee offer, discount or promotion. Service by albertsons.com available only in select areas and may be provided by another Albertsons Companies banner store, which is subject to that store’s availability, pricing and promotions. Instacart may independently provide shopping services. Enter your zip code online to find if service from albertsons.com and/or Instacart is available in your location. Service by Instacart is subject to the terms and conditions of Instacart, and requires Instacart account. Same day delivery subject to availability. All delivery orders require a minimum purchase, unless otherwise noted. Minimum purchases calculated based on subtotal of all eligible items in cart at checkout. Prices for products you order for delivery through the online grocery ordering service generally are higher than the prices for such products in Albertsons physical stores and may vary depending on fulfillment method chosen. Online promotions, discounts and offers may differ from those in Albertsons physical stores. We reserve the right to modify or cancel this offer and/or to correct typographical, pictorial and other ad or pricing errors. Find additional terms at albertsons.com/ShopStores/Terms-of-Use.page. Instacart terms at delivery.albertsons.com/terms. You've received this email because our records indicate you supplied an email address when you created an account for one of our programs, contacted us via our website or signed-up via our website, mobile app or sweepstakes to receive email. Emails are sent from the albertsons@email.safeway.com domain. Please add albertsons@email.safeway.com to your address book and safe sender list. Unsubscribe from our email list. Change or manage your email preferences. Read our Privacy Policy. Read our Policy for Website Accessibility. Copyright © 2018 by Albertsons Companies, LLC. All rights reserved. Contact us at 250 E. Parkcenter Blvd, Boise, ID, 83706.`;
 
@@ -123,8 +125,51 @@ function transform(data){
 
 //Valid sthrough
 function transform(data){
-  if(data.match(/Order\sby/)){
-     return data.match(/Order\sby\s[\d\/]+/)[0].slice("Order by ".length);
-     }
-  return "";
+  return data.match(/Order\sby/) ?
+  data.match(/Order\sby\s[\d\/]+/)[0].slice("Order by ".length) :
+  "";
+}
+
+
+
+
+//20180907 - Work 9
+var str = "Earn up to 25% off Base Rates Plus 1,000 Points²";
+
+//Description
+function transform(data){
+  return data.match(/\%/) ? data.match(/[a-z\s0-9]+%[a-z\s0-9,]+/i)[0].trim() : "";
+}
+
+
+
+//20180907 - Work 11
+var str1 = "Buy here, use there, save at the pump! Download your coupon to earn 4X fuel points on Gift Cards, August 31-September 3.**",
+str2 = "50¢ OFF Eggo®Waffles",
+str3 = "Get 15% OFF and FREE shipping on your first order with promo codeSHIP15. Choose from a wide selection of snacks, beverages, paper products and more!",
+str4 = "You’ll get $68 OFF your izhm online order with digital exsexf!",
+str5 = "Save $2 on New Cook-in-Bag Meats";
+
+
+function transform(data) {
+  //Creating the RegExp rules and the array of the Regular expressions
+  var regEx1 = new RegExp("download\\syour\\scoupon[a-z\\s0-9]+", "gi"),
+      regEx2 = new RegExp("[\\d]+¢[a-z\\s]+®[a-z]+", "gi"),
+      regEx3 = new RegExp("get\\s[\\d\\$\\%]+\\soff\\s[\\w\\s]+", "gi"),
+      regEx4 = new RegExp("[\\w\\s\\$-]+", "gi"),
+      regExArr = [regEx1, regEx2, regEx3, regEx4],
+      matchedStr = "";
+
+  //Loop through the Regular Expresssions array. If a condition is true, in the if statement, then
+  //the data variable will be manipulated for the final result. Nothing else will need to run.
+  for (var i = 0; i < regExArr.length; i++) {
+
+    if (data.match(regExArr[i])){
+      matchedStr += data.match(regExArr[i])[0].replace(/[\|\*]/g, "").trim().replace(/\s\s/, ". ") + ".";
+
+      return matchedStr.charAt(0).toUpperCase() + matchedStr.slice(1);
+    }
+  }
+
+return "";
 }
