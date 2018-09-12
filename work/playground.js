@@ -150,7 +150,7 @@ str3 = "Get 15% OFF and FREE shipping on your first order with promo codeSHIP15.
 str4 = "You’ll get $68 OFF your izhm online order with digital exsexf!",
 str5 = "Save $2 on New Cook-in-Bag Meats";
 
-
+//Description
 function transform(data) {
   //Creating the RegExp rules and the array of the Regular expressions
   var regEx1 = new RegExp("download\\syour\\scoupon[a-z\\s0-9]+", "gi"),
@@ -165,11 +165,113 @@ function transform(data) {
   for (var i = 0; i < regExArr.length; i++) {
 
     if (data.match(regExArr[i])){
-      matchedStr += data.match(regExArr[i])[0].replace(/[\|\*]/g, "").trim().replace(/\s\s/, ". ") + ".";
+      matchedStr += data.match(regExArr[i])[0].replace(/[\|\*]/g, "").trim() + ".";
 
       return matchedStr.charAt(0).toUpperCase() + matchedStr.slice(1);
     }
   }
 
 return "";
+}
+
+
+
+
+//20180910 - Work 12
+//description
+var str1 = "Get250 Cashback on your Dining Transactions";
+
+function transform(data){
+  if (data) {
+    var splitStr = data.split(" ");
+
+    //Itterating through the array. if element text contains both numbers and letters
+    //but no space, then split and ad " $"
+    for (var i = 0; i < splitStr.length; i++) {
+      if (splitStr[i].match(/[a-z]+[\d]+/i)) {
+        splitStr[i] = splitStr[i].match(/[a-z]+/i) + " $" + splitStr[i].match(/[\d]+/);
+      }
+    }
+    return splitStr.join(" ");
+  }
+  return "";
+}
+
+
+
+//20180910 - 52643954
+var str1 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
+str2 = "VIP MEMBERS GET MORE | Every purchase can get you closer to exclusive offers. Silver members can earn an extra $300* annually. | LEARN MORE | *Based on annual VIP purchases made by VIPs by level",
+str3 = "MAKE HOTEL BOOKING EASY | Get up to $100 CASHBACK in points per night with Shop Your Way® Hotels.";
+
+function transform(data) {
+  return data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi) ? data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi)[0].trim() : "";
+}
+
+
+
+
+//20180911 - 59220812
+var str1 = "Save up to 25% on home updates.*›",
+str2 = "48-hour flash sale: Save 30% on rugs.* Online only. Ends Sunday. ›",
+str3 = "$20 gift card on Owlet Smart Sock 2 monitor* ›",
+str4 = "$30 gift card on Ergobaby 360 carrier* ›",
+str5 = "Up to $30 gift card on select Motorola monitors* ›",
+str6 = "Stock up & save. Spend $50, save $10 on Halloween costumes & decor.* Ends Sunday. Online only. ›",
+str7 = "Save up to 30% during our patio sale & clearance.* ›",
+str8 = "Spend $40, save $5 on next-day delivery with Target Restock.Use your REDcard™ to get free shipping.";
+
+
+//Description
+function transform(data) {
+  var reg1 = new RegExp("\\*", "g");
+  var reg2 = new RegExp("›", "g");
+  var cleanRegexArr = [reg1, reg2];
+
+// Run Regular expressions and replace them with empty string.
+  cleanRegexArr.forEach(function(el) {
+    if (data.match(el)) data = data.replace(el, "").trim();
+  });
+
+// Check if there are no spaces between a full stop and two characters. Put a space after the full stop
+  while (data.match(/\w\.\w/)) {
+    data = data.slice(0, data.indexOf(data.match(/\w\.\w/)[0]) + 2) + " " + data.slice(data.indexOf(data.match(/\w\.\w/)[0]) + 2);
+  }
+
+  return data || "";
+}
+
+
+//Valid through
+function transform(data,node,headers){
+  if(data.match(/Online\sonly\.\sEnds/i)) {
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    for (var i = 0; i < days.length; i++) {
+      if (data.indexOf(days[i]) !== -1) {
+        var endDay = days.indexOf(days[i]); //3
+
+        var headersDateStr = headers.get("Date");
+        var headersDate = new Date(headersDateStr * 1000);
+        var beginningDay = headersDate.getDay(); //2
+        var daysDifference = endDay - beginningDay;
+         var day1 = headersDate.getDate() + daysDifference;
+         var mon1 = headersDate.getMonth();
+         var vt = new Date("1970",mon1,day1);
+        return vt;
+      }
+    }
+  }
+  else return "";
+}
+
+
+
+//20180911 - 77013036
+// Root xPath: /descendant::a[contains(text(),"Free shipping")]
+//Description Concatenation: concat(., " hahaha ", ./following-sibling::a)
+
+
+//Description
+function transform(data) {
+  return data ? data.replace(/→/g, "").trim() + "." : "";
 }
