@@ -19,17 +19,52 @@
   <a href="https://vuejs.org/v2/guide/conditional.html"><h3>Source</h3></a>
 
   <h1>5 - Conditional Rendering</h1>
+
   <div id="conditional">
-    <p>If - else statement as a Vue directive.
-      The conditional can have a <code>v-if</code>, <code>v-else-if</code> and a <code>v-else</code>
-    directives in back to back tags</p>
-    <div v-if="Math.random() > 0.5">
-      Now you see me
-    </div>
-    <div v-else>
-      Now you don't
+    <h2>Definition</h2>
+    <p>
+      An If - else statement can be used as a Vue directive, same as <code>v-bind</code>
+      directive is used for adding attributes in the html code.
+      <code>v-if</code>, <code>v-else-if</code> and a <code>v-else</code> directives can
+      be used to render different parts of html based on if conditions are satisfied
+      or not.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        The following example renders different div tags based on if a condition is
+        met or not. This condition has been set with a random number that either displays
+        the div tag either it displays its alternative. Refresh the page a couple of times to
+        see how there can be a toggle between the one and the other tag.
+      </p>
+      <code>
+        <pre>
+          &lt;div v-if="Math.random() > 0.5"&gt;
+            Now you see me
+          &lt;/div&gt;
+          &lt;div v-else&gt;
+            Now you don't
+          &lt;/div&gt;
+        </pre>
+      </code>
+      <div v-if="Math.random() > 0.5">
+        Now you see me
+      </div>
+      <div v-else>
+        Now you don't
+      </div>
     </div>
   </div>
+
+<script>
+var conditional = new Vue ({
+  el: "#conditional"
+});
+
+</script>
+
+
+
 
   <h3>Toggle between different placeholders and labels with the v-if directive. <br>
 
@@ -58,10 +93,6 @@
 
 
   <script type="text/javascript">
-    var conditional = new Vue ({
-      el: "#conditional"
-    });
-
     var conditional2 = new Vue ({
       el: "#conditional2",
       data: {

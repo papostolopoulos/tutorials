@@ -13,7 +13,7 @@
   }
 
 
-  .divActiveClass{
+  .isActiveClass{
     background-color: white;
     padding: 5px;
   }
@@ -68,12 +68,12 @@
     <div class="jumbotron">
       <h4>Example</h4>
       <code>&lt;div v-bind:class="{ active: isActive }"&gt;&lt;/div&gt;</code>
-      <div v-bind:class="{divActiveClass: divActive}">
+      <div v-bind:class="{isActiveClass: isActive}">
         <p>
           Click on the following button to toggle between a white background and
           no background for the enclosing div tag.
         </p>
-        <button type="button" name="button" v-on:click="divActive === true ? divActive = false : divActive = true">Change</button>
+        <button type="button" name="button" v-on:click="isActive === true ? isActive = false : isActive = true">Change</button>
       </div>
     </div>
 
@@ -282,7 +282,7 @@
       {
         el: "#vm",
         data: {
-          divActive: true,
+          isActive: true,
           massClass: {
             borders: false,
             color: false,

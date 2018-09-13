@@ -275,3 +275,127 @@ function transform(data,node,headers){
 function transform(data) {
   return data ? data.replace(/→/g, "").trim() + "." : "";
 }
+
+// 20180912 - 74605015 - dealnews.com
+// Root xPath: /descendant::a[contains(.,"MORE")] - Simple TD[contains(.,"free")] would select the whole page so I had to go around it
+// Description: ./parent::td/parent::tr/preceding-sibling::tr/td[contains(.,"free") or contains(.,"%")]
+// URL: ./parent::td/parent::tr/preceding-sibling::tr/descendant::td[contains(.,"free")]/parent::tr/following-sibling::tr/td/a/@href
+
+
+/descendant::span[@class = "price"]
+
+
+
+
+// 20180912 -  75957758 ,  beauty.sephora.com
+// Root xPath: /descendant::img[contains(@alt,"%")]
+// Description: ./@alt
+// URL xPath: ./parent::a/@href
+
+
+
+
+// 20180912 - 77151989,  email.landsend.com
+// Root xPath: /descendant::strong[contains(text(),"%")]
+// Description:
+// URL xPath:
+
+
+// Valid through - It did not like the .slice() method so I did a split
+var str = "Receive 50% off one (1) full-price item online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 12, 2018.";
+
+
+function transform(data) {
+  data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
+  var result = data[1] + " " + data[2];
+  return result || "";
+}
+
+
+// 20180912 - 76077240,  gaylordhotels.com
+// Root xPath: /descendant::strong[contains(text(),"%")]
+// Description: concat(./preceding-sibling::span, " ", .)
+// URL xPath:
+
+
+//Description
+function transform(data){
+	var regEx1 = new RegExp("\\*.*");
+	var regEx2 = new RegExp("for\\sa\\slimited\\stime", "gi");
+	var cleanRegexArr = [regEx1, regEx2];
+
+	cleanRegexArr.forEach(function(el) {
+		data = data.replace(el, "");
+	});
+
+  return data + "." || "";
+}
+
+function transform(data){
+  return data.replace(/\*.*/, ".") || "";
+}
+
+
+
+
+
+
+// 20180912 - 77083759,  emailinfo.bestbuy.com
+// Root xPath: /descendant::a[contains(.,"gift card")]  | /descendant::a[contains(.,"%")] | /descendant::a[contains(.,"sale")]
+// Description: .
+// URL xPath:
+
+
+var str1 = "Plus, get up to $200* in Best Buy® gift cards with qualifying purchase.",
+str2 = "Limited time only: 15% back in rewards*on select Samsung 4K UHD smart TVs with your My Best Buy® Credit Card",
+str3 = "Save up to 30%* onselect small appliances",
+str3 = "Create your own packageSave 10%* with two or more Samsung appliances totaling $2,000 or more";
+
+function transform(data){
+	var regEx1 = new RegExp("\\*");
+	var regEx2 = new RegExp("limited\\stime\\sonly:\\s", "gi");
+	var regEx3 = new RegExp("Plus\\s", "g");
+	var cleanRegexArr = [regEx1, regEx2, regEx3];
+
+	cleanRegexArr.forEach(function(el) {
+		data = data.replace(el, "");
+	});
+
+	data = data.replace("rewardson", "rewards on").replace("onselect", "on select");
+
+  return data.slice(0,1).toUpperCase() + data.slice(1) + "." || "";
+}
+
+
+
+
+
+
+
+// 20180912 - 74733317,  e.krogermail.com
+// Root xPath: /descendant::td[contains(text(),"%")] | /descendant::td[contains(text(),"Save")] | /descendant::a[contains(.,"%")]
+// Description: .
+// URL xPath: ./parent::tr/following-sibling::tr/descendant::td/descendant::a/@href | ./@href
+
+// Description
+function transform(data){
+  return data.replace(/[\w\s]+!\s/i, "").replace(/\s–[\s\w,]+/gi, "") || "";
+}
+
+// Valid through
+function transform(data){
+	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	var throughDays = days.map(function (el) {
+		return "through " + el;
+	});
+
+	for (var i = 0; i < throughDays.length; i++) {
+		if (data.match(throughDays[i])) {
+			console.log("inside", throughDays[i]);
+			data = data.slice(data.indexOf(days[i]), data.length - 1) + " " + new Date().getFullYear();
+      return data;
+		}
+	}
+
+	return "";
+}
