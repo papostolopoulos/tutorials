@@ -29,6 +29,11 @@
       be used to render different parts of html based on if conditions are satisfied
       or not.
     </p>
+    <p>
+      In order for the <code>v-else-if</code> and the <code>v-else</code> conditions
+      to work properly, they need to be directly following the tag that has the
+      <code>v-if</code> condition, otherwise it will not work.
+    </p>
     <div class="jumbotron">
       <h4>Example</h4>
       <p>
@@ -66,13 +71,60 @@ var conditional = new Vue ({
 
 
 
-  <h3>Toggle between different placeholders and labels with the v-if directive. <br>
+<h2>Conditional groups with <code>v-if</code> and <code>template</code> </h2>
+<div id="conditional2">
+  <p>
+    In the event that we want to use the same condition for the rendering of more
+    than one elements in the html document, we can wrap the elements inside a
+    <code>template</code> tag that can serve as the tag where the <code>v-if</code>
+    condition will reside. Likewise, we can have a <code>v-else-if</code> and a
+    <code>v-else</code> condition wrapped inside a different <code>template</code>.
+  </p>
+
+  <div class="jumbotron">
+    <h4>Example</h4>
+    <p>Click on the following buttoms to see different elements rendering in the page</p>
+    <template id="conditional2a" v-if="ifTrue">
+      <h5>Hello, I am rendering when if is true. I am within the 1st template</h5>
+      <p>And I am the paragraph that also renders with the <code>v-if</code> </p>
+    </template>
+    <template id="conditional2b" v-else-if="elseIfTrue">
+      <h5 style="color: green;">Hello, I am rendering when the else if is true.
+        I am within the 2nd template</h5>
+      <p>And I am the paragraph that also renders with the <code>v-else-if</code> </p>
+    </template>
+    <template id="conditional2c" v-else>
+      <h5 style="color: blue">I am rendering when  none of the <code>if</code> and
+        <code>elseif</code> conditions is true. I am in the 3rd template</h5>
+      <p>And I am the paragraph that also renders with the <code>v-else</code> </p>
+    </template>
+    <button type="button" v-on:click="ifTrue = true">Activate <code>v-if</code> </button>
+    <button type="button" v-on:click="(elseIfTrue = true, ifTrue = false)">Activate <code>v-else-if</code></button>
+    <button type="button" name="button" v-on:click="(elseIfTrue = false, ifTrue = false)">Activate <code>v-else</code></button>
+  </div>
+</div>
+
+<script>
+  var conditional2 = new Vue({
+    el: "#conditional2",
+    data: {
+      ifTrue: true,
+      elseIfTrue: false
+    }
+  });
+</script>
 
 
-    <h4>Controlling Reusable Elements with <code>key</code></h4>
+
+
+
+<h2>Controlling Reusable Elements with the <code>key</code> attribute</h2>
+<div id="conditional3">
+
+</div>
     The <code>key</code> attribute in the <code>input</code> tag is the one that defines that the <code>input</code> tags are separate from each other.
     In some cases we want the same tags to just have different content while in some other cases we want the tags to be completely differet.</h3>
-  <div id="conditional2">
+  <div id="conditional3">
     <template v-if="loginType === 'username'">
       <label>Username</label>
       <input type="text" placeholder="Enter your username" key="username-input">
@@ -93,8 +145,8 @@ var conditional = new Vue ({
 
 
   <script type="text/javascript">
-    var conditional2 = new Vue ({
-      el: "#conditional2",
+    var conditional3 = new Vue ({
+      el: "#conditional3",
       data: {
         loginType: "username"
       },

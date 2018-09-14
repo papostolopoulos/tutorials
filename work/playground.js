@@ -391,7 +391,6 @@ function transform(data){
 
 	for (var i = 0; i < throughDays.length; i++) {
 		if (data.match(throughDays[i])) {
-			console.log("inside", throughDays[i]);
 			data = data.slice(data.indexOf(days[i]), data.length - 1) + " " + new Date().getFullYear();
       return data;
 		}
@@ -399,3 +398,126 @@ function transform(data){
 
 	return "";
 }
+
+
+
+
+// 20180912 - 69768531,  caferouge.fbmta.com
+// Root xPath: /descendant::a/descendant::img[contains(@alt,"Kids")] |
+// /descendant::a/descendant::img[contains(@alt,"off") and not (contains(@alt, "offers"))] |
+// /descendant::p[contains(text(),"%") or contains(text(),"free")] |
+// /descendant::a/descendant::img[contains(@alt,"Free")]
+// Description: ./@alt | .
+var str1 = "25 off",
+str2 = "Plus enjoy 25% off Food this week!",
+str3 = "Plus enjoy 25% off Starters, Mains and Desserts!",
+str4 = "Free Fizz",
+str5 = "PLUS, exclusive free fizz."
+
+function transform(data) {
+	data = data.replace(/plus,?\s/i, "");
+	return (data[data.length-1] === "." || data[data.length-1] === "!"
+	? data.slice(0,1).toUpperCase() + data.slice(1)
+	: data.slice(0,1) + data.slice(1) + ".") || "";
+}
+
+// URL xPath:
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 2018/09/13 - 76779963,  halloweenexpress.com
+// Root xPath: /descendant::img[contains(@alt,"%")]
+// Description: ./ancestor::table/preceding-sibling::table/descendant::p[contains(.,"%")]
+URL xPath: ./parent::a/@href
+*/
+
+
+//Description
+var str1 = "It's time to get scary! Now through Friday take an additional 20% OFF, Site-Wide, No Minimum when you enter promo code 9M57FY5JG6 at checkout. Plus, you'll receive FREE SHIPPING too when you spend $75 or more.",
+str2 = "EXTENDED! Our BEST DEAL of the season. Now through Wednesday we're offering 25% OFF, Site-Wide, No Minimum when you enter promo code Skeletons25 at checkout. Plus, you'll receive FREE SHIPPING too when you spend $75 or more.";
+
+function transform(data) {
+	var regEx1 = new RegExp("[0-9]+%\\soff[,\\w\\s-]+,\\sno\\sminimum", "gi");
+	var regEx2 = new RegExp("promo\\scode\\s[\\w]+", "gi");
+	var regEx3 = new RegExp("free\\sshipping[\\s\\w\\$]+", "gi");
+	var regExArr = [regEx1, regEx2, regEx3];
+	var finalArr = [];
+
+	regExArr.forEach(function(el) {
+		finalArr.push(data.match(el)[0].charAt(0).toUpperCase() + data.match(el)[0].slice(1));
+	});
+
+
+	return finalArr.join(". ").trim() || "";
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
+
+
+function transform(data) {
+	var regEx1 = new RegExp("[0-9]+%\\soff[,\\w\\s-]+,\\sno\\sminimum", "gi");
+	var regEx2 = new RegExp("promo\\scode\\s[\\w]+", "gi");
+	var regEx3 = new RegExp("free\\sshipping[\\s\\w\\$]+", "gi");
+	var regExArr = [regEx1, regEx2, regEx3];
+	var finalText = "";
+
+	regExArr.forEach(function(el) {
+      finalText += data.match(el)[0].charAt(0).toUpperCase() + data.match(el)[0].slice(1) + ". ";
+	});
+
+	return finalText.trim() || "";
+}
+
+function transform(data) {
+	var regEx1 = new RegExp("[0-9]+%\\soff[,\\w\\s-]+,\\sno\\sminimum", "gi");
+	var regEx2 = new RegExp("promo\\scode\\s[\\w]+", "gi");
+	var regEx3 = new RegExp("free\\sshipping[\\s\\w\\$]+", "gi");
+	var regExArr = [regEx1, regEx2, regEx3];
+	var finalText = ""
+
+	for (var i = 0; i < regExArr.length; i++) {
+		finalText += data.match(regExArr[i])[0].charAt(0).toUpperCase() + data.match(el)[0].slice(1) + ". ";
+	}
+
+	return finalText.trim() || "";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package:
+// Root xPath:
+// Description:
+URL xPath:
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+	return data || "";
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
