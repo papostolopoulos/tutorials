@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="./vue.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+
+  <title>006 - List Rendering - Vue website tutorial</title>
+</head>
+<body>
+
+  <a href="https://vuejs.org/v2/guide/list.html"><h3>Source</h3></a>
+
+  <h1>6 - List Rendering</h1>
+  <div id="listRendering1">
+    <h2>Mapping an array of elements with <code>v-for</code> </h2>
+    <p>
+      The <code>v-for</code> directive can be used to access lists of data that
+      are included in an array. The syntax that is used it in the form of
+      <code>item in items</code>, where <code>items</code> is the data source property
+      that is evaluated and <code>item</code> represents each one of the elements
+      in that data source to be iterated.
+    </p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        In the following example, there are two elements that are extracted from the
+        data source property.
+      </p>
+      <code>
+        <pre>
+    data: {
+      items: [
+        {message: "Foo"},
+        {message: "Bar"}
+      ]
+    }
+        </pre>
+      </code>
+      <p>
+        In order to render the <code>items</code> array, the v-for directive is
+        used to iterate through.
+      </p>
+      <code>
+        <pre>
+    &lt;ul&gt;
+      &lt;li v-for="item in items"&gt;{ {item.message} }&lt;/li&gt;
+    &lt;/ul&gt;
+        </pre>
+      </code>
+
+      <ul>
+        <li v-for="item in items">{{item.message}}</li>
+      </ul>
+    </div>
+  </div>
+
+    <script type="text/javascript">
+    var listRendering1 = new Vue ({
+      el: "#listRendering1",
+      data: {
+        items: [
+          {message: "Foo"},
+          {message: "Bar"}
+        ]
+      }
+    });
+    </script>
+
+
+
+
+    <div id="listRendering2">
+      <p>
+        An advanctage that <code>v-for</code> has is that it allows us to also access
+        other properties that are inside the <code>data</code> property.
+      </p>
+      <p>
+        <code>v-for</code> also contains an additional argument that helps us access
+        the index of the element in the array.
+      </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, the second attribute is used in order to access
+          the indeses of the array that is used in the <code>v-for</code> loop.
+        </p>
+
+        <code>
+          <pre>
+  data: {
+    parentMessage: "Parent",
+    items: [
+      {message: "Foo"},
+      {message: "Bar"}
+    ]
+  }
+          </pre>
+        </code>
+
+        <p>
+          The <code>v-for</code> code in the <code>li</code> tag is structured
+          like this: <code>v-for="(item, index) in items"</code>
+        </p>
+
+        <ul>
+          <li v-for="(item, index) in items">
+            parentMessage: {{parentMessage}}, index: {{index}}, item.message: {{item.message}}
+          </li>
+        </ul>
+      </div>
+
+      <p>
+        Also the <code>of</code> delimiter can be used. That helps so that the
+        <code>v-for</code> look is closer to the JavaScript syntax.
+       </p>
+       <code>v-for="item of items"</code>
+
+    </div>
+
+
+    <h2><code>v-for</code> with an Object</h2>
+
+
+
+  <script type="text/javascript">
+  var listRendering2 = new Vue ({
+    el: "#listRendering2",
+    data: {
+      parentMessage: "Parent",
+      items: [
+        {message: "Foo"},
+        {message: "Bar"}
+      ]
+    }
+  });
+
+  </script>
+
+
+<a href="./005.html">Previous - Conditional Rendering</a> <a href="./007.html">Next - Event handling</a>
+
+</body>
+</html>
