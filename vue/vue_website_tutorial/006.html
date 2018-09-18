@@ -59,80 +59,76 @@
     </div>
   </div>
 
-    <script type="text/javascript">
-    var listRendering1 = new Vue ({
-      el: "#listRendering1",
-      data: {
-        items: [
-          {message: "Foo"},
-          {message: "Bar"}
-        ]
-      }
-    });
-    </script>
+  <script type="text/javascript">
+  var listRendering1 = new Vue ({
+    el: "#listRendering1",
+    data: {
+      items: [
+        {message: "Foo"},
+        {message: "Bar"}
+      ]
+    }
+  });
+  </script>
 
 
 
 
-    <div id="listRendering2">
+  <div id="listRendering2">
+    <p>
+      An advantage that <code>v-for</code> has is that it allows us to also access
+      other properties that are inside the <code>data</code> property.
+    </p>
+    <p>
+      <code>v-for</code> also contains an additional argument that helps us access
+      the index of the element in the array.
+    </p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
       <p>
-        An advanctage that <code>v-for</code> has is that it allows us to also access
-        other properties that are inside the <code>data</code> property.
+        In the following example, the second attribute is used in order to access
+        the indeses of the array that is used in the <code>v-for</code> loop.
       </p>
+
+      <code>
+        <pre>
+data: {
+  parentMessage: "Parent",
+  items: [
+    {message: "Foo"},
+    {message: "Bar"}
+  ]
+}
+        </pre>
+      </code>
+
       <p>
-        <code>v-for</code> also contains an additional argument that helps us access
-        the index of the element in the array.
+        The <code>v-for</code> code in the <code>li</code> tag is structured
+        like this: <code>v-for="(item, index) in items"</code>
       </p>
 
-      <div class="jumbotron">
-        <h4>Example</h4>
-        <p>
-          In the following example, the second attribute is used in order to access
-          the indeses of the array that is used in the <code>v-for</code> loop.
-        </p>
-
-        <code>
-          <pre>
-  data: {
-    parentMessage: "Parent",
-    items: [
-      {message: "Foo"},
-      {message: "Bar"}
-    ]
-  }
-          </pre>
-        </code>
-
-        <p>
-          The <code>v-for</code> code in the <code>li</code> tag is structured
-          like this: <code>v-for="(item, index) in items"</code>
-        </p>
-
-        <ul>
-          <li v-for="(item, index) in items">
-            parentMessage: {{parentMessage}}, index: {{index}}, item.message: {{item.message}}
-          </li>
-        </ul>
-      </div>
-
-      <p>
-        Also the <code>of</code> delimiter can be used. That helps so that the
-        <code>v-for</code> look is closer to the JavaScript syntax.
-       </p>
-       <code>v-for="item of items"</code>
-
+      <ul>
+        <li v-for="(item, index) in items">
+          parentMessage: {{parentMessage}}, index: {{index}}, item.message: {{item.message}}
+        </li>
+      </ul>
     </div>
 
+    <p>
+      Also the <code>of</code> delimiter can be used. That helps so that the
+      <code>v-for</code> look is closer to the JavaScript syntax.
+     </p>
+     <code>v-for="item of items"</code>
 
-    <h2><code>v-for</code> with an Object</h2>
-
+  </div>
 
 
   <script type="text/javascript">
   var listRendering2 = new Vue ({
     el: "#listRendering2",
     data: {
-      parentMessage: "Parent",
+      parentMessage: "This is the parentMessage",
       items: [
         {message: "Foo"},
         {message: "Bar"}
@@ -141,6 +137,150 @@
   });
 
   </script>
+
+
+
+
+
+
+
+
+
+  <h2><code>v-for</code> with an Object</h2>
+  <div id="listRendering3">
+    <p>
+      the <code>v-for</code> directive can also be used to iterate through
+      objects. Contrary to the <code>for (var key in obj)</code> loop in vanilla
+      JavaScript where in order to access the value of the property we have to type
+      <code>obj[key]</code>, the defined variable in <code>v-for</code> returns
+      the value and not just the key of each property in the object.
+    </p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        In the following example, we are accessing the <code>userObj</code> properties
+        values by defining a <code>user</code> variable in the <code>v-for</code>
+        string.
+      </p>
+  <code>
+    <pre>
+  &lt;ul&gt;
+    &lt;li v-for="property in userObj"&gt;{ {property} }&lt;/li&gt;
+  &lt;/ul&gt;
+    </pre>
+  </code>
+
+  <code>
+    <pre>
+      new Vue ({
+        el: "#listRendering3",
+        data: {
+          userObj: {
+            name: "Paraskevas",
+            surname: "Apostolopoulos",
+            address: "111 Main St."
+          }
+        }
+      });
+    </pre>
+  </code>
+
+      <ul>
+        <li v-for="property in userObj">{{property}}</li>
+      </ul>
+
+      <p>
+        If we would need to access the <code>key</code> of each obj, then we could
+        add a second argument for accessing the key, and another one for the indexes.
+      </p>
+      <code>
+        <pre>
+      &lt;ul&gt;
+        &lt;li v-for="property, key, index in userObj"&gt;{ {index + 1} }. { {key} }: { {property} }&lt;/li&gt;
+      &lt;/ul&gt;
+        </pre>
+      </code>
+
+      <ul>
+        <li v-for="property, key, index in userObj">{{index + 1}}. {{key}}: {{property}}</li>
+      </ul>
+    </div>
+
+    <p>
+      Remember: When iterating through an object, the order of the keys in not guaranteed
+      to be consistent through different JavaScript engines.
+    </p>
+  </div>
+
+  <script type="text/javascript">
+  var listRendering3 = new Vue ({
+    el: "#listRendering3",
+    data: {
+      userObj: {
+        name: "Paraskevas",
+        surname: "Apostolopoulos",
+        address: "111 Main St."
+      }
+    }
+  });
+  </script>
+
+
+
+
+  <h3><code>key</code></h3>
+  <p>
+    When the elements at <code>v-for</code> get updated, Vue uses a way of patching
+    the new elements to the DOM instead of updating the whole DOM's order and the
+    appropriate index position.
+  </p>
+  <p>
+    In order for Vue to be able to track each node's identity, we can use the <code>key</code>
+    attribute. An ideal value for <code>key</code> can be the the <code>id</code>
+    of each element.
+  </p>
+  <p>
+    It is recommended that a <code>key</code> attribute is binded every time a
+    <code>v-for</code> directive is being used.
+  </p>
+
+
+  <h2>Array change detection</h2>
+  <div id="listRendering4">
+    <h3>Mutation methods</h3>
+
+    <div class="jumbotron">
+      <ul>
+        <li style="list-style: none" v-for="(student, index) in students" :key="student.id">{{index + 1}}: {{student.name}}</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+  var listRendering4 = new Vue({
+    el: "#listRendering4",
+    data: {
+      students: [
+        {name: "Steve"},
+        {name: "Angela"},
+        {name: "Simon"},
+        {name: "George"},
+        {name: "Lisa"}
+      ]
+    }
+  });
+
+  </script>
+
+
+
+
+
+
+
+
 
 
 <a href="./005.html">Previous - Conditional Rendering</a> <a href="./007.html">Next - Event handling</a>

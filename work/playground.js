@@ -199,11 +199,34 @@ function transform(data){
 
 
 
-//20180910 - 52643954
+//20180910 - 52643954, rewards.shopyourwayrewards.com
 var str1 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
 str2 = "VIP MEMBERS GET MORE | Every purchase can get you closer to exclusive offers. Silver members can earn an extra $300* annually. | LEARN MORE | *Based on annual VIP purchases made by VIPs by level",
-str3 = "MAKE HOTEL BOOKING EASY | Get up to $100 CASHBACK in points per night with Shop Your Way® Hotels.";
+str3 = "MAKE HOTEL BOOKING EASY | Get up to $100 CASHBACK in points per night with Shop Your Way® Hotels.",
+str4 = "EARN CASHBACK in points in unexpected places with access to over 500 Rewards Partners • REDEEM points on millions of products you need and love • Get FREECASH in points to spend (just because!) • Enjoy member-only COUPONS personalized to your shopping tastes",
+str5 = "EARN EXTRA POINTS on gas, grocery and dining with the Sears Mastercard® with Shop Your Way • SAVE TIME AND MONEY with Shop Your Way MAX® free shipping and free Personal Shoppers • PLAY Win What You Want and enter new Sweepstakes daily • CONNECT & SHARE with other members for advice",
+str6 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
+str7 = "CONGRATS, YOU'RE A VIP SILVER | Get exclusive benefits like earning 5% CASHBACK in points for your birthday. | LEARN MORE";
 
+
+// Description - Version of 9/17
+function transform(data) {
+	var regEx1 = new RegExp("[\\w\\s\\*]+%[\\w\\s®-]+\\.", "i");
+	var regEx2 = new RegExp("[a-z\\s]+\\$[\\d]+\\*?[\\w\\s-®]+\\.", "i");
+	var regEx3 = new RegExp("[\\w\\s]+cashback[\\w\\s]+", "i");
+	var regEx4 = new RegExp("[\\w\\s®\\*\\$]+free[\\w\\s®-]+", "i");
+	var regExArr = [regEx1, regEx2, regEx3, regEx4];
+
+	for (var i = 0; i < regExArr.length; i++) {
+		var el = regExArr[i];
+		if (data.match(el)) return data.match(el)[0].replace("*", "").trim();
+	}
+
+	return "";
+}
+
+
+//Version of 9/10
 function transform(data) {
   return data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi) ? data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi)[0].trim() : "";
 }
@@ -253,11 +276,11 @@ function transform(data,node,headers){
         var headersDateStr = headers.get("Date");
         var headersDate = new Date(headersDateStr * 1000);
         var beginningDay = headersDate.getDay(); //2
-        var daysDifference = endDay - beginningDay;
+        var daysDifference = endDay > beginningDay ? endDay - beginningDay : (endDat + 7) - beginningDay;
          var day1 = headersDate.getDate() + daysDifference;
          var mon1 = headersDate.getMonth();
-         var vt = new Date("1970",mon1,day1);
-        return vt;
+         var result = new Date("1970",mon1,day1);
+        return result;
       }
     }
   }
@@ -287,11 +310,26 @@ function transform(data) {
 
 
 
-// 20180912 -  75957758 ,  beauty.sephora.com
+// 20180912 -  75957758,  beauty.sephora.com
 // Root xPath: /descendant::img[contains(@alt,"%")]
-// Description: ./@alt
+// Description: concat(./@alt, ". ", ./ancestor::table/following-sibling::table/descendant::span[contains(text(),"rewards")])
 // URL xPath: ./parent::a/@href
+//Valid through: ./@alt[contains(.,"%")]/ancestor::table/descendant::div[contains(.,"valid")]
 
+//Description
+function transform(data){
+  return data
+  	.replace(" —our best new rewards hit the Bazaar every", ". Every")
+    .replace(/\*/g, "") || "";
+}
+
+
+//Valid through
+var str = `* Offer valid for Rouge members on merchandise purchases made from 12:01am PT on 8/24/18 through 11:59pm PT on 9/3/18 and for both VIB and Insider members from 12:01am PT on 8/30/18 through 11:59pm PT on 9/3/18 in Sephora US stores, Sephora Canada stores, Sephora inside JCPenney stores, and online. Offer not valid on jcp.com. Online offer valid for one-time use only; in-store offer may be redeemed multiple times. Not valid on purchases of customizable sets online or through Sephora’s customer service. Clients are limited to the purchase of three Drunk Elephant items per SKU per transaction and three Tatcha items per SKU per transaction. Not valid on Dyson, previous purchases, purchases of gift cards, FLASH, PLAY! by Sephora, gift wrapping, packaging, taxes, or shipping & handling charges. Return of discounted merchandise will be for the price actually paid. Sephora is not responsible for damaged, lost, or stolen promotion codes or barcodes. Promotion offer has no cash value and may not be altered, sold, or transferred. Relevant Beauty Insider status must be attained prior to redemption. No minimum purchase required. Due to heavy demand, Sephora FLASH delivery times cannot be guaranteed for this promotion. Not valid on orders shipping outside the US or Canada. Cannot be used in conjunction with other promotion codes. Sephora and JCPenney employees are not eligible for this offer. Offer is subject to change, alteration, or termination by Sephora at its sole discretion at any time.** 100 or 250 point rewards are available in Sephora stores and online with a purchase. 100 and 250 point rewards will vary at Sephora and Sephora inside JCPenney stores. Rewards Bazaar offers are for a limited time, while supplies last, and provided on a first-come, first-served basis. Quantities of each reward are limited and the quantities listed above reflect only the starting inventory amount, not a live balance. Must be a registered Beauty Insider to redeem. Beauty Insider members may only redeem one of each reward per transaction and must have the sufficient number of BI points available at time of redemption. Points will be deducted at time of redemption. Rewards are non-transferable, have no cash value (unless required by law) and cannot be exchanged, sold or returned. Sephora is not responsible for lost, stolen or damaged rewards. Sephora and Sephora brands are not responsible for any taxes incurred by clients or guests. Some rewards may only be available to residents of a particular country (e.g., U.S. only or Canada only). Not available in retail stores. Rewards are subject to change, alteration, substitution, or termination by Sephora in its sole discretion at any time. See specific Rewards Bazaar offers for any additional terms and conditions.*** Available online and in stores while supplies last. Quantities of each reward are limited; sample substitutions may occur. Limit of one per client. Offers are valid with 500 Beauty Insider points in stores and online with a purchase. Non-transferable. Must be a registered Beauty Insider to redeem offer. Reward is not available in Sephora inside JCPenney stores. Offer not valid on jcp.com. No returns or exchanges.`;
+
+function transform(data){
+	return data.match(/\sthrough\s11:59pm\sPT\son\s[\d\/]+/)[0].replace("through 11:59pm PT on ","") || "";
+}
 
 
 
@@ -381,6 +419,7 @@ function transform(data){
 function transform(data){
   return data.replace(/[\w\s]+!\s/i, "").replace(/\s–[\s\w,]+/gi, "") || "";
 }
+
 
 // Valid through
 function transform(data){
@@ -486,6 +525,65 @@ function transform(data) {
 
 	return finalText.trim() || "";
 }
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180917 - 75422609,  pizzaranch.fbmta.com
+// Root xPath: /descendant::font[contains(.,"Off")
+or contains(.,"$")
+and not (contains(.,"restrictions"))]
+// Description: concat(./preceding-sibling::font, ", ", . ,".") --Concatenation for getting all strings wanted
+// URL xPath:
+*/
+
+
+//Description
+var str1 = "Single Topping Large Pizza, Only $8.99ORDERNOW.",
+str2 = "10 Pc Chicken & 8 Potato Wedges, Only $15.99ORDERNOW.",
+str3 = "Regular Priced Adult Buffet, $1.00 Off.";
+
+function transform(data){
+  return data ? data.replace("ORDER NOW", "") : "";
+}
+
+//Valid through
+var str1 = "Valid only at the Sibley Pizza Ranch location. Limit of 4. Some restrictions may apply. Additional $2.00 charge for stuffed crust. Extra cheese is an additional charge. Prices subject to change without notice. Not valid with any other offer or with Gluten Free Crust. Delivery where available and charges may apply. Code: 52592 Expires: 9/30/18",
+str2 = "Valid only at the Sibley Pizza Ranch location. Limit of 4. Some restrictions may apply. Additional $2.00 charge for stuffed crust. Extra cheese is an additional charge. Prices subject to change without notice. Not valid with any other offer or with Gluten Free Crust. Delivery where available and charges may apply. Code: 52592 Expires: 9/30/18",
+str3 = "Limit of 2. Some restrictions may apply. Not valid in combination with any other discounts or offerings including Senior and Military discount. Void if posted on a third party website. Price is subject to change without notice. Only valid at the Sibley Pizza Ranch location. Code: 9269 Expires: 9/30/18";
+
+function transform(data) {
+	return data.match(/Expires:\s[\d\/]+/)[0].replace("Expires: ", "") || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180917 - 77508581,  em.home.dell.com
+// Root xPath:
+// Description:
+URL xPath:
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+	return data || "";
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
