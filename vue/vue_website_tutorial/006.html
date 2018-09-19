@@ -249,13 +249,98 @@ data: {
   <h2>Array change detection</h2>
   <div id="listRendering4">
     <h3>Mutation methods</h3>
+    <p>
+      Vue wraps the array mutation methods so that there can be a live update
+      when these methods are used. The methods that can be used are:
+    </p>
+    <code>
+      <ul>
+        <li>push()</li>
+        <li>pop()</li>
+        <li>shift()</li>
+        <li>unshift()</li>
+        <li>unshift()</li>
+        <li>splice()</li>
+        <li>sort()</li>
+        <li>reverse()</li>
+      </ul>
+    </code>
+    <p>
+      The advantage of Vue is that when a method is run, the DOM does not update the
+      full array. What happens instead is that the elements of the array that are still
+      used remain and new elements are added - or patched - instead.
+    </p>
+
 
     <div class="jumbotron">
+      <h4>Example</h4>
+      <h5><code>.push()</code></h5>
+      <p>
+        Enter a new name in the <code>input</code> tag and hit enter. You will see
+        that the <code>v-for</code> list gets updated from <code>.push()</code>.
+        <code>
+          v-on:keydown.enter="$event.target.value === '' ? null : students.push({name: $event.target.value});"
+        </code>
+      </p>
+      <input type="text"
+      v-on:keydown.enter="$event.target.value === '' ? null : students.push({name: $event.target.value});"
+      v-on:keyup.enter="$event.target.value = ''">
       <ul>
         <li style="list-style: none" v-for="(student, index) in students" :key="student.id">{{index + 1}}: {{student.name}}</li>
       </ul>
+      <h5><code>.reverse(), .sort()</code></h5>
+      <p>
+        For <code>.reverse()</code>, the code used was:
+        <code>v-on:click="students.reverse()"</code>
+      </p>
+      <button type="button" v-on:click="students.reverse()">Reverse the list</button>
+      <p>
+        For <code>.sort()</code>, the code used was:
+        <code>
+          v-on:click="students.sort(function(a,b){return a.name.charCodeAt(0) - b.name.charCodeAt(0);})
+        </code>
+      </p>
+      <button type="button"
+      v-on:click="students.sort(function(a,b){return a.name.charCodeAt(0) - b.name.charCodeAt(0);})">
+        Sort the list
+      </button>
     </div>
-
+    <h3>Non mutating methods / Replacing an array</h3>
+    <p>
+      The methods <code>.filter() .concat() .slice()</code> are non mutating methods.
+      These methods always return a new array instead. When working with non
+      mutating methods, we can replace the old array with a new one.
+    </p>
+    <p>
+      For example, regular JavaScript, the <code>.filter()</code> method creates a new Array
+      based on which elements pass the condition that is included in the callback
+      function. Yet, Vue maintains the existing DOM array elements but it rather
+      creates overlapping objects that constitute the new array.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <ul>
+        <li v-for="student in students">{{student.name}}</li>
+      </ul>
+      <input type="text" v-on:keyup.enter="filterIt($event)">
+      <p>
+        You can filter the list of names by entering some letters in the <code>input</code>
+        tag and hitting enter. The <code>filter()</code> method will filter out
+        the array that is being iterated in the list above.
+      </p>
+      <code>
+        <pre>
+          methods: {
+            filterIt: function(event) {
+              this.students = this.students.filter(function(el) {
+                return el.name.includes(event.target.value);
+              });
+              event.target.value = "";
+            }
+          }
+        </pre>
+      </code>
+    </div>
   </div>
 
   <script>
@@ -269,6 +354,14 @@ data: {
         {name: "George"},
         {name: "Lisa"}
       ]
+    },
+    methods: {
+      filterIt: function(event) {
+        this.students = this.students.filter(function(el) {
+          return el.name.includes(event.target.value);
+        });
+        event.target.value = "";
+      }
     }
   });
 

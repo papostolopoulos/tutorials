@@ -560,10 +560,121 @@ function transform(data) {
 
 
 /*------------------------------------------------------------------------------
-Date - package: 20180917 - 77508581,  em.home.dell.com
+Date - package: 20180918 - 77470900,  macaronigrill.fbmta.com
 // Root xPath:
 // Description:
 URL xPath:
+*/
+
+
+//Description
+var str1 = `Dine-in Terms: Receive $10 off your purchase of $30 or more. Valid 9/14/18-9/16/18. To redeem, please print this page or display on your mobile phone and receive $10 off your food and non-alcoholic beverage purchase of $30 or more. Valid on dine-in or carry-out. Coupon required. One coupon valid per party, per table. Not valid on Happy Hour or Catering section menu items. Not valid with any other offers or discounts. Coupon has no cash value, may be used one time only and applied to one check only. Alcoholic beverages not included. Valid at participating locations. Not valid in Hawaii, Puerto Rico, airport or international locations. Taxes and gratuity not included.`,
+str2 = `Order Online Terms: Receive $10 off your online purchase of $30 or more. Valid 9/14/18-9/16/18. To redeem, use code TENOFF at checkout when ordering online at www.macaronigrill.com to receive $10 off your online, to-go order purchase of $30 or more. Not valid on Happy Hour or Catering section menu items. Coupon code required. One coupon code valid per online order. Not valid with any other offers or discounts. Coupon has no cash value. Only valid at participating locations. Not valid in Hawaii, Puerto Rico, airport or international locations. Taxes and gratuity not included. Coupon code TENOFF.`;
+
+function transform(data) {
+	return data.match(/Terms:\s[\w\s\$]+/i)[0].replace("Terms:", "").trim() + "." || "";
+}
+
+//Valid through
+function transform(data) {
+	if(!data) return "";
+	data = data.match(/Valid\s[\d\/]+-[\d\/]+/)[0];
+	return data.slice(data.indexOf("-") + 1);
+}
+//------------------------------------------------------------------------------
+
+
+
+ /*------------------------------------------------------------------------------
+ Date - package: 20180918 - 77458114,  houlihans.fbmta.com
+ // Root xPath: /descendant::b[contains(.,"$")]
+ // Description: .
+ URL xPath: /descendant::a[contains(.,"Click here")]/@href
+ Valid through xPath: /descendant::font[contains(text(),"Offer expires")]
+ */
+
+
+ //Description
+ var str1 =
+
+ function transform(data) {
+ 	return data || "";
+ }
+
+ //Valid through
+ var str = "Offer expires 9/18/2018. Valid for Dine in and To Go"
+ function transform(data) {
+ 	return data.match(/Offer\sexpires\s[\d\/]+/i)[0].replace("Offer expires ", "") || "";
+ }
+ //------------------------------------------------------------------------------
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180918 - 9804122,  bdsmongolianbarbeque.fbmta.com
+// Root xPath: /descendant::img[contains(@alt,"%")]
+// Description xPath: ./@alt
+URL xPath: ./parent::a/@href
+Valid through xPath: /descendant::font[contains(text(),"Offer expires")]
+*/
+
+
+//Description
+var str1 = "bd's would like to honor our police and firefighters all September long with 20% off your bill (excludes alcohol). Thank you for all you do!";
+
+function transform(data) {
+	if(!data) return "";
+	data = data.replace("bd's would like to honor", "We honor");
+	return data.match(/[\w\s]+%[\w\s]+/)[0].trim() + ".";
+}
+
+//Valid through
+var str = "Offer expires 9/30/2018. Tax and gratuity not included. No cash value. Cannot be combined with any other offer. Any alterations to this certificate will make it non-redeemable. Only valid at this location. Does not include alcohol. Valid ID required.";
+function transform(data) {
+ return data.match(/Offer\sexpires\s[\d\/]+/i)[0].replace("Offer expires ", "") || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180918 - 74391137,  millersalehouse.fbmta.com
+// Root xPath: /descendant::img[contains(@alt,"%")]
+|
+/descendant::span[contains(text(),"$")]
+// Description xPath: ./@alt | .
+URL xPath: ./parent::a/@href
+|
+/descendant::a[contains(.,"View Specials")]/@href
+Valid through xPath:
+*/
+
+
+//Description
+var str1 = `House Rules: Teachers get an A+ for good taste...AND 10% OFF This Thursday 6-8PM for Teacher Appreciation Day (Sponsored by Revolution Brewery) | Teachers, bring this coupon to Miller's Ale House locations in North Riverside or Lombard on Thursday, August 23 (6-8PM) for 10% OFF Your Food Purchase * *Good for ten (10) percent off food purchase for all teachers presenting teacher ID or proof of school employment. Coupon is non-transferable. Must present this coupon to receive offer. One coupon per table, per visit. One time use only. Dine-in only. Not valid in conjunction with any other coupon, promotion or discount. Good only on 8/23/18 (6-8PM) and at the Lombard and North Riverside locations. | CODE: 875893729583659832358 | Miller's Ale House`,
+str2 = "Laura, how can you top off your Tuesday? Head to our House for a perfectly-grilled $8.99 sirloin + $1.00 for your choice of one of our three NEW toppings. Feeling tangy? Go for the Western. Feeling saucy? Go for the Southern. Feeling savory? Go for the N'Orleans.";
+
+function transform(data) {
+	if(!data) return "";
+	if (data.indexOf(":") !== -1) return data.match(/:[\w\s\.+]+%\sOFF[\w\s-]+/i)[0].replace(":", "").trim() + ".";
+	if (data.indexOf("?") !== -1) return data.match(/\?[\w\s\$\.+-]+\./)[0].replace("?","").trim();
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180918 - 66750925,  kerswinghouse.fbmta.com
+// Root xPath: /descendant::span[contains(text(),"$")]
+// Description xPath: .
+URL xPath:
+Valid through xPath:
 */
 
 
@@ -583,7 +694,171 @@ function transform(data) {
 
 
 
+ /*------------------------------------------------------------------------------
+ Date - package: 20180918 - 77505840,  email.landsend.com
+ // Root xPath: /descendant::a[contains(.,"%")]
+ // Description xPath: .
+ URL xPath: ./@href
+ Valid through xPath: /descendant::span[contains(text(),"valid through") or contains(text(),"Valid through")]
+ */
 
+
+ //Description
+ var str1 =
+
+ function transform(data) {
+ 	return data || "";
+ }
+
+ //Valid through
+ var str= "Receive 30% off full-price styles online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 17, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+
+ function transform(data) {
+   data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
+   var result = data[1] + " " + data[2];
+   return result || "";
+ }
+ //------------------------------------------------------------------------------
+
+
+
+
+ /*------------------------------------------------------------------------------
+ Date - package: 20180918 - 77253188, email-totalwine.com
+ // Root xPath: /descendant::p[contains(.,"%")]
+ // Description xPath: .
+ URL xPath: /descendant::a[contains(.,"Web")]/@href (not mine, already there)
+ Valid through xPath:
+ */
+
+
+ //Description
+ var str1 =
+
+ function transform(data){
+   return data.match(/.*:/)[0].replace(":",".") || "";
+ }
+
+ //Valid through
+ function transform(data) {
+ 	return data || "";
+ }
+ //------------------------------------------------------------------------------
+
+
+
+
+ /*------------------------------------------------------------------------------
+ Date - package: 20180918 - 77464192, email-totalwine.com
+ // Root xPath: /descendant::strong[contains(.,"%")]
+ // Description xPath: .
+ URL xPath: /descendant::img[contains(@alt,"Shop Limited Time Specials!") or contains(@alt,"Download your savings now!")]/parent::a/@href
+ Valid through xPath: /descendant::td[contains(text(),"valid through")]
+ */
+
+
+ //Description
+ var str1 =
+
+ function transform(data){
+	 return data + "." || "";
+ }
+
+ //Valid through
+ function transform(data) {
+   return data.match(/valid\sthrough\s[\d\/]+/i)[0].replace("valid through", "").trim() || "";
+ }
+ //------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180918 - 77253186, email-totalwine.com
+// Root xPath: /descendant::strong[contains(.,"%")]
+// Description xPath: .
+URL xPath: /descendant::a[contains(text(),"Shop Now")]/@href
+Valid through xPath: /descendant::td[contains(text(),"valid through")] -  Not used on this one
+*/
+
+
+//Description
+var str1 =
+
+function transform(data){
+	//Creating an array with all the distinction marks that might be at the end of the text
+  var marksArr = [":", "?", ".", ";"];
+
+	//Ternary operator to clean up the text from the last character and add a full stop
+  return marksArr.indexOf[data[data.length-1]] !== -1 ?
+  				data.slice(0, data.length-1) + "." :
+  		 		data + "." || "";
+}
+
+
+//Valid through
+//See other totalwine codes if there will be a valid through
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180918 - 77253183, email-totalwine.com
+// Root xPath: /descendant::strong[contains(.,"%")]
+// Description xPath: .
+URL xPath: /descendant::a[contains(text(),"Shop Now")]/@href
+Valid through xPath: /descendant::td[contains(text(),"valid through")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data){
+	//Creating an array with all the distinction marks that might be at the end of the text
+  var marksArr = [":", "?", ".", ";"];
+
+	//Ternary operator to clean up the text from the last character and add a full stop
+  return marksArr.indexOf[data[data.length-1]] !== -1 ?
+  				data.slice(0, data.length-1) + "." :
+  		 		data + "." || "";
+}
+
+//Valid through
+function transform(data) {
+	return data.match(/valid\sthrough\s[\d\/]+/i)[0].replace("valid through", "").trim() || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180918 - 77460244, 77460251, 77460253, 77505835 email.landsend.com
+// Root xPath: /descendant::a[contains(.,"%")] OR /descendant::a[contains(.,"%")] | /descendant::strong[contains(text(),"%")]
+// Description xPath: .
+URL xPath: ./@href OR ./@href | /descendant::a[contains(.,"%")]/@href
+Valid through xPath: /descendant::span[contains(text(),"valid through") or contains(text(),"Valid through")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+ return data || "";
+}
+
+//Valid through
+var str= "Receive 30% off full-price styles online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 17, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+
+function transform(data) {
+	data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
+	var result = data[1] + " " + data[2];
+	return result || "";
+}
+//------------------------------------------------------------------------------
 
 
 
@@ -602,8 +877,9 @@ function transform(data) {
 /*------------------------------------------------------------------------------
 Date - package:
 // Root xPath:
-// Description:
+// Description xPath:
 URL xPath:
+Valid through xPath:
 */
 
 
