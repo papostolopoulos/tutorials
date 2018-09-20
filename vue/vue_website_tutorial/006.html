@@ -341,34 +341,191 @@ data: {
         </pre>
       </code>
     </div>
-  </div>
+    <h5>Note from me</h5>
+    <p>
+      Since the methods <code>concat() slice() and filter()</code> are returning
+      a new array, there is no way to revert back to the original array.
+    </p>
 
-  <script>
-  var listRendering4 = new Vue({
-    el: "#listRendering4",
-    data: {
-      students: [
-        {name: "Steve"},
-        {name: "Angela"},
-        {name: "Simon"},
-        {name: "George"},
-        {name: "Lisa"}
-      ]
-    },
-    methods: {
-      filterIt: function(event) {
-        this.students = this.students.filter(function(el) {
-          return el.name.includes(event.target.value);
-        });
-        event.target.value = "";
+
+
+    <h3>Caveats</h3>
+    <p>
+      Due to limitations in JavaScript, Vue cannot detect certain changes in an
+      array. In particular:
+    </p>
+    <ol>
+      <li>When we try to change the value of each element directly: <br>
+        <code>
+          <pre>
+            var vm = new Vue({
+              data: {
+                items: ['a', 'b', 'c']
+              }
+            });
+
+            vm.items[1] = 'x';
+            <span style="color: gray;">// is NOT reactive. The value in index 1 will not change.</span>
+            vm.items.length = 2
+            <span style="color: gray;">// is NOT reactive. The length of the array will not change.</span>
+          </pre>
+        </code>
+      </li>
+    </ol>
+
+    <p>
+      A way to overcome the challenge of changing the values of individual elements
+      in the array is by:
+    </p>
+    <ul>
+      <li>
+        Using the <code>.splice()</code> method. <br>
+        <code>vm.items.splice(indexOfItem, 1, newValue)</code>
+      </li>
+      <li>
+        Using the <code>Vue.set()</code> method in the Vue constructor <br>
+        <code>Vue.set(vm.items, indexOfItem, newValue)</code>
+      </li>
+    </ul>
+
+    <div class="jumbotron">
+      <h4>Example - <code>splice(indexOfItem, 1, newValue)</code> </h4>
+      <p>
+        Select from the drop down menu which position you would like the new entry
+        to be placed at. Then enter a name in the <code>input</code> tag and press
+        enter. The <code>.splice()</code> method will update the array.
+      </p>
+
+      <ul>
+        <li v-for="student in students">{{student.name}}</li>
+      </ul>
+      <div class="divSpliceArray">
+        <h6>Before which position do you want to enter a new name?</h6>
+        <select class="" name="">
+          <option v-for="student in students" v-bind:value="student.name">Before {{student.name}}</option>
+        </select>
+        <h6>How many names should be removed?</h6>
+        <select class="" name="">
+          <option v-for="(student, idx) in students" v-bind:value="idx">{{idx}} names</option>
+        </select>
+        <h6>What is the new name?</h6>
+        <input type="text" name="" value="" v-on:keydown.enter="spliceMe($event)">
+      </div>
+      <code>
+        <pre>
+  spliceMe: function(event) {
+    if (event.target.value === "") return;
+
+    var dropDownValue = event.path[1].children[1].value;
+    var removalOfElements = event.path[1].children[3].value
+    var newValue = event.target.value;
+
+    for (var i = 0; i < this.students.length; i++) {
+      if (this.students[i].name === dropDownValue){
+        this.students.splice(i, removalOfElements, {name: newValue});
+        event.target.value = ""
+        break;
       }
     }
-  });
+  }
+        </pre>
+      </code>
 
-  </script>
+      <h4>Example - <code>Vue.set(vm.items, indexOfItem, newValue)</code> </h4>
+      <p>
+        Same like above, use the drop down menus and the <code>input</code> tag.
+      </p>
+
+      <ul>
+        <li v-for="student in students">{{student.name}}</li>
+      </ul>
+      <div class="divSpliceArray">
+        <h6>Before which position do you want to enter a new name?</h6>
+        <select class="" name="">
+          <option v-for="student in students" v-bind:value="student.name">{{student.name}}</option>
+        </select>
+        <h6>What is the new name?</h6>
+        <input type="text" name="" value="" v-on:keydown.enter="vueSet($event)">
+      </div>
+      <code>
+        <pre>
+  spliceMe: function(event) {
+    if (event.target.value === "") return;
+
+    var dropDownValue = event.path[1].children[1].value;
+    var removalOfElements = event.path[1].children[3].value
+    var newValue = event.target.value;
+
+    for (var i = 0; i < this.students.length; i++) {
+      if (this.students[i].name === dropDownValue){
+        this.students.splice(i, removalOfElements, {name: newValue});
+        event.target.value = ""
+        break;
+      }
+    }
+  }
+        </pre>
+      </code>
+
+    </div>
+  </div>
 
 
 
+
+
+
+    <script>
+    var listRendering4 = new Vue({
+      el: "#listRendering4",
+      data: {
+        students: [
+          {name: "Steve"},
+          {name: "Angela"},
+          {name: "Simon"},
+          {name: "George"},
+          {name: "Lisa"}
+        ]
+      },
+      methods: {
+        filterIt: function(event) {
+          this.students = this.students.filter(function(el) {
+            return el.name.includes(event.target.value);
+          });
+          event.target.value = "";
+        },
+        spliceMe: function(event) {
+          if (event.target.value === "") return;
+          //Variables that get the values the user selects in the drop down menus.
+          var dropDownValue = event.path[1].children[1].value;
+          var removalOfElements = event.path[1].children[3].value
+          //Input tag value
+          var newValue = event.target.value;
+          /*
+          make a for loop that iterates through students
+          if the element[idx].name === dropDownValue
+          Then do the splice
+          */
+
+          for (var i = 0; i < this.students.length; i++) {
+            if (this.students[i].name === dropDownValue){
+              this.students.splice(i, removalOfElements, {name: newValue});
+              event.target.value = ""
+              break;
+            }
+          }
+        }, //End of spliceMe
+        vueSet: function(event) {
+          var dropDownValue = event.path[1].children[1].value;
+          console.log(event);
+          console.log(event.path[1].children[1].children);
+          console.log(this.$parent);
+          // Vue.set(this.students, event.path[1].children[1].value ,event.target.value)
+        }
+      } //End of methods
+    });
+
+    </script>
 
 
 
