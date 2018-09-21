@@ -286,7 +286,7 @@ data: {
       v-on:keydown.enter="$event.target.value === '' ? null : students.push({name: $event.target.value});"
       v-on:keyup.enter="$event.target.value = ''">
       <ul>
-        <li style="list-style: none" v-for="(student, index) in students" :key="student.id">{{index + 1}}: {{student.name}}</li>
+        <li style="list-style: none" v-for="(student, index) in students" :key="index">{{index + 1}}: {{student.name}}</li>
       </ul>
       <h5><code>.reverse(), .sort()</code></h5>
       <p>
@@ -387,6 +387,11 @@ data: {
         <code>Vue.set(vm.items, indexOfItem, newValue)</code>
       </li>
     </ul>
+    <p>
+      A way to overcome the challenge of not being able to modify the length of the array,
+      we can use <code>splice()</code>. <br>
+      <code>vm.items.splice(newLength)</code>
+    </p>
 
     <div class="jumbotron">
       <h4>Example - <code>splice(indexOfItem, 1, newValue)</code> </h4>
@@ -430,7 +435,9 @@ data: {
   }
         </pre>
       </code>
+    </div>
 
+    <div class="jumbotron">
       <h4>Example - <code>Vue.set(vm.items, indexOfItem, newValue)</code> </h4>
       <p>
         Same like above, use the drop down menus and the <code>input</code> tag.
@@ -439,27 +446,26 @@ data: {
       <ul>
         <li v-for="student in students">{{student.name}}</li>
       </ul>
-      <div class="divSpliceArray">
-        <h6>Before which position do you want to enter a new name?</h6>
+      <div class="divVueSetArray">
+        <h6>Which name do you want to replace?</h6>
         <select class="" name="">
-          <option v-for="student in students" v-bind:value="student.name">{{student.name}}</option>
+          <option v-for="(student, idx) in students" :value="student.name">
+            {{student.name}}
+          </option>
         </select>
         <h6>What is the new name?</h6>
         <input type="text" name="" value="" v-on:keydown.enter="vueSet($event)">
       </div>
       <code>
         <pre>
-  spliceMe: function(event) {
+  vueSet: function(event) {
     if (event.target.value === "") return;
-
     var dropDownValue = event.path[1].children[1].value;
-    var removalOfElements = event.path[1].children[3].value
-    var newValue = event.target.value;
 
     for (var i = 0; i < this.students.length; i++) {
       if (this.students[i].name === dropDownValue){
-        this.students.splice(i, removalOfElements, {name: newValue});
-        event.target.value = ""
+        Vue.set(this.students, i, {name: event.target.value});
+        event.target.value = "";
         break;
       }
     }
@@ -469,10 +475,6 @@ data: {
 
     </div>
   </div>
-
-
-
-
 
 
     <script>
@@ -516,16 +518,74 @@ data: {
           }
         }, //End of spliceMe
         vueSet: function(event) {
+          if (event.target.value === "") return;
           var dropDownValue = event.path[1].children[1].value;
-          console.log(event);
-          console.log(event.path[1].children[1].children);
-          console.log(this.$parent);
-          // Vue.set(this.students, event.path[1].children[1].value ,event.target.value)
-        }
+
+          for (var i = 0; i < this.students.length; i++) {
+            if (this.students[i].name === dropDownValue){
+              Vue.set(this.students, i, {name: event.target.value});
+              event.target.value = "";
+              break;
+            }
+          }
+        } //end of vueSet
       } //End of methods
     });
 
     </script>
+
+
+
+
+
+
+    <h2>Object change detection caveats</h2>
+    <div id="listRendering5">
+      <p>
+        Due to limitations in JavaScript, Vue cannot add any new REACTIVE
+        properties in the data objects if they have not been previously declared
+        in the Vue constructor.
+        Hence: <br>
+        <code>
+          <pre>
+  var vm = new Vue({
+    data: {
+      a: 1
+    }
+  })
+  <span style="color: gray;">// `vm.a` is now reactive</span>
+
+  vm.b = 2
+  <span style="color: gray;">// `vm.b` is NOT reactive</span>
+          </pre>
+        </code>
+      </p>
+
+      <div class="jumbotron">
+        <ul>
+          <li v-for="(user, key) in userProfile">{{key}}: {{user}}</li>
+        </ul>
+      </div>
+
+    </div>
+
+
+
+    <script>
+      var listRendering5 = new Vue({
+        el: "#listRendering5",
+        data: {
+          userProfile: {
+            name: "Paraskevas"
+          }
+        }
+      });
+    </script>
+
+
+
+
+
 
 
 

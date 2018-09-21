@@ -863,6 +863,169 @@ function transform(data) {
 
 
 
+/*------------------------------------------------------------------------------
+Date - package: 2018/09/20 - 71012595 pfchangs.fbmta.com
+// Root xPath: /descendant::strong[contains(text(),"FREE") or contains(text(), "free")]
+|
+/descendant::img[contains(@alt,"free")]
+// Description xPath: ./@alt | .
+URL xPath: /descendant::a[contains(text(),"MAKE A RESERVATION")]/@href
+Valid through xPath: /descendant::span[contains(text(),"Valid")]
+*/
+
+
+//Description
+var str1 = "FREE SUSHI DAY RETURNS 9/20",
+str2 = "Photo: image of sushi. FREE SUSHI DAY IS BACK - Last year we hand-rolled and hand-sliced over 90,000 sushi rolls on Free Sushi Day. This year we’re hoping to hit 100,000, and we need your help to break that record! Dine-in on Thursday, 9/20 and use the barcode below to treat yourself (and everyone dining with you!) to one free Spicy Tuna or California Roll per person on us, no purchase necessary.* Which roll will you choose?",
+str3 = "JUST FOR YOU: FREE ENTRÉE WITH ENTRÉE PURCHASE"
+
+function transform(data){
+  if(data.match(/FREE\s[A-ZÉ\s]+/)) return data.match(/FREE\s[A-ZÉ\s]+/)[0].trim();
+  return "";
+}
+
+//Valid through
+function transform(data) {
+	return data.match(/([\d]{1,2}\/){2}[\d]{2,4}/) || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 2018/09/20 77720406,  texasdebrazil.fbmta.com
+// Root xPath: /descendant::strong[contains(text(),"FREE") or contains(text(), "free")]
+|
+/descendant::img[contains(@alt,"free")]
+// Description xPath: ./@alt | .
+URL xPath: /descendant::a[contains(text(),"MAKE A RESERVATION")]/@href
+Valid through xPath: /descendant::span[contains(text(),"Valid")]
+*/
+
+
+//Description
+var str1 = "FREE SUSHI DAY RETURNS 9/20",
+str2 = "Photo: image of sushi. FREE SUSHI DAY IS BACK - Last year we hand-rolled and hand-sliced over 90,000 sushi rolls on Free Sushi Day. This year we’re hoping to hit 100,000, and we need your help to break that record! Dine-in on Thursday, 9/20 and use the barcode below to treat yourself (and everyone dining with you!) to one free Spicy Tuna or California Roll per person on us, no purchase necessary.* Which roll will you choose?",
+str3 = "JUST FOR YOU: FREE ENTRÉE WITH ENTRÉE PURCHASE"
+
+function transform(data){
+  if(data.match(/FREE\s[A-ZÉ\s]+/)) return data.match(/FREE\s[A-ZÉ\s]+/)[0].trim();
+  return "";
+}
+
+//Valid through
+function transform(data) {
+	return data.match(/([\d]{1,2}\/){2}[\d]{2,4}/) || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 2018/09/20 - 66191939,  roysrestaurant.fbmta.com
+// Root xPath: /descendant::strong[contains(text(),"$")]
+// Description xPath: concat(./preceding::text(), ". ", .)
+URL xPath: /descendant::img[contains(@alt,"RESERVE") or contains(@alt,"Reserve")]/parent::a/@href
+Valid through xPath: /descendant::text()[contains(.,"valid through")]
+*/
+
+//Description
+function transform(data){
+}
+
+//Valid through
+var str = "*Offer available now through October 31, 2018 in the main dining room and bar at participating locations only. Price varies in San Francisco. Cannot be combined with any other offers or promotions. Roy's abides by all local and state liquor laws.";
+
+function transform(data) {
+	if(!data) return "";
+	var months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+	//Iterate through the months. If the month is included in "data" then:
+	//1. slice the string where the month is at
+	//2. return the match() of the string as month + days + year
+	for (var i = 0; i < months.length; i++) {
+		var el = months[i];
+		if (data.toLowerCase().indexOf(el) !== -1) {
+			data = data.slice(data.toLowerCase().indexOf(el));
+			return data.match(/[a-z\s]+[\d]{1,2},?\s[\d]{4}/i)[0];
+		}
+	}
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 2018/09/20 - 77691003,  bertuccis.fbmta.com
+// Root xPath: /descendant::img[contains(@alt,"FREE") or contains(@alt,"Free")]
+// Description xPath: ./@alt
+URL xPath: ./parent::a/@href
+Valid through xPath:
+*/
+
+
+//Description
+var str1 = "Enjoy Two for Tuesday all day! Buy any Large Pizza and take home a FREE Large Cheese Pizza. Valid for Lunch and Dinner, Dine-In or 2Go.",
+str2 = "Kids Day Wednesday - Receive one FREE Kids' Meal with an adult entrée purchase of $10.99 or more. Valid for Lunch and Dinner, Dine-In only.";
+
+function transform(data) {
+	return data.match(/.*\.\s/)[0].trim() || "";
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180920 - 77322387,  ledo.fbmta.com
+// Root xPath: /descendant::font[contains(text(),"$") or contains(text(),"deals") or contains(text(),"Offerings") or contains(text(),"FREE")][1]
+|
+/descendant::span[contains(text(),"FREE") or contains(text(),"free") or contains(text(),"Sign")]
+// Description xPath: .
+URL xPath: /descendant::a[contains(.,"here")]/@href
+Valid through xPath: /descendant::span[contains(text(),"Expires")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+	return data || "";
+}
+
+//Valid through
+function transform(data) {
+	if(!data) return "";
+	var months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+	//Iterate through the months. If the month is included in "data" then:
+	//1. slice the string where the month is at
+	//2. return the match() of the string as month + days + year
+	for (var i = 0; i < months.length; i++) {
+		if (data.toLowerCase().indexOf(months[i]) !== -1) return data.slice(data.toLowerCase().indexOf(el)).match(/[a-z\s]+[\d]{1,2},?\s[\d]{4}/i)[0];
+	}
+}
+//------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 
 
