@@ -627,7 +627,7 @@ addNewProperty: function(event) {
         <div class="inputSlot" v-for="(propName, idx) in propNames">
           <label for="" v-if="propName.active">
             {{propName.keyVal.toUpperCase()}}:
-            <input type="text" v-bind:name = "idx"
+            <input type="text" v-bind:name = "idx" v-bind:id = "propName.keyVal"
             v-bind:placeholder="propName.keyVal"
             v-on:keydown.enter="addSeveralProperties($event)">
           </label>
@@ -687,7 +687,7 @@ addNewProperty: function(event) {
             //this.profileValues
             console.log(inputSlot.value);
             console.log(inputSlot.name);
-            console.log(inputSlot.placeholder);
+            console.log(inputSlot.id);
             alert("so far so good...")
 
           }
