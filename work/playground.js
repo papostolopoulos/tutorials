@@ -695,7 +695,7 @@ function transform(data) {
 
 
  /*------------------------------------------------------------------------------
- Date - package: 20180918 - 77505840,  email.landsend.com
+ Date - package: 20180918 - 77505840, 77929487  email.landsend.com
  // Root xPath: /descendant::a[contains(.,"%")]
  // Description xPath: .
  URL xPath: ./@href
@@ -704,7 +704,7 @@ function transform(data) {
 
 
  //Description
- var str1 =
+ var str1 = "Take 40% off full-price styles + free shipping over $50.";
 
  function transform(data) {
  	return data || "";
@@ -712,6 +712,7 @@ function transform(data) {
 
  //Valid through
  var str= "Receive 30% off full-price styles online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 17, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+
 
  function transform(data) {
    data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
@@ -1018,6 +1019,99 @@ function transform(data) {
 
 
 
+
+/*------------------------------------------------------------------------------
+Date - package: 20180921 - 77657793,  email.boots.com
+// Root xPath: /descendant::img[contains(@alt,"points")]
+|
+/descendant::td[contains(text(),"Collect over")]
+// Description xPath: ./@alt AND SECOND XPATH
+concat(., " ",
+./following::td[contains(text(),"£")],
+./following::td[contains(text(),"£")]/following-sibling::td,
+" worth of points.",
+/following::td[contains(text(),"£")]/following-sibling::td/following::td[@class = "noheight"],
+" ",
+./following::td/following::td/following::td[contains(.,"£")]
+)
+URL xPath:
+Valid through xPath:
+*/
+
+
+//Description
+var str1 = "21 points per £1",
+str2 = "Collect over £13 worth of points. Paco Rabanne Pure XS Eau de Parfum 50ml** £62.50",
+str3 = "Collect over £15 worth of points. Estee Lauder Advanced Night Repair Synchronized Recovery Complex II 50ml*** £75",
+str4 = "Collect over £11 worth of points. Braun Series 3040 Wet & Dry Shaver £54.99",
+str5 = "Collect over £31 worth of points. Oral B Genius Rose Gold £150";
+
+ function transform(data) {
+ 	return data.replace(/\*/g, "") || "";
+ }
+
+ //Valid through
+ function transform(data) {
+	 //Regular expression strings and array with all string scenarios
+	 var regEx1 = new RegExp("valid\\sthrough:?\\s"); //valid through(:)
+	 var regEx2 = new RegExp("expires:?\\s"); //expires(:)
+	 var regEx3 = new RegExp("until:?\\s"); //until(:)
+
+	 var dateRegEx = new RegExp("([\\d\\/]{2,3}){2}([\\d]{2,4})?") // (N)N/(N)N/(NNNN)
+	 var flags = "i"; //Can be i, gi, g
+	 var expirTextArr = [new RegExp (regEx1.source + dateRegEx.source, flags) , new RegExp (regEx2.source + dateRegEx.source, flags), new RegExp (regEx3.source + dateRegEx.source, flags)];
+	 var dateStr = ""; //String where the extracted (N)N/(N)N/(NNNN) is added
+
+	 //loop through all the RegExp to see if there is a match
+	 for (var i = 0; i < expirTextArr.length; i++) {
+	 	var el = expirTextArr[i];
+		console.log(el);
+		//If there is a match, then add the (N)N/(N)N/(NNNN) in dateStr and split it.
+		if (data.match(el)) {
+			dateStr = data.match(el)[0].split(" ")[1].split("/");
+			break;
+		}
+	 }
+	 console.log("dateStr:", dateStr);
+
+	 //If $ is in the "data string," then make mm/yy/yyyy. If € or £ then twist and return
+	 if (data.match(/\$/)) return new Date(dateStr[0] + "/" + dateStr[1] + "/" + (dateStr[2] || "1970"));
+	 if (data.match(/[£€]/)) return new Date(dateStr[1] + "/" + dateStr[0] + "/" + (dateStr[2] || "1970"));
+	 return "";
+ }
+ //------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180921 - 77879570, services.costco.com
+// Root xPath: /descendant::a[contains(text(),"%")]
+// Description xPath: .
+URL xPath:
+Valid through xPath:
+*/
+
+
+//Description
+var str1 = "Costco members receive low, prearranged pricing from Approved Dealerships on a wide variety of powersports vehicles including ATVs, side-by-sides, dirt bikes, motorcycles and more. You can also take advantage of 15% off powersports parts, service, accessories and apparel.2",
+str2 = "15% Off Parts & Service3";
+
+function transform(data) {
+	if (!data) return "";
+
+	if (data.match(/\*\^/g)) data = data.replace(/\*\^/g, "");
+
+	if (data[data.length-1].match(/\d/) && data[data.length-2].match(/[a-z\.]/i))
+	return data.slice(0, data.length-1).match(/[\d]{1,2}%[a-z\s,\.&]+/i)[0].trim();
+
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
 
 
 

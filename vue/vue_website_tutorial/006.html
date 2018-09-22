@@ -543,7 +543,7 @@ data: {
     <div id="listRendering5">
       <p>
         Due to limitations in JavaScript, Vue cannot add any new REACTIVE
-        properties in the data objects if they have not been previously declared
+        properties in the <code>data</code> object if they have not been previously declared
         in the Vue constructor.
         Hence: <br>
         <code>
@@ -561,12 +561,79 @@ data: {
         </code>
       </p>
 
+      <p>
+        Vue does not allow the dynamic addition of new properties at the root level
+        of a Vue istance. Hence, if we would want to add a new property right
+        after the <code>data</code> level, we would not be able to do so.
+      </p>
+      <p>
+        On the other hand, we can add a property inside a nested object with the
+        <code>Vue.set()</code> method. This property can be reactive.
+      </p>
+
       <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, we are adding a new property in the existing
+          object that is nested after <code>data</code>.
+        </p>
         <ul>
           <li v-for="(user, key) in userProfile">{{key}}: {{user}}</li>
         </ul>
+        <div id="addNewProperty">
+          Key: <input type="text" name="key" value="" placeholder="Enter key">
+          Value: <input type="text" name="value" value="" placeholder="Enter value">
+          <button type="button" name="button" v-on:click="addNewProperty($event)">Add new property</button>
+        </div>
+        <p>
+          The code for the above input fields and button is:
+        </p>
+        <code>
+          <pre>
+&lt;div id="addNewProperty"&gt;
+  Key: &lt;input type="text" name="key" value="" placeholder="Enter key"&gt;
+  Value: &lt;input type="text" name="value" value="" placeholder="Enter value"&gt;
+  &lt;button type="button" name="button" v-on:click="addNewProperty($event)"&gt;Add new property&lt;/button&gt;
+&lt;/div&gt;
+          </pre>
+        </code>
+        <p>The code for the method used is:</p>
+        <code>
+          <pre>
+addNewProperty: function(event) {
+  var inputKey = event.path[1].children[0];
+  var inputValue = event.path[1].children[1];
+  if (inputKey.value.length === 0) return inputKey.placeholder = "KEY NEEDED";
+  if (inputValue.value.length === 0) return inputValue.placeholder = "VALUE NEEDED";
+
+  Vue.set(this.userProfile, inputKey.value.toLowerCase(), inputValue.value);
+  inputKey.value = "";
+  inputValue.value = "";
+  inputKey.placeholder = "Enter key";
+  inputValue.placeholder = "Enter value";
+}
+          </pre>
+        </code>
       </div>
 
+      <p>
+        If we need to assign more than one properties in the object, we can use the
+        <code>Object.assign()</code> or <code>_extend()</code> method. In those
+        cases, we need to create a fresh object with properties from both objects.
+      </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <div class="inputSlot" v-for="(propName, idx) in propNames">
+          <label for="" v-if="propName.active">
+            {{propName.keyVal.toUpperCase()}}:
+            <input type="text" v-bind:name = "idx"
+            v-bind:placeholder="propName.keyVal"
+            v-on:keydown.enter="addSeveralProperties($event)">
+          </label>
+
+        </div>
+      </div>
     </div>
 
 
@@ -577,8 +644,54 @@ data: {
         data: {
           userProfile: {
             name: "Paraskevas"
+          },
+          propNames: [
+            {keyVal: "surname", active: true},
+            {keyVal: "streetName", active: false},
+            {keyVal: "city", active: false},
+            {keyVal: "zip", active: false},
+            {keyVal: "state", active: false},
+            {keyVal: "telephone", active: false}
+          ],
+          profileValues: {
+            surname: "",
+            streetName: "",
+            city: "",
+            zip: "",
+            state: "",
+            telephone: ""
           }
-        }
+        },
+        methods: {
+          addNewProperty: function(event) {
+            var inputKey = event.path[1].children[0];
+            var inputValue = event.path[1].children[1];
+            if (inputKey.value.length === 0) return inputKey.placeholder = "KEY NEEDED";
+            if (inputValue.value.length === 0) return inputValue.placeholder = "VALUE NEEDED";
+
+            Vue.set(this.userProfile, inputKey.value.toLowerCase(), inputValue.value);
+            inputKey.value = "";
+            inputValue.value = "";
+            inputKey.placeholder = "Enter key";
+            inputValue.placeholder = "Enter value";
+          },
+          addSeveralProperties: function(event) {
+            var inputSlot = event.target;
+            if (inputSlot.value.trim().length === 0){
+              inputSlot.value = "";
+              return inputSlot.placeholder = "ENTER A VALUE!";
+            }
+            //need the values of propname.keyVal and the index so that I can
+            // modify the profileValues[key] AND
+            // modify the propNames[idx].activ
+            //this.profileValues
+            console.log(inputSlot.value);
+            console.log(inputSlot.name);
+            console.log(inputSlot.placeholder);
+            alert("so far so good...")
+
+          }
+        } //end of methods
       });
     </script>
 
