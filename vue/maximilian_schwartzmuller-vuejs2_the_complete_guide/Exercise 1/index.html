@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue - Udemy. Exercise 1</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  </head>
+  <body>
+
+<!-- APP 1 -->
+    <div id="exercise">
+      <h3>App 1</h3>
+       <!-- 1) Fill the <p> below with your Name and Age - using Interpolation -->
+        <p>VueJS is pretty cool - YOUR_NAME (AGE) {{name}} {{age}}</p>
+        <!-- 2) Output your age, multiplied by 3 -->
+        <p>My age multiplied by three is {{ageTimesThree()}}. This is run with a function</p>
+        <p>Once more by writting the JS inside the curly braces: {{Number(age)*3}}</p>
+        <!-- 3) Call a function to output a random float between 0 and 1 (Math.random()) -->
+        <p>Random float between 0 and 1: {{randomFloat()}}</p>
+        <!-- 4) Search any image on Google and output it here by binding the "src" attribute -->
+        <div>
+          <p>Search image on Google and output with bind:</p>
+            <img v-bind:src="imageSource" style="width:70px; height:100px">
+        </div>
+        <!-- 5) Pre-Populate this input with your name (set the "value" attribute) -->
+        <div>
+            <input type="text" v-bind:value="name">
+        </div>
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: "#exercise",
+        data: {
+          name: "Paris Apostolopoulos",
+          age: "44",
+          imageSource: "https://c.76.my/Malaysia/lego-ninjago-lloyd-minifigure-katana-legoland-1601-30-Legoland@1.jpg"
+        },
+        methods: {
+          ageTimesThree: function() {
+            return this.age * 3;
+          },
+          randomFloat: function() {
+            return Math.random();
+          }
+        }
+      });
+    </script>
+
+
+
+
+<!-- APP 2 -->
+    <div id="app2">
+      <h3>App 2</h3>
+      <p>I am going to make a list and see how it renders with binds and components</p>
+      <ul>
+        <groceries v-for="fruit in fruits" v-bind:tobuy="fruit" v-bind:key="fruit.id"></groceries>
+      </ul>
+
+      <ul>
+        <li v-for="fruit in fruits">{{fruit.text}}</li>
+      </ul>
+
+
+    </div>
+
+    <script>
+      Vue.component('groceries',
+      {
+        props: ["tobuy"],
+        template: "<li>{{tobuy.text}}</li>"
+      });
+
+
+      var app2 = new Vue({
+        el: "#app2",
+        data: {
+          fruits: [
+            {id: 1, text: "banana"},
+            {id: 2, text: "watermelon"},
+            {id: 3, text: "orange"}
+          ]
+        }
+      });
+
+
+    </script>
+
+
+
+    <div id="app-3">
+      <p>Same stuff like app 2</p>
+      <h3>App 3</h3>
+      <ul>
+        <todo-item v-for="groceries in groceryList" v-bind:todo="groceries" v-bind:key="groceries.id">
+        </todo-item>
+      </ul>
+
+      <ul>
+        <li v-for="meats in meatList">{{meats.text}}</li>
+      </ul>
+
+
+    </div>
+
+    <script>
+
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+    });
+
+
+    var app3 = new Vue({
+      el: "#app-3",
+      data: {
+        groceryList: [
+          {id: 0, text: "Vegetables"},
+          {id: 1, text: "Cheese"},
+          {id: 2, text: "Whatever else humans are supposed to eat"}
+        ],
+        meatList: [
+          {id: 0, text: "Pork"},
+          {id: 1, text: "Beef"},
+          {id: 2, text: "Chicken"}
+        ]
+      }
+    });
+
+
+    </script>
+
+
+
+<!-- APP 4 -->
+    <div id="app4">
+      <h3>App 4</h3>
+      <p>Text from the "text" field of the "data" property: {{text}}</p>
+      <p>
+        Retrieved by <code>event.target.value</code>
+      </p>
+      <input type="text" name="" value="" v-on:input="changeText" placeholder="Enter a new value">
+    </div>
+
+    <script>
+      var app4 = new Vue({
+        el: "#app4",
+        data: {
+          text: "Ha!"
+        },
+        methods: {
+          changeText: function (event) {
+            console.log(event.target.value);
+            this.text = event.target.value;
+          }
+
+        }
+      });
+    </script>
+
+
+
+
+<!-- APP5 -->
+    <div id="app5">
+      <h3>App 5</h3>
+      <p>This is done with vanilla and not with Vue.</p>
+      <p>Click to see the color of the tags changing</p>
+      <p>
+        Used <code>event.target</code> and <code>event.path[1].children</code>
+      </p>
+      <h5 v-on:click="addClass" class="updateStyle">Vanilla</h5>
+      <h5 v-on:click="addClass">jQuery</h5>
+      <h5 v-on:click="addClass" :class="{updateStyle: activeVue}">Vue</h5>
+    </div>
+
+<style media="screen">
+  .updateStyle{
+    color: red;
+  }
+</style>
+
+<script>
+  var app5 = new Vue({
+    el: "#app5",
+    data: {
+      activeVanilla: true,
+      activeJQuery: false,
+      activeVue: false
+    },
+    methods: {
+      addClass: function (event) {
+        var clickedTag = event.target;
+        var allTags = event.path[1].children;
+        for (var i = 0; i < allTags.length; i++) {
+          if(allTags[i] === clickedTag){
+            allTags[i].classList.value = "updateStyle";
+          }
+          else {
+            allTags[i].classList.value = "";
+          }
+        }
+      }
+    }
+  });
+</script>
+
+
+
+<div id="app6">
+  <h3>App6</h3>
+  <p>An effort to do the transition with Vue through a method and the data usage</p>
+  <h5 :class="{updateStyle: activateVanilla}" name="vanilla" v-on:click="enableClass($event)">Vanilla</h5>
+  <h5 :class="{updateStyle: activateJQuery}" name="jquery" v-on:click="enableClass($event)">jQuery</h5>
+  <h5 :class="{updateStyle: activateVue}" name="vue" v-on:click="enableClass($event)">Vue</h5>
+</div>
+
+
+<script>
+var app6 = new Vue({
+  el:"#app6",
+  data: {
+    activateVanilla: true,
+    activateJQuery: false,
+    activateVue: false
+  },
+  methods: {
+    enableClass: function (event) {
+      const headingName = event.currentTarget.getAttribute("name");
+      headingName === "vanilla" && this.activateVanilla === false ?
+      (this.activateVanilla = true, this.activateJQuery = false, this.activateVue = false) :
+      headingName === "jquery" && this.activateJQuery === false ?
+      (this.activateJQuery = true, this.activateVanilla = false, this.activateVue = false) :
+      (this.activateVue = true, this.activateVanilla = false, this.activateJQuery = false);
+    }
+  }
+});
+
+</script>
+
+
+
+
+<div id="app7">
+  <h3>App7</h3>
+  <p>An effort to do this with a computed property</p>
+  <h5 v-bind:class="{updateStyle: active[0].vanilla}" name="vanilla" v-on:click="styleChange = $event.currentTarget">Vanilla</h5>
+  <h5 v-bind:class="{updateStyle: active[1].jquery}" name="jquery" v-on:click="styleChange = $event.target">jQuery</h5>
+  <h5 v-bind:class="{updateStyle: active[2].vue}" name="vue" v-on:click="styleChange = $event.target">Vue</h5>
+</div>
+
+<script>
+  var app7 = new Vue({
+    el: "#app7",
+    data: {
+      highlight: {
+        color: "red"
+      },
+      active: [
+        {vanilla: true},
+        {jquery: false},
+        {vue: false}
+      ]
+    },
+    computed: {
+      styleChange: {
+        get: function () {
+
+        },
+        set: function (style) {
+          var attr = style.getAttribute("name");
+          this.active.forEach(function(el) {
+            var keyValue = Object.keys(el)[0];
+            keyValue === attr ? el[keyValue] = true : el[keyValue] = false;
+          });
+        }
+      }
+    }
+  });
+</script>
+  </body>
+</html>
