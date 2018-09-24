@@ -686,10 +686,14 @@ addNewProperty: function(event) {
             if (inputSlot.name < this.propNames.length) {
               this.profileValues[inputSlot.id] = inputSlot.value;
               this.propNames[inputSlot.name].active = false;
+              !this.propNames[Number(inputSlot.name) + 1] ?
+              this.propNames[0].active = true :
               this.propNames[Number(inputSlot.name) + 1].active = true;
             }
             else {
-              Object.assign({}, this.userProfile, this.profileValues)
+              this.userProfile = Object.assign({}, this.userProfile, this.profileValues);
+              event.target.id = this.propnames[0].keyVal;
+              event.target.name = 0;
               //change the id and the index
             }
             //need the values of propname.keyVal and the index so that I can
