@@ -776,7 +776,7 @@ function transform(data) {
 
 /*------------------------------------------------------------------------------
 Date - package: 20180918 - 77253186, email-totalwine.com
-// Root xPath: /descendant::strong[contains(.,"%")]
+// Root xPath: /descendant::strong[contains(.,"%") or contains(.,"$")]
 // Description xPath: .
 URL xPath: /descendant::a[contains(text(),"Shop Now")]/@href
 Valid through xPath: /descendant::td[contains(text(),"valid through")] -  Not used on this one
@@ -798,7 +798,9 @@ function transform(data){
 
 
 //Valid through
-//See other totalwine codes if there will be a valid through
+function transform(data) {
+	return data.match(/valid\sthrough\s[\d\/]+/i)[0].replace(/[a-z\s]+/i, "").trim() || "";
+}
 //------------------------------------------------------------------------------
 
 
@@ -1115,6 +1117,120 @@ function transform(data) {
 
 
 
+
+/*------------------------------------------------------------------------------
+Date - package: 20180924 - 77863588,  value.sears.com
+// Root xPath: /descendant::a[contains(text(),"%") or
+contains(text(),"Sale") or
+contains(text(),"$")
+]
+// Description xPath: concat(., " ", ./following::a)
+URL xPath:
+Valid through xPath: ./following::span[contains(text(),"Offer Ends")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data){
+  return data.replace("Shop Now", "").trim() + "." || "";
+}
+
+//Valid through
+function transform(data) {
+	return data.match(/([\d\/]{2,3}){2}([\d]{2,4})?/) || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180924 - 77958196, mail.gnc.com
+// Root xPath: /descendant::td[contains(text(),"$")]
+// Description xPath: .
+URL xPath: /descendant::a[contains(.,"View Online")]/@href
+Valid through xPath: /descendant::span[contains(text(),"effective through")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data){
+  return data.replace(/\*/g, "") || "";
+}
+
+//Valid through
+var str = "These statements have not been evaluated by the FDA. These products are not intended to diagnose, treat, cure or prevent any disease. Regular prices effective through September 26, 2018 at GNC.com, through phone orders via 1-877-GNC-4700, and at participating GNC stores in the U.S. All products and prices may not be available at all locations. Pricing and promotions may not be available online. Prices may be higher in Alaska, Hawaii and Puerto Rico. Sales on select fitness equipment may not be combined with any discounts or Member Pricing. StriVectin® and Under Armour® products cannot be combined with any discount. Errors and omissions are not the responsibility of the advertiser. Shop one of more than 8,900 GNC stores. Call 1-800-477-4462 or visit GNC.com to find the store nearest you."
+
+function transform(data) {
+	if(!data) return "";
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	//Iterate through the months. If the month is included in "data" then:
+	//1. slice the string where the month is at
+	//2. return the match() of the string as month + days + year
+	for (var i = 0; i < months.length; i++) {
+		if (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i])).match(/[a-z\s]+[\d]{1,2},?\s[\d]{4}/i)[0];
+	}
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180924 - 78051985, rewards.shopyourwayrewards.com
+// Root xPath: /descendant::img[contains(@alt,"CASHBACK")]
+// Description xPath: ./@alt
+URL xPath: ./parent::a/@href
+Valid through xPath: ./ancestor::table/following-sibling::table/following::a[contains(text(),"Offer ends")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+	return data.match(/\|.*\|/)[0].replace(/\|/g, "").trim() || "";
+}
+
+//Valid through
+var str = "Offer ends 10/6/18. Exclusions apply. See details."
+
+function transform(data) {
+	return data.match(/([\d]{1,2}\/){2}[\d]{2,4}?/)[0] || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20180924 - 37821521,  smokeybones.fbmta.com
+// Root xPath: //descendant::img[contains(@alt, "redeem") or
+contains(@alt, "%")]
+// Description xPath: ./@alt
+URL xPath: ./parent::a/@href
+Valid through xPath: - 
+*/
+
+
+//Description
+var str1 = "Stop by Smokey Bones to redeem your $10 credit today! For complete club details and to view your membership profile, visit the Bones Club section of SmokeyBones.com";
+
+function transform(data){
+  if (data.match(/[\w\s\$]+!/gi)) return data.match(/[\w\s\$]+!/gi)[0].trim();
+  return data || "";
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
+}
+//------------------------------------------------------------------------------
 
 
 

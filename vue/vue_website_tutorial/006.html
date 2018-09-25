@@ -624,15 +624,91 @@ addNewProperty: function(event) {
 
       <div class="jumbotron">
         <h4>Example</h4>
+        <ul>
+          <li v-for="(user, key) in userProfile">{{key}}: {{user}}</li>
+        </ul>
         <div class="inputSlot" v-for="(propName, idx) in propNames">
           <label for="" v-if="propName.active">
             {{propName.keyVal.toUpperCase()}}:
-            <input type="text" v-bind:name = "idx" v-bind:id = "propName.keyVal"
-            v-bind:placeholder="propName.keyVal"
-            v-on:keydown.enter="addSeveralProperties($event)">
+            <input type="text"
+            :data-index = "idx"
+            :data-key-value = "propName.keyVal"
+            :placeholder="propName.keyVal"
+            @keydown.enter="addSeveralProperties($event)">
           </label>
-
         </div>
+
+
+        <p>
+          The above list can be modified by entering new information in the input
+          field. Contrary to the input fields in the previous example, this
+          input field has a <code>v-if</code> that activates the different fields
+          one by one. <br>
+          There are two objects in the <code>data</code> object. One with preset
+          properties whose values are used as the keys. One with no values where all
+          the values from the input field will be entered.
+        </p>
+        <p>
+          Before the properties are added in the above object, they first are added
+          in a different object that resides in the <code>data</code> property.
+          After all the values are added, then the <code>Object.assign</code> method
+          is used to add the new properties in the existing object.
+        </p>
+
+
+        <hr>
+        <h5>The code for the html is:</h5>
+        <code>
+          <pre>
+&lt;div class="inputSlot" v-for="(propName, idx) in propNames"&gt;
+  &lt;label for="" v-if="propName.active"&gt;
+    { {propName.keyVal.toUpperCase()} }:
+    &lt;input type="text"
+    :data-index = "idx"
+    :data-key-value = "propName.keyVal"
+    :placeholder="propName.keyVal"
+    @keydown.enter="addSeveralProperties($event)"&gt;
+  &lt;/label&gt;
+&lt;/div&gt;
+          </pre>
+        </code>
+        <h5>The code for the method is:</h5>
+        <code>
+          <pre>
+addSeveralProperties: function(event) {
+  var inputSlot = event.target;
+  var inputSlotValue = event.target.value;
+  var inputSlotIndex = event.target.attributes[1].value;
+  var inputSlotKey = event.target.attributes[2].value;
+
+  <span style="color: gray;">//If the user did not enter anything in input</span>
+  if (inputSlotValue.trim().length === 0){
+    inputSlotValue = "";
+    return inputSlot.placeholder = "ENTER A VALUE!";
+  }
+
+
+  <span style="color: gray;">//if the idx is smaller than the length of propNames</span>
+  if (inputSlotIndex < this.propNames.length) {
+    this.profileValues[inputSlot.id] = inputSlotValue; <span style="color: gray;"></span>//Add a value to profile values
+    this.propNames[inputSlotIndex].active = false; <span style="color: gray;"></span>//Make propNames value false
+    //Make next propNames "active" value true or make the first one true
+    !this.propNames[Number(inputSlotIndex) + 1] ?
+    this.propNames[0].active = true :
+    this.propNames[Number(inputSlotIndex) + 1].active = true;
+
+
+    <span style="color: gray;">/If the index equals to the amount of elements in the propNames object</span>/
+    if (Number(inputSlotIndex) === this.propNames.length - 1) {
+      this.userProfile = Object.assign({}, this.userProfile, this.profileValues);
+      <span style="color: gray;">//Make the Key value same to the first key value in object. Same for Index.</span>
+      inputSlotKey = this.propNames[0].keyVal;
+      inputSlotIndex = 0;
+    }
+  }
+}
+          </pre>
+        </code>
       </div>
     </div>
 
@@ -677,35 +753,35 @@ addNewProperty: function(event) {
           },
           addSeveralProperties: function(event) {
             var inputSlot = event.target;
-            if (inputSlot.value.trim().length === 0){
-              inputSlot.value = "";
+            var inputSlotValue = event.target.value;
+            var inputSlotIndex = event.target.attributes[1].value;
+            var inputSlotKey = event.target.attributes[2].value;
+            //If the user did not enter anything in input
+            if (inputSlotValue.trim().length === 0){
+              inputSlotValue = "";
               return inputSlot.placeholder = "ENTER A VALUE!";
             }
-            console.log(inputSlot.name, typeof inputSlot.name);
-            console.log(this.propNames.length);
-            if (inputSlot.name < this.propNames.length) {
-              this.profileValues[inputSlot.id] = inputSlot.value;
-              this.propNames[inputSlot.name].active = false;
-              !this.propNames[Number(inputSlot.name) + 1] ?
-              this.propNames[0].active = true :
-              this.propNames[Number(inputSlot.name) + 1].active = true;
-            }
-            else {
-              this.userProfile = Object.assign({}, this.userProfile, this.profileValues);
-              event.target.id = this.propnames[0].keyVal;
-              event.target.name = 0;
-              //change the id and the index
-            }
-            //need the values of propname.keyVal and the index so that I can
-            // modify the profileValues[key] AND
-            // modify the propNames[idx].activ
-            //this.profileValues
-            console.log(inputSlot.value);
-            console.log(inputSlot.name);
-            console.log(inputSlot.id);
-            alert("so far so good...")
 
-          }
+
+            //if the idx is smaller than the length of propNames
+            if (inputSlotIndex < this.propNames.length) {
+              this.profileValues[inputSlot.id] = inputSlotValue; //Add a value to profile values
+              this.propNames[inputSlotIndex].active = false; //Make propNames value false
+              //Make next propNames "active" value true or make the first one true
+              !this.propNames[Number(inputSlotIndex) + 1] ?
+              this.propNames[0].active = true :
+              this.propNames[Number(inputSlotIndex) + 1].active = true;
+
+
+              //If the index equals to the amount of elements in the propNames object
+              if (Number(inputSlotIndex) === this.propNames.length - 1) {
+                this.userProfile = Object.assign({}, this.userProfile, this.profileValues);
+                //Make the Key value same to the first key value in object. Same for Index.
+                inputSlotKey = this.propNames[0].keyVal;
+                inputSlotIndex = 0;
+              }
+            }
+          } //End of addSeveralProperties Method
         } //end of methods
       });
     </script>

@@ -1,9 +1,9 @@
 // For the date:
+//Userful when the expiring date is in the footer, along with currency information
 function transform(data) {
   //---PHASE 1---
   //Regular expression strings and array with all string scenarios
   var regEx1 = new RegExp("valid\\sthrough:?\\s"); //valid through(:)
-  something.match(/\$/)
   var regEx2 = new RegExp("expires:?\\s"); //expires(:)
   var regEx3 = new RegExp("until:?\\s"); //until(:)
   var regEx4 = new RegExp("offer\\sends:?\\s"); //offer ends(:)
