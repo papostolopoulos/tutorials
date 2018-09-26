@@ -839,8 +839,7 @@ function transform(data) {
 
 /*------------------------------------------------------------------------------
 Date - package: 20180918 - 77460244, 77460251, 77460253, 77505835 email.landsend.com
-// Root xPath: /descendant::a[contains(.,"%")] OR /descendant::a[contains(.,"%")] | /descendant::strong[contains(text(),"%")]
-// Description xPath: .
+// Root xPath: /descendant::a[contains(.,"%")] OR /descendant::a[contains(.,"%")] | /descendant::a[contains(.,"FREE SHIPPING")]
 URL xPath: ./@href OR ./@href | /descendant::a[contains(.,"%")]/@href
 Valid through xPath: /descendant::span[contains(text(),"valid through") or contains(text(),"Valid through")]
 */
@@ -1214,7 +1213,7 @@ Date - package: 20180924 - 37821521,  smokeybones.fbmta.com
 contains(@alt, "%")]
 // Description xPath: ./@alt
 URL xPath: ./parent::a/@href
-Valid through xPath: - 
+Valid through xPath: -
 */
 
 
@@ -1231,6 +1230,77 @@ function transform(data) {
 	return data || "";
 }
 //------------------------------------------------------------------------------
+
+
+
+
+//LANDSEND SCENARIO 1
+/*------------------------------------------------------------------------------
+Date - package: 20180925 - 77619368, 77843564, 78084584, 77843545, 78084551 email.landsend.com
+// Root xPath: /descendant::a[contains(.,"%") and not (contains(.,"Last day!") or contains(.,"Take"))
+or contains(.,"FREE SHIPPING")]
+// Description xPath: .
+URL xPath: /descendant::a[contains(.,"%") or contains(.,"FREE SHIPPING")]/@href
+Valid through xPath: /descendant::span[contains(text(),"valid through") or contains(text(),"Valid through")]
+|
+/descendant::p[contains(text(),"valid through") or contains(text(),"Valid through")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+ return data.replace(/^\+/, "").trim() || "";
+}
+
+//Valid through
+var str= "Receive 30% off full-price styles online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 17, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+var str2 = "Receive 50% off one (1) full-price item online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 19, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+
+function transform(data) {
+	data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
+	var result = data[1] + "," + data[2];
+	return result || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+//LANDSEND SCENARIO 2 (pulling only from the top of the email)
+/*------------------------------------------------------------------------------
+Date - package: 20180925 - 77929489 email.landsend.com
+// Root xPath: /descendant::a[contains(.,"%") and not (contains(.,"Last day!")) and contains(.,"free shipping")]
+// Description xPath: .
+URL xPath: /descendant::a[contains(.,"%") and contains(.,"free shipping")]/@href
+Valid through xPath: /descendant::span[contains(text(),"valid through") or contains(text(),"Valid through")]
+|
+/descendant::p[contains(text(),"valid through") or contains(text(),"Valid through")]
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+ return data.replace(/^\+/, "").trim() || "";
+}
+
+//Valid through
+var str= "Receive 30% off full-price styles online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 17, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+var str2 = "Receive 50% off one (1) full-price item online, in-store or by phone (excludes buy more and save pricing, monogramming, gift boxing, gift cards, shipping, taxes, duties, Lands' End Business Outfitters purchases, and excluded items as marked). Promotions and products may vary in-store. Prices as marked in-store. Excludes clearance in-store. Discount will be applied at checkout. This offer has no cash value. Promotional savings may be deducted from returns. 5-7 business day delivery to most addresses. Offer valid through 11:59 p.m. Central, September 19, 2018. Not valid on previous purchases or when combined with any other promotional offers.";
+
+function transform(data) {
+	data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
+	var result = data[1] + "," + data[2];
+	return result || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
 
 
 

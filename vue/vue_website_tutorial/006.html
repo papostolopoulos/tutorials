@@ -690,8 +690,8 @@ addSeveralProperties: function(event) {
 
   <span style="color: gray;">//if the idx is smaller than the length of propNames</span>
   if (inputSlotIndex < this.propNames.length) {
-    this.profileValues[inputSlot.id] = inputSlotValue; <span style="color: gray;"></span>//Add a value to profile values
-    this.propNames[inputSlotIndex].active = false; <span style="color: gray;"></span>//Make propNames value false
+    this.profileValues[inputSlot.id] = inputSlotValue; <span style="color: gray;">//Add a value to profile values</span>
+    this.propNames[inputSlotIndex].active = false; <span style="color: gray;">//Make propNames value false</span>
     //Make next propNames "active" value true or make the first one true
     !this.propNames[Number(inputSlotIndex) + 1] ?
     this.propNames[0].active = true :
@@ -785,6 +785,108 @@ addSeveralProperties: function(event) {
         } //end of methods
       });
     </script>
+
+
+
+
+
+
+    <h2>Displaying Filtered / Sorted results</h2>
+    <div id="listRendering6">
+      <p>
+        Sometimes we want to display a filtered or sorted array without mutating
+        the data. In this case, we can use a <code>computed</code> property to
+        filter through the data.
+      </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, there is a <code>v-for</code> loop that displays
+          all the users from the users property. There is a <code>v-if</code>
+          directive that updates the users that are being displayed based on the
+          selection made in the drop down menu. The <code>v-if</code> directive
+          is matched with the <code>activeGender</code> property, that gets updated
+          from the drop down menu's value.
+        </p>
+        <p>
+          The average age is calculated by a computed property. Based on which
+          users are filtered from the <code>users</code> property, the computed property
+          calculates the average age.
+        </p>
+        <ul>
+          <li v-for="user in users" v-if="user.gender === activeGender ? user.gender : user">{{user.name}}, {{user.age}}</li>
+        </ul>
+        <p><b>The average age for {{activeGender}} users is {{averageAge}}</b></p>
+
+        <p>
+          Use the following drop down menu to filter through the users and also
+          get their average age.
+        </p>
+        <select class="" name="" id="selectSortGender" v-on:change="activeGender = $event.target.value">
+          <option value="" disabled selected>Choose from the list</option>
+          <option value="Any gender">Any gender</option>
+          <option value="male">Males</option>
+          <option value="female">Females</option>
+        </select>
+
+      </div>
+
+    </div>
+
+
+
+    <script type="text/javascript">
+      var listRendering6 = new Vue ({
+        el: "#listRendering6",
+        data: {
+          activeGender: "Any gender",
+          users: [
+            {name: "Bob", gender: "male", age: 22},
+            {name: "Suzan", gender: "female", age: 25},
+            {name: "Lisa", gender: "female", age: 33},
+            {name: "Tim", gender: "male", age: 38},
+            {name: "Luke", gender: "male", age: 23},
+            {name: "Nicky", gender: "female", age: 34},
+            {name: "Mandy", gender: "female", age: 32},
+            {name: "David", gender: "male", age: 20}
+          ]
+        },
+        computed: {
+          averageAge: function() {
+            var ageTotal = 0;
+            if (this.activeGender === "Any gender") {
+              this.users.forEach(function(el, idx, arr) {
+                ageTotal += el.age;
+              });
+              return ageTotal / this.users.length;
+            }
+
+            var active = this.activeGender;
+            var filteredGenders = this.users.filter(function(el) {
+              return el.gender === active;
+            });
+
+            filteredGenders.forEach(function(el) {
+              ageTotal += el.age;
+            });
+
+            return ageTotal / filteredGenders.length;
+          }
+        },
+        methods: {
+          sortGender: function () {
+            console.log("inside");
+            return this.users.filter(function(el) {
+              console.log(el.gender);
+              return el.gender === this.activeGender;
+            });
+          }
+        }
+      });
+    </script>
+
+
 
 
 

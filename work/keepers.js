@@ -45,3 +45,283 @@ function transform(data) {
   if (data.match(/[£€]/)) return new Date(finalStrArr[1] + "/" + finalStrArr[0] + "/" + finalStrArr[2] || "1970");
   return "";
 }
+
+
+
+
+
+
+//LANDSEND COUPONS
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "d0ebaf19-eb36-448f-92d0-2f1fe2b81936",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"%\") and not (contains(.,\"Last day!\") or contains(.,\"Take\")) \nor contains(.,\"FREE SHIPPING\")]\n"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n return data.replace(/^\\+/, \"\").trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::span[contains(text(),\"valid through\") or contains(text(),\"Valid through\")]\n|\n/descendant::p[contains(text(),\"valid through\") or contains(text(),\"Valid through\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tdata = data.match(/valid\\sthrough[\\w\\s:]+p\\.m\\.[\\w\\s,]+\\./gi)[0].split(\",\");\n\tvar result = data[1] + \",\" + data[2];\n\treturn result || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"%\") or contains(.,\"FREE SHIPPING\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "51009acc-e604-4bb0-83c1-ba5ec5e44e33",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"%\") or contains(.,\"FREE SHIPPING\")]\n"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"LANDS' END\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "d0ebaf19-eb36-448f-92d0-2f1fe2b81936",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "51009acc-e604-4bb0-83c1-ba5ec5e44e33",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+
+
+
+//LANDSEND -  ONLY TOP OF EMAIL
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "d0ebaf19-eb36-448f-92d0-2f1fe2b81936",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"%\") and not (contains(.,\"Last day!\")) and contains(.,\"free shipping\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n return data.replace(/^\\+/, \"\").trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::span[contains(text(),\"valid through\") or contains(text(),\"Valid through\")]\n|\n/descendant::p[contains(text(),\"valid through\") or contains(text(),\"Valid through\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tdata = data.match(/valid\\sthrough[\\w\\s:]+p\\.m\\.[\\w\\s,]+\\./gi)[0].split(\",\");\n\tvar result = data[1] + \",\" + data[2];\n\treturn result || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"%\") and contains(.,\"free shipping\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "51009acc-e604-4bb0-83c1-ba5ec5e44e33",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"%\") and not (contains(.,\"Last day!\")) and contains(.,\"free shipping\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"LANDS' END\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "d0ebaf19-eb36-448f-92d0-2f1fe2b81936",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "51009acc-e604-4bb0-83c1-ba5ec5e44e33",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
