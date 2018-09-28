@@ -815,25 +815,121 @@ addSeveralProperties: function(event) {
           calculates the average age.
         </p>
         <ul>
-          <li v-for="user in users" v-if="user.gender === activeGender ? user.gender : user">{{user.name}}, {{user.age}}</li>
+          <li v-for="user in users" v-if="activeGender === user.gender || activeGender === 'Any gender'">{{user.name}}, {{user.age}}</li>
         </ul>
         <p><b>The average age for {{activeGender}} users is {{averageAge}}</b></p>
 
-        <p>
-          Use the following drop down menu to filter through the users and also
-          get their average age.
-        </p>
         <select class="" name="" id="selectSortGender" v-on:change="activeGender = $event.target.value">
           <option value="" disabled selected>Choose from the list</option>
           <option value="Any gender">Any gender</option>
           <option value="male">Males</option>
           <option value="female">Females</option>
         </select>
+        <p>
+          Use the following drop down menu to filter through the users and also
+          get their average age.
+        </p>
 
+        <hr>
+        <h5>The code for the html is</h5>
+        <code>
+          <pre>
+&lt;ul&gt;
+  &lt;li v-for="user in users" v-if="activeGender === user.gender || activeGender === 'Any gender'"&gt;{ {user.name} }, { {user.age} }&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;b&gt;The average age for { {activeGender} } users is { {averageAge} }&lt;/b&gt;&lt;/p&gt;
+
+&lt;select class="" name="" id="selectSortGender" v-on:change="activeGender = $event.target.value"&gt;
+  &lt;option value="" disabled selected&gt;Choose from the list&lt;/option&gt;
+  &lt;option value="Any gender"&gt;Any gender&lt;/option&gt;
+  &lt;option value="male"&gt;Males&lt;/option&gt;
+  &lt;option value="female"&gt;Females&lt;/option&gt;
+&lt;/select&gt;
+          </pre>
+        </code>
+        <h5>The code for the Vue instance is</h5>
+        <code>
+          <pre>
+new Vue ({
+  el: "#listRendering6",
+  data: {
+    activeGender: "Any gender",
+    users: [
+      {name: "Bob", gender: "male", age: 22},
+      {name: "Suzan", gender: "female", age: 25},
+      {name: "Lisa", gender: "female", age: 33},
+      {name: "Tim", gender: "male", age: 38},
+      {name: "Luke", gender: "male", age: 23},
+      {name: "Nicky", gender: "female", age: 34},
+      {name: "Mandy", gender: "female", age: 32},
+      {name: "David", gender: "male", age: 20}
+    ]
+  },
+  computed: {
+    averageAge: function() {
+      var ageTotal = 0;
+      if (this.activeGender === "Any gender") {
+        this.users.forEach((el, idx, arr) => ageTotal += el.age);
+        return ageTotal / this.users.length;
+      }
+
+      var filteredGenders = this.users.filter((el) => el.gender === this.activeGender);
+      filteredGenders.forEach((el) => ageTotal += el.age);
+
+      return ageTotal / filteredGenders.length;
+    }
+  }
+          </pre>
+        </code>
       </div>
 
-    </div>
+      <p>
+        In situations where a computed property is not feasible, we can use a method.
+        For example, if we are invoking a method that is nested inside the attribute
+        text of a <code>v-for</code> loop.
+      </p>
 
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, the drop down menu defines the properties that
+          should be filtered in the <code>v-for</code> loop by modifying a data
+          property's value ("all numbers", "even", "odd"). This data property is
+          then used in the invoked function (that resides inside the v-for loop)
+          in order to filter the displayed object.
+        </p>
+        <span v-for="n in filterNumbers(numbers)">{{n}} </span>
+        <select class="" name="" v-on:change="activeNumbers = $event.target.value">
+          <option value="all numbers">All numbers</option>
+          <option value="odd">Odd numbers</option>
+          <option value="even">Even numbers</option>
+        </select>
+
+        <hr>
+        <h5>The code for the html is</h5>
+        <code>
+          <pre>
+&lt;span v-for="n in filterNumbers(numbers)"&gt;{ {n} } &lt;/span&gt;
+&lt;select class="" name="" v-on:change="activeNumbers = $event.target.value"&gt;
+  &lt;option value="all numbers"&gt;All numbers&lt;/option&gt;
+  &lt;option value="odd"&gt;Odd numbers&lt;/option&gt;
+  &lt;option value="even"&gt;Even numbers&lt;/option&gt;
+&lt;/select&gt;
+          </pre>
+        </code>
+        <h5>The code for the method is</h5>
+        <code>
+          <pre>
+methods: {
+  filterNumbers: function(numbers) {
+    if (this.activeNumbers === "odd") return this.numbers.filter((el) => el % 2 !== 0);
+    if (this.activeNumbers === "even") return this.numbers.filter((el) => el % 2 === 0);
+    return numbers;
+  }
+          </pre>
+        </code>
+      </div>
+    </div>
 
 
     <script type="text/javascript">
@@ -850,38 +946,204 @@ addSeveralProperties: function(event) {
             {name: "Nicky", gender: "female", age: 34},
             {name: "Mandy", gender: "female", age: 32},
             {name: "David", gender: "male", age: 20}
-          ]
+          ],
+          activeNumbers: "all numbers",
+          numbers: [1,2,3,4,5,6,7,8,9,10]
         },
         computed: {
           averageAge: function() {
             var ageTotal = 0;
             if (this.activeGender === "Any gender") {
-              this.users.forEach(function(el, idx, arr) {
-                ageTotal += el.age;
-              });
+              this.users.forEach((el, idx, arr) => ageTotal += el.age);
               return ageTotal / this.users.length;
             }
 
-            var active = this.activeGender;
-            var filteredGenders = this.users.filter(function(el) {
-              return el.gender === active;
-            });
-
-            filteredGenders.forEach(function(el) {
-              ageTotal += el.age;
-            });
+            var filteredGenders = this.users.filter((el) => el.gender === this.activeGender);
+            filteredGenders.forEach((el) => ageTotal += el.age);
 
             return ageTotal / filteredGenders.length;
           }
         },
         methods: {
-          sortGender: function () {
-            console.log("inside");
-            return this.users.filter(function(el) {
-              console.log(el.gender);
-              return el.gender === this.activeGender;
-            });
+          filterNumbers: function(numbers) {
+            if (this.activeNumbers === "odd") return this.numbers.filter((el) => el % 2 !== 0);
+            if (this.activeNumbers === "even") return this.numbers.filter((el) => el % 2 === 0);
+            return numbers;
           }
+        }
+      });
+    </script>
+
+
+
+
+
+    <div id="listRendering7">
+      <h2><code>v-for</code> with a Range </h2>
+      <p>
+        <code>v-for</code> can also take an integer. Therefore it will repeat
+        that many times.
+      </p>
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, we are displaying consecutive <code>span</code>
+          tags because we are invoking <code>v-for="n in 5"</code>.
+        </p>
+        <span style="display: block;" v-for="n in 5">Hello, I am a <code>span</code> and I am displayed at position <b>{{n}}</b></span>
+      </div>
+
+      <h2><code>v-for</code> on a template </h2>
+      <p>
+        Similar to <code>v-if</code>, we can use the <code>v-for</code> in a
+        <code>template</code> tag in order to display a group of tags together.
+        Alternatively, we could also use other tags that would contribute to the
+        grouping process (ex: <code>div</code>).
+      </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <template id="" v-for="person in people">
+          <h6>{{person.name}} {{person.surname}}</h6>
+          <p>{{person.name}}'s favorite color is {{person.color}}.</p>
+        </template>
+
+        <hr>
+        <h5>The html code used is</h5>
+        <code>
+          <pre>
+&lt;template id="" v-for="person in people"&gt;
+  &lt;h6&gt;{ {person.name} } { {person.surname} }&lt;/h6&gt;
+  &lt;p&gt;{ {person.name} }'s favorite color is { {person.color} }.&lt;/p&gt;
+&lt;/template&gt;
+          </pre>
+        </code>
+      </div>
+
+      <h2><code>v-for</code> with <code>v-if</code> </h2>
+      <p>
+        If they exist in the same node, <code>v-for</code> has a priority over
+        <code>v-if</code>. That means that <code>v-if</code> will be run at every
+        iteration separately. This can be used when we want to render nodes of
+        only <i>some</i> of the items. See the example right after the heading:
+        <b>"Displaying Filtered / Sorted results"</b>.
+      </p>
+      <p>
+        Alternatively, <code>v-for</code> can be inside a node that is the child of
+        another node whithin which a <code>v-if</code> is implemented. In that case,
+        the <code>v-if</code> condition defines if the <code>v-for</code> loop will
+        be implemented, since the node that hosts the loop will either render or not.
+      </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, you will see how clicking on the checkboxes
+          removes elements from the list. You will see that as soon as the list
+          reaches the length of three entries, it will dissapear because the
+          <code>v-if</code> conditional kicks in.
+        </p>
+        <p>
+          What is happening in the method used is that the value of the <code>input</code>
+          is matched with the related index position in the array used in the <code>v-for</code>
+          loop. Then this index number is used to <code>.splice()</code> inside
+          the array. Also the checkbox is deselected. The last two actions are happening
+          within a <code>setTimeout</code> method in order to make the experience
+          better for the user.
+        </p>
+        <h6>The length of the list is {{people.length}}</h6>
+        <div class="conditionalDisplay" v-if="people.length > 3">
+          <ul>
+            <li v-for="person in people">
+              <input type="checkbox"
+              :value="person.surname"
+              @click="clickLeave($event)">
+              {{person.name}} {{person.surname}} likes {{person.color}}
+            </li>
+          </ul>
+        </div>
+        <hr>
+        <h5>The code in the html is</h5>
+        <code>
+          <pre>
+&lt;div class="conditionalDisplay" v-if="people.length > 3">
+  &lt;ul&gt;
+    &lt;li v-for="person in people"&gt;
+      &lt;input type="checkbox" :value="person.surname"@click="clickLeave($event)"&gt;
+      { {person.name} } { {person.surname} } likes { {person.color} }
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+          </pre>
+        </code>
+        <h5>The code in the Vue component is:</h5>
+        <code>
+          <pre>
+clickLeave: function(event) {
+  var checkValue = event.target.value;
+  var idxPosition = this.people.findIndex((el) => el.surname === checkValue);
+  var people = this.people;
+  setTimeout(() => {
+    people.splice(idxPosition, 1);
+    event.target.checked = false;
+  }, 500);
+}
+          </pre>
+        </code>
+      </div>
+
+    </div> <!--End of listRendering7 -->
+
+
+    <script>
+      var listRendering7 = new Vue({
+        el: "#listRendering7",
+        data: {
+          people: [
+            {name: "John", surname:"Smith", color:"green"},
+            {name: "Jessica", surname:"Rabbit", color:"orange"},
+            {name: "Lucifer", surname:"Devil", color:"red"},
+            {name: "Angel", surname:"Sweet", color:"white"},
+            {name: "Winnie", surname:"Pooh", color:"brown"},
+            {name: "God", surname:"Mighty", color:"black"},
+            {name: "Zeus", surname:"Olympian", color:"electric"}
+          ],
+          clickLeave: function(event) {
+            var checkValue = event.target.value;
+            var idxPosition = this.people.findIndex((el) => el.surname === checkValue);
+            var people = this.people;
+            setTimeout(() => {
+              people.splice(idxPosition, 1);
+              event.target.checked = false;
+            }, 500);
+          }
+        }
+      });
+    </script>
+
+
+
+
+
+    <h2><code>v-for</code> with a component </h2>
+    <div id="listRendering8">,
+      <p>
+        a <code>v-for</code> can be used directly on a component. When a <code>v-for</code>
+        is used on a component, a <code>key</code> needs to be binded as well.
+      </p>
+      <p>
+        In addition, <code>props</code> need to be used in the component in order
+        to pass the iterated data. Data cannot be passed automatically because
+        components have isolated scopes. 
+      </p>
+    </div>
+
+
+    <script>
+      var listRendering8 = new Vue({
+        el: "#listRendering8",
+        data: {
+
         }
       });
     </script>

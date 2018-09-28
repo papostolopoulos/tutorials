@@ -1,15 +1,17 @@
 /*------------------------------------------------------------------------------
 Date - package: 20180925 - 2423669,  comed.com
-// Root xPath: /descendant::p[contains(text(),"AutoPay")]
+// Root xPath: /descendant::p[contains(text(),"My Account") and not (contains(text(),"Did you know"))]
+|
+/descendant::p//following-sibling::text()[contains(.,"account")]
 // accountID xPath: .
-// payment Due xPath
-// Description xPath:
-URL xPath:
-Valid through xPath:
+// payment Due xPath: concat(., " ", ./following::p[contains(text(),"Due")])
+//payment status
+//URL: ./descendant::a[contains(.,'View') or contains(.,'Payment') or contains(.,"view your Bill online")]/@href
+//broker
 */
 
 
-//Account ID
+
 var str1 = "Thank you for using My Account at ComEd.com. This is a reminder that your payment for account 6217 in the amount of $83.80 will be deducted through AutoPay from your bank account on 10/01/2018.To stop or modify your AutoPay settings, please log-in to your ComEd.com account.";
 var str2 = `Thank you for using My Account at ComEd.com. This is a reminder that your payment for account ending in 7045 in the amount of $106.61 is due on 9/13/2018.
 
@@ -19,16 +21,23 @@ If the bill has already been paid, thank you for your payment and please disrega
 var str3 = `Thank you for using My Account at ComEd.com. You may view your Bill online for the following account: 4001
 
 Total Amount Due: $52.00
-Due Date: 10/15/2018`
+Due Date: 10/15/2018`;
+var str4 = `Your Budget Bill was reviewed for account: 7029 and your current Budget Bill will change to $102.00 effective with your next bill.
+
+Your monthly Budget Bill payment will be reviewed every six months to keep the payment in line with your actual energy usage.
+
+You will automatically be removed from the Budget Billing program if you have two consecutive late payments or have three late payments within 12 months.`;
 
 
+//ACCOUNT ID
 function transform(data) {
   //---PHASE 1---
   //Regular expression strings and array with all string scenarios
-  var regEx1 = new RegExp("payment\\sfor\\saccount\\s\\d+", "i"); //payment for account + number - auto pay alert
+  var regEx1 = new RegExp("payment\\sfor\\s+account\\s\\d+", "i"); //payment for account + number - auto pay alert
   var regEx2 = new RegExp("account\\sending\\sin\\s\\d+", "i"); // account ending in + number - payment reminder
   var regEx3 = new RegExp("following\\saccount:\\s\\d+", "i"); // following account + number - Bill is ready
-  var regExArr = [regEx1, regEx2, regEx3];
+  var regEx4 = new RegExp("for\\saccount:\\s\\d+"); //for account + number - Budget Billing review
+  var regExArr = [regEx1, regEx2, regEx3, regEx4];
 
 
   //---PHASE 2---
@@ -36,10 +45,7 @@ function transform(data) {
   //If there is a match, then return the account number.
   for (var i = 0; i < regExArr.length; i++) {
    var el = regExArr[i];
-
-   if (data.match(el)) {
-    return data.match(el)[0].match(/\d+/)[0];
-   }
+   if (data.match(el)) return data.match(el)[0].match(/\d+/)[0];
   }
 
   return "";
@@ -47,7 +53,8 @@ function transform(data) {
 
 
 
-//Payment Due
+
+//PAYMENT DUE
 function transform(data) {
   //---PHASE 1---
   //Regular expression strings and array with all string scenarios
@@ -84,10 +91,40 @@ function transform(data) {
 
 
 
+//PAYMENT STATUS
+//Resource: https://docs.google.com/presentation/d/1Wh_Kq5aIHsvK5-dau0usVaFc2uiS7NmIEP35uoc0U4k/edit#slide=id.g42c6a9ebf6_0_1
+function transform(data) {
+  var textMatchObj = {
+    "Bill Is Ready": "PaymentDue",
+    "Payment Reminder": "PaymentDue",
+    "Auto Pay Reminder": "PaymentScheduled"
+  };
+
+  for(var key in textMatchObj){
+    if(key === data.trim()) return textMatchObj[key];
+  }
+}
+
+
+
+//TOTAL PAYMENT DUE
+function transform (data){
+	if (data.match(/\$/)) return 'USD';
+  	if (data.match(/\£/)) return 'GBP';
+    if (data.match(/\€/)) return 'EUR';
+	if (data.match(/Rs/)) return 'IND';
+  	else return null;
+}
+
+//PERSON NAME
+function transform (data){
+  return data.match(/Hello\s[a-z&\s]+/i)[0].replace(/Hello\s/i, "").trim() || "";
+}
+
 
 //Minimum Payment Due - price
 function transform(data) {
-	return data.match(/\$[\d]{1,5}(\.[\d]{2})?/)[0].replace(/\$/, "") || "";
+	return data.match(/\$[\d]+(\.[\d]{2})?/)[0].replace(/\$/, "") || "";
 }
 
 //Minimum Payment Due - currency
@@ -124,6 +161,24 @@ function transform(data) {
 //Payment Due
 function functionName() {
   return data || "";
+}
+
+//PAYMENT STATUS
+//Resource: https://docs.google.com/presentation/d/1Wh_Kq5aIHsvK5-dau0usVaFc2uiS7NmIEP35uoc0U4k/edit#slide=id.g42c6a9ebf6_0_1
+function transform(data) {
+  var textMatchObj = {
+    PaymentDue: "Bill Is Ready",
+    PaymentPastDue: "",
+    PaymentComplete: "",
+    PaymentDeclined: "",
+    PaymentAutomaticallyApplied: "",
+    PaymentScheduled: ""
+  };
+
+  for(var key in textMatchObj){
+    if(textMatchObj[key] === data.trim()) return key;
+  }
+
 }
 
 //Valid through
