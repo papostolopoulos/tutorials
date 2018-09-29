@@ -689,7 +689,7 @@ addSeveralProperties: function(event) {
 
 
   <span style="color: gray;">//if the idx is smaller than the length of propNames</span>
-  if (inputSlotIndex < this.propNames.length) {
+  if (inputSlotIndex &lt; this.propNames.length) {
     this.profileValues[inputSlot.id] = inputSlotValue; <span style="color: gray;">//Add a value to profile values</span>
     this.propNames[inputSlotIndex].active = false; <span style="color: gray;">//Make propNames value false</span>
     //Make next propNames "active" value true or make the first one true
@@ -869,12 +869,12 @@ new Vue ({
     averageAge: function() {
       var ageTotal = 0;
       if (this.activeGender === "Any gender") {
-        this.users.forEach((el, idx, arr) => ageTotal += el.age);
+        this.users.forEach((el, idx, arr) =&gt; ageTotal += el.age);
         return ageTotal / this.users.length;
       }
 
-      var filteredGenders = this.users.filter((el) => el.gender === this.activeGender);
-      filteredGenders.forEach((el) => ageTotal += el.age);
+      var filteredGenders = this.users.filter((el) =&gt; el.gender === this.activeGender);
+      filteredGenders.forEach((el) =&gt; ageTotal += el.age);
 
       return ageTotal / filteredGenders.length;
     }
@@ -922,8 +922,8 @@ new Vue ({
           <pre>
 methods: {
   filterNumbers: function(numbers) {
-    if (this.activeNumbers === "odd") return this.numbers.filter((el) => el % 2 !== 0);
-    if (this.activeNumbers === "even") return this.numbers.filter((el) => el % 2 === 0);
+    if (this.activeNumbers === "odd") return this.numbers.filter((el) =&gt; el % 2 !== 0);
+    if (this.activeNumbers === "even") return this.numbers.filter((el) =&gt; el % 2 === 0);
     return numbers;
   }
           </pre>
@@ -1066,7 +1066,7 @@ methods: {
         <h5>The code in the html is</h5>
         <code>
           <pre>
-&lt;div class="conditionalDisplay" v-if="people.length > 3">
+&lt;div class="conditionalDisplay" v-if="people.length &gt; 3"&gt;
   &lt;ul&gt;
     &lt;li v-for="person in people"&gt;
       &lt;input type="checkbox" :value="person.surname"@click="clickLeave($event)"&gt;
@@ -1081,9 +1081,9 @@ methods: {
           <pre>
 clickLeave: function(event) {
   var checkValue = event.target.value;
-  var idxPosition = this.people.findIndex((el) => el.surname === checkValue);
+  var idxPosition = this.people.findIndex((el) =&gt; el.surname === checkValue);
   var people = this.people;
-  setTimeout(() => {
+  setTimeout(() =&gt; {
     people.splice(idxPosition, 1);
     event.target.checked = false;
   }, 500);
@@ -1147,8 +1147,12 @@ clickLeave: function(event) {
       <div class="jumbotron">
         <h4>Example</h4>
         <p>
-          The following example is from the online tutorial. I would need to make
-          my own some time.
+          The following example is from the online tutorial. What happens is that
+          there is a Vue component that feeds the <code>li</code> items. The items
+          are being displayed through a <code>v-for</code> loop. Moreover, there
+          are bind directives for <code>title</code> and for <code>key</code>,
+          matched with the <code>title</code> and <code>id</code> properties of
+          each one of the element objects of the <code>todos</code> objects array.
         </p>
         <div id="todo-list">
           <form v-on:submit.prevent="addNewToDo">
@@ -1176,10 +1180,11 @@ clickLeave: function(event) {
 
     <script>
     Vue.component("todo-item", {
-      props: ["title"],
+      props: ["name", "title"],
       template: `
       <li>
-        {{title}}
+        {{name}}. {{title}}
+        <button v-on:click="$emit('remove')">Remove</button>
       </li>
       `
     });
