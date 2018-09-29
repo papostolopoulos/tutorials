@@ -1126,24 +1126,85 @@ clickLeave: function(event) {
 
 
     <h2><code>v-for</code> with a component </h2>
-    <div id="listRendering8">,
+    <div id="listRendering8">
       <p>
-        a <code>v-for</code> can be used directly on a component. When a <code>v-for</code>
+        A <code>v-for</code> can be used directly on a component. When a <code>v-for</code>
         is used on a component, a <code>key</code> needs to be binded as well.
       </p>
       <p>
         In addition, <code>props</code> need to be used in the component in order
         to pass the iterated data. Data cannot be passed automatically because
-        components have isolated scopes. 
+        components have isolated scopes.
       </p>
+      <p>
+        <b>I DO NOT UNDERSTAND THIS:</b> <br>
+        The reason why we are not automatidally injecting the <code>item</code>
+        into the component is because that makes the component tightly coupled to
+        how <code>v-for</code> works. Being explicit about where the data comes from
+        makes the component reusable in other situations.
+      </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          The following example is from the online tutorial. I would need to make
+          my own some time.
+        </p>
+        <div id="todo-list">
+          <form v-on:submit.prevent="addNewToDo">
+            <label for="new-todo"></label>
+            <input id="new-todo"
+            type="text"
+            placeholder="eg: Get a haircut"
+            v-model="newToDoText">
+            <button>Submit</button>
+          </form>
+
+          <ul>
+            <li
+            is="todo-item"
+            v-for="(item, index) in todos"
+            :key="item.id"
+            :title="item.title"
+            v-on:remove="todos.splice(index, 1)"
+            ></li>
+          </ul>
+        </div>
+      </div>
     </div>
 
 
     <script>
+    Vue.component("todo-item", {
+      props: ["title"],
+      template: `
+      <li>
+        {{title}}
+      </li>
+      `
+    });
+
       var listRendering8 = new Vue({
         el: "#listRendering8",
         data: {
-
+          todos: [
+            {id: 1, title: "Do the dishes."},
+            {id: 2, title: "Walk the dog."},
+            {id: 3, title: "Buy groceries."},
+            {id: 4, title: "Fold the laundry."}
+          ],
+          newToDoText: "",
+          nextToDoId: 5
+        },
+        methods: {
+          addNewToDo: function() {
+            this.todos.push({
+              id: this.nextToDoId,
+              title: this.newToDoText
+            });
+            this.nextToDoId += 1;
+            this.newToDoText = "";
+          }
         }
       });
     </script>

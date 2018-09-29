@@ -196,3 +196,74 @@ function transform(data) {
 	return data || "";
 }
 //------------------------------------------------------------------------------
+
+//Payment STATUS
+function transform(data) {
+  var textMatchObj = {
+    "billing threshold": "PaymentAutomaticallyApplied",
+    "Remaining ad costs": "PaymentComplete",
+    "Ads costs since your last bill.": "PaymentComplete",
+    "This is your monthly bill.": "PaymentAutomaticallyApplied",
+    "You made this manual payment.": "PaymentComplete",
+    "A manual payment was made on this account.": "PaymentComplete"
+  };
+
+  for(var key in textMatchObj){
+    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];
+  }
+  return "";
+}
+
+
+
+//Provide organization name
+function transform(data){
+  var regex1 = new RegExp("Facebook,?\\sInc\\.");
+  var regex2 = new RegExp("Facebook,?\\sIreland\\sLtd\\.");
+  var companyOfficialArr = [regex1, regex2];
+
+  for (var i = 0; i < companyOfficialArr.length; i++) {
+    if(data.match(companyOfficialArr[i])) return data.match(/Facebook/)[0];
+  }
+
+  return "";
+}
+
+
+
+
+//total Payment Due / Price specification / Price currency
+function transform(data){
+  var currencies = [
+    {name: "EGP", symbol: "ج.م"},
+    {name: "EUR", symbol: "€"},
+    {name: "GBP", symbol: "£"},
+    {name: "IDR", symbol: "Rp"},
+    {name: "IND", symbol: "Rs"},
+    {name: "INR", symbol: "₹"},
+    {name: "MYR", symbol: "RM"},
+    {name: "NOK", symbol: "kr"},
+    {name: "PEN", symbol: "S/"},
+    {name: "PHP", symbol: "₱"},
+    {name: "PLN", symbol: "zł"},
+    {name: "QAR", symbol: "ر.ق"},
+    {name: "RON", symbol: "lei"},
+    {name: "THB", symbol: "฿"},
+    {name: "TRY", symbol: "TL"},
+    {name: "USD", symbol: "$"},
+    {name: "VND", symbol: "₫"}
+  ]
+
+  for (var i = 0; i < currencies.length; i++) {
+    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;
+  }
+
+  return "";
+}
+
+
+
+//Person Name
+function transform(data) {
+  return data.replace(/Receipt\sfor\s/, "").split("(")[0].trim();
+}
