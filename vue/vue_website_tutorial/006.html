@@ -1157,7 +1157,7 @@ clickLeave: function(event) {
         <div id="todo-list">
           <form v-on:submit.prevent="addNewToDo">
             <label for="new-todo"></label>
-            <input id="new-todo"
+            Add a todo in list <input id="new-todo"
             type="text"
             placeholder="eg: Get a haircut"
             v-model="newToDoText">
@@ -1174,6 +1174,57 @@ clickLeave: function(event) {
             ></li>
           </ul>
         </div>
+        <hr>
+        <h6>The code for the html is</h6>
+        <code>
+          <pre>
+&lt;ul&gt;
+  &lt;li
+  is="todo-item"
+  v-for="(item, index) in todos"
+  :key="item.id"
+  :title="item.title"
+  v-on:remove="todos.splice(index, 1)"
+  &gt;&lt;/li&gt;
+&lt;/ul&gt;
+          </pre>
+        </code>
+
+        <h6>The code for Vue is</h6>
+        <code>
+          <pre>
+Vue.component("todo-item", {
+  props: ["name", "title"],
+  template: `
+  &lt;li&gt;
+    { {name} }. { {title} }
+    &lt;button v-on:click="$emit('remove')"&gt;Remove&lt;/button&gt;
+  &lt;/li&gt;
+  `
+});
+
+new Vue({
+  el: "#listRendering8",
+  data: {
+    todos: [
+      {id: 1, title: "Do the dishes."},
+      {id: 2, title: "Walk the dog."},
+      {id: 3, title: "Buy groceries."},
+      {id: 4, title: "Fold the laundry."}
+    ],
+    newToDoText: "",
+    nextToDoId: 5
+  },
+  methods: {
+    addNewToDo: function() {
+      this.todos.push({id: this.nextToDoId, title: this.newToDoText});
+      this.nextToDoId += 1;
+      this.newToDoText = "";
+    }
+  }
+});
+          </pre>
+        </code>
       </div>
     </div>
 
@@ -1203,10 +1254,7 @@ clickLeave: function(event) {
         },
         methods: {
           addNewToDo: function() {
-            this.todos.push({
-              id: this.nextToDoId,
-              title: this.newToDoText
-            });
+            this.todos.push({id: this.nextToDoId, title: this.newToDoText});
             this.nextToDoId += 1;
             this.newToDoText = "";
           }
