@@ -1154,10 +1154,19 @@ clickLeave: function(event) {
           matched with the <code>title</code> and <code>id</code> properties of
           each one of the element objects of the <code>todos</code> objects array.
         </p>
+        <p>
+          The Vue component is the one that is connected to the <code>li</code>
+          items through the <code>is</code> parameter. This is the parameter that
+          connects to the name of the component. As long as for the <code>props</code>,
+          they are the ones that connect to the different data properties and
+          through the directives (<code>vbind</code>) of the attributes in the html.
+          Hence, the prop "title" is connected to <code>v-bind:title="item.title"</code>. 
+        </p>
         <div id="todo-list">
           <form v-on:submit.prevent="addNewToDo">
             <label for="new-todo"></label>
-            Add a todo in list <input id="new-todo"
+            Add a todo in list
+            <input id="new-todo"
             type="text"
             placeholder="eg: Get a haircut"
             v-model="newToDoText">
@@ -1170,6 +1179,7 @@ clickLeave: function(event) {
             v-for="(item, index) in todos"
             :key="item.id"
             :title="item.title"
+            :id="item.id"
             v-on:remove="todos.splice(index, 1)"
             ></li>
           </ul>
@@ -1231,10 +1241,10 @@ new Vue({
 
     <script>
     Vue.component("todo-item", {
-      props: ["name", "title"],
+      props: ["id", "title"],
       template: `
       <li>
-        {{name}}. {{title}}
+        {{id}}. {{title}}
         <button v-on:click="$emit('remove')">Remove</button>
       </li>
       `
@@ -1261,6 +1271,15 @@ new Vue({
         }
       });
     </script>
+
+
+
+
+    <div id="listRendering9">
+      <p>
+
+      </p>
+    </div>
 
 
 

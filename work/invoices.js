@@ -205,7 +205,9 @@ function transform(data) {
     "Ads costs since your last bill.": "PaymentComplete",
     "This is your monthly bill.": "PaymentAutomaticallyApplied",
     "You made this manual payment.": "PaymentComplete",
-    "A manual payment was made on this account.": "PaymentComplete"
+    "A manual payment was made on this account.": "PaymentComplete",
+    "Your previous payment for these ad costs failed.": "PaymentComplete",
+    "No reason available.": "PaymentComplete"
   };
 
   for(var key in textMatchObj){
