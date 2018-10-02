@@ -1160,7 +1160,7 @@ clickLeave: function(event) {
           connects to the name of the component. As long as for the <code>props</code>,
           they are the ones that connect to the different data properties and
           through the directives (<code>vbind</code>) of the attributes in the html.
-          Hence, the prop "title" is connected to <code>v-bind:title="item.title"</code>. 
+          Hence, the prop "title" is connected to <code>v-bind:title="item.title"</code>.
         </p>
         <div id="todo-list">
           <form v-on:submit.prevent="addNewToDo">
@@ -1277,9 +1277,151 @@ new Vue({
 
     <div id="listRendering9">
       <p>
-
+        This is another example with my own effort so I can make sure I understand
+        how it works.
       </p>
+
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          The following is a list where I am trying to have new grocery items added
+          and marked as done or undone.
+        </p>
+        <div class="groceryList">
+          <table>
+            <thead>
+              <tr style="text-align: center; font-weight: 600">
+                <td>Items to buy</td>
+                <td>Bought items</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+
+                  <ul>
+                    <grocery-item v-for="(grocery, index) in groceries"
+                    :item="grocery.item"
+                    :id="grocery.id"
+                    :key="grocery.id"
+                    v-on:done="(boughtGroceries.push({id: grocery.id, item: grocery.item}), groceries.splice(index, 1))"
+                    ></grocery-item>
+                  </ul>
+
+                </td>
+                <td>
+
+                  <ul>
+                    <bought-item v-for="(grocery, index) in boughtGroceries"
+                    :item=grocery.item
+                    :id="grocery.id"
+                    :key="grocery.id"
+                    v-on:more="(groceries.push({id: grocery.id, item: grocery.item}), boughtGroceries.splice(index, 1))"
+                    ></bought-item>
+                  </ul>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+
+          <form v-on:keydown.enter.prevent="addNewItems">
+            <label for="inputNewItem">
+              <input id="inputNewItem"
+              :placeholder="placeholderText"
+              v-model="newItem">
+            </label>
+
+          </form>
+
+        </div>
+      </div>
     </div>
+
+
+
+    <script>
+      Vue.component("grocery-item", {
+        props: ["item", "id"],
+        template:
+        `
+          <li>
+          {{id}}. {{item}}
+          <input type="checkbox"
+          v-on:click="$emit('done')" :value="id">
+          </li>
+        `
+      });
+
+      Vue.component('bought-item', {
+        props: ['item', 'id'],
+        template:
+        `
+          <li>
+          {{id}}. {{item}}
+          <button v-on:click="$emit('more')">Need More</button>
+          </li>
+        `
+      });
+
+      var listRendering9 = new Vue({
+        el: "#listRendering9",
+        data: {
+          groceries: [
+            {id: 1, item: "Potatoes"},
+            {id: 2, item: "Tomatoes"},
+            {id: 3, item: "Apples"},
+            {id: 4, item: "Bananas"},
+            {id: 5, item: "Oranges"}
+          ],
+          boughtGroceries: [],
+          itemCount: 6,
+          newItem: "",
+          placeholderText: "Enter new item"
+        },
+        methods: {
+          addNewItems: function() {
+            if (this.newItem.trim() === "") {
+              this.placeholderText = "ENTER A VALUE!"
+              this.newItem = "";
+              return;
+            }
+            this.groceries.push({id: this.itemCount, item: this.newItem});
+            this.newItem = "";
+            this.itemCount++;
+            this.placeholderText = "Enter new item";
+          }
+        }
+      });
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
