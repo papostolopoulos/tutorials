@@ -199,40 +199,6 @@ function transform(data){
 
 
 
-//20180910 - 52643954, rewards.shopyourwayrewards.com
-var str1 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
-str2 = "VIP MEMBERS GET MORE | Every purchase can get you closer to exclusive offers. Silver members can earn an extra $300* annually. | LEARN MORE | *Based on annual VIP purchases made by VIPs by level",
-str3 = "MAKE HOTEL BOOKING EASY | Get up to $100 CASHBACK in points per night with Shop Your Way® Hotels.",
-str4 = "EARN CASHBACK in points in unexpected places with access to over 500 Rewards Partners • REDEEM points on millions of products you need and love • Get FREECASH in points to spend (just because!) • Enjoy member-only COUPONS personalized to your shopping tastes",
-str5 = "EARN EXTRA POINTS on gas, grocery and dining with the Sears Mastercard® with Shop Your Way • SAVE TIME AND MONEY with Shop Your Way MAX® free shipping and free Personal Shoppers • PLAY Win What You Want and enter new Sweepstakes daily • CONNECT & SHARE with other members for advice",
-str6 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
-str7 = "CONGRATS, YOU'RE A VIP SILVER | Get exclusive benefits like earning 5% CASHBACK in points for your birthday. | LEARN MORE";
-
-
-// Description - Version of 9/17
-function transform(data) {
-	var regEx1 = new RegExp("[\\w\\s\\*]+%[\\w\\s®-]+\\.", "i");
-	var regEx2 = new RegExp("[a-z\\s]+\\$[\\d]+\\*?[\\w\\s-®]+\\.", "i");
-	var regEx3 = new RegExp("[\\w\\s]+cashback[\\w\\s]+", "i");
-	var regEx4 = new RegExp("[\\w\\s®\\*\\$]+free[\\w\\s®-]+", "i");
-	var regExArr = [regEx1, regEx2, regEx3, regEx4];
-
-	for (var i = 0; i < regExArr.length; i++) {
-		var el = regExArr[i];
-		if (data.match(el)) return data.match(el)[0].replace("*", "").trim();
-	}
-
-	return "";
-}
-
-
-//Version of 9/10
-function transform(data) {
-  return data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi) ? data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi)[0].trim() : "";
-}
-
-
-
 
 //20180911 - 59220812
 var str1 = "Save up to 25% on home updates.*›",
@@ -1180,6 +1146,46 @@ function transform(data) {
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//20180910 - 52643954, rewards.shopyourwayrewards.com
+var str1 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
+str2 = "VIP MEMBERS GET MORE | Every purchase can get you closer to exclusive offers. Silver members can earn an extra $300* annually. | LEARN MORE | *Based on annual VIP purchases made by VIPs by level",
+str3 = "MAKE HOTEL BOOKING EASY | Get up to $100 CASHBACK in points per night with Shop Your Way® Hotels.",
+str4 = "EARN CASHBACK in points in unexpected places with access to over 500 Rewards Partners • REDEEM points on millions of products you need and love • Get FREECASH in points to spend (just because!) • Enjoy member-only COUPONS personalized to your shopping tastes",
+str5 = "EARN EXTRA POINTS on gas, grocery and dining with the Sears Mastercard® with Shop Your Way • SAVE TIME AND MONEY with Shop Your Way MAX® free shipping and free Personal Shoppers • PLAY Win What You Want and enter new Sweepstakes daily • CONNECT & SHARE with other members for advice",
+str6 = "SHIP ORDERS FAST & FREE | Frequent shoppers save $180* a year with FREE 2-day shipping from Shop Your Way MAX®. | START FREE TODAY | *Based on 2015 data",
+str7 = "CONGRATS, YOU'RE A VIP SILVER | Get exclusive benefits like earning 5% CASHBACK in points for your birthday. | LEARN MORE";
+
+
+// Description - Version of 9/17
+function transform(data) {
+	var regEx1 = new RegExp("[\\w\\s\\*]+%[\\w\\s®-]+\\.", "i");
+	var regEx2 = new RegExp("[a-z\\s]+\\$[\\d]+\\*?[\\w\\s-®]+\\.", "i");
+	var regEx3 = new RegExp("[\\w\\s]+cashback[\\w\\s]+", "i");
+	var regEx4 = new RegExp("[\\w\\s®\\*\\$]+free[\\w\\s®-]+", "i");
+	var regExArr = [regEx1, regEx2, regEx3, regEx4];
+
+	for (var i = 0; i < regExArr.length; i++) {
+		var el = regExArr[i];
+		if (data.match(el)) return data.match(el)[0].replace("*", "").trim();
+	}
+
+	return "";
+}
+
+
+//Version of 9/10
+function transform(data) {
+  return data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi) ? data.match(/[a-z\s]+\$[\d]+\*?[\w\s-®]+\./gi)[0].trim() : "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
 /*------------------------------------------------------------------------------
 Date - package: 20180924 - 78051985, rewards.shopyourwayrewards.com
 // Root xPath: /descendant::img[contains(@alt,"CASHBACK")]
@@ -1272,6 +1278,11 @@ function transform(data) {
 /*------------------------------------------------------------------------------
 Date - package: 20180925 - 77929489 email.landsend.com
 // Root xPath: /descendant::a[contains(.,"%") and not (contains(.,"Last day!")) and contains(.,"free shipping")]
+// Root xPath2: /descendant::a[contains(.,"%") and not
+(contains(.,"free shipping")) or
+contains(.,"FREE SHIPPING") and not
+(contains(.,"Last day!"))]
+
 // Description xPath: .
 URL xPath: /descendant::a[contains(.,"%") and contains(.,"free shipping")]/@href
 Valid through xPath: /descendant::span[contains(text(),"valid through") or contains(text(),"Valid through")]
@@ -1295,6 +1306,50 @@ function transform(data) {
 	data = data.match(/valid\sthrough[\w\s:]+p\.m\.[\w\s,]+\./gi)[0].split(",");
 	var result = data[1] + "," + data[2];
 	return result || "";
+}
+//------------------------------------------------------------------------------
+
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20181002 - 71524273, e.officedepot.com
+// Root xPath:
+/descendant::span[contains(text(),"pickup") or contains(text(),"delivery")]
+|
+/descendant::a[contains(text(),"$") or contains(text(),"%") or contains(text(),"Free")]
+|
+/descendant::*[@class='mobile-hidden']/descendant::img[contains(@alt,"%") or contains(@alt,"$")]
+|
+/descendant::td[contains(text(),"%") and not (contains(.,"Bonus"))]
+|
+/descendant::b[contains(text(),"Bonus Rewards")]/following-sibling::text()
+
+// Description xPath: .
+URL xPath:
+Valid through xPath:
+*/
+
+
+//Description
+var str1 = "FREE store pickup, ready in 1 hour!",
+str2 = "FREE delivery for VIP Rewards Members",
+str3 = "Save 20% on Qualifying Regular Priced Purchase",
+str4 = "Biggest. Baddest. Blowout. $ALE",
+str5 = "Toner Deal Save $25 on 2 HP or Samsung Toners",
+str6 = "Save up to $250 on select HP printers + 10% Bounus Rewards",
+str7 = "Get in here for up to 70% savings on thousands of items",
+str8 = "100% back on DuracellÂ® Coppertop Alkaline Batteries, 16pk: Valid in store, online, by phone or fax from 9/30/18 to 10/06/18 11:59 PM ET or while supplies last, whichever occurs first. Rewards are Limited to 2 items per member. This offer cannot be combined with other Bonus Rewards offers on the same or similar products and services",
+str9 = "10% Back in rewards on all HP inkjet printers: Valid in store, online, by phone or fax from 9/30/18 to 10/6/18 11:59 PM ET or while supplies last, whichever occurs first. Rewards are Limited to 2 printers per member. This offer cannot be combined with other Bonus Rewards offers on the same or similar products and services.";
+
+function transform(data) {
+	if(data.match(/:\sValid/)) return data.split(": Valid")[0];
+	return data || "";
+}
+
+//Valid through
+function transform(data) {
+	return data || "";
 }
 //------------------------------------------------------------------------------
 
