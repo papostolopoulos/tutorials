@@ -1315,19 +1315,25 @@ function transform(data) {
 /*------------------------------------------------------------------------------
 Date - package: 20181002 - 71524273, e.officedepot.com
 // Root xPath:
-/descendant::span[contains(text(),"pickup") or contains(text(),"delivery")]
+/descendant::tr[@class="mobile-hidden"]/descendant::img[contains(@class,"image")][contains(@alt,"%") or contains(@alt,"$") or contains(@alt,"Save") or contains(@alt,"Sale") or contains(@alt,"Free")][not (contains(@alt,"Tech Support"))]
+|
+/descendant::tr[@class="mobile-hidden"]/descendant::img[not(@class)][contains(@alt,"%") or contains(@alt,"$") or contains(@alt,"Save") or contains(@alt,"Sale") or contains(@alt,"Free")][not (contains(@alt,"Tech Support"))]
+|
+/descendant::img[contains(@class,"image")]/parent::a/parent::td/parent::tr[not(@class)]/descendant::img[contains(@alt,"%") or contains(@alt,"$") or contains(@alt,"Save") or contains(@alt,"Sale") or contains(@alt,"Free")][not (contains(@alt,"Tech Support"))]
+|
+/descendant::span[contains(text(),"delivery")]
 |
 /descendant::a[contains(text(),"$") or contains(text(),"%") or contains(text(),"Free")]
 |
-/descendant::*[@class='mobile-hidden']/descendant::img[contains(@alt,"%") or contains(@alt,"$")]
+/descendant::td[contains(text(),"%") and not (contains(.,"Bonus Rewards"))]
 |
-/descendant::td[contains(text(),"%") and not (contains(.,"Bonus"))]
-|
-/descendant::b[contains(text(),"Bonus Rewards")]/following-sibling::text()
+/descendant::b[contains(text(),"$")]
 
-// Description xPath: .
-URL xPath:
-Valid through xPath:
+// Description xPath: ./@alt | .
+URL xPath: ./parent::a/@href
+|
+/descendant::span[contains(text(),"View in web browser")]/parent::a/@href
+Valid through xPath: /descendant::text()[contains(.,"through") and contains(.,"Prices and offers valid")]
 */
 
 
@@ -1342,14 +1348,91 @@ str7 = "Get in here for up to 70% savings on thousands of items",
 str8 = "100% back on DuracellÂ® Coppertop Alkaline Batteries, 16pk: Valid in store, online, by phone or fax from 9/30/18 to 10/06/18 11:59 PM ET or while supplies last, whichever occurs first. Rewards are Limited to 2 items per member. This offer cannot be combined with other Bonus Rewards offers on the same or similar products and services",
 str9 = "10% Back in rewards on all HP inkjet printers: Valid in store, online, by phone or fax from 9/30/18 to 10/6/18 11:59 PM ET or while supplies last, whichever occurs first. Rewards are Limited to 2 printers per member. This offer cannot be combined with other Bonus Rewards offers on the same or similar products and services.";
 
+function transform(data)
+{
+ var n = data.get("http://schema.org/description")[0];
+  return n ? data : "";
+}
+
+
+//Desctription
+function transform(data){
+  if(data.trim()[data.length-1] === ":") return data.slice(0,data.length-1);
+  return data || "";
+}
+
+
+//OLD DESCRIPTIONS
+function transform(data) {
+	//IF NO DATA, RETURN EMPTY STRING;
+	if(!data) return "";
+
+	//IF TEXT IS INCLUDED IN DATA, THEN DISCARD IT IF IT IS FALSE IN ARRAY ELSE RETURN IT
+	//AFTER YOU MODIFY IT
+	var footer = [
+		{text: ": Valid", keep: true},
+		{text: "Prices", keep: false},
+		{text: "Rewards are earned on", keep: false},
+		{text: "cannot be combined", keep: false}
+	]
+
+	for (var i = 0; i < footer.length; i++) {
+		if (data.indexOf(footer[i].text) !== -1) {
+		return footer[i].keep ? data.split(footer[i].text)[0] : "";
+		}
+	}
+
+	// RETURN DATA IF NONE OF THE ABOVE IS VALID
+	return data;
+}
+
+function transform(data) {
+	//IF NO DATA, RETURN EMPTY STRING;
+	if(!data) return "";
+
+	//IF TEXT IS INCLUDED IN DATA, THEN DISCARD IT IF IT IS FALSE IN ARRAY ELSE RETURN IT
+	//AFTER YOU MODIFY IT
+	var footer = [
+		{text: ": Valid", keep: true},
+		{text: "Prices", keep: false},
+		{text: "Rewards are earned on", keep: false},
+		{text: "cannot be combined", keep: false}
+	]
+
+	for (var i = 0; i < footer.length; i++) {
+		if (data.indexOf(footer[i].text) !== -1 && footer[i].keep) return data.split(footer[i].text)[0];
+    if (data.indexOf(footer[i].text) !== -1 && !footer[i].keep) return "";
+	}
+
+	// RETURN DATA IF NONE OF THE ABOVE IS VALID
+	return data;
+}
+
+// old code pulled from Scarlett
 function transform(data) {
 	if(data.match(/:\sValid/)) return data.split(": Valid")[0];
 	return data || "";
 }
 
+
+
+// old code for description function
+
+	//IF TEXT INCLUDED IN DATA, RETURN EMPTY STRING (FOR THE TEXT THAT IS PULLED FROM THE FOOTER)
+	var discardTextArr = ["Prices", "Rewards are earned on", "cannot be combined"];
+	for (var i = 0; i < discardTextArr.length; i++) {
+		if (data.indexOf(discardTextArr[i]) !== -1) return "";
+	}
+
+	//THIS IS FOR THE COUPONS THAT RESIDE ON THE FOOTER AND WE WANT TO KEEP. THEY BEGIN WITH: "BONUS REWARDS: ..."
+	if(data.match(/:\sValid/)) return data.split(": Valid")[0];
+
 //Valid through
 function transform(data) {
-	return data || "";
+	return
+	data.match(/through\s(\d{1,2}\/){2}\d{2,4}/) ?
+	data.match(/through\s(\d{1,2}\/){2}\d{2,4}/)[0].replace(/through\s/,"").trim() :
+	"";
 }
 //------------------------------------------------------------------------------
 

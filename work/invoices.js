@@ -253,8 +253,9 @@ function transform(data){
     {name: "THB", symbol: "฿"},
     {name: "TRY", symbol: "TL"},
     {name: "USD", symbol: "$"},
+    {name: "UGX", symbol: "Ush"}, //might also be "USh" as per wikipedia
     {name: "VND", symbol: "₫"}
-  ]
+  ];
 
   for (var i = 0; i < currencies.length; i++) {
     if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;
