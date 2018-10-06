@@ -1,0 +1,2450 @@
+/* BUYBUY BABY emailbuybuybaby.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "ed8ebf00-f645-410c-b5e3-31ed6adbb72d",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(text(),\"Free shipping\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "concat(., \" \", ./following-sibling::a)"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  return data ? data.replace(/→/g, \"\").trim() + \".\" : \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::td[contains(text(),\"email\")]"
+        }
+      },
+      {
+        "id": "4ea4479f-5639-4ccc-9ee9-5c170a8bf450",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(text(),\"Free shipping\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"buy buy BABY\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "ed8ebf00-f645-410c-b5e3-31ed6adbb72d",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "4ea4479f-5639-4ccc-9ee9-5c170a8bf450",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* CHILDRENS PLACE email.childrensplace.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "14569206-5c35-4881-8dc6-5b8d7e70bda4",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Free\") or contains(@alt,\"Double Rewards\")]\n|\n/descendant::a[contains(text(),\"%\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data.replace(/-\\sLocate a Store!/, \"\").trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "//td/descendant::text()[contains(.,\"My Place Rewards\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tif(!data) return \"\";\n\tvar months = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\t\n\t//Iterate through the months. If the month is included in \"data\" then:\n\t//1. slice the string where the month is at\n\t//2. return the match() of the string as month + days + year\n\tfor (var i = 0; i < months.length; i++) {\n\t\tif (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i])).match(/[a-z\\s]+\\d{1,2}\\s-\\s\\d{1,2},\\s\\d{4}/i)[0].replace(/\\s\\d{1,2}\\s-/, \"\");\n\t}\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "//a[contains(.,\"childrensplace.com\")]/parent::td/parent::tr/parent::tbody/parent::table",
+          "_raw_validThrough": "//td/descendant::text()[contains(.,\"My Place Rewards\")]"
+        },
+        "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
+      },
+      {
+        "id": "f8c5cf95-4779-4200-a96f-9d0693caa9c8",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Free\") or contains(@alt,\"Points\")]\n|\n/descendant::a[contains(text(),\"%\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"THE CHILDREN'S PLACE\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "c5de83aa-3b66-49ce-9d11-8875604ed440",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Free\") or contains(@alt,\"Points\")]\n|\n/descendant::a[contains(text(),\"%\")]"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ./@title"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgtext",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "14569206-5c35-4881-8dc6-5b8d7e70bda4",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "f8c5cf95-4779-4200-a96f-9d0693caa9c8",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "14569206-5c35-4881-8dc6-5b8d7e70bda4",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "c5de83aa-3b66-49ce-9d11-8875604ed440",
+          "matchAttr": "http://schema.org/_imgtext"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE",
+        "matchThreshold": "0.7"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* COSTCO  services.costco.com  */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "3b17af65-64e7-411f-8e6b-7929e02e76a1",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(text(),\"%\")]\n|\n/descendant::p[contains(text(),\"%\") and not (contains(text(),\"tax\"))]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tif (!data) return \"\";\n\t\n\tif (data.match(/\\*\\^/g)) data = data.replace(/\\*\\^/g, \"\");\n\n\tif (data[data.length-1].match(/\\d/) && data[data.length-2].match(/[a-z\\.]/i)) \n\treturn data.slice(0, data.length-1).match(/[\\d]{1,2}%[a-z\\s,\\.&]+/i)[0].trim();\n\t\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@href\n|\n./following::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::tr[contains(.,\"%\")]"
+        }
+      },
+      {
+        "id": "a016f7cf-777e-4e20-aa42-adb63c15e3cd",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(text(),\"%\")]\n|\n/descendant::p[contains(text(),\"%\") and not (contains(text(),\"tax\"))]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"COSTCO WHOLESALE\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "3b17af65-64e7-411f-8e6b-7929e02e76a1",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "a016f7cf-777e-4e20-aa42-adb63c15e3cd",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* DCSG  e.dcsg.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "fcba0d44-1414-4762-a6e9-c830f5b0d605",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt, \"%\") or contains(@alt, \"OFF\") or contains(@alt, \"$\") and not\n(contains(@alt,\"SCORECARD\"))]  |\n //descendant::b[contains(., \"%\")] "
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  //Creating the RegExp rules and the array of the Regular expressions\n  var regEx1 = new RegExp(\"^([a-z\\\\s]+)?[0-9]{2}%\\\\s[\\\\w\\\\s,'&]+\", \"gi\"),\n      regEx2 = new RegExp(\"\\\\|\\\\s[0-9]{2}%[a-z\\\\s]+\", \"gi\"),\n      regEx3 = new RegExp(\"(.*)?free[a-z\\\\s0-9\\\\$]+\", \"gi\"),\n      regEx4 = new RegExp(\"^starting\\\\sat\\\\s\\\\$[0-9\\\\.\\\\sa-z']+\", \"gi\"),\n      regEx5 = new RegExp(\"^sale.*\\\\|\", \"gi\"),\n      regEx6 = new RegExp(\".*?or\\\\sless.*\\\\|\", \"gi\"),\n      regEx7 = new RegExp(\"(.*)?\\\\$[0-9]+\\\\soff\\\\s[a-z\\\\s\\\\$0-9]+\", \"gi\"),\n      regEx8 = new RegExp(\"[a-z\\\\s]+\\\\|[\\\\sa-z0-9%]+\", \"gi\"),\n      regExArr = [regEx1, regEx2, regEx3, regEx4, regEx5, regEx6, regEx7, regEx8],\n      matchedStr = \"\";\n\n  //Loop through the Regular Expresssions array. If a condition is true, in the if statement, then \n  //the data variable will be manipulated for the final result. Nothing else will need to run.\n  for (var i = 0; i < regExArr.length; i++) {\n    \n    if (data.match(regExArr[i])){\n      matchedStr += data.match(regExArr[i])[0].replace(/[\\|\\*]/g, \"\").trim().replace(/\\s\\s/, \". \") + \".\";\n      \n      //Running map method to lowercase all the words in the array but keep the first letter into uppercase\n      var result = matchedStr.split(\" \").map(function(el) {\n        return el.slice(0,1) + el.slice(1).toLowerCase();\n      });\n      return result.join(\" \");\n    }\n    \n  }\n\nreturn \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false,
+            "hintsJavascript": null
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "../@href | /descendant::u[contains(.,\"Web\")]/ancestor::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ."
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if(data.match(/Valid\\sthrough/)){\n    var date = data.match(/Valid\\sthrough\\s[0-9]{1,2}\\/[0-9]{1,2}/)[0].slice(\"Valid through \".length) + \"/2018\";\n    return date;\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "./@alt | .",
+          "_footer": "/descendant::p[contains(.,\"Offer valid\")]"
+        },
+        "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
+      },
+      {
+        "id": "11e386da-ea13-429f-8518-2271975c8498",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt, \"%\") or contains(@alt, \"OFF\") or contains(@alt, \"$\") and not\n(contains(@alt,\"SCORECARD\"))]  |\n //descendant::b[contains(., \"%\")] "
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"DICK'S SPORTING GOODS\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "24f4be7d-4e4e-4787-8c32-dd8927c94e58",
+        "repeating": true,
+        "locations": [
+          "/descendant::img"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ./@title"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgtext",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "fcba0d44-1414-4762-a6e9-c830f5b0d605",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "11e386da-ea13-429f-8518-2271975c8498",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "fcba0d44-1414-4762-a6e9-c830f5b0d605",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "24f4be7d-4e4e-4787-8c32-dd8927c94e58",
+          "matchAttr": "http://schema.org/_imgtext"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE",
+        "matchThreshold": "0.5"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* DEAL NEWS dealnews.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "38457f14-9763-4c6b-b972-9d71a41d5e17",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"MORE\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td/parent::tr/preceding-sibling::tr/td[contains(.,\"free\") or contains(.,\"%\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data + \".\" || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td/parent::tr/preceding-sibling::tr/descendant::td[contains(.,\"free\")]/parent::tr/following-sibling::tr/td/a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::td[contains(text(),\"registered\")]"
+        }
+      },
+      {
+        "id": "11fc649a-1a14-4a54-85b1-94b6e3b5660d",
+        "repeating": true,
+        "locations": [
+          "\"deal news\""
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": []
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "38457f14-9763-4c6b-b972-9d71a41d5e17",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "11fc649a-1a14-4a54-85b1-94b6e3b5660d",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* GNC mail.gnc.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "86ff7be8-fdf2-4d6d-846b-0ec0eab16275",
+        "repeating": true,
+        "locations": [
+          "/descendant::td[contains(text(),\"$\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data.replace(/\\*/g, \"\") || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"View Online\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::span[contains(text(),\"effective through\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tif(!data) return \"\";\n\tvar months = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n\t//Iterate through the months. If the month is included in \"data\" then:\n\t//1. slice the string where the month is at\n\t//2. return the match() of the string as month + days + year\n\tfor (var i = 0; i < months.length; i++) {\n\t\tif (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i])).match(/[a-z\\s]+[\\d]{1,2},?\\s[\\d]{4}/i)[0];\n\t}\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "/descendant::span[contains(text(),\"effective through\")]",
+          "_footer": "/descendant::span[contains(text(),\"effective through\")]"
+        }
+      },
+      {
+        "id": "483d6db5-691e-47a6-8115-9b8aab9cf6d0",
+        "repeating": true,
+        "locations": [
+          "/descendant::td[contains(text(),\"$\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"GNC\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "86ff7be8-fdf2-4d6d-846b-0ec0eab16275",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "483d6db5-691e-47a6-8115-9b8aab9cf6d0",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* ICICI BANK custcomm.icicibank.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "e100939d-48a0-48dd-b503-f1c98924f181",
+        "repeating": true,
+        "locations": [
+          "/descendant::strong[contains(.,\"Cashback\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if (data) {\n    var splitStr = data.split(\" \");\n\n    //Itterating through the array. if element text contains both numbers and letters\n    //but no space, then split and ad \" $\"\n    for (var i = 0; i < splitStr.length; i++) {\n      if (splitStr[i].match(/[a-z]+[\\d]+/i)) {\n        splitStr[i] = splitStr[i].match(/[a-z]+/i) + \" $\" + splitStr[i].match(/[\\d]+/);\n      }\n    }\n    return splitStr.join(\" \");\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::strong/a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::font[contains(text(),\"Terms\")]"
+        }
+      },
+      {
+        "id": "b3ec3b53-e23d-47d0-82bb-5d5b23ac7c1a",
+        "repeating": true,
+        "locations": [
+          "/descendant::strong"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"ICICI Bank\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "e100939d-48a0-48dd-b503-f1c98924f181",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "b3ec3b53-e23d-47d0-82bb-5d5b23ac7c1a",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* H&M email.hm.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "b7695c3d-acae-406e-9529-a3ccf82c00e3",
+        "repeating": true,
+        "locations": [
+          "/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[@class='is-hidden-mobile']/descendant::a[contains(text(),\"Free\") or contains(text(),\"FREE\") or contains(text(),\"%\") or contains(text(),\"€\") or contains(text(),\"Gratis\") or contains(text(),\"GRATIS\")]\n|\n/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[@class='is-hidden-mobile']/descendant::p[contains(text(),\"Free\") or contains(text(),\"FREE\") or contains(text(),\"%\") or contains(text(),\"€\") or contains(text(),\"Gratis\") or contains(text(),\"GRATIS\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@href \n| \n/descendant::p[contains(@class,\"view-in-browser\")]/descendant::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::td[contains(@class,\"footer\")]"
+        }
+      },
+      {
+        "id": "47f1e546-87ee-405f-8477-e9dc9a73d276",
+        "repeating": true,
+        "locations": [
+          "/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[@class='is-hidden-mobile']/descendant::a[contains(text(),\"Free\") or contains(text(),\"FREE\") or contains(text(),\"%\") or contains(text(),\"€\") or contains(text(),\"Gratis\") or contains(text(),\"GRATIS\")]\n|\n/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[@class='is-hidden-mobile']/descendant::p[contains(text(),\"Free\") or contains(text(),\"FREE\") or contains(text(),\"%\") or contains(text(),\"€\") or contains(text(),\"Gratis\") or contains(text(),\"GRATIS\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"H&M\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "b7695c3d-acae-406e-9529-a3ccf82c00e3",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "47f1e546-87ee-405f-8477-e9dc9a73d276",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* KROGERMAIL e.krogermail.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "0506122c-f38c-4f39-8b88-a6c4bc753caf",
+        "repeating": true,
+        "locations": [
+          "/descendant::td[contains(text(),\"%\") or contains(text(),\"Save\") or contains(text(),\"¢\") or contains(text(),\"$\") or contains(text(),\"99\") or contains(text(),\"Big Savings\")] \n| \n/descendant::a[contains(.,\"%\")]\n|\n/descendant::strong[contains(text(),\"FREE Passes\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"View\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::text()[contains(.,\"now and redeem\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tif(!data) return \"\";\n\tvar months = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n\tfor (var i = 0; i < months.length; i++) {\n\t\tif (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i])).match(/[a-z\\s]+\\s\\d{1,2}\\s?(-\\s?\\d{1,2})?,?(\\s\\d{4})?/i)[0].replace(/\\d{1,2}\\s?-/, \"\") + \" 1970\";\n\t}\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "/descendant::text()[contains(.,\"now and redeem\")]",
+          "_footer": "/descendant::td/descendant::text()[contains(.,\"The Kroger Co.\")]"
+        },
+        "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
+      },
+      {
+        "id": "e79932a4-d008-48f3-ba97-bf66d2356f6a",
+        "repeating": true,
+        "locations": [
+          "/descendant::td[contains(text(),\"%\") or contains(text(),\"Save\") or contains(text(),\"¢\") or contains(text(),\"$\") or contains(text(),\"99\") or contains(text(),\"Big Savings\")] \n| \n/descendant::a[contains(.,\"%\")]\n|\n/descendant::strong[contains(text(),\"FREE Passes\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"Kroger\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "8d85d47c-505a-4fba-9e25-90f0418f2621",
+        "repeating": true,
+        "locations": [
+          "/descendant::img\n"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@title | ./@alt"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgtext",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "0506122c-f38c-4f39-8b88-a6c4bc753caf",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "e79932a4-d008-48f3-ba97-bf66d2356f6a",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "0506122c-f38c-4f39-8b88-a6c4bc753caf",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "8d85d47c-505a-4fba-9e25-90f0418f2621",
+          "matchAttr": "http://schema.org/_imgtext"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE",
+        "matchThreshold": "0.6"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* LANDSEND */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "d0ebaf19-eb36-448f-92d0-2f1fe2b81936",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"%\") and not (contains(.,\"Last day!\") or contains(.,\"Take\")) \nor contains(.,\"FREE SHIPPING\")]\n"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n return data.replace(/^\\+/, \"\").trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::span[contains(text(),\"valid through\") or contains(text(),\"Valid through\")]\n|\n/descendant::p[contains(text(),\"valid through\") or contains(text(),\"Valid through\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\tdata = data.match(/valid\\sthrough[\\w\\s:]+p\\.m\\.[\\w\\s,]+\\./gi)[0].split(\",\");\n\tvar result = data[1] + \",\" + data[2];\n\treturn result || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"%\") or contains(.,\"FREE SHIPPING\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "51009acc-e604-4bb0-83c1-ba5ec5e44e33",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(.,\"%\") or contains(.,\"FREE SHIPPING\")]\n"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"LANDS' END\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "d0ebaf19-eb36-448f-92d0-2f1fe2b81936",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "51009acc-e604-4bb0-83c1-ba5ec5e44e33",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* OFFICE DEPOT e.officedepot.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "85290066-92b0-4fc9-91c8-939b6db4bd9d",
+        "repeating": true,
+        "locations": [
+          "/descendant::tr[@class=\"mobile-hidden\"]/descendant::img[contains(@class,\"image\")][contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::tr[@class=\"mobile-hidden\"]/descendant::img[not(@class)][contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::img[contains(@class,\"image\")]/parent::a/parent::td/parent::tr[not(@class)]/descendant::img[contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::span[contains(text(),\"delivery\")]\n|\n/descendant::a[contains(text(),\"$\") or contains(text(),\"%\") or contains(text(),\"Free\")]\n|\n/descendant::td[contains(text(),\"%\") and not (contains(.,\"Bonus Rewards\"))]\n|\n/descendant::b[contains(text(),\"$\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if(data.trim()[data.length-1] === \":\") return data.slice(0,data.length-1);\n  return data || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::text()[contains(.,\"through\") and contains(.,\"Prices and offers valid\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\treturn data.match(/through\\s(\\d{1,2}\\/){2}\\d{2,4}/) ? data.match(/through\\s(\\d{1,2}\\/){2}\\d{2,4}/)[0].replace(/through\\s/,\"\").trim() : \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::a/@href \n| \n/descendant::span[contains(text(),\"View in web browser\")]/parent::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "/descendant::text()[contains(.,\"through\") and contains(.,\"Prices and offers valid\")]",
+          "_footer": "/descendant::b[contains(text(),\"Bonus\")]/parent::td/parent::tr/parent::tbody"
+        },
+        "hintsJavascript": null
+      },
+      {
+        "id": "93554bc9-c9bd-41fa-9815-ef300e6aa5cc",
+        "repeating": true,
+        "locations": [
+          "/descendant::tr[@class=\"mobile-hidden\"]/descendant::img[contains(@class,\"image\")][contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::tr[@class=\"mobile-hidden\"]/descendant::img[not(@class)][contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::img[contains(@class,\"image\")]/parent::a/parent::td/parent::tr[not(@class)]/descendant::img[contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::span[contains(text(),\"delivery\")]\n|\n/descendant::a[contains(text(),\"$\") or contains(text(),\"%\") or contains(text(),\"Free\")]\n|\n/descendant::td[contains(text(),\"%\") and not (contains(.,\"Bonus Rewards\"))]\n|\n/descendant::b[contains(text(),\"$\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"office DEPOT\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "cd344525-1ad1-424f-816e-139309b71062",
+        "repeating": true,
+        "locations": [
+          "/descendant::tr[@class=\"mobile-hidden\"]/descendant::img[contains(@class,\"image\")][contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::tr[@class=\"mobile-hidden\"]/descendant::img[not(@class)][contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::img[contains(@class,\"image\")]/parent::a/parent::td/parent::tr[not(@class)]/descendant::img[contains(@alt,\"%\") or contains(@alt,\"$\") or contains(@alt,\"Save\") or contains(@alt,\"Sale\") or contains(@alt,\"Free\")][not (contains(@alt,\"Tech Support\"))]\n|\n/descendant::span[contains(text(),\"delivery\")]\n|\n/descendant::a[contains(text(),\"$\") or contains(text(),\"%\") or contains(text(),\"Free\")]\n|\n/descendant::td[contains(text(),\"%\") and not (contains(.,\"Bonus Rewards\"))]\n|\n/descendant::b[contains(text(),\"$\")]"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ./@title"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgtext",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "85290066-92b0-4fc9-91c8-939b6db4bd9d",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "93554bc9-c9bd-41fa-9815-ef300e6aa5cc",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "85290066-92b0-4fc9-91c8-939b6db4bd9d",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "cd344525-1ad1-424f-816e-139309b71062",
+          "matchAttr": "http://schema.org/_imgtext"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE",
+        "matchThreshold": ".7"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* SAFEWAY email.safeway.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "14691b45-42cc-443f-b2f9-58e7a53c78b1",
+        "repeating": true,
+        "locations": [
+          "//descendant::div[contains(text(), \"$\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if(data.match(/\\$[\\d]+\\sOff[\\s\\+a-z]+/)){\n    return data.match(/\\$[\\d]+\\sOff[\\s\\+a-z]+/i)[0].trim();\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data.match(/Order\\sby/) ? \n  data.match(/Order\\sby\\s[\\d\\/]+/)[0].slice(\"Order by \".length) : \n  \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "//descendant::a[contains(text(), \"View\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": ".",
+          "_footer": "/descendant::div[contains(.,\"Limited time\")]"
+        },
+        "hintsJavascript": null
+      },
+      {
+        "id": "024f7ada-9f5b-4026-8c86-258b1aa47d5d",
+        "repeating": true,
+        "locations": [
+          "//descendant::div[contains(text(), \"$20 Off\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"SAFEWAY\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "14691b45-42cc-443f-b2f9-58e7a53c78b1",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "024f7ada-9f5b-4026-8c86-258b1aa47d5d",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* SEARS value.sears.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "f5a298ac-6358-4606-82fb-a1e4f1639819",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(text(),\"%\") or\ncontains(text(),\"Sale\") or\ncontains(text(),\"$\")\n]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "concat(., \" \", ./following::a)"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data.replace(\"Shop Now\", \"\").trim() + \".\" || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./following::a[contains(text(),\"Shop Now\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./following::span[contains(text(),\"Offer Ends\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\treturn data.match(/([\\d\\/]{2,3}){2}([\\d]{2,4})?/) || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "./following::span[contains(text(),\"Offer Ends\")]",
+          "_footer": "/descendant::td[contains(.,\"limited\")]"
+        }
+      },
+      {
+        "id": "12cd83a0-8963-47e3-b898-460b54103aa2",
+        "repeating": true,
+        "locations": [
+          "/descendant::a[contains(text(),\"%\") or\ncontains(text(),\"Sale\") or\ncontains(text(),\"$\")\n]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"sears\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "f5a298ac-6358-4606-82fb-a1e4f1639819",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "12cd83a0-8963-47e3-b898-460b54103aa2",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* SEPHORA beauty.sephora.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
+        "repeating": true,
+        "locations": [
+          "/descendant::div[@id='DESKTOP']/descendant::img[contains(@alt,\"%\") or contains(@alt, \"Rewards Bazaar\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\")]\n|\n/descendant::div[@id='DESKTOP']/descendant::text()[contains(.,\"Enter promotion code\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt"
+                },
+                {
+                  "xpath": "concat(., \" \", ./following::text(), ./following::text()/following::text())"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n\tif(data.match(/Enter\\spromotion\\scode\\s.*\\sor\\smore\\./)) return data.match(/Enter\\spromotion\\scode\\s.*\\sor\\smore\\./)[0];\n\n  return data || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::a/@href \n|\n/descendant::a[1]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::text()[contains(.,\"Beauty Insider members\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n\treturn data.match(/\\sthrough\\s11:59pm\\sPT\\s(on\\s)?(\\d{1,2}\\s?\\/){2}\\d{0,4}/)[0].match(/(\\d{1,2}\\s?\\/){2}\\d{0,4}/)[0] || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "/descendant::font/descendant::text()[contains(.,\"points\")]",
+          "_footer": "/descendant::font[contains(text(),\"promotion code\")]"
+        },
+        "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
+      },
+      {
+        "id": "53021d0e-c463-4bbb-b845-4c9bd73232a0",
+        "repeating": true,
+        "locations": [
+          "/descendant::img"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@title | ./@alt"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgtext",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
+        "repeating": true,
+        "locations": [
+          "/descendant::div[@id='DESKTOP']/descendant::img[contains(@alt,\"%\") or contains(@alt, \"Rewards Bazaar\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\")]\n|\n/descendant::div[@id='DESKTOP']/descendant::text()[contains(.,\"Enter promotion code\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"SEPHORA\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "53021d0e-c463-4bbb-b845-4c9bd73232a0",
+          "matchAttr": "http://schema.org/_imgtext"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE",
+        "matchThreshold": "0.3"
+      },
+      {
+        "from": {
+          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* SHOP YOUR WAY REWARDS SHOPYOURWAYREWARDS rewards.shopyourwayrewards.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "380be5ca-e482-48e1-8847-63ffade6f9ea",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt,\"CASHBACK\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\treturn data.match(/\\|.*\\|/)[0].replace(/\\|/g, \"\").trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {},
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\treturn data.match(/([\\d]{1,2}\\/){2}[\\d]{2,4}?/)[0] || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "36e0e24e-7605-4408-88ff-1f1e6f5a5c5e",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt,\"CASHBACK\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"SHOPYOURWAY\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "161da46f-9b05-49e9-8ff6-cf6d164814dc",
+        "repeating": true,
+        "locations": [
+          "/descendant::img[contains(@alt,\"CASHBACK\")]"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "380be5ca-e482-48e1-8847-63ffade6f9ea",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "36e0e24e-7605-4408-88ff-1f1e6f5a5c5e",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "380be5ca-e482-48e1-8847-63ffade6f9ea",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "161da46f-9b05-49e9-8ff6-cf6d164814dc",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* TOTAL WINE email-totalwine.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "20dd3290-2626-436c-971f-fa579ab7187c",
+        "repeating": true,
+        "locations": [
+          "/descendant::strong[contains(.,\"%\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n\t//Creating an array with all the distinction marks that might be at the end of the text\n  var marksArr = [\":\", \"?\", \".\", \";\"];\n\n\t//Ternary operator to clean up the text from the last character and add a full stop\n  return marksArr.indexOf[data[data.length-1]] !== -1 ?\n  \t\t\t\tdata.slice(0, data.length-1) + \".\" : \n  \t\t \t\tdata + \".\" || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(text(),\"Shop Now\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td[contains(text(),\"valid through\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n\treturn data.match(/valid\\sthrough\\s[\\d\\/]+/i)[0].replace(\"valid through\", \"\").trim() || \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_raw_validThrough": "/descendant::td[contains(text(),\"valid through\")]",
+          "_footer": "/descendant::strong[contains(text(),\"Excludes\")]/parent::td"
+        }
+      },
+      {
+        "id": "af8a4ba4-e0ba-4d16-8a18-312fa3765161",
+        "repeating": true,
+        "locations": [
+          "/descendant::strong[contains(.,\"%\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"Total Wine\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "20dd3290-2626-436c-971f-fa579ab7187c",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "af8a4ba4-e0ba-4d16-8a18-312fa3765161",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}

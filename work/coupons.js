@@ -282,19 +282,26 @@ function transform(data) {
 // URL xPath: ./parent::a/@href
 //Valid through: ./@alt[contains(.,"%")]/ancestor::table/descendant::div[contains(.,"valid")]
 
+var str = "*Enter promotion code LUXELIP in the promotion code box at checkout to receive your choice of one trial size, free with any online merchandise purchase of $35 or more. Valid while supplies last; quantities are limited. Not valid in Canada, on previous purchases, purchases of gift cards, FLASH, PLAY! by Sephora, gift wrapping, packaging, taxes, or shipping & handling charges. Offer not available in retail stores, Sephora inside JCPenney stores, or on jcp.com. Cannot be used in conjunction with other promotion codes. This offer is subject to change, alteration, or termination by Sephora at its sole discretion at any time.",
+ str2 = "Pineapple of My Eye Collectors Set, $77 ($454 value) >",
+ str3 = "Life of the Party Clay Blush Palette & Clutch, $56 ($173 value)4 >",
+ str4 = "Let’s Fla-mingle Brush Set, $57 ($179 value)4 >";
 //Description
+
 function transform(data){
-  return data
-  	.replace(" —our best new rewards hit the Bazaar every", ". Every")
-    .replace(/\*/g, "") || "";
+  if(data.match(/Enter\spromotion\scode\s.*\sor\smore\./)) return data.match(/Enter\spromotion\scode\s.*\sor\smore\./)[0];
+  if(data[data.length-1] === ">") data = data.slice(0, data.length-1).trim().replace(/\)4/,")");
+
+  return data || "";
 }
 
 
 //Valid through
 var str = `* Offer valid for Rouge members on merchandise purchases made from 12:01am PT on 8/24/18 through 11:59pm PT on 9/3/18 and for both VIB and Insider members from 12:01am PT on 8/30/18 through 11:59pm PT on 9/3/18 in Sephora US stores, Sephora Canada stores, Sephora inside JCPenney stores, and online. Offer not valid on jcp.com. Online offer valid for one-time use only; in-store offer may be redeemed multiple times. Not valid on purchases of customizable sets online or through Sephora’s customer service. Clients are limited to the purchase of three Drunk Elephant items per SKU per transaction and three Tatcha items per SKU per transaction. Not valid on Dyson, previous purchases, purchases of gift cards, FLASH, PLAY! by Sephora, gift wrapping, packaging, taxes, or shipping & handling charges. Return of discounted merchandise will be for the price actually paid. Sephora is not responsible for damaged, lost, or stolen promotion codes or barcodes. Promotion offer has no cash value and may not be altered, sold, or transferred. Relevant Beauty Insider status must be attained prior to redemption. No minimum purchase required. Due to heavy demand, Sephora FLASH delivery times cannot be guaranteed for this promotion. Not valid on orders shipping outside the US or Canada. Cannot be used in conjunction with other promotion codes. Sephora and JCPenney employees are not eligible for this offer. Offer is subject to change, alteration, or termination by Sephora at its sole discretion at any time.** 100 or 250 point rewards are available in Sephora stores and online with a purchase. 100 and 250 point rewards will vary at Sephora and Sephora inside JCPenney stores. Rewards Bazaar offers are for a limited time, while supplies last, and provided on a first-come, first-served basis. Quantities of each reward are limited and the quantities listed above reflect only the starting inventory amount, not a live balance. Must be a registered Beauty Insider to redeem. Beauty Insider members may only redeem one of each reward per transaction and must have the sufficient number of BI points available at time of redemption. Points will be deducted at time of redemption. Rewards are non-transferable, have no cash value (unless required by law) and cannot be exchanged, sold or returned. Sephora is not responsible for lost, stolen or damaged rewards. Sephora and Sephora brands are not responsible for any taxes incurred by clients or guests. Some rewards may only be available to residents of a particular country (e.g., U.S. only or Canada only). Not available in retail stores. Rewards are subject to change, alteration, substitution, or termination by Sephora in its sole discretion at any time. See specific Rewards Bazaar offers for any additional terms and conditions.*** Available online and in stores while supplies last. Quantities of each reward are limited; sample substitutions may occur. Limit of one per client. Offers are valid with 500 Beauty Insider points in stores and online with a purchase. Non-transferable. Must be a registered Beauty Insider to redeem offer. Reward is not available in Sephora inside JCPenney stores. Offer not valid on jcp.com. No returns or exchanges.`;
+var str2 = `**Beauty Insider members will earn triple points on qualified fragrance purchases from 12:01am PT 9/28/18 through 11:59pm PT 9/28/18 online only. Offer not valid on jcp.com. Bonus points will be automatically credited to your Beauty Insider account within 24 hours after purchase. Not valid on purchases of customizable sets online or through Sephora’s customer service. Points not earned on previous purchases, purchases of gift cards, FLASH, PLAY! by Sephora, gift wrapping, packaging, taxes, or shipping & handling charges. Points have no cash value and may not be altered, sold, or transferred. Merchandise return will result in deduction of awarded points. No minimum purchase required. Due to heavy demand, Sephora FLASH delivery times cannot be guaranteed for this promotion. Not valid on orders shipping outside the US or Canada. Cannot be used in conjunction with other promotion codes. Offer is subject to change, alteration, or termination by Sephora at its discretion at any time.`
 
 function transform(data){
-	return data.match(/\sthrough\s11:59pm\sPT\son\s[\d\/]+/)[0].replace("through 11:59pm PT on ","") || "";
+	return data.match(/\sthrough\s11:59pm\sPT\s(on\s)?(\d{1,2}\s?\/){2}\d{0,4}/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] || "";
 }
 
 
@@ -1436,6 +1443,54 @@ function transform(data) {
 }
 //------------------------------------------------------------------------------
 
+
+
+
+/*------------------------------------------------------------------------------
+Date - package: 20181004 - 78683916, email.childrensplace.com
+// Root xPath: /descendant::img[contains(@alt,"%") or contains(@alt,"$") or contains(@alt,"Free") or contains(@alt,"Double Rewards")]
+|
+/descendant::a[contains(text(),"%")]
+// Description xPath:
+URL xPath:
+Valid through xPath:
+*/
+
+
+//Description
+var str1 =
+
+function transform(data) {
+	return data || "";
+}
+
+//Valid through
+var str = "**To receive Double Points, customer must make a qualifying My Place Rewards purchase September 1 - 30, 2018 at The Children’s Place stores in the U.S. and Puerto Rico or at";
+var str = "Start downloading your digital coupons now and redeem September 14-15 ONLY, with Card.* Use digital coupons up to 5 times in one transaction.";
+
+function transform(data) {
+	if(!data) return "";
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	//Iterate through the months. If the month is included in "data" then:
+	//1. slice the string where the month is at
+	//2. return the match() of the string as month + days + year
+	//3. replace the extra text that is not needed based on the final text's format
+	for (var i = 0; i < months.length; i++) {
+		if (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i])).match(/[a-z\s]+\s\d{1,2}\s?(-\s?\d{1,2})?,?(\s\d{4})?/i)[0].replace(/\d{1,2}\s?-/, "");
+	}
+}
+//------------------------------------------------------------------------------
+
+
+function transform(data) {
+	if(!data) return "";
+	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+	for (var i = 0; i < months.length; i++) {
+		if (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i]), data.length-1);
+	}
+}
 
 
 

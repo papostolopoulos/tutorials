@@ -143,12 +143,15 @@ function transform(data) {
 
 
 /*------------------------------------------------------------------------------
-Date - package:
+Date - package: 20181004 - 70158297,  notification.intuit.com
 // Root xPath:
 // accountID xPath:
 URL xPath:
 Valid through xPath:
 */
+
+
+
 
 
 //Account ID
@@ -237,6 +240,7 @@ function transform(data){
 //total Payment Due / Price specification / Price currency
 function transform(data){
   var currencies = [
+    {name: "AUD", symbol: "A$"}
     {name: "EGP", symbol: "ج.م"},
     {name: "EUR", symbol: "€"},
     {name: "GBP", symbol: "£"},
@@ -269,4 +273,24 @@ function transform(data){
 //Person Name
 function transform(data) {
   return data.replace(/Receipt\sfor\s/, "").split("(")[0].trim();
+}
+
+
+
+
+
+function transform(data) {
+  var textMatchObj = {
+    'keyword1': 'PaymentDue',
+    'keyword2': 'PaymentPastDue',
+    'keyword3': 'PaymentComplete',
+    'keyword4': 'PaymentDeclined',
+    'keyword5': 'PaymentAutomaticallyApplied',
+    'keyword6': 'PaymentScheduled'
+  };
+
+  for(var key in textMatchObj){
+    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];
+  }
+  return "";
 }
