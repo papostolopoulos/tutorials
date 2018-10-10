@@ -45,3 +45,15 @@ function transform(data) {
   if (data.match(/[£€]/)) return new Date(finalStrArr[1] + "/" + finalStrArr[0] + "/" + finalStrArr[2] || "1970");
   return "";
 }
+
+
+
+
+function transform(data) {
+	if(!data) return "";
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	for (var i = 0; i < months.length; i++) {
+		if (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i])).match(/[a-z\s]+\s\d{1,2}\s?(-\s?\d{1,2})?,?(\s\d{4})?/i)[0].replace(/\d{1,2}\s?-/, "") + " 1970";
+	}
+}

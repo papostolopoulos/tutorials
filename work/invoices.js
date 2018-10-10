@@ -240,25 +240,26 @@ function transform(data){
 //total Payment Due / Price specification / Price currency
 function transform(data){
   var currencies = [
-    {name: "AUD", symbol: "A$"}
-    {name: "EGP", symbol: "ج.م"},
-    {name: "EUR", symbol: "€"},
-    {name: "GBP", symbol: "£"},
-    {name: "IDR", symbol: "Rp"},
-    {name: "IND", symbol: "Rs"},
-    {name: "INR", symbol: "₹"},
-    {name: "MYR", symbol: "RM"},
-    {name: "NOK", symbol: "kr"},
-    {name: "PEN", symbol: "S/"},
-    {name: "PHP", symbol: "₱"},
-    {name: "PLN", symbol: "zł"},
-    {name: "QAR", symbol: "ر.ق"},
-    {name: "RON", symbol: "lei"},
-    {name: "THB", symbol: "฿"},
-    {name: "TRY", symbol: "TL"},
-    {name: "USD", symbol: "$"},
-    {name: "UGX", symbol: "Ush"}, //might also be "USh" as per wikipedia
-    {name: "VND", symbol: "₫"}
+    {name: 'USD', symbol: '$'},
+    {name: 'EUR', symbol: '€'},
+    {name: 'GBP', symbol: '£'},
+    {name: 'AUD', symbol: 'A$'},
+    {name: 'EGP', symbol: 'ج.م'},
+    {name: 'HUF', symbol: 'Ft'},
+    {name: 'IDR', symbol: 'Rp'},
+    {name: 'IND', symbol: 'Rs'},
+    {name: 'INR', symbol: '₹'},
+    {name: 'MYR', symbol: 'RM'},
+    {name: 'NOK', symbol: 'kr'},
+    {name: 'PEN', symbol: 'S/'},
+    {name: 'PHP', symbol: '₱'},
+    {name: 'PLN', symbol: 'zł'},
+    {name: 'QAR', symbol: 'ر.ق'},
+    {name: 'RON', symbol: 'lei'},
+    {name: 'THB', symbol: '฿'},
+    {name: 'TRY', symbol: 'TL'},
+    {name: 'UGX', symbol: 'Ush'}, //might also be 'USh' as per wikipedia
+    {name: 'VND', symbol: '₫'}
   ];
 
   for (var i = 0; i < currencies.length; i++) {

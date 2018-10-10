@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "minimatch": "^3.0.4",
     "moment": "^2.10.6"
   },
   "devDependencies": {
