@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Copy Paste!!!</title>
+
+    <style media="screen">
+      body{
+        padding: 20px;
+      }
+
+      div {
+        margin: 20px;
+      }
+
+      article{
+        border-top: 2px solid black;
+      }
+    </style>
+
+
+  </head>
+  <body>
+    <section id="container">
+      <h3>What to do</h3>
+      <ol>
+        <li>In Scarlett, go to "preview".</li>
+        <li>In the view option, select "raw".</li>
+        <li>Copy the JSON formated text.</li>
+        <li>Paste it at the textarea below.</li>
+        <li>Repeat as necessary for each email where you need to review the coupons.</li>
+      </ol>
+      <textarea name="textareaCoupons"
+      id="textareaCoupons"
+      rows="8" cols="80"
+      placeholder="Paste here"
+      v-model="startStr"
+      ></textarea>
+      <!-- <h1>startStr</h1>
+      <p>{{startStr}}</p>
+      <h1>magic</h1>
+      <p>{{magic}}</p>
+      <h1>cleanProducts</h1>
+      <p>{{cleanProducts}}</p> -->
+      <article class="media" v-for="(product, idx) in products">
+
+        <div class="media-left media-middle">
+          <a :href="product.url" target="_blank">
+            <img class="media-object" :src="product.imageUrl" alt="No image pulled for this product">
+          </a>
+        </div>
+
+        <div class="media-body">
+          <h2>{{product.description}}</h2>
+          <ul>
+            <li>Currency and price: {{product.priceCurrency}} {{product.offerPrice}}</li>
+            <li>Valid through: {{product.validThrough}}</li>
+            <li>Original price: {{product.originalPrice}}</li>
+            <li>Valid from: {{product.validFrom}}</li>
+            <li>Organization: {{product.organization}}</li>
+            <li>url: <a :href="product.url" :title="product.url">Link - Think before you click!</a></li>
+          </ul>
+
+        </div>
+
+      </article>
+
+    </section>
+
+  </body>
+
+  <script>
+  var app = new Vue({
+    el: "#container",
+    data: {
+      startStr: "",
+      cleanProducts: [],
+      products: []
+  }, //End of data
+  computed: {
+    magic: function() {
+
+      this.cleanProducts = [];
+      this.products = [];
+
+      //remove the "context" obj
+      this.startStr = this.startStr.slice(0, this.startStr.indexOf('"context"'));
+
+      //remove unecessary symbols and text
+      var replacements = [
+        /"@graph":\s/,
+        /@/g,
+        /[\[\]"\{\}]/g,
+        /id: _:[\w-]+,\s+/g,
+        /type: Coupon,\s+/g,
+        /context:\s+vocab[\S\s]+/g,
+      ];
+
+
+      for (var i = 0; i < replacements.length; i++) {
+        this.startStr = this.startStr.replace(replacements[i], "");
+      }
+
+
+      // replace titles to match the final object
+      this.startStr = this.startStr
+      .replace(/\s{2, }/g, " ")
+      .replace(/broker:\s+type:\sOrganization,\s+name/g, "SPLIT~~~organization")
+      .replace(/\s+,/g, ",")
+      .replace(/description/g, "~~~description")
+      .replace(/image:\s+type:\sImageObject,\s+url/g, "~~~imageUrl")
+      .replace(/offerPrice:\s+type:\s+Number,\s+value/g, "~~~offerPrice")
+      .replace(/originalPrice\s{value/g,"~~~originalPrice")
+      .replace(/priceCurrency/g, "~~~priceCurrency")
+      .replace(/url/g,"~~~url")
+      .replace(/validFrom/g,"~~~validFrom")
+      .replace(/validThrough/g, "~~~validThrough")
+      .replace(/,\s+~~~/g, "~~~")
+      .trim();
+
+      console.log(this.startStr.length);
+      this.startStr = this.startStr.split("SPLIT");
+      console.log(this.startStr.length);
+      console.log(this.startStr);
+      if(this.startStr[0] === "") this.startStr.shift();
+
+
+      //For each
+      var self = this;
+      this.startStr.forEach(function(el) {
+        var newObj = {
+          organization: "",
+          description: "",
+          imageUrl: "",
+          offerPrice: "",
+          originalPrice: "",
+          priceCurrency: "",
+          url: "",
+          validFrom: "",
+          validThrough: ""
+        }
+
+
+        for(var key in newObj){
+          if (el.indexOf(key) !== -1) {
+            newObj[key] = el.slice(el.indexOf(key));
+            newObj[key] = newObj[key]
+            .replace(/~~~.*/,"")
+            .replace([key]+": ", "")
+            .trim();
+            if (newObj[key][newObj[key].length - 1] === ",") newObj[key].slice(0, newObj[key].length - 2);
+          }
+        }
+
+        self.cleanProducts.push(newObj);
+
+      });
+
+
+      // this.products = [];
+      this.products = this.cleanProducts;
+      console.log(this.cleanProducts);
+      return this.startStr;
+
+    } //End of magic function
+  } //end of computed properties
+});
+
+  </script>
+
+
+
+</html>

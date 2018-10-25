@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>CSS grid practice</title>
+
+
+    <style media="screen">
+    body {
+      font-family: sans-serif;
+    }
+
+    code {
+      background: pink;
+      padding: 2px 5px;
+    }
+
+    .container{
+      display: grid;
+      width: 1000px;
+      height: 600px;
+      background-color: yellow;
+      border: 2px solid black;
+      /* box-sizing: border-box; */
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas: "divTopLeft divRight" "divBottomLeft divRight"
+    }
+
+    .divTopLeft, .divBottomLeft, .divRight{
+      border: 2px solid black;
+      box-sizing: border-box;
+    }
+
+    .divTopLeft{
+      height: 300px;
+      width: 600px;
+      background-color: pink;
+      grid-area: divTopLeft;
+    }
+
+    .divBottomLeft{
+      height: 300px;
+      width: 600px;
+      background-color: lightgreen;
+      grid-area: divBottomLeft;
+    }
+
+    .divRight{
+      background-color: lightblue;
+      height: 600px;
+      width: 400px;
+      grid-area: divRight;
+    }
+
+
+
+    </style>
+  </head>
+  <body>
+    <h1>CSS Grid practice</h1>
+    <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank">Source</a>
+    <p>
+      A container element with a <code>display: grid</code> property has to be defined.
+      After that, the following can also be used:
+      <ol>
+        <li>We need to set the column sizes with <code>grid-template-column</code>. </li>
+        <li>We need to set the row sizes with <code>grid-template-row</code>. </li>
+        <li>Place the child tags inside the container with <code>grid-column</code>
+        and <code>grid-row</code> properties. </li>
+      </ol>
+    </p>
+    <p>
+      The source order of the child tags does not matter. Similar to flexbox,
+      the CSS grid can place them in any order. This is very convenient when we
+      also want to make order changes based on the different screens that we want
+      the online experience to render at. There is no need for the html to change
+      but the CSS grid can rather help with this change with a few lines of extra code.
+    </p>
+    <h2>Terminology</h2>
+    <p>
+      The terminology that is used in the CSS grid model is important to remember
+      in order to accurately refer to different aspects of the grid structure.
+      <ol>
+        <li>
+          <b>Container:</b> It refers to the tag that contains all the nodes
+          that consitute the grid.
+        </li>
+        <li>
+          <b>Grid item:</b> This refers to each one of the nodes that constitute the
+          grid (ex: different div tags).
+        </li>
+        <li>
+          <b>Grid lines:</b> The dividing lines that make the structure of the grid.
+          They can be "column grid lines" or "row grid lines". They reside on either side
+          of a column or a row.
+        </li>
+        <li>
+          <b>Grid track:</b> The space between two adjacent grid lines. They are like
+          columns or rows of the grid.
+        </li>
+        <li>
+          <b>Grid cell:</b> The space between two adjacent column grid lines and
+          two adjacent row grid lines. This is similar to a table cell.
+        </li>
+        <li>
+          <b>Grid area:</b> The total space surrounded by four grid lines. This can
+          be the entire container or part of it.
+        </li>
+      </ol>
+    </p>
+    <h3>Properties for the Grid Container</h3>
+    <ol>
+      display
+      grid-template-columns
+      grid-template-rows
+      grid-template-areas
+      grid-template
+      grid-column-gap
+      grid-row-gap
+      grid-gap
+      justify-items
+      align-items
+      place-items
+      justify-content
+      align-content
+      place-content
+      grid-auto-columns
+      grid-auto-rows
+      grid-auto-flow
+      grid
+    </ol>
+    <h3>Properties for the Grid Items</h3>
+    <ol>
+      grid-column-start
+      grid-column-end
+      grid-row-start
+      grid-row-end
+      grid-column
+      grid-row
+      grid-area
+      justify-self
+      align-self
+      place-self
+    </ol>
+
+
+
+    <h2>Example</h2>
+    <section class="container">
+      <div class="divTopLeft">
+        Hello, I am the divTopLeft
+      </div>
+
+
+      <div class="divRight">
+        Hello, I am the divRight
+      </div>
+
+      <div class="divBottomLeft">
+        Hello, I am the divBottomLeft
+      </div>
+
+
+
+
+    </section>
+
+  </body>
+</html>

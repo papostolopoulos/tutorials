@@ -432,6 +432,761 @@
   }
 }
 
+/* AMERICAN EXPRESS welcome.aexp.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "931e95e6-6011-491a-81b9-ee2246fb0554",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform (data){\n\t  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  \tif (status){\n    \treturn data;\n    }\n  \telse return null;\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(.,'Ending:')]",
+                  "regex": "\\d+"
+                }
+              ]
+            },
+            "name": "http://schema.org/accountId",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::b[contains(text(),\"We processed your payment\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    'We processed your payment': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    //'keyword6': 'PaymentScheduled'\n  };\n  for(var key in textMatchObj){\n  if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n}\nreturn \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a[contains(text(),'payment to appear online')]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "\"aexp.com\""
+        }
+      },
+      {
+        "id": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::img[contains(@alt,'logo')]/@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/image",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(text(),'All rights reserved')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform (data){\n  return data.match(/American\\sExpress/)[0] || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a[contains(text(),'Customer Care')]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(text(),'Payment Amount:')]/parent::td/following-sibling::td"
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if(data.match(/\\$[\\d\\,\\.]{4,}/)){\n    var price = data.replace(/\\$/,'')\n    var amt = parseFloat(price.match(/[\\$\\d\\,\\.]+/)[0].replace(/,/,'')).toFixed(2);\n    return amt;\n  } else {\n    return null;\n  }\n}",
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(text(),'Payment Amount:')]/parent::td/following-sibling::td"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"AUD\", symbol: \"AU$\"},\n    {name: \"AUD\", symbol: \"AUD\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"HUF\", symbol: \"Ft\"},\n     {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"},\n    {name: \"VND\", symbol: \"₫\"},\n    {name: \"USD\", symbol: \"USD\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "0f742efb-194f-4680-8d5d-c46e93e85966",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Person",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(.,'Hello')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform (data){\n  \treturn data.match(/,/) ? data.replace(/Hello/, \"\").split(\",\")[1].trim() : data;\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/totalPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "0f742efb-194f-4680-8d5d-c46e93e85966",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/customer",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+/* welcome.aexp.com (financial hardship) */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "931e95e6-6011-491a-81b9-ee2246fb0554",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform (data){\n\t  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  \tif (status){\n    \treturn data;\n    }\n  \telse return null;\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(.,\"Account Summary\")]/ancestor::table/following-sibling::table/descendant::td[1]",
+                  "regex": "\\d+"
+                }
+              ]
+            },
+            "name": "http://schema.org/accountId",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/./descendant::p[contains(.,\"Account Summary\")]/ancestor::table/descendant::p[contains(.,\"Due\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    'Past Due': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    //'keyword6': 'PaymentScheduled'\n  };\n  for(var key in textMatchObj){\n  if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n}\nreturn \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "\"aexp.com\""
+        }
+      },
+      {
+        "id": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::img[contains(@src,'logo')]/@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/image",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,\"All rights reserved.\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data.match(/American\\sExpress/)[0] || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,\"visit americanexpress.com\")]/descendant::a[contains(text(),\"americanexpress.com\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,\"Total Due\")]/following::p[contains(.,\"$\")][2]"
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if(data.match(/\\$[\\d\\,\\.]{4,}/)){\n    var price = data.replace(/\\$/,'')\n    var amt = parseFloat(price.match(/[\\$\\d\\,\\.]+/)[0].replace(/,/,'')).toFixed(2);\n    return amt;\n  } else {\n    return null;\n  }\n}",
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,\"Total Due\")]/following::p[contains(.,\"$\")][2]"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"AUD\", symbol: \"AU$\"},\n    {name: \"AUD\", symbol: \"AUD\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"HUF\", symbol: \"Ft\"},\n     {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"},\n    {name: \"VND\", symbol: \"₫\"},\n    {name: \"USD\", symbol: \"USD\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/totalPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* AT&T ordertrack.wireless.att-mail.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "931e95e6-6011-491a-81b9-ee2246fb0554",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform (data){\n\t  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  \tif (status){\n    \treturn data;\n    }\n  \telse return null;\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::span[contains(.,\"received your\")]/following-sibling::span[contains(text(),\"for\")]/following-sibling::span",
+                  "regex": "\\d+"
+                }
+              ]
+            },
+            "name": "http://schema.org/accountId",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::h2[@class=\"header\"]"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    'Forget Something': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    \"We've added charges to your account\": 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    //'keyword6': 'PaymentScheduled'\n  };\n  for(var key in textMatchObj){\n  if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n}\nreturn \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a[contains(.,\"myAT&T\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "\"att-mail.com\""
+        }
+      },
+      {
+        "id": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(.,\"AT&T\") and not (contains(.,\"Account\"))]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a[contains(text(),\"att.com/contactus\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::span[contains(text(),'$')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  if(data.match(/\\$[\\d\\,\\.]{4,}/)){\n    var price = data.replace(/\\$/,'')\n    var amt = parseFloat(price.match(/[\\$\\d\\,\\.]+/)[0].replace(/,/,'')).toFixed(2);\n    return amt;\n  } else {\n    return null;\n  }\n}",
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::span[contains(text(),'$')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"AUD\", symbol: \"AU$\"},\n    {name: \"AUD\", symbol: \"AUD\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"HUF\", symbol: \"Ft\"},\n     {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"},\n    {name: \"VND\", symbol: \"₫\"},\n    {name: \"USD\", symbol: \"USD\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "0f742efb-194f-4680-8d5d-c46e93e85966",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Person",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::p[contains(.,'Dear')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform (data){\n  \tif (data.match(/,/)){\n\t\treturn data.replace(/Dear/,\"\").split(/,/)[0].trim();\n    }\n  \telse return data;\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/totalPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "0f742efb-194f-4680-8d5d-c46e93e85966",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/customer",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
 /* BARCLAYS BANK service.mynflcard.com */
 {
   "extract": {
@@ -637,6 +1392,362 @@
               "-1": [
                 {
                   "xpath": "/descendant::a[contains(text(),\"www.myNFLcard.com\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+        "repeating": true,
+        "locations": [
+          "/descendant::td/descendant::text()[contains(.,'Payment Due Date') or contains(.,\"Payment Details\")]"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td/descendant::text()[contains(.,\"Minimum Payment Due:\")]\n| \n/descendant::strong[contains(.,\"This pending payment\") or contains(.,'This scheduled payment')]/following-sibling::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td/descendant::text()[contains(.,\"Minimum Payment Due:\")]\n| \n/descendant::strong[contains(.,\"This pending payment\") or contains(.,'This scheduled payment')]/following-sibling::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"}, //might also be \"USh\" as per wikipedia\n    {name: \"VND\", symbol: \"₫\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return data ? \"USD\" : \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "0f742efb-194f-4680-8d5d-c46e93e85966",
+        "repeating": true,
+        "locations": [
+          "/descendant::td/descendant::text()[contains(.,'Payment Due Date') or contains(.,\"Payment Details\")]"
+        ],
+        "type": "http://schema.org/Person",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td[contains(.,\"Account Ending:\")]/parent::tr/parent::tbody/parent::table/preceding-sibling::table/descendant::td[1]/descendant::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform (data){\n  \treturn data.match(/,/) ? data.replace(/Hello/, \"\").split(\",\")[1].trim() : data;\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "21d6d9d2-73d1-450e-83c6-9fd9bf601d24",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/minimumPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/totalPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "0f742efb-194f-4680-8d5d-c46e93e85966",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/customer",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* BARCLAYS BANK hawaiancreditcard.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "931e95e6-6011-491a-81b9-ee2246fb0554",
+        "repeating": true,
+        "locations": [
+          "/descendant::td/descendant::text()[contains(.,'Payment Due Date')]\n|\ndescendant::strong[contains(.,\"Payment Details\")]"
+        ],
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform (data){\n\t  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  \tif (status){\n    \treturn data;\n    }\n  \telse return null;\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td[contains(.,\"Account Ending:\")]/following-sibling::td[1]",
+                  "regex": "\\d+"
+                }
+              ]
+            },
+            "name": "http://schema.org/accountId",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td/descendant::text()[contains(.,'Payment Due Date')]\n|\n/descendant::strong[contains(text(),\"Payment dated\")]/following-sibling::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentDue",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data,node,headers){\n  if(!data) return \"\";\n  if (data.match(/(\\d{1,2}\\/){2}\\d{2,4}/)) return data.match(/(\\d{1,2}\\/){2}\\d{2,4}/);\n  return new Date(headers.get(\"Date\")*1000);\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    'Payment Due Date:': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    'Your payment is pending': 'PaymentScheduled',\n    'Your payment is scheduled': 'PaymentScheduled'\n  };\n\n  for(var key in textMatchObj){\n    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(text(),\"Pay online now\") or contains(text(),\"View Online\") or contains(text(),\"myNFLcard.com\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "\"hawaiancreditcard.com\""
+        }
+      },
+      {
+        "id": "21d6d9d2-73d1-450e-83c6-9fd9bf601d24",
+        "repeating": true,
+        "locations": [
+          "/descendant::td/descendant::text()[contains(.,'Payment Due Date') or contains(.,\"Payment Details\")]"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td/descendant::text()[contains(.,\"Minimum Payment Due:\")]\n| \n/descendant::strong[contains(.,\"This pending payment\") or contains(.,'This scheduled payment')]/following-sibling::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./parent::td/descendant::text()[contains(.,\"Minimum Payment Due:\")]\n| \n/descendant::strong[contains(.,\"This pending payment\") or contains(.,'This scheduled payment')]/following-sibling::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"}, //might also be \"USh\" as per wikipedia\n    {name: \"VND\", symbol: \"₫\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return data ? \"USD\" : \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+        "repeating": true,
+        "locations": [
+          "/descendant::td/descendant::text()[contains(.,'Payment Due Date') or contains(.,\"Payment Details\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::img[contains(@src, \"hcl\") or contains(@src, \"hac\")]/@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/image",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td/descendant::text()[contains(.,'Bank')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data.match(/Barclays\\sBank/)[0];\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(text(),\"www.HawaiianCreditCard.com\")]/@href"
                 }
               ]
             },

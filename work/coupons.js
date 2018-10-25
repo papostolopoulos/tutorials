@@ -1483,15 +1483,41 @@ function transform(data) {
 //------------------------------------------------------------------------------
 
 
+
+var str = "HUBSAN Drones Extra 10% DTO. Para Asegurarte Ahorros, por favor añade newsletter@deals.banggood.com a su libro de direcciones. ¿Visualizar imágenes? Ver aquí"
+
 function transform(data) {
-	if(!data) return "";
-	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  //Return empty strings if the following are included since they are not coupons.
+  var reg1 = /100%/i;
+  var regExArr = [reg1];
 
-	for (var i = 0; i < months.length; i++) {
-		if (data.indexOf(months[i]) !== -1) return data.slice(data.indexOf(months[i]), data.length-1);
-	}
+  for (var i = 0; i < regExArr.length; i++) {
+    if (data.match(regExArr[i])) return "";
+  }
+
+
+
+  //Replace uncecessary text
+  var rep1 = /To\sensure\ssavings,.*/i;
+  var rep2 = /Para\sAsegurarte.*/i;
+  //var rep3 = /No\sother\sdiscounts\sapply\./;
+  //var rep4 = /Buy\snow\.?$/;
+  var replaceArr = [rep1, rep2];
+
+  for (var i = 0; i < replaceArr.length; i++) {
+		console.log(replaceArr[i]);
+    if (data.match(replaceArr[i])) data = data.replace(replaceArr[i], "");
+  }
+
+
+
+  //Replace US$ to "Was $"
+  data = data.replace(/US\$/, "| Was $");
+
+
+
+  return data.trim();
 }
-
 
 
 
