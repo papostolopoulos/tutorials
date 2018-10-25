@@ -38,12 +38,18 @@
       placeholder="Paste here"
       v-model="startStr"
       ></textarea>
-      <!-- <h1>startStr</h1>
-      <p>{{startStr}}</p>
-      <h1>magic</h1>
-      <p>{{magic}}</p>
-      <h1>cleanProducts</h1>
-      <p>{{cleanProducts}}</p> -->
+
+
+      <div class="debugArea" style="display: none;">
+        <h1>startStr</h1>
+        <p>{{startStr}}</p>
+        <h1>magic</h1>
+        <p>{{magic}}</p>
+        <h1>cleanProducts</h1>
+        <p>{{cleanProducts}}</p>
+      </div>
+
+
       <article class="media" v-for="(product, idx) in products">
 
         <div class="media-left media-middle">
