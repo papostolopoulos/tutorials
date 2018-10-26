@@ -11,8 +11,8 @@
         padding: 20px;
       }
 
-      div {
-        margin: 20px;
+      .divCopyPasteArea{
+        display: grid;
       }
 
       article{
@@ -24,49 +24,58 @@
   </head>
   <body>
     <section id="container">
-      <h3>What to do</h3>
-      <ol>
-        <li>In Scarlett, go to "preview".</li>
-        <li>In the view option, select "raw".</li>
-        <li>Copy the JSON formated text.</li>
-        <li>Paste it at the textarea below.</li>
-        <li>Repeat as necessary for each email where you need to review the coupons.</li>
-      </ol>
-      <textarea name="textareaCoupons"
-      id="textareaCoupons"
-      rows="8" cols="80"
-      placeholder="Paste here"
-      v-model="startStr"
-      ></textarea>
+      <div class="divCopyPasteArea">
+        <div class="divInstructionsArea">
+          <h3>What to do</h3>
+          <ol>
+            <li>In Scarlett, go to "preview".</li>
+            <li>In the view option, select "raw".</li>
+            <li>Copy the JSON formated text.</li>
+            <li>Paste it at the textarea below.</li>
+            <li>Repeat as necessary for each email where you need to review the coupons.</li>
+          </ol>
+        </div>
+        <div class="divRadioButtonsArea">
+          radio buttons go here
+        </div>
+        <div class="divTextArea">
+          <textarea name="textareaCoupons"
+          id="textareaCoupons"
+          rows="8" cols="80"
+          placeholder="Paste here"
+          v-model="startStr"
+          ></textarea>
+        </div>
+      </div>
 
 
-      <div class="debugArea" style="display: none;">
+      <div class="debugArea" style="display: block;">
         <h1>startStr</h1>
         <p>{{startStr}}</p>
         <h1>magic</h1>
         <p>{{magic}}</p>
-        <h1>cleanProducts</h1>
-        <p>{{cleanProducts}}</p>
+        <h1>cleanmainArray</h1>
+        <p>{{cleanmainArray}}</p>
       </div>
 
 
-      <article class="media" v-for="(product, idx) in products">
+      <article class="media" v-for="(item, idx) in mainArray">
 
         <div class="media-left media-middle">
-          <a :href="product.url" target="_blank">
-            <img class="media-object" :src="product.imageUrl" alt="No image pulled for this product">
+          <a :href="item.url" target="_blank">
+            <img class="media-object" :src="item.imageUrl" alt="No image pulled for this item">
           </a>
         </div>
 
         <div class="media-body">
-          <h2>{{product.description}}</h2>
+          <h2>{{item.description}}</h2>
           <ul>
-            <li>Currency and price: {{product.priceCurrency}} {{product.offerPrice}}</li>
-            <li>Valid through: {{product.validThrough}}</li>
-            <li>Original price: {{product.originalPrice}}</li>
-            <li>Valid from: {{product.validFrom}}</li>
-            <li>Organization: {{product.organization}}</li>
-            <li>url: <a :href="product.url" :title="product.url">Link - Think before you click!</a></li>
+            <li>Currency and price: {{item.priceCurrency}} {{item.offerPrice}}</li>
+            <li>Valid through: {{item.validThrough}}</li>
+            <li>Original price: {{item.originalPrice}}</li>
+            <li>Valid from: {{item.validFrom}}</li>
+            <li>Organization: {{item.organization}}</li>
+            <li>url: <a :href="item.url" :title="item.url">Link - Think before you click!</a></li>
           </ul>
 
         </div>
@@ -82,14 +91,16 @@
     el: "#container",
     data: {
       startStr: "",
-      cleanProducts: [],
-      products: []
+      cleanmainArray: [],
+      mainArray: [],
+      typeOfPaste: ""
   }, //End of data
+
   computed: {
     magic: function() {
 
-      this.cleanProducts = [];
-      this.products = [];
+      this.cleanmainArray = [];
+      this.mainArray = [];
 
       //remove the "context" obj
       this.startStr = this.startStr.slice(0, this.startStr.indexOf('"context"'));
@@ -161,12 +172,12 @@
           }
         }
 
-        self.cleanProducts.push(newObj);
+        self.cleanmainArray.push(newObj);
 
       });
 
-      this.products = this.cleanProducts;
-      console.log(this.cleanProducts);
+      this.mainArray = this.cleanmainArray;
+      console.log(this.cleanmainArray);
       return this.startStr;
 
     } //End of magic function
