@@ -1,0 +1,535 @@
+/* GENERIC COUPON */
+/* Structure: */
+"@graph": [
+  {
+    "@id": "DELETE",
+    "@type": "DELETE",
+    "broker": {
+      "@id": "DELETE",
+      "@type": "DELETE",
+      "name": "Change to organization with the 'broker'"
+    },
+    "description":  "KEEP",
+    "image": {
+      "@id": "DELETE",
+      "@type": "DELETE",
+      "url": {
+        "@type": "DELETE",
+        "value": "KEEP with 'image'. make it imageURL"
+      }
+    }
+    "url" {
+      "@type": "DELETE",
+      "value": "KEEP with 'url'"
+    },
+    "validThrough": "KEEP"
+  },
+]
+
+/* Example: */
+{
+  "@graph": [
+    {
+      "@id": "_:02e5f16b-80a0-42cd-83c5-3a61638f6566",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:40597c81-143b-4f9c-a7f2-4a3c1cf08ddf",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "TODAY ONLY: Get 2 points per dollar on hair",
+      "image": {
+        "@id": "_:e81c87bd-0af3-432d-b00f-f33f191f47bd",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://epidm.edgesuite.net/CMS/Coding/Sephora/2018/09_sep/1410577/Top_Promo_Banners_CAN_Day5_700x350_01b.jpg"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "https://beauty.sephora.com/T/v4000001662b017ebec8a0e06e9666b528/25d99305aa244f8e0000021ef3a0bce2/25d99305-aa24-4f8e-aa3e-c25907adf2c1?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-09-30T00:00:00"
+    },
+    {
+      "@id": "_:68b183c4-a5f4-4b02-adba-29818d5bd13f",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:c4db1803-4afb-4c03-af50-e607a664345d",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "10 Days of Samples | Get 2 points per dollar on hair, plus a trial-size Bumble and bumble Thickening Go Big Volumizing Treatment. SHOP TO REDEEM",
+      "image": {
+        "@id": "_:9f16c4da-6230-4a05-a9a9-469b54a498a7",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://epidm.edgesuite.net/CMS/Coding/Sephora/2018/09_sep/1410577/Top_Promo_Banners_CAN_Day5_700x350_02b.jpg"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "https://beauty.sephora.com/T/v4000001662b017ebec8a0e06e9666b528/25d99305aa244f8e0000021ef3a0bce3/25d99305-aa24-4f8e-aa3e-c25907adf2c1?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-09-30T00:00:00"
+    },
+    {
+      "@id": "_:3b1997c6-2fc9-4681-a88a-f149e2a8563f",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:814fb0ff-c8c4-45cc-9c69-86bcf423d09a",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "Enter promotion code  MYSTERY10 in the promotion code box at checkout to receive your choice of one trial size, free with any online merchandise purchase of $25 or more.",
+      "url": {
+        "@type": "URL",
+        "@value": "https://beauty.sephora.com/H/2/v4000001662b017ebec8a0e06e9666b528/25d99305-aa24-4f8e-aa3e-c25907adf2c1/HTML"
+      },
+      "validThrough": "2018-09-30T00:00:00"
+    }
+  ],
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "identifier": {
+      "@id": "http://schema.org/identifier",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "contactPoint": {
+      "@id": "http://schema.org/contactPoint",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "category": {
+      "@id": "http://schema.org/category",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@id": "http://schema.org/sameAs",
+      "@type": "@vocab",
+      "@container": "@set"
+    }
+  }
+}
+
+{
+  "@graph": [
+    {
+      "@id": "_:403f9cb4-67ca-45a4-9fde-c98eab00034d",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:e452d650-f9b3-4b91-91a7-bdebbb29981d",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Save 20% on Qualifying Regular Priced Purchase",
+      "image": {
+        "@id": "_:0a9335dd-1a57-4c2b-940e-ccd93f8da097",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/f990832fb6e98175.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d8f78ed76a2a04937e8f14d15d48e8a1273698c19bed6c76be9f7ebf9511cbb215cc3759e4d250bc33608dc86cb4a29be1d9c098cd32a015f4"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:4a763dc5-7ffa-4215-9f69-0c95b5c6de35",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:927000e9-c615-43a1-b17a-9a0cc43cb475",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Biggest. Baddest. Blowout. $ALE",
+      "image": {
+        "@id": "_:2e6010c6-b659-4a29-a7fc-de9e9483933c",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/7c7f2b125ce23913.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d89c0fbe6900836d64284cb8830da82839c280d3ef1a313511619bf042f9e6bae898289bf7f18bb198b675feaf4bf65d3f970d579b3aa9d40c"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:c8ccb0dc-9f0e-424f-85d7-956ad0b22933",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:618e2b6b-3b29-4f27-a6c5-f9e69fece046",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Toner Deal Save $25 on 2 HP or Samsung Toners",
+      "image": {
+        "@id": "_:82a02f82-322c-4a19-b694-309b1f4c767c",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/06e216816ee9653a.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d8e4c6808dcaf65a706c49b46db319f9ddd161314b5a8eaa1d017d38feccbbd3eefc2dedafb9898d8552b42cec7c44f5656679df1e5daee202"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:7b926d3d-209b-4f8b-8872-bed47a61dfd5",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:4a17d752-e537-40fd-86d8-61726260e430",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Save up to $250 on select HP printers + 10% Bounus Rewards",
+      "image": {
+        "@id": "_:d30654b5-a632-4a8f-bb91-6739b04e8de4",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/e74cdfb5ac58330e.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d83983504184df16d9137a2404c224c088d1f55dc3fb85545137a33a6be3434b3157441bd21e256bb6d46280a03dd1e35ee68094456fc52ed5"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:dc11a760-1d91-4b30-907e-4733ab4383d3",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:84497bfa-da0a-42a6-a367-2e53181092af",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Paper Deals - Save big on your favorite brands",
+      "image": {
+        "@id": "_:3ce628fc-7082-4125-ad38-157c19dfb87a",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/02b7628dececc392.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d8867cade2973f51d66463235247ec6c1bd64360350a1e59a15a732493e2b4bc0c6926ea2b2656a64e1ab2c13116de601ce4d20d6b357bec18"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:bc05e507-39d6-41dc-a97c-855827a85472",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:1d78c293-4544-4a64-974e-6c083dc0819b",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Save up to 30% on cleaning & breakroom supplies",
+      "image": {
+        "@id": "_:ba7032b7-3d51-412d-9511-fd4d2bda821f",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/b32dfdec3409ddd5.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d82eef28d7dfc9711b4b4feda74daeec898d94a7507e83ea583528e70eaa9924499eb68ced4f4df7a65a9a7bbfbf0124760eb6f44672418afa"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:bf48401c-71d6-417b-9737-add730bb5fe9",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:a6abacd6-1039-472e-83a4-4350b1d73b10",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "48 Hours only up to 50% off select furniture",
+      "image": {
+        "@id": "_:8a60c1c8-271a-41fa-a6a5-a1f1a94bedf1",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/d667bbce141e9958.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d862f778bc3630314416fad26391067189fa6e714977b0d58867a6d49f146cbc4f0ef186c640bc156ff2ef9e52e61e15e8195f550743c1720a"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:a4c3b2d2-9eb1-4d6e-ab78-b990aa534bad",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:02c4963b-bb9c-41fc-99e0-71edb614d6c9",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Save up to 40% on CPD",
+      "image": {
+        "@id": "_:0101c0e0-d0e8-4dc5-b0d7-76fa706b06b6",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/29989461eacd9046.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d8604586f67c2f89249dd1bf14e9ac1a5506168ec7d32b2e5bcde72850c9a462f4b1406274be34f00ffed0d2bfab4ec52efe9f46c3dba33130"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:2a5cbebd-73f5-42fa-8970-f0dbad0c9f82",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:a6920d22-f46f-4d75-810d-98b83ff2623e",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "100% Rewards back on Duracell Batteries",
+      "image": {
+        "@id": "_:fb2979bf-053c-4427-be6a-f4e0ed2ea2cd",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://mi.officedepot.com/p/rp/8ae1efe8e516db92.png?mi_u=bd0d0919cd43997c1ae0a3893097b9d9638b4c76"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=9c61e57b3385a3d83b6d52b2a1f3640a000ca7a7c017befca86d7b5b0aefaaab43bda3b57384368b72e84b7fc25e36221b689f0393e3d14f03875950eef67b7f"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:31d40c9d-a154-4a12-a277-af3af479c383",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:fc31075f-1847-46da-bfe4-5eebe2be759a",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "FREE delivery for VIP Rewards Members",
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.e.officedepot.com/?qs=ee1295313d2c349334bbf3a1e3f06b6eefedd278e8a3979c1dd1beafb60a8f8297705a59c7bd9f0864f4353e56d8e25279484b15b4a28384a7adb706fc39eaf8"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    },
+    {
+      "@id": "_:3de87ba9-455c-486a-a5e7-7322c7041c40",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:1cee259d-7fd3-4045-9da6-588ff1e29ad9",
+        "@type": "Organization",
+        "name": "office DEPOT"
+      },
+      "description": "Get in here for up to 70% savings on thousands of items",
+      "url": {
+        "@type": "URL",
+        "@value": "http://view.e.officedepot.com/?qs=2c394a84e9f305f06ce9eb8b448296a565cbc019f8d33de4060fda9570d14f725197cf1f8fc9e52fcae17b50c08676484194e14f28f6b415cb4979a99695abd1ceb5a23595df6e639d86ec2f6c754f46"
+      },
+      "validThrough": "2018-10-06T00:00:00"
+    }
+  ],
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "identifier": {
+      "@id": "http://schema.org/identifier",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "contactPoint": {
+      "@id": "http://schema.org/contactPoint",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "category": {
+      "@id": "http://schema.org/category",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@id": "http://schema.org/sameAs",
+      "@type": "@vocab",
+      "@container": "@set"
+    }
+  }
+}
+
+
+
+
+/* LINKBASED COUPON */
+/* Structure: */
+"@graph": [
+  {
+    "@id": "DELETE",
+    "@type": "DELETE",
+    "broker": {
+      "@id": "DELETE",
+      "@type": "DELETE",
+      "name": "KEEP combine with 'broker', make 'organization'"
+    },
+    "description": "KEEP",
+    "image": {
+      "@id": "DELETE",
+      "@type": "DELETE",
+      "url": "KEEP make it imageUrl with 'image'"
+    },
+    "url": "KEEP"
+  }
+]
+
+/* Example */
+{
+  "@graph": [
+    {
+      "@id": "_:6e232b7d-657c-48cf-9040-b74d7df93c37",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:2a7319fb-10fc-4a6c-aeae-b70fe257ef04",
+        "@type": "Organization",
+        "name": "Banggood"
+      },
+      "description": "coupon code ：KTJ25 Up To 60% Off For Digoo",
+      "image": {
+        "@id": "_:45458cc1-1bbe-44cc-bd39-5ec6bc9e549f",
+        "@type": "ImageObject",
+        "url": "https://img.staticbg.com/deals/edm/women/images/women278_30.gif"
+      },
+      "url": "http://news.banggood.com/u/nrd.php?p=rd40eUUFWK_105185_3135050_1_494&ems_l=3046390&i=1&d=TWFpbF93b21lbjI3OF9lbWFpbDE%3D%7CbmV3c2xldHRlciVFMiU4MCU5NGVtYXJzeXM%3D%7CN2U3NGZlOTJiZTYzOWIyNzE%3D%7CMTIyNDA2Mjcw%7CcmQ0MGVVVUZXSw%3D%3D%7C"
+    },
+    {
+      "@id": "_:73bf71c7-ef75-4c84-b6d0-54a65ce87611",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:658671a3-c970-41fe-9639-857e88ccde3e",
+        "@type": "Organization",
+        "name": "Banggood"
+      },
+      "description": "UP TO 60% OFF",
+      "image": {
+        "@id": "_:01ac2b13-67f9-49e9-8f86-551054975481",
+        "@type": "ImageObject",
+        "url": "https://img.staticbg.com/deals/edm/women/images/women278_19.jpg"
+      },
+      "url": "http://news.banggood.com/u/nrd.php?p=rd40eUUFWK_105185_3135050_1_484&ems_l=3046390&i=1&d=TWFpbF93b21lbjI3OF9lbWFpbDE%3D%7CbmV3c2xldHRlciVFMiU4MCU5NGVtYXJzeXM%3D%7CN2U3NGZlOTJiZTYzOWIyNzE%3D%7CMTIyNDA2MjYw%7CcmQ0MGVVVUZXSw%3D%3D%7C"
+    },
+    {
+      "@id": "_:c230f92b-cbee-4704-aa7a-15457c81cebf",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:c8b6be59-0eed-4afe-affb-8f77be4fc44b",
+        "@type": "Organization",
+        "name": "Banggood"
+      },
+      "description": "UP TO 80% OFF",
+      "image": {
+        "@id": "_:5bb08594-9745-4574-8556-b9487616ea62",
+        "@type": "ImageObject",
+        "url": "https://img.staticbg.com/deals/edm/women/images/women278_43.jpg"
+      },
+      "url": "http://news.banggood.com/u/nrd.php?p=rd40eUUFWK_105185_3135050_1_506&ems_l=3046390&i=1&d=TWFpbF93b21lbjI3OF9lbWFpbDE%3D%7CbmV3c2xldHRlciVFMiU4MCU5NGVtYXJzeXM%3D%7CN2U3NGZlOTJiZTYzOWIyNzE%3D%7CMTIyNDA2Mjgy%7CcmQ0MGVVVUZXSw%3D%3D%7C"
+    },
+    {
+      "@id": "_:cdb33cdf-ce27-4a64-9377-bcf7d086955f",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:9160e58b-a728-44fd-bc5a-b09c056f074d",
+        "@type": "Organization",
+        "name": "Banggood"
+      },
+      "description": "30% off for DF-004 30% off for DG C4X",
+      "image": {
+        "@id": "_:bd24b118-17a9-41c0-9725-906cfc961e26",
+        "@type": "ImageObject",
+        "url": "https://img.staticbg.com/deals/edm/women/images/women278_39.jpg"
+      },
+      "url": "http://news.banggood.com/u/nrd.php?p=rd40eUUFWK_105185_3135050_1_502&ems_l=3046390&i=1&d=TWFpbF93b21lbjI3OF9lbWFpbDE%3D%7CbmV3c2xldHRlciVFMiU4MCU5NGVtYXJzeXM%3D%7CN2U3NGZlOTJiZTYzOWIyNzE%3D%7CMTIyNDA2Mjc4%7CcmQ0MGVVVUZXSw%3D%3D%7C"
+    },
+    {
+      "@id": "_:e1493a58-7f56-4f3d-bdd4-10bc1aa2a5bd",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:17ef27f7-fde5-4473-a488-b528c1fd7b80",
+        "@type": "Organization",
+        "name": "Banggood"
+      },
+      "description": "15% OFF CODE coupon : DTC717",
+      "image": {
+        "@id": "_:80914929-2f9d-4547-8ca0-f3175d8abaeb",
+        "@type": "ImageObject",
+        "url": "https://img.staticbg.com/deals/edm/women/images/women278_09.jpg"
+      },
+      "url": "http://news.banggood.com/u/nrd.php?p=rd40eUUFWK_105185_3135050_1_475&ems_l=3046390&i=1&d=TWFpbF93b21lbjI3OF9lbWFpbDE%3D%7CbmV3c2xldHRlciVFMiU4MCU5NGVtYXJzeXM%3D%7CN2U3NGZlOTJiZTYzOWIyNzE%3D%7CMTIyNDA2MjUx%7CcmQ0MGVVVUZXSw%3D%3D%7C"
+    },
+    {
+      "@id": "_:e24d08af-12ee-4bcc-98b1-4c582e3b7d0a",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:ecb531b8-eec0-481e-b843-00055f198f05",
+        "@type": "Organization",
+        "name": "Banggood"
+      },
+      "description": "Scan QR code or click here to download APP and first login to get 10% OFF Coupon. This commercial email was sent to you by Banggood Company. update newsletters settings unsubscribe If you have any questions, Please feel free to contact us by through the following ways: : (+0852)-35903678 (Office Time: 9:00am to 6:00pm GMT+08:00) Contact Address: 15/F ,RADIO CITY,505 HENNESSY RD, CAUSEWAY BAY,",
+      "url": "http://news.banggood.com/u/nrd.php?p=rd40eUUFWK_105185_3135050_1_517&ems_l=3046390&i=1&d=OTg3MDkxOTI0%7CTWFpbF93b21lbjI3OF9lbWFpbDE%3D%7CbmV3c2xldHRlciVFMiU4MCU5NGVtYXJzeXM%3D%7CN2U3NGZlOTJiZTYzOWIyNzE%3D%7CMTIyNDA2Mjkz%7CcmQ0MGVVVUZXSw%3D%3D%7C"
+    }
+  ],
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "identifier": {
+      "@id": "http://schema.org/identifier",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "contactPoint": {
+      "@id": "http://schema.org/contactPoint",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "category": {
+      "@id": "http://schema.org/category",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@id": "http://schema.org/sameAs",
+      "@type": "@vocab",
+      "@container": "@set"
+    }
+  }
+}
+
+
+THOUGHTS
+/*
+this.mainArray = []; --> This can be optional. The user might want to paste a bunch of
+JSON files and see all the products
+
+Create an input slot where the user can enter keywords and filter the products displayed
+*/

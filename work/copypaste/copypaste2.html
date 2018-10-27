@@ -13,15 +13,26 @@
 
       .divCopyPasteArea{
         display: grid;
+        grid-template-columns: 3fr 2fr 5fr;
       }
 
       article{
         border-top: 2px solid black;
       }
+
+      div[class*="media"]{
+        margin: 20px;
+      }
     </style>
 
-
   </head>
+
+
+
+
+
+
+
   <body>
     <section id="container">
       <div class="divCopyPasteArea">
@@ -32,30 +43,45 @@
             <li>In the view option, select "raw".</li>
             <li>Copy the JSON formated text.</li>
             <li>Paste it at the textarea below.</li>
-            <li>Repeat as necessary for each email where you need to review the coupons.</li>
+            <li>Repeat as necessary for each email where you need to review the
+              information coming from the JSON file.</li>
           </ol>
         </div>
-        <div class="divRadioButtonsArea">
-          radio buttons go here
+        <div class="divRadioButtonsArea" style="display: none">
+          <h3>Which Scarlett task?</h3>
+          <form class="formScarlettTasks" name="formScarlettTasks" @click="changeTypeOfPaste($event)">
+            <input id="inputGenericCoupons" type="radio" name="inputCouponsSelect" value="genericCoupons">
+            <label for="inputGenericCoupons">Generic coupons</label> <br>
+
+            <input id="inputLinkbaseCoupons" type="radio" name="inputCouponsSelect" value="linkbaseCoupons">
+            <label for="inputLinkbaseCoupons">Linkbase coupons</label> <br>
+
+            <input id="inputAirplaneTickets" type="radio" name="inputCouponsSelect" value="airplaneTickets">
+            <label for="inputAirplaneTickets">Airplane tickets</label> <br>
+
+            <input id="inputInvoices" type="radio" name="inputCouponsSelect" value="invoices">
+            <label for="inputInvoices">Invoices</label> <br>
+          </form>
         </div>
         <div class="divTextArea">
-          <textarea name="textareaCoupons"
+          <h3>Paste the JSON file</h3>
+          <textarea
+          name="textareaCoupons"
           id="textareaCoupons"
           rows="8" cols="80"
-          placeholder="Paste here"
+          placeholder="Paste JSON text here"
           v-model="startStr"
+          v-once
           ></textarea>
         </div>
       </div>
 
 
-      <div class="debugArea" style="display: block;">
+      <div class="debugArea" style="display: none;">
         <h1>startStr</h1>
         <p>{{startStr}}</p>
         <h1>magic</h1>
         <p>{{magic}}</p>
-        <h1>cleanmainArray</h1>
-        <p>{{cleanmainArray}}</p>
       </div>
 
 
@@ -86,33 +112,40 @@
 
   </body>
 
+
+
+
+
+
+
+
+
   <script>
   var app = new Vue({
     el: "#container",
     data: {
       startStr: "",
-      cleanmainArray: [],
       mainArray: [],
       typeOfPaste: ""
   }, //End of data
-
+  methods:{
+    changeTypeOfPaste: function() {
+      this.typeOfPaste = event.target.value;
+    }
+  }, //Ena of methods
   computed: {
     magic: function() {
 
-      this.cleanmainArray = [];
+      // Clean up the array where all the products will be pasted
       this.mainArray = [];
-
-      //remove the "context" obj
-      this.startStr = this.startStr.slice(0, this.startStr.indexOf('"context"'));
 
       //remove unecessary symbols and text
       var replacements = [
-        /"@graph":\s/,
-        /@/g,
-        /[\[\]"\{\}]/g,
-        /id: _:[\w-]+,\s+/g,
-        /type: Coupon,\s+/g,
+        /[@""\{\}\[\]]/g,
+        /graph:\s+/,
         /context:\s+vocab[\S\s]+/g,
+        /id:\s_:[\w-]+,\s+/g,
+        /type:\s[A-z}]+,\s+/g,
       ];
 
 
@@ -121,27 +154,25 @@
       }
 
 
-      // replace titles to match the final object
+      // replace titles to match the final object keys
       this.startStr = this.startStr
-      .replace(/\s{2, }/g, " ")
-      .replace(/broker:\s+type:\sOrganization,\s+name/g, "SPLIT~~~organization")
       .replace(/\s+,/g, ",")
+      .replace(/url:\s+value/g, "url")
+      .replace(/image:\s+url/g, "~~~imageUrl")
+      .replace(/url/g,"~~~url")
+      .replace(/broker:\s+name/g, "SPLIT~~~organization")
       .replace(/description/g, "~~~description")
-      .replace(/image:\s+type:\sImageObject,\s+url/g, "~~~imageUrl")
-      .replace(/\s+type:\sURL,\s+value/, "~~~imageUrl") //for generic
-      .replace(/offerPrice:\s+type:\s+Number,\s+value/g, "~~~offerPrice")
+      .replace(/offerPrice:\s+value/g, "~~~offerPrice")
       .replace(/originalPrice\s{value/g,"~~~originalPrice")
       .replace(/priceCurrency/g, "~~~priceCurrency")
-      .replace(/url/g,"~~~url")
       .replace(/validFrom/g,"~~~validFrom")
       .replace(/validThrough/g, "~~~validThrough")
+      .replace(/\s{2, }/g, " ")
       .replace(/,\s+~~~/g, "~~~")
+      .replace(/,\s+SPLIT~~~/g, "SPLIT~~~")
       .trim();
 
-      console.log(this.startStr.length);
-      this.startStr = this.startStr.split("SPLIT");
-      console.log(this.startStr.length);
-      console.log(this.startStr);
+      this.startStr = this.startStr.slice(0, this.startStr.length-1).split("SPLIT");
       if(this.startStr[0] === "") this.startStr.shift();
 
 
@@ -172,13 +203,12 @@
           }
         }
 
-        self.cleanmainArray.push(newObj);
+        self.mainArray.push(newObj);
 
       });
 
-      this.mainArray = this.cleanmainArray;
-      console.log(this.cleanmainArray);
-      return this.startStr;
+      return this.mainArray;
+
 
     } //End of magic function
   } //end of computed properties

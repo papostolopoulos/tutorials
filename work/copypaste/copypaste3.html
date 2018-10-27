@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Copy Paste!!!</title>
+
+    <style media="screen">
+      body{
+        padding: 20px;
+      }
+
+      #divCopyPasteArea{
+        display: grid;
+        grid-template-columns: 3fr 2fr 5fr;
+        grid-template-rows: 80% 20%;
+        grid-template-areas:
+        "divInstructionsArea divRadioButtonsArea divTextArea"
+        "divFilterArea . divTextArea";
+        grid-column-gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      #divInstructionsArea{
+        grid-area: divInstructionsArea;
+      }
+
+      #divRadioButtonsArea{
+        grid-area: divRadioButtonsArea;
+      }
+
+      #divTextArea{
+        grid-area: divTextArea;
+      }
+
+      #divFilterArea{
+        grid-Area: divFilterArea;
+      }
+
+
+
+      article{
+        border-top: 2px solid black;
+      }
+
+      div[class*="media"]{
+        margin: 20px;
+      }
+
+      img {
+        max-width: 800px;
+      }
+    </style>
+
+  </head>
+
+
+
+
+
+
+
+  <body>
+    <section id="container">
+      <div id="divCopyPasteArea">
+        <div id="divInstructionsArea">
+          <h3>Instructions</h3>
+          <ol>
+            <li>In Scarlett, go to "preview".</li>
+            <li>In the view option, select "raw".</li>
+            <li>Copy the JSON formated text.</li>
+            <li>Paste it at the textarea below.</li>
+            <li>Use the filter input tag to filter based on specific keywords in
+            description.</li>
+            <li>Repeat as necessary for each email where you need to review the
+              information coming from the JSON file.</li>
+          </ol>
+        </div>
+        <div id="divRadioButtonsArea">
+          <h3>Which Scarlett task?</h3>
+          <form id="formScarlettTasks" name="formScarlettTasks" @click="changeTypeOfPaste($event)">
+            <input id="inputGenericCoupons" type="radio" name="inputCouponsSelect" value="genericCoupons">
+            <label for="inputGenericCoupons">Generic coupons</label> <br>
+
+            <input id="inputLinkbaseCoupons" type="radio" name="inputCouponsSelect" value="linkbaseCoupons">
+            <label for="inputLinkbaseCoupons">Linkbase coupons</label> <br>
+
+            <input id="inputAirplaneTickets" type="radio" name="inputCouponsSelect" value="airplaneTickets">
+            <label for="inputAirplaneTickets">Airplane tickets</label> <br>
+
+            <input id="inputInvoices" type="radio" name="inputCouponsSelect" value="invoices">
+            <label for="inputInvoices">Invoices</label> <br>
+          </form>
+        </div>
+        <div id="divTextArea">
+          <h3>Paste the JSON file</h3>
+          <textarea
+          name="textareaCoupons"
+          id="textareaCoupons"
+          rows="10" cols="80"
+          placeholder="Paste JSON text here"
+          v-model="startStr"
+          v-once
+          ></textarea>
+        </div>
+
+        <div id="divFilterArea">
+          <input type="text" name="" value=""
+          v-model=searchedString
+
+          placeholder="Filter the results"
+          >
+        </div>
+      </div>
+                <!-- @keyup.enter="matchString($event)" -->
+
+
+      <div id="divDebugArea" style="display: none;">
+        <h1>startStr</h1>
+        <p>{{startStr}}</p>
+        <h1>magic</h1>
+        <p>{{magic}}</p>
+      </div>
+
+
+      <article
+      class="media"
+      v-for="(item, idx) in mainArray"
+      v-show='searchedString === "" || item.description.match(new RegExp(searchedString))'
+      >
+
+        <div class="media-left media-middle">
+          <a :href="item.url" target="_blank">
+            <img class="media-object" :src="item.imageUrl" alt="No image pulled for this item">
+          </a>
+        </div>
+
+        <div class="media-body">
+          <h2>{{item.description}}</h2>
+          <ul>
+            <li>Currency and price: {{item.priceCurrency}} {{item.offerPrice}}</li>
+            <li>Valid through: {{item.validThrough}}</li>
+            <li>Original price: {{item.originalPrice}}</li>
+            <li>Valid from: {{item.validFrom}}</li>
+            <li>Organization: {{item.organization}}</li>
+            <li>url: <a :href="item.url" :title="item.url">Link - Think before you click!</a></li>
+          </ul>
+
+        </div>
+
+      </article>
+
+    </section>
+
+  </body>
+
+
+
+
+
+
+
+
+
+  <script>
+  var app = new Vue({
+    el: "#container",
+    data: {
+      startStr: "",
+      typeOfPaste: "",
+      searchedString: "",
+      mainArray: []
+  }, //End of data
+  methods:{
+    changeTypeOfPaste: function(event) {
+      this.typeOfPaste = event.target.value;
+    },
+    matchString: function(event) {
+      console.log(this.searchedString);
+      this.searchedString = event.target.value;
+      console.log(this.searchedString);
+    }
+  }, //Ena of methods
+  computed: {
+    magic: function() {
+
+      // Clean up the array where all the products will be pasted
+      this.mainArray = [];
+
+      //remove unecessary symbols and text
+      var replacements = [
+        /[@""\{\}\[\]]/g,
+        /graph:\s+/,
+        /context:\s+vocab[\S\s]+/g,
+        /id:\s_:[\w-]+,\s+/g,
+        /type:\s[A-z}]+,\s+/g,
+      ];
+
+
+      for (var i = 0; i < replacements.length; i++) {
+        this.startStr = this.startStr.replace(replacements[i], "");
+      }
+
+
+      // replace titles to match the final object keys
+      this.startStr = this.startStr
+      .replace(/\s+,/g, ",")
+      .replace(/url:\s+value/g, "url")
+      .replace(/image:\s+url/g, "~~~imageUrl")
+      .replace(/url/g,"~~~url")
+      .replace(/broker:\s+name/g, "SPLIT~~~organization")
+      .replace(/description/g, "~~~description")
+      .replace(/offerPrice:\s+value/g, "~~~offerPrice")
+      .replace(/originalPrice\s{value/g,"~~~originalPrice")
+      .replace(/priceCurrency/g, "~~~priceCurrency")
+      .replace(/validFrom/g,"~~~validFrom")
+      .replace(/validThrough/g, "~~~validThrough")
+      .replace(/\s{2, }/g, " ")
+      .replace(/,\s+~~~/g, "~~~")
+      .replace(/,\s+SPLIT~~~/g, "SPLIT~~~")
+      .trim();
+
+      this.startStr = this.startStr.slice(0, this.startStr.length-1).split("SPLIT");
+      if(this.startStr[0] === "") this.startStr.shift();
+
+
+      //For each
+      var self = this;
+      this.startStr.forEach(function(el) {
+        var newObj = {
+          organization: "",
+          description: "",
+          imageUrl: "",
+          url: "",
+          offerPrice: "",
+          originalPrice: "",
+          priceCurrency: "",
+          validFrom: "",
+          validThrough: ""
+        }
+
+
+        for(var key in newObj){
+          if (el.indexOf(key) !== -1) {
+            newObj[key] = el.slice(el.indexOf(key));
+            newObj[key] = newObj[key]
+            .replace(/~~~.*/,"")
+            .replace([key]+": ", "")
+            .trim();
+            if (newObj[key][newObj[key].length - 1] === ",") newObj[key].slice(0, newObj[key].length - 2);
+          }
+        }
+
+        self.mainArray.push(newObj);
+
+      });
+
+      return this.mainArray;
+
+
+    }, //End of magic function
+    fiterResults: function() {
+      if (this.searchedString === "") return;
+      return this.mainArr.filter(function(el) {
+        if(el.description.match(this.searchedString)) return el;
+      });
+    }
+  } //end of computed properties
+});
+
+  </script>
+
+</html>
