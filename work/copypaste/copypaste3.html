@@ -13,12 +13,12 @@
 
       #divCopyPasteArea{
         display: grid;
-        grid-template-columns: 3fr 2fr 5fr;
+        grid-template-columns: 3fr 5fr 2fr;
         grid-template-rows: 80% 20%;
         grid-template-areas:
-        "divInstructionsArea divRadioButtonsArea divTextArea"
-        "divFilterArea . divTextArea";
-        grid-column-gap: 20px;
+        "divInstructionsArea divTextArea divRadioButtonsArea"
+        "divInstructionsArea divTextArea divFilterArea";
+        grid-column-gap: 10px;
         margin-bottom: 20px;
       }
 
@@ -37,8 +37,6 @@
       #divFilterArea{
         grid-Area: divFilterArea;
       }
-
-
 
       article{
         border-top: 2px solid black;
@@ -70,12 +68,24 @@
             <li>In Scarlett, go to "preview".</li>
             <li>In the view option, select "raw".</li>
             <li>Copy the JSON formated text.</li>
-            <li>Paste it at the textarea below.</li>
-            <li>Use the filter input tag to filter based on specific keywords in
+            <li>Paste it at the textarea.</li>
+            <li>Select the category of rules the JSON file comes from</li>
+            <li>Use the RegEx filters to filter based on specific keywords in the
             description.</li>
             <li>Repeat as necessary for each email where you need to review the
               information coming from the JSON file.</li>
           </ol>
+        </div>
+        <div id="divTextArea">
+          <h3>Paste the JSON file</h3>
+          <textarea
+          name="textareaCoupons"
+          id="textareaCoupons"
+          rows="10" cols="80"
+          placeholder="Paste JSON text here"
+          v-model="startStr"
+          v-once
+          ></textarea>
         </div>
         <div id="divRadioButtonsArea">
           <h3>Which Scarlett task?</h3>
@@ -93,27 +103,54 @@
             <label for="inputInvoices">Invoices</label> <br>
           </form>
         </div>
-        <div id="divTextArea">
-          <h3>Paste the JSON file</h3>
-          <textarea
-          name="textareaCoupons"
-          id="textareaCoupons"
-          rows="10" cols="80"
-          placeholder="Paste JSON text here"
-          v-model="startStr"
-          v-once
-          ></textarea>
-        </div>
 
         <div id="divFilterArea">
+          <h3>RegEx Filter</h3>
+          RegEx source:
           <input type="text" name="" value=""
-          v-model=searchedString
+          v-model="regExSource"
+          placeholder="Enter RegEx string"
+          > <br>
 
-          placeholder="Filter the results"
-          >
+          RegEx flags:
+          <template class="">
+            <label for="inputRegExg" title="global: Don't return after first match">
+              g: <input id="inputRegExg" type="checkbox" value="g" v-model="g">
+            </label>
+            <label for="inputRegExm" title="multi line: ^ and $ match start / end of line">
+              m: <input id="inputRegExm" type="checkbox" value="m" v-model="m">
+            </label>
+            <label for="inputRegExi" title="insensitive: Case insensitive match">
+              i: <input id="inputRegExi" type="checkbox" value="i" v-model="i">
+            </label>
+            <label for="inputRegExx" title="extended: ignore whitespace">
+              x: <input id="inputRegExx" type="checkbox" value="x" v-model="x">
+            </label>
+            <label for="inputRegExX" title="extra: Disallow meaningless escapes">
+              X: <input id="inputRegExX" type="checkbox" value="X" v-model="X">
+            </label>
+            <label for="inputRegExs" title="single line: Dot matches newline">
+              s: <input id="inputRegExs" type="checkbox" value="s" v-model="s">
+            </label>
+            <label for="inputRegExu" title="unicode: Match with full unicode">
+              u: <input id="inputRegExu" type="checkbox" value="u" v-model="u">
+            </label>
+            <label for="inputRegExU" title="ungreedy: Make quantifiers lazy">
+              U: <input id="inputRegExU" type="checkbox" value="U" v-model="U">
+            </label>
+            <label for="inputRegExA" title="Anchored: Anchor to start of pattern">
+              A: <input id="inputRegExA" type="checkbox" value="A" v-model="A">
+            </label>
+            <label for="inputRegExj" title="jchanged: Allow duplicate subpattern">
+              j: <input id="inputRegExj" type="checkbox" value="j" v-model="j">
+            </label>
+            <label for="inputRegExD" title="Dollar end only: $ matches only end of pattern">
+              D: <input id="inputRegExD" type="checkbox" value="D" v-model="D">
+            </label>
+          </template>
+
         </div>
       </div>
-                <!-- @keyup.enter="matchString($event)" -->
 
 
       <div id="divDebugArea" style="display: none;">
@@ -127,7 +164,7 @@
       <article
       class="media"
       v-for="(item, idx) in mainArray"
-      v-show='searchedString === "" || item.description.match(new RegExp(searchedString))'
+      v-show="regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))"
       >
 
         <div class="media-left media-middle">
@@ -151,6 +188,8 @@
 
       </article>
 
+
+
     </section>
 
   </body>
@@ -169,41 +208,61 @@
     data: {
       startStr: "",
       typeOfPaste: "",
-      searchedString: "",
+      regExSource: "",
+      g: "",
+      m: "",
+      i: "",
+      x: "",
+      X: "",
+      s: "",
+      u: "",
+      U: "",
+      A: "",
+      j: "",
+      D: "",
       mainArray: []
   }, //End of data
   methods:{
-    changeTypeOfPaste: function(event) {
+    changeTypeOfPaste: function(event) {  //this is for the radio buttons
       this.typeOfPaste = event.target.value;
     },
     matchString: function(event) {
-      console.log(this.searchedString);
-      this.searchedString = event.target.value;
-      console.log(this.searchedString);
+      console.log(this.regExSource);
+      this.regExSource = event.target.value;
+      console.log(this.regExSource);
     }
-  }, //Ena of methods
+  }, //End of methods
   computed: {
+    regExFlags: function() {
+      let flags = "gmixXsuUAjD";
+      let flagStr = "";
+      for (var i = 0; i < flags.length; i++) {
+        if(this[flags[i]] === true) flagStr += flags[i]
+      }
+      return flagStr;
+    },
     magic: function() {
 
-      // Clean up the array where all the products will be pasted
+      // 1. Clean up the mainArray where all the object elements will be pasted
       this.mainArray = [];
 
-      //remove unecessary symbols and text
+
+
+      //2. remove unecessary symbols and text
       var replacements = [
-        /[@""\{\}\[\]]/g,
+        /[@""\[\]\{\}]/g,
+        // /context:\s+vocab[\S\s]+\}/g,
         /graph:\s+/,
-        /context:\s+vocab[\S\s]+/g,
         /id:\s_:[\w-]+,\s+/g,
         /type:\s[A-z}]+,\s+/g,
       ];
-
 
       for (var i = 0; i < replacements.length; i++) {
         this.startStr = this.startStr.replace(replacements[i], "");
       }
 
 
-      // replace titles to match the final object keys
+      // 3. replace category titles to match the final object keys
       this.startStr = this.startStr
       .replace(/\s+,/g, ",")
       .replace(/url:\s+value/g, "url")
@@ -221,13 +280,23 @@
       .replace(/,\s+SPLIT~~~/g, "SPLIT~~~")
       .trim();
 
+
+
+      // 4. Create an array from the existing string. Remove first element
       this.startStr = this.startStr.slice(0, this.startStr.length-1).split("SPLIT");
       if(this.startStr[0] === "") this.startStr.shift();
 
 
-      //For each
+
+
+      //5. Evaluate the text of each element. Slice the text wherever needed and
+      // create an object that will be pushed to the mainArray.
       var self = this;
       this.startStr.forEach(function(el) {
+        //Clean up each string with all the text after "context"
+        el = el.replace(/context:\s+vocab[\S\s]+/g, "");
+
+        //Create new object with all the expected keys for rendering in the page.
         var newObj = {
           organization: "",
           description: "",
@@ -240,7 +309,7 @@
           validThrough: ""
         }
 
-
+        //Find the match of the key inside the element and slice
         for(var key in newObj){
           if (el.indexOf(key) !== -1) {
             newObj[key] = el.slice(el.indexOf(key));
@@ -259,13 +328,7 @@
       return this.mainArray;
 
 
-    }, //End of magic function
-    fiterResults: function() {
-      if (this.searchedString === "") return;
-      return this.mainArr.filter(function(el) {
-        if(el.description.match(this.searchedString)) return el;
-      });
-    }
+    } //End of magic function
   } //end of computed properties
 });
 
