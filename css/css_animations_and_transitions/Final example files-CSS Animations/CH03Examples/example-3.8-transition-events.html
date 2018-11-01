@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Transition-Events</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing how to time multiple changes with the completion of a transition event" />
+
+<script>
+var init = function() {
+	var box = document.getElementById("one");
+	var box2 = document.getElementById("two");
+      
+	box.addEventListener("webkitTransitionEnd", updateTransition , false);
+	box.addEventListener("oTransitionEnd", updateTransition , false);
+	box.addEventListener("transitionend", updateTransition , false);
+    
+	function updateTransition (e) {
+		box.style.width = 500 + "px";
+		box2.style.backgroundColor = "#f33";
+	}
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+.container{
+    width: 250px;
+    margin: 5em auto; 
+}
+
+
+.box {
+    margin: 0 0 5em 0;
+    width: 250px;
+    height: 250px;
+    background-color: #33f;
+
+}
+
+#one:hover {
+	background-color: #f33;
+}
+
+#one {
+	-webkit-transition: background-color 5s ease-in-out;
+	        transition: background-color 5s ease-in-out;
+}
+
+
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="box" id="one"></div>
+<div class="box" id="two"></div>
+</div>
+
+</body>
+</html>

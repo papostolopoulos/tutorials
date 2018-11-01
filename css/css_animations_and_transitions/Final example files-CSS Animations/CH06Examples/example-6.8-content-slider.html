@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Examples: Content Switcher</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of a content switcher with next and previous navigation links" />
+
+<script>
+var init = function() {
+
+  var slider = document.getElementById('slider');
+  var one = document.getElementById('one');
+  var two = document.getElementById('two');
+  var three = document.getElementById('three');
+  var four = document.getElementById('four');
+  
+  var next = document.getElementById("next");
+  var prev = document.getElementById("prev");
+
+  
+  next.addEventListener( 'click', function(){
+            
+      var margin = window.getComputedStyle(slider).getPropertyValue("margin-left");
+      
+      switch (margin) {
+        case "0px":
+            slider.style.marginLeft = "-600px";
+            one.style.opacity = "0";
+            one.style.webkitTransform = "scale(0)";
+            one.style.transform = "scale(0)";
+            two.style.opacity = "1";
+            two.style.webkitTransform = "scale(1)";
+            two.style.transform = "scale(1)";
+            break;
+        case "-600px":
+            slider.style.marginLeft = "-1200px";
+            two.style.opacity = "0";
+            two.style.webkitTransform = "scale(0)";
+            two.style.transform = "scale(0)";
+            three.style.opacity = "1";
+            three.style.webkitTransform = "scale(1)";
+            three.style.transform = "scale(1)";
+            break;
+        case "-1200px":
+            slider.style.marginLeft = "-1800px";
+            three.style.opacity = "0";
+            three.style.webkitTransform = "scale(0)";
+            three.style.transform = "scale(0)";
+            four.style.opacity = "1";
+            four.style.webkitTransform = "scale(1)";
+            four.style.transform = "scale(1)";
+            break;
+        case "-1800px":
+            slider.style.marginLeft = "0px";
+            four.style.opacity = "0";
+            four.style.webkitTransform = "scale(0)";
+            four.style.transform = "scale(0)";
+            one.style.opacity = "1";
+            one.style.webkitTransform = "scale(1)";
+            one.style.transform = "scale(1)";
+            break;
+      }
+  }, false);
+
+  prev.addEventListener( 'click', function(){
+      
+      var margin = window.getComputedStyle(slider).getPropertyValue("margin-left");
+
+      switch (margin) {
+        case "0px":
+            slider.style.marginLeft = "-1800px";
+            one.style.opacity = "0";
+            one.style.webkitTransform = "scale(0)";
+            one.style.transform = "scale(0)";
+            four.style.opacity = "1";
+            four.style.webkitTransform = "scale(1)";
+            four.style.transform = "scale(1)";
+            break;
+        case "-600px":
+            slider.style.marginLeft = "0px";
+            two.style.opacity = "0";
+            two.style.webkitTransform = "scale(0)";
+            two.style.transform = "scale(0)";
+            one.style.opacity = "1";
+            one.style.webkitTransform = "scale(1)";
+            one.style.transform = "scale(1)";
+            break;
+        case "-1200px":
+            slider.style.marginLeft = "-600px";
+            three.style.opacity = "0";
+            three.style.webkitTransform = "scale(0)";
+            three.style.transform = "scale(0)";
+            two.style.opacity = "1";
+            two.style.webkitTransform = "scale(1)";
+            two.style.transform = "scale(1)";
+            break;
+        case "-1800px":
+            slider.style.marginLeft = "-1200px";
+            four.style.opacity = "0";
+            four.style.webkitTransform = "scale(0)";
+            four.style.transform = "scale(0)";
+            three.style.opacity = "1";
+            three.style.webkitTransform = "scale(1)";
+            three.style.transform = "scale(1)";
+            break;
+      }
+  }, false);
+
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+/* ------------------------------------ */
+/* --- GENERAL
+/* ------------------------------------ */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "helvetica", "sans-serif";
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2em auto;
+    overflow: hidden;
+}
+
+/* ------------------------------------ */
+/* --- SLIDER/SWITCHER
+/* ------------------------------------ */
+.slider {
+    width: 2400px;
+    position: relative;
+    z-index: 1;
+    margin-left: 0px;
+
+    -webkit-transition: margin-left 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+            transition: margin-left 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* ------------------------------------ */
+/* --- CONTENT
+/* ------------------------------------ */
+.content {
+    width: 600px;
+    height: 400px;
+    float: left;
+    text-align: center;
+    padding: 2em 0;
+    border-radius: 1%;
+}
+
+.one {
+    background: #c66;
+    opacity: 1;
+    
+    -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+            transform: scale(1);
+    
+    -webkit-transition: opacity 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.two {
+    background: #6c6;
+    opacity: 0;
+    
+    -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+            transform: scale(0);
+
+    -webkit-transition: opacity 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.three {
+    background: #66c;
+    opacity: 0;
+
+    -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+            transform: scale(0);
+
+    -webkit-transition: opacity 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.four {
+    background: #cc6;
+    opacity: 0;
+    
+    -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+            transform: scale(0);
+
+    -webkit-transition: opacity 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* ------------------------------------ */
+/* --- ADDITIONAL CONTENT
+/* ------------------------------------ */
+.additional {
+    padding: 1em 25%;
+    position: absolute;
+    bottom: -6em;
+    background: rgba(0,0,0,0.3);
+    color: #eee;
+    font-weight: 100;
+
+    -webkit-transition: bottom 0.5s ease-in;
+            transition: bottom 0.5s ease-in;
+}
+
+.content:hover .additional {
+    bottom: -1em;
+} 
+
+
+/* ------------------------------------ */
+/* --- NAVIGATION
+/* ------------------------------------ */
+.nav {
+    font-size: 5em;
+    width: 800px;
+    position: absolute;
+    margin: 1.5em 0 0 -100px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #444;
+    font-weight: bold;
+}
+
+.prev {float: left;}
+.next {float: right;}
+
+</style>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="slider" id="slider">
+        <div class="content one" id="one">
+            <h1>This is page 1</h1>
+            <p class="additional">This is some additional information about page 1 that can be revealed on hover.</p>
+        </div>
+        <div class="content two" id="two">
+            <h1>This is page 2</h1>
+            <p class="additional">This is some additional information about page 2 that can be revealed on hover.</p>    
+        </div>
+        <div class="content three" id="three">
+            <h1>This is page 3</h1>
+            <p class="additional">This is some additional information about page 3 that can be revealed on hover.</p>    
+        </div>
+        <div class="content four" id="four">
+            <h1>This is page 4</h1>
+            <p class="additional">This is some additional information about page 4 that can be revealed on hover.</p>    
+        </div>
+    </div>
+	<div class="nav">
+		<a class="prev" id="prev" href="#">&#12296;</a>
+		<a class="next" id="next" href="#">&#12297;</a>
+	</div>
+</div>
+
+</body>
+</html>

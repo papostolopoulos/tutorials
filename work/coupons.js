@@ -1523,7 +1523,77 @@ function transform(data) {
 
 
 
+function transform(data) {
+	if(!data) return "";
+  data = data.replace(/[\*©®ǂ†→]/g, "");
+	if (data.match(/exclusive\soffer\sfor\sthis\semail\saddress/)) return data.replace(/exclusive\soffer\sfor\sthis\semail\saddress.*/, "").trim();
+	if (data.match(/SHOP\sNOW\./)) return data.replace(/SHOP\sNOW\..*/, "").trim();
+	return data.slice(0,1).toUpperCase() + data.slice(1);
+}
 
+
+
+
+
+
+
+
+
+
+
+
+var str = "3D Потолочный напольный декор и настенная наклейка 60%OFF"
+
+
+function transform(data) {
+  //Return empty strings if the following are included since they are not coupons.
+  var reg1 = /100%/i;
+  var regExArr = [reg1];
+
+  for (var i = 0; i < regExArr.length; i++) {
+    if (data.match(regExArr[i])) return "";
+  }
+
+
+
+  //Remove uncecessary text
+  var rep1 = /To\sensure\ssavings,.*/i;
+  var rep2 = /Para\sAsegurarte\sAhorros,\spor\sfavor.*/i;
+  var rep3 = /[\*©®ǂ†→>]/;
+  var rep4 = /\d+\sunits\slimited.*/;
+  var rep5 = /Aproveite\sAgora/;
+  var rep6 = /Dear.*Check\sMy\sCoupons/;
+  var rep7 = /BUY\sNOW\sEmail\sOnly/;
+  var replaceArr = [rep1, rep2, rep3, rep4, rep5, rep6, rep7];
+
+  for (var j = 0; j < replaceArr.length; j++) {
+    if (data.match(replaceArr[j])) data = data.replace(replaceArr[j], "");
+  }
+
+
+
+  //Add spaces where needed
+  var spc1 = /(\$\d+\.?\d{2}?)(off)/i;
+	var spc2 = /(\d+%)(off)/i;
+	var spc3 = /(\$\d+)(\+\d+\spoints)/i;
+	var spc4 = /(\.\d{2})(\+\d+\spoints)/i;
+  var spaceArr = [spc1, spc2, spc3, spc4];
+
+  for (var k = 0; k < spaceArr.length; k++) {
+    if (data.match(spaceArr[k])) data = data.replace(spaceArr[k], "$1 $2");
+  }
+
+
+
+
+
+  //Replace US$ to "Was $"
+  data = data.replace(/US\$/, "| Was $");
+
+
+
+  return data.trim();
+}
 
 
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Perspective</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing rotation around the y-axis in 3D space" />
+
+<script src="utility.js"></script>
+<script>
+var init = function() {
+  var box = document.getElementsByClassName('box');
+  
+  document.getElementById('transform').addEventListener( 'click', function(){
+    box[0].toggleClassName('transformed');
+  }, false);
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+    font-family: helvetica;
+    font-size: 100%;
+}
+
+button {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background: #ccc;
+    border: 1px solid #777;
+    margin: 3em auto;
+}
+
+.container {
+	width: 200px;
+	height: 200px;
+	outline: 1px solid red;
+	margin: 5em auto;
+
+  -webkit-perspective: 250;
+      -ms-perspective: 250;
+          perspective: 250;
+}
+
+.box {
+	width: 200px;
+	height: 200px;
+	background: #575;
+}
+
+.transformed {
+    -webkit-transform: rotateY(60deg);
+        -ms-transform: rotateY(60deg);
+            transform: rotateY(60deg);
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+	<div class="box"></div>
+</div>
+<button id="transform">Transform</button>
+
+</body>
+</html>

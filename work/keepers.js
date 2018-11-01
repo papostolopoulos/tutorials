@@ -118,7 +118,7 @@ function transform(data) {
 // SPECIAL CHARACTERS
 //List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
 function transform(data) {
-  data = data.replace(/[\*©®ǂ†→]/g, "");
+  data = data.replace(/[\*©®ǂ†→§]/g, "");
   return data || "";
 }
 
@@ -283,8 +283,9 @@ function transform(data) {
 //REGEX $OFF
 var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
 var percentOff = /%\s([Oo][Ff]{2})/;
-var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/
+var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
 var downToAmmount = /down\sto\s\$\d{1,}(\.\d{2})?/i;
+var saveNumOff = /((SAVE)|(Save))\s\d{1,2}%/;
 
 
 
@@ -327,6 +328,8 @@ function transform(data) {
 
   return data.trim();
 }
+
+
 
 
 

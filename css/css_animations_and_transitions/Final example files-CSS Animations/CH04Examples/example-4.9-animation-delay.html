@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Example 4.9 - Animation Delay</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing the animation-delay property." />
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+button {
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 5%;
+    margin-top: 3em;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #393;
+}
+
+.box {
+	-webkit-animation-name: slide;
+	        animation-name: slide;
+
+	-webkit-animation-duration: 5s;
+	        animation-duration: 5s;
+
+	-webkit-animation-timing-function: linear
+	        animation-timing-function: linear;
+
+	-webkit-animation-iteration-count: 3;
+	        animation-iteration-count: 3;
+
+	-webkit-animation-direction: alternate;
+	        animation-direction: alternate;
+
+	-webkit-animation-play-state: running;
+	        animation-play-state: running;
+
+    -webkit-animation-delay: 2s;
+            animation-delay: 2s;
+
+}
+
+
+@-webkit-keyframes slide {
+
+    to {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+
+}
+
+
+@keyframes slide {
+
+    to {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+  
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box" id="box"></div>
+</div>
+
+
+</body>
+</html>

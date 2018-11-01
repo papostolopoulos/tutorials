@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>More Realistic Animation: Bouncing Ball With Poor Squash and Stretch</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of a bouncing ball with the animation principle squash and stretch implemented poorly." />
+
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 26em;
+    margin: 1em auto;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 5%;
+}
+
+.stage  {
+    width: 1200px;
+    height: 600px;
+    outline: 1px solid gray;
+    margin: 1em auto 0 auto;
+}
+
+.ball {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f00;
+    margin: 0 auto;
+    
+    -webkit-animation: bounce 2s linear both;
+            animation: bounce 2s linear;
+
+}
+
+
+
+
+@-webkit-keyframes bounce {
+
+    0% {
+     -webkit-transform: translateY(0px) scale(1,1);
+         -ms-transform: translateY(0px) scale(1,1);
+             transform: translateY(0px) scale(1,1);
+    }
+    
+    50% {
+     -webkit-transform: translateY(500px) scale(1.2,0.8);
+         -ms-transform: translateY(500px) scale(1.2,0.8);
+             transform: translateY(500px) scale(1.2,0.8);
+    }
+    
+    100% {
+     -webkit-transform: translateY(0px) scale(1,1);
+         -ms-transform: translateY(0px) scale(1,1);
+             transform: translateY(0px) scale(1,1);
+
+    }
+
+}
+
+@keyframes bounce {
+
+    0% {
+     -webkit-transform: translateY(0px) scale(1,1);
+         -ms-transform: translateY(0px) scale(1,1);
+             transform: translateY(0px) scale(1,1);
+    }
+    
+    50% {
+     -webkit-transform: translateY(500px) scale(1.2,0.8);
+         -ms-transform: translateY(500px) scale(1.2,0.8);
+             transform: translateY(500px) scale(1.2,0.8);
+    }
+    
+    100% {
+     -webkit-transform: translateY(0px) scale(1,1);
+         -ms-transform: translateY(0px) scale(1,1);
+             transform: translateY(0px) scale(1,1);
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="stage ">
+    <div class="ball"></div>
+</div>
+<div class="container">
+    <a href="example-5.1-squash-stretch.html" class="btn" id="reverse">No Squash</a>
+    <a href="example-5.2-squash-stretch.html" class="btn"  id="alternate">Unrealistic Squash</a>
+    <a href="example-5.3-squash-stretch.html" class="btn"  id="alternate">Squash & Stretch</a>
+</div>
+
+
+</body>
+</html>

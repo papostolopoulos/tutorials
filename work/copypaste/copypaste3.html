@@ -11,10 +11,10 @@
         padding: 20px;
       }
 
-      #divCopyPasteArea{
+      #sectionCopyPasteArea{
         display: grid;
         grid-template-columns: 3fr 5fr 2fr;
-        grid-template-rows: 80% 20%;
+        grid-template-rows: 60% 40%;
         grid-template-areas:
         "divInstructionsArea divTextArea divRadioButtonsArea"
         "divInstructionsArea divTextArea divFilterArea";
@@ -60,8 +60,8 @@
 
 
   <body>
-    <section id="container">
-      <div id="divCopyPasteArea">
+    <main id="container">
+      <section id="sectionCopyPasteArea">
         <div id="divInstructionsArea">
           <h3>Instructions</h3>
           <ol>
@@ -150,47 +150,52 @@
           </template>
 
         </div>
-      </div>
+      </section>
 
 
-      <div id="divDebugArea" style="display: none;">
+      <section id="sectionDebugArea" style="display: none;">
         <h1>startStr</h1>
         <p>{{startStr}}</p>
         <h1>magic</h1>
         <p>{{magic}}</p>
-      </div>
-
-
-      <article
-      class="media"
-      v-for="(item, idx) in mainArray"
-      v-show="regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))"
-      >
-
-        <div class="media-left media-middle">
-          <a :href="item.url" target="_blank">
-            <img class="media-object" :src="item.imageUrl" alt="No image pulled for this item">
-          </a>
-        </div>
-
-        <div class="media-body">
-          <h2>{{item.description}}</h2>
-          <ul>
-            <li>Currency and price: {{item.priceCurrency}} {{item.offerPrice}}</li>
-            <li>Valid through: {{item.validThrough}}</li>
-            <li>Original price: {{item.originalPrice}}</li>
-            <li>Valid from: {{item.validFrom}}</li>
-            <li>Organization: {{item.organization}}</li>
-            <li>url: <a :href="item.url" :title="item.url">Link - Think before you click!</a></li>
-          </ul>
-
-        </div>
-
-      </article>
+      </section>
 
 
 
-    </section>
+      <section id="sectionExtractionArea">
+        <article
+        class="media"
+        v-for="(item, idx) in mainArray"
+        v-show="regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))"
+        >
+
+          <div class="media-left media-middle">
+            <a :href="item.url" target="_blank">
+              <img class="media-object" :src="item.imageUrl" alt="No image pulled for this item">
+            </a>
+          </div>
+
+          <div class="media-body">
+            <h2>{{item.description}}</h2>
+            <ul>
+              <li>Currency and price: {{item.priceCurrency}} {{item.offerPrice}}</li>
+              <li>Valid through: {{item.validThrough}}</li>
+              <li>Original price: {{item.originalPrice}}</li>
+              <li>Valid from: {{item.validFrom}}</li>
+              <li>Organization: {{item.organization}}</li>
+              <li>url: <a :href="item.url" :title="item.url">Link - Think before you click!</a></li>
+            </ul>
+          </div>
+
+        </article>
+
+      </section>
+
+
+
+
+
+    </main>
 
   </body>
 
@@ -271,7 +276,7 @@
       .replace(/broker:\s+name/g, "SPLIT~~~organization")
       .replace(/description/g, "~~~description")
       .replace(/offerPrice:\s+value/g, "~~~offerPrice")
-      .replace(/originalPrice\s{value/g,"~~~originalPrice")
+      .replace(/originalPrice:\s+value/g,"~~~originalPrice")
       .replace(/priceCurrency/g, "~~~priceCurrency")
       .replace(/validFrom/g,"~~~validFrom")
       .replace(/validThrough/g, "~~~validThrough")
