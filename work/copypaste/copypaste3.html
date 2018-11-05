@@ -14,10 +14,10 @@
       #sectionCopyPasteArea{
         display: grid;
         grid-template-columns: 3fr 5fr 2fr;
-        grid-template-rows: 50% 50%;
+        grid-template-rows: 1fr 1fr;
         grid-template-areas:
-        "divInstructionsArea divTextArea divRadioButtonsArea"
-        "divInstructionsArea divTextArea divFilterArea";
+        "divInstructionsArea divTextArea divFilterArea"
+        "divRadioButtonsArea divTextArea divFilterArea";
         grid-column-gap: 10px;
         margin-bottom: 20px;
       }
@@ -73,6 +73,30 @@
             <li>Use the filters to filter through the results if needed.</li>
           </ol>
         </div>
+
+
+
+
+        <div id="divRadioButtonsArea">
+          <h3>Which task?</h3>
+          <form id="formScarlettTasks" name="formScarlettTasks" @click="changeTypeOfPaste($event)">
+            <input id="inputGenericCoupons" type="radio" name="inputCouponsSelect" value="genericCoupons">
+            <label for="inputGenericCoupons">Coupons</label> |
+
+            <!-- <input id="inputLinkbaseCoupons" type="radio" name="inputCouponsSelect" value="linkbaseCoupons">
+            <label for="inputLinkbaseCoupons">Linkbase coupons</label> <br> -->
+
+            <input id="inputAirplaneTickets" type="radio" name="inputCouponsSelect" value="airplaneTickets">
+            <label for="inputAirplaneTickets">Tickets</label> |
+
+            <input id="inputInvoices" type="radio" name="inputCouponsSelect" value="invoices">
+            <label for="inputInvoices">Invoices</label>
+          </form>
+        </div>
+
+
+
+
         <div id="divTextArea">
           <h3>Paste the JSON file</h3>
           <textarea
@@ -84,32 +108,19 @@
           v-once
           ></textarea>
         </div>
-        <div id="divRadioButtonsArea">
-          <h3>Which task?</h3>
-          <form id="formScarlettTasks" name="formScarlettTasks" @click="changeTypeOfPaste($event)">
-            <input id="inputGenericCoupons" type="radio" name="inputCouponsSelect" value="genericCoupons">
-            <label for="inputGenericCoupons">Coupons</label> <br>
 
-            <!-- <input id="inputLinkbaseCoupons" type="radio" name="inputCouponsSelect" value="linkbaseCoupons">
-            <label for="inputLinkbaseCoupons">Linkbase coupons</label> <br> -->
 
-            <input id="inputAirplaneTickets" type="radio" name="inputCouponsSelect" value="airplaneTickets">
-            <label for="inputAirplaneTickets">Tickets</label> <br>
 
-            <input id="inputInvoices" type="radio" name="inputCouponsSelect" value="invoices">
-            <label for="inputInvoices">Invoices</label> <br>
-          </form>
-        </div>
 
         <div id="divFilterArea">
-          <h3>RegEx Filter</h3>
-          RegEx source:
+          <h3>Filters</h3>
+          <h6>RegEx source:</h6>
           <input type="text" name="" value=""
           v-model="regExSource"
           placeholder="Enter RegEx string"
-          > <br>
+          >
 
-          RegEx flags:
+          <h6>RegEx flags:</h6>
           <template class="">
             <label for="inputRegExg" title="global: Don't return after first match">
               g: <input id="inputRegExg" type="checkbox" value="g" v-model="g">
@@ -145,6 +156,17 @@
               D: <input id="inputRegExD" type="checkbox" value="D" v-model="D">
             </label>
           </template>
+          <hr>
+
+          <h6>Number of characters in description:</h6>
+          Min: <input type="text" name="" value=""
+          maxlength="4" size="4"
+          v-model="minCharacters" placeholder="0">
+          Max: <input type="text" name="" value=""
+          maxlength="4" size="4"
+          v-model="maxCharacters" placeholder="0">
+          <hr>
+
 
         </div>
       </section>
@@ -163,8 +185,12 @@
         <article
         class="media"
         v-for="(item, idx) in mainArray"
-        v-show="regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))"
+        v-show="(regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))) &&
+        (minCharacters === '' || item.description.length >= minCharacters) &&
+        (maxCharacters === '' || item.description.length >= maxCharacters)"
         >
+        <!-- v-show="minCharacters === '' || item.description.length >= minCharacters"
+        v-show="maxCharacters === '' || item.description.length >= maxCharacters" -->
 
           <div class="media-left media-middle">
             <a :href="item.url" target="_blank">
@@ -211,6 +237,8 @@
       startStr: "",
       typeOfPaste: "",
       regExSource: "",
+      minCharacters: "",
+      maxCharacters: "",
       g: "",
       m: "",
       i: "",
