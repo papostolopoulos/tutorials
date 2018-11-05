@@ -1,0 +1,460 @@
+MOTHER
+
+
+
+
+/* BANGGOOD deals.banggood.com */
+{
+  "extract": {
+    "edgeRules": [],
+    "entityNS": null,
+    "entityRules": [
+      {
+        "attributes": [],
+        "entityIdRef": "",
+        "id": "f66018c8-423b-459b-b55a-c639d92daf68",
+        "javascript": null,
+        "locations": [
+          "/"
+        ],
+        "repeating": true,
+        "type": "http://schema.org/Coupon"
+      }
+    ],
+    "extractEmbedded": false,
+    "schema": [
+      {
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        },
+        "ns": "http://schema.org",
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json"
+      }
+    ],
+    "source": null
+  },
+  "extractLn": {
+    "edgeRules": [
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/broker",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474au",
+          "matchAttr": null
+        }
+      },
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/image",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+          "matchAttr": null
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "attributes": [
+          {
+            "blackList": [
+              {
+                "value": "view deal",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "view now",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "shop now",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "over\\s[0-9,]+\\sbought",
+                "type": "REGEX"
+              },
+              {
+                "value": "[0-9,]+\\sratings",
+                "type": "REGEX"
+              },
+              {
+                "value": "ends\\s+[0-2]{0,2}/[0-3]{0,2}",
+                "type": "REGEX"
+              },
+              {
+                "value": "deal$",
+                "type": "REGEX"
+              }
+            ],
+            "concat": "true",
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data) {\n  \n  //Return empty strings if the following are included since they are not coupons.\n  var reg1 = /100%/i;\n  var reg2 = /\\%\\sPrebuilt/i;\n  var reg3 = /\\%\\spre-assembled/i;\n  var reg4 = /\\%\\sblue/i;\n  var reg5 = /^Mid-[Yy]ear/;\n  var reg6 = /\\%\\sPure/i;\n  var reg7 = /\\%\\sTime/i;\n  var reg8 = /\\%\\sMechanical/i;\n  var regExArr = [reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8];\n\n  for (var i = 0; i < regExArr.length; i++) {\n    if (data.match(regExArr[i])) return \"\";\n  }\n\n\n  \n\n  //Remove uncecessary text\n  var rep1 = /To\\sensure\\ssavings,.*/i;\n  var rep2 = /Para\\sAsegurarte\\sAhorros,\\spor\\sfavor.*/i;\n  var rep3 = /[\\*©®ǂ†→>]/;\n  var rep4 = /\\d+\\sunits\\slimited.*/;\n  var rep5 = /Aproveite\\sAgora/;\n  var rep6 = /Dear.*Check\\sMy\\sCoupons/;\n  var rep7 = /BUY\\sNOW\\sEmail\\sOnly/;\n  var rep8 = /View\\sin\\sBrowser\\.?/i;\n  var rep9 = /^Latest:/;\n  var rep10 = /grab\\snow\\.?/i;\n  var rep11 = /Banggood\\sEmail\\sOnly.*/i\n  var rep12 = /preorder\\.?$/i;\n  var rep13 = /e-mail\\sonly$/i;\n  var rep14 = /aanbieding$/i;\n  var rep15 = /pre-order\\.?$/i;\n  var rep16 = /This\\scommercial\\semail\\swas\\ssent\\sto\\syou\\sby.*/i;\n  var rep17 = /Email\\sOnly\\.?$/i;\n\n  var replaceArr = [rep1, rep2, rep3, rep4, rep5, rep6, rep7, rep8, rep9, rep10, rep11, rep12, rep13, rep14, rep15, rep16, rep17];\n\n  for (var j = 0; j < replaceArr.length; j++) {\n    if (data.match(replaceArr[j])) data = data.replace(replaceArr[j], \"\");\n  }\n  \n  \n  \n  \n  //Add spaces where needed\n  var spc1 = /(\\$\\d+\\.?\\d{2}?)(off)/i;\n  var spc2 = /(\\d+%)(off)/i;\n  var spc3 = /(\\$\\d+)(\\+\\d+\\spoints)/i;\n  var spc4 = /(\\.\\d{2})(\\+\\d+\\s?points)/i;\n  var spc5 = /(\\+)(\\d+\\s?points)/i;\n  var spc6 = /(\\d+)(points)/i;\n  var spc7 = /Comprar\\sagora$/i;\n  var spc8 =/([a-z])(&[A-Z])/;\n  var spc9 =/(&)([A-Z])/;\n  var spaceArr = [spc1, spc2, spc3, spc4, spc5, spc6, spc7, spc8];\n  \n  for (var k = 0; k < spaceArr.length; k++) {\n    if (data.match(spaceArr[k])) data = data.replace(spaceArr[k], \"$1 $2\");\n  }\n  \n  \n\n\n  //Replace US$ to \"Was $\"\n  data = data.replace(/US\\$/, \"| Was $\");\n\n\n\n  return data.trim();\n}",
+            "listOfValidNodeTypes": [
+              {
+                "name": "TEXT",
+                "type": "node"
+              },
+              {
+                "name": "ALT",
+                "type": "attr"
+              },
+              {
+                "name": "HREF",
+                "type": "attr"
+              }
+            ],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "200",
+            "minLength": "4",
+            "allowEmpty": "false",
+            "name": "http://schema.org/description",
+            "whiteList": [
+              {
+                "value": "US$",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "% OFF",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "%\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\$\\d+(\\.\\d{1,2})?\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\d+\\s?[Pp][Oo][Ii][Nn][Tt][Ss]",
+                "type": "REGEX"
+              },
+              {
+                "value": "[Dd][Oo][Ww][Nn]\\s[Tt][Oo]\\s\\$\\d{1,}(\\.\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\$\\d+(\\.?\\d{2})?\\s\\$\\d+(\\.?\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "%",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "[Cc]oupon:",
+                "type": "REGEX"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "value": "sale ends",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "valid through",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "ends",
+                "type": "SUBSTRING"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) {\n  if (!data) return \"\";\n  //---PHASE 1---\n  //Regular expression strings and array with all string scenarios\n  var regEx1 = new RegExp(\"valid\\\\sthrough:?\\\\s\"); //valid through(:)\n  var regEx2 = new RegExp(\"expires:?\\\\s\"); //expires(:)\n  var regEx3 = new RegExp(\"until:?\\\\s\"); //until(:)\n  var regEx4 = new RegExp(\"offer\\\\sends:?\\\\s\"); //offer ends(:)\n  var regEx5 = new RegExp(\"valid\\\\suntil:?\\\\s\"); //valid until(:)\n  var regExArr = [regEx1, regEx2, regEx3, regEx4];\n\n  var dateRegEx = new RegExp(\"([\\\\d\\\\/?\\\\.?]{2,3}){2}([\\\\d]{2,4})?\"); // (N)N/(N)N/(NNNN)\n  var flags = \"i\"; //Can be i, gi, g\n\n\n\n  //---PHASE 2---\n  //Create the new Array -> expirTextArr. Push all the regular expressions inside\n  var expirTextArr = [];\n  for (var i = 0; i < regExArr.length; i++) {\n    expirTextArr.push(new RegExp (regExArr[i].source + dateRegEx.source, flags));\n  }\n\n\n\n  //---PHASE 3---\n  //String where the extracted (N)N/(N)N/(NNNN) is added. Then the string is split to an array.\n  var finalStrArr = \"\";\n  //loop through all the regular expressions inside the expirTextArr to see if there is a match\n  //If there is a match, then add the (N)N/(N)N/(NNNN) in finalStrArr and split it.\n  for (var i = 0; i < expirTextArr.length; i++) {\n   var el = expirTextArr[i];\n\n   if (data.match(el)) {\n    finalStrArr= data.match(el)[0].split(\" \")[1].split(\"/\");\n     break;\n   }\n  }\n\n  if (finalStrArr.length === 0) return null;\n\n  //---PHASE 4---\n  //Return a concatenation (this can be expanded based on other information like currency data)\n  return new Date(finalStrArr[0] + \"/\" + finalStrArr[1] + \"/\" + finalStrArr[2] || \"1970\");\n}",
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/validThrough",
+            "whiteList": []
+          },
+          {
+            "blackList": [
+              {
+                "type": "SUBSTRING",
+                "value": "sale ends"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "valid through"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "ends"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/validFrom"
+          },
+          {
+            "blackList": [
+              {
+                "value": "\\$.*off$",
+                "type": "REGEX"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/offerPrice",
+            "whiteList": [
+              {
+                "value": "Free shipping",
+                "type": "SUBSTRING"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "value": "\\$.*off$",
+                "type": "REGEX"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": "function transform(data){\n  return data.replace(/.*US\\$/, \"$\").trim();\n}",
+            "listOfValidNodeTypes": [
+              {
+                "name": "TEXT",
+                "type": "node"
+              },
+              {
+                "name": "TD",
+                "type": "node"
+              }
+            ],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/originalPrice",
+            "whiteList": [
+              {
+                "value": "Free shipping",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "US\\$\\d{1,3}\\.\\d{0,2}",
+                "type": "REGEX"
+              },
+              {
+                "value": "US",
+                "type": "SUBSTRING"
+              }
+            ],
+            "concat": true
+          },
+          {
+            "blackList": [],
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data){\n  var currencies = [\n    {code: 'USD', symbol: '$'}, //United States Dollar\n    {code: 'EUR', symbol: '€'}, //European Union Euro\n    {code: 'GBP', symbol: '£'}, //United Kingdom Pound\n    {code: 'ALL', symbol: 'Lek'}, //Albania Lek\n    {code: 'AFN', symbol: '؋'}, //Afghanistan Afghani\n    {code: 'ARS', symbol: 'AR$'}, //Argentina Peso\n    {code: 'AWG', symbol: 'ƒ'}, //Aruba Guilder\n    {code: 'AUD', symbol: 'A$'}, //Australia Dollar\n    {code: 'AZN', symbol: '₼'}, //Azerbaijan Manat\n    {code: 'BSD', symbol: 'B$'}, //Bahamas Dollar\n    {code: 'BBD', symbol: 'Bds$'}, //Barbados Dollar\n    {code: 'BYN', symbol: 'Br'}, //Belarus Ruble\n    {code: 'BZD', symbol: 'BZ$'}, //Belize Dollar\n    {code: 'BMD', symbol: 'BD$'}, //Bermuda Dollar\n    {code: 'BOB', symbol: '$b'}, //Bolivia Bolíviano\n    {code: 'BAM', symbol: 'KM'}, //Bosnia and Herzegovina Convertible Marka\n    {code: 'BWP', symbol: 'P'}, //Botswana Pula\n    {code: 'BGN', symbol: 'лв'}, //Bulgaria Lev\n    {code: 'BRL', symbol: 'R$'}, //Brazil Real\n    {code: 'BND', symbol: 'B$'}, //Brunei Darussalam Dollar\n    {code: 'KHR', symbol: '៛'}, //Cambodia Riel\n    {code: 'CAD', symbol: 'Can$'}, //Canada Dollar\n    {code: 'KYD', symbol: 'CI$'}, //Cayman Islands Dollar\n    {code: 'CLP', symbol: 'CLP$'}, //Chile Peso\n    {code: 'CNY', symbol: 'CN¥'}, //China Yuan Renminbi\n    {code: 'COP', symbol: 'COL$'}, //Colombia Peso\n    {code: 'CRC', symbol: '₡'}, //Costa Rica Colon\n    {code: 'HRK', symbol: 'kn'}, //Croatia Kuna\n    {code: 'CUP', symbol: '₱'}, //Cuba Peso\n    {code: 'CZK', symbol: 'Kč'}, //Czech Republic Koruna\n    {code: 'DKK', symbol: 'kr'}, //Denmark Krone\n    {code: 'DOP', symbol: 'RD$'}, //Dominican Republic Peso\n    {code: 'XCD', symbol: 'EC$'}, //East Caribbean Dollar\n    {code: 'EGP', symbol: 'E£'}, //Egypt Pound\n    {code: 'EGP', symbol: 'ج.م'}, //Egypt Pound\n    {code: 'SVC', symbol: '₡'}, //El Salvador Colon\n    {code: 'FKP', symbol: 'FK£'}, //Falkland Islands (Malvinas) Pound\n    {code: 'FJD', symbol: 'FJ$'}, //Fiji Dollar\n    {code: 'GHS', symbol: '¢'}, //Ghana Cedi\n    {code: 'GIP', symbol: 'GI£'}, //Gibraltar Pound\n    {code: 'GTQ', symbol: 'Q'}, //Guatemala Quetzal\n    {code: 'GGP', symbol: '£'}, //Guernsey Pound\n    {code: 'GYD', symbol: 'G$'}, //Guyana Dollar (or GY$)\n    {code: 'HNL', symbol: 'L'}, //Honduras Lempira\n    {code: 'HKD', symbol: 'HK$'}, //Hong Kong Dollar\n    {code: 'HUF', symbol: 'Ft'}, //Hungary Forint\n    {code: 'ISK', symbol: 'kr'}, //Iceland Krona\n    {code: 'INR', symbol: '₹'}, //Indian rupee\n    {code: 'IDR', symbol: 'Rp'}, //Indonesia Rupiah\n    {code: 'IRR', symbol: '﷼'}, //Iran Rial\n    {code: 'IMP', symbol: '£'}, //Isle of Man Pound\n    {code: 'ILS', symbol: '₪'}, //Israel Shekel\n    {code: 'JMD', symbol: 'J$'}, //Jamaica Dollar\n    {code: 'JPY', symbol: '¥'}, //Japan Yen\n    {code: 'JEP', symbol: '£'}, //Jersey Pound\n    {code: 'KZT', symbol: 'лв'}, //Kazakhstan Tenge\n    {code: 'KRW', symbol: '₩'}, //Korea (South) Won\n    {code: 'KPW', symbol: '₩'}, //Korea (North) Won\n    {code: 'KGS', symbol: 'лв'}, //Kyrgyzstan Som\n    {code: 'LAK', symbol: '₭'}, //Laos Kip\n    {code: 'LBP', symbol: 'ل.ل.‎'}, //Lebanon Pound\n    {code: 'LRD', symbol: 'L$'}, //Liberia Dollar - Also LD$\n    {code: 'MKD', symbol: 'ден'}, //Macedonia Denar\n    {code: 'MYR', symbol: 'RM'}, //Malaysia Ringgit\n    {code: 'MUR', symbol: '₨'}, //Mauritius Rupee\n    {code: 'MXN', symbol: 'Mex$'}, //Mexico Peso\n    {code: 'MNT', symbol: '₮'}, //Mongolia Tughrik\n    {code: 'MZN', symbol: 'MT'}, //Mozambique Metical\n    {code: 'NAD', symbol: 'N$'}, //Namibia Dollar\n    {code: 'NPR', symbol: '₨'}, //Nepal Rupee\n    {code: 'ANG', symbol: 'ƒ'}, //Netherlands Antilles Guilder\n    {code: 'NZD', symbol: 'NZ$'}, //New Zealand Dollar\n    {code: 'NIO', symbol: 'C$'}, //Nicaragua Cordoba\n    {code: 'NGN', symbol: '₦'}, //Nigeria Naira\n    {code: 'NOK', symbol: 'kr'}, //Norway Krone\n    {code: 'OMR', symbol: '﷼'}, //Oman Rial\n    {code: 'PKR', symbol: '₨'}, //Pakistan Rupee\n    {code: 'PAB', symbol: 'B/.'}, //Panama Balboa\n    {code: 'PYG', symbol: 'Gs'}, //Paraguay Guarani\n    {code: 'PEN', symbol: 'S/.'}, //Peru Sol\n    {code: 'PHP', symbol: '₱'}, //Philippines Piso\n    {code: 'PLN', symbol: 'zł'}, //Poland Zloty\n    {code: 'QAR', symbol: '﷼'}, //Qatar Riyal\n    {code: 'RON', symbol: 'lei'}, //Romania Leu\n    {code: 'RUB', symbol: '₽'}, //Russia Ruble (руб)\n    {code: 'RUB', symbol: 'руб'}, //Russia Ruble (руб)\n    {code: 'SHP', symbol: '£'}, //Saint Helena Pound\n    {code: 'SAR', symbol: '﷼'}, //Saudi Arabia Riyal\n    {code: 'RSD', symbol: 'Дин.'}, //Serbia Dinar\n    {code: 'SCR', symbol: '₨'}, //Seychelles Rupee\n    {code: 'SGD', symbol: 'S$'}, //Singapore Dollar\n    {code: 'SBD', symbol: 'SI$'}, //Solomon Islands Dollar\n    {code: 'SOS', symbol: 'S'}, //Somalia Shilling\n    {code: 'ZAR', symbol: 'R'}, //South Africa Rand\n    {code: 'LKR', symbol: '₨'}, //Sri Lanka Rupee\n    {code: 'SEK', symbol: 'kr'}, //Sweden Krona\n    {code: 'CHF', symbol: 'CHF'}, //Switzerland Franc\n    {code: 'SRD', symbol: 'Sr$'}, //Suriname Dollar\n    {code: 'SYP', symbol: '£S'}, //Syria Pound\n    {code: 'SYP', symbol: 'LS'}, //Syria Pound\n    {code: 'TWD', symbol: 'NT$'}, //Taiwan New Dollar\n    {code: 'THB', symbol: '฿'}, //Thailand Baht\n    {code: 'TTD', symbol: 'TT$'}, //Trinidad and Tobago Dollar\n    {code: 'TRY', symbol: '₺'}, //Turkish Lira\n    {code: 'TVD', symbol: '$'}, //Tuvalu Dollar\n    {code: 'UAH', symbol: '₴'}, //Ukraine Hryvnia\n    {code: 'UYU', symbol: '$U'}, //Uruguay Peso\n    {code: 'UGX', symbol: 'Ush'}, //Ugandan shilling - might also be 'USh' as per wikipedia\n    {code: 'UZS', symbol: 'лв'}, //Uzbekistan Som\n    {code: 'VEF', symbol: 'Bs'}, //Venezuela Bolívar\n    {code: 'VND', symbol: '₫'}, //Viet Nam Dong\n    {code: 'YER', symbol: '﷼'}, //Yemen Rial\n    {code: 'ZWD', symbol: 'Z$'} //Zimbabwe Dollar\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].code;\n  }\n\n  return \"\";\n}",
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/priceCurrency",
+            "whiteList": []
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "minBundleSize": "-1",
+          "maxBundleSize": "-1",
+          "minLeafNodesSize": "-1",
+          "maxLeafNodesSize": "-1",
+          "maxDepth": "-1",
+          "defaultPatternAnnotationThreshold": "0.8",
+          "linkThreshold": "4",
+          "listOfValidNodeTypes": [],
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ]
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474af",
+        "javascript": null,
+        "type": "http://schema.org/Coupon"
+      },
+      {
+        "attributes": [
+          {
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": null,
+            "location": [
+              {
+                "xpath": "\"Banggood\""
+              }
+            ],
+            "mandatory": "true",
+            "name": "http://schema.org/name",
+            "minLength": "",
+            "maxLength": "",
+            "whiteList": [],
+            "blackList": [],
+            "listOfValidNodeTypes": []
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ],
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "defaultPatternAnnotationThreshold": 0.8,
+          "linkThreshold": 2
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474au",
+        "javascript": null,
+        "type": "http://schema.org/Organization"
+      },
+      {
+        "attributes": [
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": null,
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "linkThreshold": 2,
+          "defaultPatternAnnotationThreshold": 0.8
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+        "javascript": null,
+        "type": "http://schema.org/ImageObject"
+      }
+    ]
+  },
+  "metaData": {
+    "debug": "true",
+    "linkAlgoHandler": "LinkExtractor15",
+    "decodeHtmlEntity": "true",
+    "useVTDXML": "false"
+  }
+}
