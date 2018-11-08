@@ -2841,7 +2841,7 @@
           }
         ],
         "hints": {
-          "domain": "\"intuit.com\""
+          "domain": "'intuit.com'"
         }
       },
       {
@@ -2859,14 +2859,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "./descendant::div/descendant::text()[contains(.,\"Intuit, Inc\")]"
+                  "xpath": "substring-after(./descendant::*[contains(text(),'Powered by')],'by')"
                 }
               ]
             },
             "name": "http://schema.org/name",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  return data.replace(/\\sAll\\srights\\sreserved./,\"\")\n  .replace(/©/,\"\")\n  .trim();\n}",
+            "javascript": "function transform(data){\n  return data.replace(/\\sAll\\srights\\sreserved./,\"\");\n}",
             "dataTypes": [
               "Text"
             ],
@@ -2907,7 +2907,7 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "//td[contains(@class,'companyNameStyle')]"
+                  "xpath": "//td[@class='companyNameStyle']"
                 }
               ]
             },
@@ -2962,7 +2962,7 @@
             "name": "http://schema.org/priceCurrency",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"AUD\", symbol: \"AU$\"},\n    {name: \"AUD\", symbol: \"AUD\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"},\n    {name: \"VND\", symbol: \"₫\"},\n    {name: \"USD\", symbol: \"USD\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return \"\";\n}",
+            "javascript": "function transform(data){\n  var currencies = [\n    {code: 'USD', symbol: '$'}, //United States Dollar\n    {code: 'EUR', symbol: '€'}, //European Union Euro\n    {code: 'GBP', symbol: '£'}, //United Kingdom Pound\n    {code: 'ALL', symbol: 'Lek'}, //Albania Lek\n    {code: 'AFN', symbol: '؋'}, //Afghanistan Afghani\n    {code: 'ARS', symbol: 'AR$'}, //Argentina Peso\n    {code: 'AWG', symbol: 'ƒ'}, //Aruba Guilder\n    {code: 'AUD', symbol: 'A$'}, //Australia Dollar\n    {code: 'AZN', symbol: '₼'}, //Azerbaijan Manat\n    {code: 'BSD', symbol: 'B$'}, //Bahamas Dollar\n    {code: 'BBD', symbol: 'Bds$'}, //Barbados Dollar\n    {code: 'BYN', symbol: 'Br'}, //Belarus Ruble\n    {code: 'BZD', symbol: 'BZ$'}, //Belize Dollar\n    {code: 'BMD', symbol: 'BD$'}, //Bermuda Dollar\n    {code: 'BOB', symbol: '$b'}, //Bolivia Bolíviano\n    {code: 'BAM', symbol: 'KM'}, //Bosnia and Herzegovina Convertible Marka\n    {code: 'BGN', symbol: 'лв'}, //Bulgaria Lev\n    {code: 'BRL', symbol: 'R$'}, //Brazil Real\n    {code: 'BND', symbol: 'B$'}, //Brunei Darussalam Dollar\n    {code: 'KHR', symbol: '៛'}, //Cambodia Riel\n    {code: 'CAD', symbol: 'Can$'}, //Canada Dollar\n    {code: 'KYD', symbol: 'CI$'}, //Cayman Islands Dollar\n    {code: 'CLP', symbol: 'CLP$'}, //Chile Peso\n    {code: 'CNY', symbol: 'CN¥'}, //China Yuan Renminbi\n    {code: 'COP', symbol: 'COL$'}, //Colombia Peso\n    {code: 'CRC', symbol: '₡'}, //Costa Rica Colon\n    {code: 'HRK', symbol: 'kn'}, //Croatia Kuna\n    {code: 'CUP', symbol: '₱'}, //Cuba Peso\n    {code: 'CZK', symbol: 'Kč'}, //Czech Republic Koruna\n    {code: 'DKK', symbol: 'kr'}, //Denmark Krone\n    {code: 'DOP', symbol: 'RD$'}, //Dominican Republic Peso\n    {code: 'XCD', symbol: 'EC$'}, //East Caribbean Dollar\n    {code: 'EGP', symbol: 'E£'}, //Egypt Pound\n    {code: 'EGP', symbol: 'ج.م'}, //Egypt Pound\n    {code: 'SVC', symbol: '₡'}, //El Salvador Colon\n    {code: 'FKP', symbol: 'FK£'}, //Falkland Islands (Malvinas) Pound\n    {code: 'FJD', symbol: 'FJ$'}, //Fiji Dollar\n    {code: 'GHS', symbol: '¢'}, //Ghana Cedi\n    {code: 'GIP', symbol: 'GI£'}, //Gibraltar Pound\n    {code: 'GTQ', symbol: 'Q'}, //Guatemala Quetzal\n    {code: 'GGP', symbol: '£'}, //Guernsey Pound\n    {code: 'GYD', symbol: 'G$'}, //Guyana Dollar (or GY$)\n    {code: 'HNL', symbol: 'L'}, //Honduras Lempira\n    {code: 'HKD', symbol: 'HK$'}, //Hong Kong Dollar\n    {code: 'HUF', symbol: 'Ft'}, //Hungary Forint\n    {code: 'ISK', symbol: 'kr'}, //Iceland Krona\n    {code: 'INR', symbol: '₹'}, //Indian rupee\n    {code: 'IDR', symbol: 'Rp'}, //Indonesia Rupiah\n    {code: 'IRR', symbol: '﷼'}, //Iran Rial\n    {code: 'IMP', symbol: '£'}, //Isle of Man Pound\n    {code: 'ILS', symbol: '₪'}, //Israel Shekel\n    {code: 'JMD', symbol: 'J$'}, //Jamaica Dollar\n    {code: 'JPY', symbol: '¥'}, //Japan Yen\n    {code: 'JEP', symbol: '£'}, //Jersey Pound\n    {code: 'KZT', symbol: 'лв'}, //Kazakhstan Tenge\n    {code: 'KRW', symbol: '₩'}, //Korea (South) Won\n    {code: 'KPW', symbol: '₩'}, //Korea (North) Won\n    {code: 'KGS', symbol: 'лв'}, //Kyrgyzstan Som\n    {code: 'LAK', symbol: '₭'}, //Laos Kip\n    {code: 'LBP', symbol: 'ل.ل.‎'}, //Lebanon Pound\n    {code: 'LRD', symbol: 'L$'}, //Liberia Dollar - Also LD$\n    {code: 'MKD', symbol: 'ден'}, //Macedonia Denar\n    {code: 'MYR', symbol: 'RM'}, //Malaysia Ringgit\n    {code: 'MUR', symbol: '₨'}, //Mauritius Rupee\n    {code: 'MXN', symbol: 'Mex$'}, //Mexico Peso\n    {code: 'MNT', symbol: '₮'}, //Mongolia Tughrik\n    {code: 'MZN', symbol: 'MT'}, //Mozambique Metical\n    {code: 'NAD', symbol: 'N$'}, //Namibia Dollar\n    {code: 'NPR', symbol: '₨'}, //Nepal Rupee\n    {code: 'ANG', symbol: 'ƒ'}, //Netherlands Antilles Guilder\n    {code: 'NZD', symbol: 'NZ$'}, //New Zealand Dollar\n    {code: 'NIO', symbol: 'C$'}, //Nicaragua Cordoba\n    {code: 'NGN', symbol: '₦'}, //Nigeria Naira\n    {code: 'NOK', symbol: 'kr'}, //Norway Krone\n    {code: 'OMR', symbol: '﷼'}, //Oman Rial\n    {code: 'PKR', symbol: '₨'}, //Pakistan Rupee\n    {code: 'PAB', symbol: 'B/.'}, //Panama Balboa\n    {code: 'PYG', symbol: 'Gs'}, //Paraguay Guarani\n    {code: 'PEN', symbol: 'S/.'}, //Peru Sol\n    {code: 'PHP', symbol: '₱'}, //Philippines Piso\n    {code: 'PHP', symbol: 'PHP'}, //Philippines Piso\n    {code: 'BWP', symbol: 'P'}, //Botswana Pula\n    {code: 'PLN', symbol: 'zł'}, //Poland Zloty\n    {code: 'QAR', symbol: '﷼'}, //Qatar Riyal\n    {code: 'RON', symbol: 'lei'}, //Romania Leu\n    {code: 'RUB', symbol: '₽'}, //Russia Ruble (руб)\n    {code: 'RUB', symbol: 'руб'}, //Russia Ruble (руб)\n    {code: 'SHP', symbol: '£'}, //Saint Helena Pound\n    {code: 'SAR', symbol: '﷼'}, //Saudi Arabia Riyal\n    {code: 'RSD', symbol: 'Дин.'}, //Serbia Dinar\n    {code: 'SCR', symbol: '₨'}, //Seychelles Rupee\n    {code: 'SGD', symbol: 'S$'}, //Singapore Dollar\n    {code: 'SBD', symbol: 'SI$'}, //Solomon Islands Dollar\n    {code: 'SOS', symbol: 'S'}, //Somalia Shilling\n    {code: 'ZAR', symbol: 'R'}, //South Africa Rand\n    {code: 'LKR', symbol: '₨'}, //Sri Lanka Rupee\n    {code: 'SEK', symbol: 'kr'}, //Sweden Krona\n    {code: 'CHF', symbol: 'CHF'}, //Switzerland Franc\n    {code: 'SRD', symbol: 'Sr$'}, //Suriname Dollar\n    {code: 'SYP', symbol: '£S'}, //Syria Pound\n    {code: 'SYP', symbol: 'LS'}, //Syria Pound\n    {code: 'TWD', symbol: 'NT$'}, //Taiwan New Dollar\n    {code: 'THB', symbol: '฿'}, //Thailand Baht\n    {code: 'TTD', symbol: 'TT$'}, //Trinidad and Tobago Dollar\n    {code: 'TRY', symbol: '₺'}, //Turkish Lira\n    {code: 'TVD', symbol: '$'}, //Tuvalu Dollar\n    {code: 'UAH', symbol: '₴'}, //Ukraine Hryvnia\n    {code: 'UYU', symbol: '$U'}, //Uruguay Peso\n    {code: 'UGX', symbol: 'Ush'}, //Ugandan shilling - might also be 'USh' as per wikipedia\n    {code: 'UZS', symbol: 'лв'}, //Uzbekistan Som\n    {code: 'VEF', symbol: 'Bs'}, //Venezuela Bolívar\n    {code: 'VND', symbol: '₫'}, //Viet Nam Dong\n    {code: 'YER', symbol: '﷼'}, //Yemen Rial\n    {code: 'ZWD', symbol: 'Z$'} //Zimbabwe Dollar\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].code;\n  }\n\n  return \"\";\n}",
             "dataTypes": [
               "Text"
             ],

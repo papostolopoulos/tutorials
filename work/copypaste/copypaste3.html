@@ -187,7 +187,7 @@
         v-for="(item, idx) in mainArray"
         v-show="(regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))) &&
         (minCharacters === '' || item.description.length >= minCharacters) &&
-        (maxCharacters === '' || item.description.length >= maxCharacters)"
+        (maxCharacters === '' || item.description.length <= maxCharacters)"
         >
         <!-- v-show="minCharacters === '' || item.description.length >= minCharacters"
         v-show="maxCharacters === '' || item.description.length >= maxCharacters" -->

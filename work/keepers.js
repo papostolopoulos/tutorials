@@ -10,7 +10,7 @@ function transform(data) {
   var regEx5 = new RegExp("valid\\suntil:?\\s"); //valid until(:)
   var regExArr = [regEx1, regEx2, regEx3, regEx4];
 
-  var dateRegEx = new RegExp("([\\d\\/?\\.?]{2,3}){2}([\\d]{2,4})?"); // (N)N/(N)N/(NNNN)
+  var dateRegEx = new RegExp("\\d{1,2}[\\/\\.]\\d{1,2}([\\/\\.]\\d{2,4})?"); // (N)N/(N)N/(NNNN)
   var flags = "i"; //Can be i, gi, g
 
 
@@ -33,7 +33,7 @@ function transform(data) {
    var el = expirTextArr[i];
 
    if (data.match(el)) {
-    finalStrArr= data.match(el)[0].split(" ")[1].split(".");
+     finalStrArr= data.match(el)[0].replace(/[A-Za-z]/g,"").trim().split("/");
      break;
    }
   }
@@ -56,9 +56,10 @@ function transform(data) {
   var regEx3 = new RegExp("until:?\\s"); //until(:)
   var regEx4 = new RegExp("offer\\sends:?\\s"); //offer ends(:)
   var regEx5 = new RegExp("valid\\suntil:?\\s"); //valid until(:)
-  var regExArr = [regEx1, regEx2, regEx3, regEx4];
+  var regEx6 = new RegExp("\\.\\sEnds:?\\s"); //. Ends(:)
+  var regExArr = [regEx1, regEx2, regEx3, regEx4, regEx5, regEx6];
 
-  var dateRegEx = new RegExp("([\\d\\/?\\.?]{2,3}){2}([\\d]{2,4})?"); // (N)N/(N)N/(NNNN)
+  var dateRegEx = new RegExp("\\d{1,2}[\\/\\.]\\d{1,2}([\\/\\.]\\d{2,4})?"); // (N)N/(N)N/(NNNN)
   var flags = "i"; //Can be i, gi, g
 
 
@@ -81,16 +82,62 @@ function transform(data) {
    var el = expirTextArr[i];
 
    if (data.match(el)) {
-    finalStrArr= data.match(el)[0].split(" ")[1].split(".");
+    finalStrArr= data.match(el)[0].replace(/[\.A-Za-z]/g,"").trim().split("/");
      break;
    }
   }
 
   if (finalStrArr.length === 0) return null;
+  if (!finalStrArr[2]) finalStrArr[2] = "1970"
 
   //---PHASE 4---
   //Return a concatenation (this can be expanded based on other information like currency data)
-  return new Date(finalStrArr[0] + "/" + finalStrArr[1] + "/" + finalStrArr[2] || "1970");
+  return new Date(finalStrArr[0] + "/" + finalStrArr[1] + "/" + finalStrArr[2]);
+}
+
+//Same like above but with the array having the RegEx inside instead of pushing it
+function transform(data) {
+  if (!data) return "";
+  //---PHASE 1---
+  //Regular expressions array with all string scenarios
+  var expirTextArr = [
+    /valid\sthrough:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //valid through(:)(N)N/(N)N/(NNNN)
+    /expires:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //expires(:)(N)N/(N)N/(NNNN)
+    /until:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //until(:)(N)N/(N)N/(NNNN)
+    /offer\sends:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //offer ends(:)(N)N/(N)N/(NNNN)
+    /valid\suntil:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //valid until(:)(N)N/(N)N/(NNNN)
+    /\.\sEnds:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //. Ends(:)(N)N/(N)N/(NNNN)
+  ];
+
+
+
+  //---PHASE 2---
+  //String where the extracted (N)N/(N)N/(NNNN) is added. Then the string is split to an array.
+  var finalStrArr = "";
+  //loop through all the regular expressions inside the expirTextArr to see if there is a match
+  //If there is a match, then add the (N)N/(N)N/(NNNN) in finalStrArr and split it.
+  for (var i = 0; i < expirTextArr.length; i++) {
+   var el = expirTextArr[i];
+
+   if (data.match(el)) {
+    finalStrArr= data.match(el)[0].replace(/[\.A-Za-z]/g,"").trim().split("/");
+     break;
+   }
+  }
+
+
+
+  //---PHASE 3---
+  // If no array created, return null
+  if (finalStrArr.length === 0) return null;
+  // If there is no element that describes the year, make one
+  if (!finalStrArr[2]) finalStrArr[2] = "1970"
+
+
+
+  //---PHASE 4---
+  //Return a concatenation (this can be expanded based on other information like currency data)
+  return new Date(finalStrArr[0] + "/" + finalStrArr[1] + "/" + finalStrArr[2]);
 }
 
 // Useful when month is written in full
@@ -118,7 +165,7 @@ function transform(data) {
 // SPECIAL CHARACTERS
 //List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
 function transform(data) {
-  data = data.replace(/[\*©®ǂ†→§]/g, "");
+  data = data.replace(/[\*©®ǂ†→§¹]/g, "");
   return data || "";
 }
 
