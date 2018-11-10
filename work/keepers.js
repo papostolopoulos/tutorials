@@ -160,12 +160,48 @@ function transform(data) {
 	}
 }
 
+// Useful when different types of formats and days are included
+function transform(data) {
+  var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var months2 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
+  // For the format "Oct. 10"
+	for (var i = 0; i < months.length; i++) {
+		if (data.indexOf(months[i]+".") !== -1)
+    return data.slice(data.indexOf(months[i]), data.length-1).replace(/([A-Z][a-z]{2}\.\s\d{1,2}).*/, "$1").replace(/\./,"");
+	}
+
+
+
+  // For the format "October 10"
+  for (var j = 0; j < months2.length; j++) {
+    if (data.indexOf(months2[j]) !== -1)
+    return data.slice(data.indexOf(months2[j]), data.length-1);
+  }
+
+
+
+  // For the format "10.12, Friday"
+  for (var k = 0; k < days.length; k++) {
+    if (data.match(/\d{1,2}\.\d{1,2},\s/.source + RegExp(days[k]).source))
+    return data.match(/\d{1,2}\.\d{1,2}/)[0].replace(/\./,"/") + "/1970";
+  }
+
+
+  //For Veterans Day Sale
+  if (data.match(/Veterans\sDay/)) return "11/11/1970";
+
+  return "";
+}
+
 
 
 // SPECIAL CHARACTERS
 //List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
 function transform(data) {
-  data = data.replace(/[\*©®ǂ†→§¹]/g, "");
+  data = data.replace(/[\*©®ǂ†→§™¹]/g, "");
   return data || "";
 }
 
@@ -328,11 +364,14 @@ function transform(data) {
 
 
 //REGEX $OFF
+// For linkbased when ignoring casing, put this at the front: (?i)
 var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
 var percentOff = /%\s([Oo][Ff]{2})/;
+var upTpNumPercent = /up\sto\s\d{1,2}%/i;
+var saveNumPercent = /((SAVE)|(Save))\s\d{1,2}%/;
+var saveNumDollar = /((SAVE)|(Save))\s\d{1,2}\$/;
 var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
 var downToAmmount = /down\sto\s\$\d{1,}(\.\d{2})?/i;
-var saveNumOff = /((SAVE)|(Save))\s\d{1,2}%/;
 var couponColon = /coupon:/i;
 var couponCodeColon = /coupon\scode:/i;
 
