@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Transition: Background-Color</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of a transition being applies to the initial state of an element." />
+
+<style>
+
+.container{
+    width: 200px;
+    margin: 5em auto; 
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #33f;
+
+    
+    -webkit-transition: background-color 2s;
+            transition: background-color 2s;
+
+}
+
+.box:hover {
+    background-color: #f33;
+    
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="box"></div>
+<p>Transition added to the inital state of the .box div</p>
+</div>
+
+</body>
+</html>

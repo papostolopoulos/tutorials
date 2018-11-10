@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Example 4.1 - Animation Slide with Positioning</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example using CSS animations to slide a box to the right by changing the value of the left property." />
+
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #393;
+    position: absolute;
+}
+
+.box {
+    -webkit-animation: slide 5s linear 0s 3;
+            animation: slide 5s linear 0s 3;
+
+}
+
+
+@-webkit-keyframes slide {
+
+  from {
+      left:0
+  }
+
+  to {
+      left: 600px    
+  }
+
+}
+
+
+@keyframes slide {
+
+from {
+      left:0
+  }
+
+  to {
+      left: 600px    
+  }
+  
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box" id="box"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Transition-Duration</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing the effect of different durations on several transition-properties" />
+
+<style>
+
+.container{
+    width: 200px;
+    margin: 10em auto; 
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #33f;
+
+    
+  -webkit-transition-property: background-color, -webkit-transform, width;
+          transition-property: background-color, transform, width;
+ 
+	-webkit-transition-duration: 10s, 2s, 5s, 15s;
+	        transition-duration: 10s, 2s, 5s, 15s;
+}
+
+.box:hover {
+    background-color: #f33;
+    width: 400px;
+    
+	-webkit-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="box"></div>
+</div>
+
+</body>
+</html>

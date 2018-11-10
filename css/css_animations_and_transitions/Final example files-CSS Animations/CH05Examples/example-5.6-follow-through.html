@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>More Realistic Animation: Follow Through</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of the animation principle follow through." />
+
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.stage  {
+    width: 1200px;
+    height: 600px;
+    outline: 1px solid gray;
+    margin: 1em auto 0 auto;
+
+    position: relative;
+    z-index: -10;
+    background: #ddf;
+}
+
+.floor {
+    position: absolute;
+    top: 80%;
+    z-index: -1;
+    width: 100%;
+    height: 20%;
+    background-color: #876;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 15px,
+        rgba(255,255,255,.5) 15px,
+        rgba(255,255,255,.5) 30px);
+}
+
+.ball {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f00;
+    margin: 0 auto;
+    
+    -webkit-animation: bounce 2s linear both;
+            animation: bounce 2s linear;
+
+}
+
+
+@-webkit-keyframes bounce {
+
+    /* ----------------------------------------------- */
+    /* -- ANTICIPATION
+    /* ----------------------------------------------- */
+    0% {
+        -webkit-transform: translateY(0px) scale(1,1);
+            -ms-transform: translateY(0px) scale(1,1);
+                transform: translateY(0px) scale(1,1);
+    }
+   
+    10%  {
+        -webkit-transform: translateY(-20px) scale(1.4,0.6);
+            -ms-transform: translateY(-20px) scale(1.4,0.6);
+                transform: translateY(-20px) scale(1.4,0.6);
+    }
+    
+    15%  {
+        -webkit-transform: translateY(-22px) scale(1.44,0.56);
+            -ms-transform: translateY(-22px) scale(1.44,0.56);
+                transform: translateY(-22px) scale(1.44,0.56);
+    }
+    
+    20%  {
+        -webkit-transform: translateY(-20px) scale(1.4,0.6);
+            -ms-transform: translateY(-20px) scale(1.4,0.6);
+                transform: translateY(-20px) scale(1.4,0.6);
+    }
+    
+    25%  {
+        -webkit-transform: translateY(0px) scale(1,1);
+            -ms-transform: translateY(0px) scale(1,1);
+                transform: translateY(0px) scale(1,1);
+    }
+
+    
+    
+    /* ----------------------------------------------- */
+    /* -- FIRST BOUNCE
+    /* ----------------------------------------------- */
+    35%  {
+        -webkit-transform: translateY(450px) scale(0.9,1.1);
+            -ms-transform: translateY(450px) scale(0.9,1.1);
+                transform: translateY(450px) scale(0.9,1.1);
+    }
+
+    40%  {
+        -webkit-transform: translateY(460px) scale(1.2,0.8);
+            -ms-transform: translateY(460px) scale(1.2,0.8);
+                transform: translateY(460px) scale(1.2,0.8);
+    }
+
+    45%  {
+        -webkit-transform: translateY(450px) scale(1.1,0.9);
+            -ms-transform: translateY(450px) scale(1.1,0.9);
+                transform: translateY(450px) scale(1.1,0.9);
+    }
+
+   
+    
+    /* ----------------------------------------------- */
+    /* -- RETURN
+    /* ----------------------------------------------- */
+    62%  {
+        -webkit-transform: translateY(275px) scale(0.95,1.05);
+            -ms-transform: translateY(250px) scale(0.95,1.05);
+                transform: translateY(250px) scale(0.95,1.05);
+    }
+
+    
+    65%  {
+        -webkit-transform: translateY(250px) scale(1,1);
+            -ms-transform: translateY(250px) scale(1,1);
+                transform: translateY(250px) scale(1,1);
+    }
+
+    
+    68%  {
+        -webkit-transform: translateY(275px) scale(0.95,1.05);
+            -ms-transform: translateY(250px) scale(0.95,1.05);
+                transform: translateY(250px) scale(0.95,1.05);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- SECOND BOUNCE
+    /* ----------------------------------------------- */
+    75%  {
+        -webkit-transform: translateY(450px) scale(0.95,1.05);
+            -ms-transform: translateY(450px) scale(0.95,1.05);
+                transform: translateY(450px) scale(0.95,1.05);
+    }
+    
+    78%  {
+        -webkit-transform: translateY(460px) scale(1.1,0.9);
+            -ms-transform: translateY(460px) scale(1.1,0.9);
+                transform: translateY(460px) scale(1.1,0.9);
+    }
+    
+    82%  {
+        -webkit-transform: translateY(450px) scale(0.95,1.05);
+            -ms-transform: translateY(450px) scale(0.95,1.05);
+                transform: translateY(450px) scale(0.95,1.05);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- RETURN
+    /* ----------------------------------------------- */
+    86%  {
+        -webkit-transform: translateY(400px) scale(0.95,1.05);
+            -ms-transform: translateY(400px) scale(0.95,1.05);
+                transform: translateY(400px) scale(0.95,1.05);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- THIRD BOUNCE
+    /* ----------------------------------------------- */
+    90%  {
+        -webkit-transform: translateY(400px) scale(0.9,1.1);
+            -ms-transform: translateY(400px) scale(0.9,1.1);
+                transform: translateY(400px) scale(0.9,1.1);
+    }
+    
+    94%  {
+        -webkit-transform: translateY(450px) scale(1,1);
+            -ms-transform: translateY(450px) scale(1,1);
+                transform: translateY(450px) scale(1,1);
+    }
+    
+    98%  {
+        -webkit-transform: translateY(460px) scale(1,1);
+            -ms-transform: translateY(460px) scale(1,1);
+                transform: translateY(460px) scale(1,1);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- REST
+    /* ----------------------------------------------- */
+    100% {
+        -webkit-transform: translateY(460px) scale(1,1);
+            -ms-transform: translateY(460px) scale(1,1);
+                transform: translateY(460px) scale(1,1);
+    }
+
+}
+
+@keyframes bounce {
+
+    /* ----------------------------------------------- */
+    /* -- ANTICIPATION
+    /* ----------------------------------------------- */
+    0% {
+        -webkit-transform: translateY(0px) scale(1,1);
+            -ms-transform: translateY(0px) scale(1,1);
+                transform: translateY(0px) scale(1,1);
+    }
+    
+    10%  {
+        -webkit-transform: translateY(-20px) scale(1.4,0.6);
+            -ms-transform: translateY(-20px) scale(1.4,0.6);
+                transform: translateY(-20px) scale(1.4,0.6);
+    }
+    
+    15%  {
+        -webkit-transform: translateY(-22px) scale(1.44,0.56);
+            -ms-transform: translateY(-22px) scale(1.44,0.56);
+                transform: translateY(-22px) scale(1.44,0.56);
+    }
+    
+    20%  {
+        -webkit-transform: translateY(-20px) scale(1.4,0.6);
+            -ms-transform: translateY(-20px) scale(1.4,0.6);
+                transform: translateY(-20px) scale(1.4,0.6);
+    }
+    
+    25%  {
+        -webkit-transform: translateY(0px) scale(1,1);
+            -ms-transform: translateY(0px) scale(1,1);
+                transform: translateY(0px) scale(1,1);
+    }
+
+    
+    
+    /* ----------------------------------------------- */
+    /* -- FIRST BOUNCE
+    /* ----------------------------------------------- */
+    35%  {
+        -webkit-transform: translateY(450px) scale(0.9,1.1);
+            -ms-transform: translateY(450px) scale(0.9,1.1);
+                transform: translateY(450px) scale(0.9,1.1);
+    }
+
+    40%  {
+        -webkit-transform: translateY(460px) scale(1.2,0.8);
+            -ms-transform: translateY(460px) scale(1.2,0.8);
+                transform: translateY(460px) scale(1.2,0.8);
+    }
+
+    45%  {
+        -webkit-transform: translateY(450px) scale(1.1,0.9);
+            -ms-transform: translateY(450px) scale(1.1,0.9);
+                transform: translateY(450px) scale(1.1,0.9);
+    }
+
+   
+    
+    /* ----------------------------------------------- */
+    /* -- RETURN
+    /* ----------------------------------------------- */
+    62%  {
+        -webkit-transform: translateY(275px) scale(0.95,1.05);
+            -ms-transform: translateY(250px) scale(0.95,1.05);
+                transform: translateY(250px) scale(0.95,1.05);
+    }
+
+    
+    65%  {
+        -webkit-transform: translateY(250px) scale(1,1);
+            -ms-transform: translateY(250px) scale(1,1);
+                transform: translateY(250px) scale(1,1);
+    }
+
+    
+    68%  {
+        -webkit-transform: translateY(275px) scale(0.95,1.05);
+            -ms-transform: translateY(250px) scale(0.95,1.05);
+                transform: translateY(250px) scale(0.95,1.05);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- SECOND BOUNCE
+    /* ----------------------------------------------- */
+    75%  {
+        -webkit-transform: translateY(450px) scale(0.95,1.05);
+            -ms-transform: translateY(450px) scale(0.95,1.05);
+                transform: translateY(450px) scale(0.95,1.05);
+    }
+    
+    78%  {
+        -webkit-transform: translateY(460px) scale(1.1,0.9);
+            -ms-transform: translateY(460px) scale(1.1,0.9);
+                transform: translateY(460px) scale(1.1,0.9);
+    }
+    
+    82%  {
+        -webkit-transform: translateY(450px) scale(0.95,1.05);
+            -ms-transform: translateY(450px) scale(0.95,1.05);
+                transform: translateY(450px) scale(0.95,1.05);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- RETURN
+    /* ----------------------------------------------- */
+    86%  {
+        -webkit-transform: translateY(400px) scale(0.95,1.05);
+            -ms-transform: translateY(400px) scale(0.95,1.05);
+                transform: translateY(400px) scale(0.95,1.05);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- THIRD BOUNCE
+    /* ----------------------------------------------- */
+    90%  {
+        -webkit-transform: translateY(400px) scale(0.9,1.1);
+            -ms-transform: translateY(400px) scale(0.9,1.1);
+                transform: translateY(400px) scale(0.9,1.1);
+    }
+    
+    94%  {
+        -webkit-transform: translateY(450px) scale(1,1);
+            -ms-transform: translateY(450px) scale(1,1);
+                transform: translateY(450px) scale(1,1);
+    }
+    
+    98%  {
+        -webkit-transform: translateY(460px) scale(1,1);
+            -ms-transform: translateY(460px) scale(1,1);
+                transform: translateY(460px) scale(1,1);
+    }
+
+    
+    /* ----------------------------------------------- */
+    /* -- REST
+    /* ----------------------------------------------- */
+    100% {
+        -webkit-transform: translateY(460px) scale(1,1);
+            -ms-transform: translateY(460px) scale(1,1);
+                transform: translateY(460px) scale(1,1);
+    }
+
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="stage ">
+    <div class="ball"></div>
+    <div class="floor"></div>
+</div>
+
+</body>
+</html>

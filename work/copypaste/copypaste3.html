@@ -11,13 +11,13 @@
         padding: 20px;
       }
 
-      #divCopyPasteArea{
+      #sectionCopyPasteArea{
         display: grid;
         grid-template-columns: 3fr 5fr 2fr;
-        grid-template-rows: 80% 20%;
+        grid-template-rows: 1fr 1fr;
         grid-template-areas:
-        "divInstructionsArea divTextArea divRadioButtonsArea"
-        "divInstructionsArea divTextArea divFilterArea";
+        "divInstructionsArea divTextArea divFilterArea"
+        "divRadioButtonsArea divTextArea divFilterArea";
         grid-column-gap: 10px;
         margin-bottom: 20px;
       }
@@ -60,22 +60,43 @@
 
 
   <body>
-    <section id="container">
-      <div id="divCopyPasteArea">
+    <main id="container">
+      <section id="sectionCopyPasteArea">
         <div id="divInstructionsArea">
           <h3>Instructions</h3>
           <ol>
-            <li>In Scarlett, go to "preview".</li>
+            <li>Go to "preview".</li>
             <li>In the view option, select "raw".</li>
             <li>Copy the JSON formated text.</li>
             <li>Paste it at the textarea.</li>
-            <li>Select the category of rules the JSON file comes from</li>
-            <li>Use the RegEx filters to filter based on specific keywords in the
-            description.</li>
-            <li>Repeat as necessary for each email where you need to review the
-              information coming from the JSON file.</li>
+            <li>Select the category of rules the JSON text comes from</li>
+            <li>Use the filters to filter through the results if needed.</li>
           </ol>
         </div>
+
+
+
+
+        <div id="divRadioButtonsArea">
+          <h3>Which task?</h3>
+          <form id="formScarlettTasks" name="formScarlettTasks" @click="changeTypeOfPaste($event)">
+            <input id="inputGenericCoupons" type="radio" name="inputCouponsSelect" value="genericCoupons">
+            <label for="inputGenericCoupons">Coupons</label> |
+
+            <!-- <input id="inputLinkbaseCoupons" type="radio" name="inputCouponsSelect" value="linkbaseCoupons">
+            <label for="inputLinkbaseCoupons">Linkbase coupons</label> <br> -->
+
+            <input id="inputAirplaneTickets" type="radio" name="inputCouponsSelect" value="airplaneTickets">
+            <label for="inputAirplaneTickets">Tickets</label> |
+
+            <input id="inputInvoices" type="radio" name="inputCouponsSelect" value="invoices">
+            <label for="inputInvoices">Invoices</label>
+          </form>
+        </div>
+
+
+
+
         <div id="divTextArea">
           <h3>Paste the JSON file</h3>
           <textarea
@@ -87,32 +108,19 @@
           v-once
           ></textarea>
         </div>
-        <div id="divRadioButtonsArea">
-          <h3>Which Scarlett task?</h3>
-          <form id="formScarlettTasks" name="formScarlettTasks" @click="changeTypeOfPaste($event)">
-            <input id="inputGenericCoupons" type="radio" name="inputCouponsSelect" value="genericCoupons">
-            <label for="inputGenericCoupons">Generic coupons</label> <br>
 
-            <input id="inputLinkbaseCoupons" type="radio" name="inputCouponsSelect" value="linkbaseCoupons">
-            <label for="inputLinkbaseCoupons">Linkbase coupons</label> <br>
 
-            <input id="inputAirplaneTickets" type="radio" name="inputCouponsSelect" value="airplaneTickets">
-            <label for="inputAirplaneTickets">Airplane tickets</label> <br>
 
-            <input id="inputInvoices" type="radio" name="inputCouponsSelect" value="invoices">
-            <label for="inputInvoices">Invoices</label> <br>
-          </form>
-        </div>
 
         <div id="divFilterArea">
-          <h3>RegEx Filter</h3>
-          RegEx source:
+          <h3>Filters</h3>
+          <h6>RegEx source:</h6>
           <input type="text" name="" value=""
           v-model="regExSource"
           placeholder="Enter RegEx string"
-          > <br>
+          >
 
-          RegEx flags:
+          <h6>RegEx flags:</h6>
           <template class="">
             <label for="inputRegExg" title="global: Don't return after first match">
               g: <input id="inputRegExg" type="checkbox" value="g" v-model="g">
@@ -148,49 +156,69 @@
               D: <input id="inputRegExD" type="checkbox" value="D" v-model="D">
             </label>
           </template>
+          <hr>
+
+          <h6>Number of characters in description:</h6>
+          Min: <input type="text" name="" value=""
+          maxlength="4" size="4"
+          v-model="minCharacters" placeholder="0">
+          Max: <input type="text" name="" value=""
+          maxlength="4" size="4"
+          v-model="maxCharacters" placeholder="0">
+          <hr>
+
 
         </div>
-      </div>
+      </section>
 
 
-      <div id="divDebugArea" style="display: none;">
+      <section id="sectionDebugArea" style="display: none;">
         <h1>startStr</h1>
         <p>{{startStr}}</p>
         <h1>magic</h1>
         <p>{{magic}}</p>
-      </div>
-
-
-      <article
-      class="media"
-      v-for="(item, idx) in mainArray"
-      v-show="regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))"
-      >
-
-        <div class="media-left media-middle">
-          <a :href="item.url" target="_blank">
-            <img class="media-object" :src="item.imageUrl" alt="No image pulled for this item">
-          </a>
-        </div>
-
-        <div class="media-body">
-          <h2>{{item.description}}</h2>
-          <ul>
-            <li>Currency and price: {{item.priceCurrency}} {{item.offerPrice}}</li>
-            <li>Valid through: {{item.validThrough}}</li>
-            <li>Original price: {{item.originalPrice}}</li>
-            <li>Valid from: {{item.validFrom}}</li>
-            <li>Organization: {{item.organization}}</li>
-            <li>url: <a :href="item.url" :title="item.url">Link - Think before you click!</a></li>
-          </ul>
-
-        </div>
-
-      </article>
+      </section>
 
 
 
-    </section>
+      <section id="sectionExtractionArea">
+        <article
+        class="media"
+        v-for="(item, idx) in mainArray"
+        v-show="(regExSource === '' || item.description.match(new RegExp(regExSource, regExFlags))) &&
+        (minCharacters === '' || item.description.length >= minCharacters) &&
+        (maxCharacters === '' || item.description.length <= maxCharacters)"
+        >
+        <!-- v-show="minCharacters === '' || item.description.length >= minCharacters"
+        v-show="maxCharacters === '' || item.description.length >= maxCharacters" -->
+
+          <div class="media-left media-middle">
+            <a :href="item.url" target="_blank">
+              <img class="media-object" :src="item.imageUrl" alt="No image pulled for this item">
+            </a>
+          </div>
+
+          <div class="media-body">
+            <h2>{{item.description}}</h2>
+            <ul>
+              <li>Currency and price: {{item.priceCurrency}} {{item.offerPrice}}</li>
+              <li>Valid through: {{item.validThrough}}</li>
+              <li>Original price: {{item.originalPrice}}</li>
+              <li>Valid from: {{item.validFrom}}</li>
+              <li>Organization: {{item.organization}}</li>
+              <li>url: <a :href="item.url" :title="item.url">Link - Think before you click!</a></li>
+            </ul>
+          </div>
+
+        </article>
+
+      </section>
+
+
+
+
+
+    </main>
 
   </body>
 
@@ -209,6 +237,8 @@
       startStr: "",
       typeOfPaste: "",
       regExSource: "",
+      minCharacters: "",
+      maxCharacters: "",
       g: "",
       m: "",
       i: "",
@@ -271,7 +301,7 @@
       .replace(/broker:\s+name/g, "SPLIT~~~organization")
       .replace(/description/g, "~~~description")
       .replace(/offerPrice:\s+value/g, "~~~offerPrice")
-      .replace(/originalPrice\s{value/g,"~~~originalPrice")
+      .replace(/originalPrice:\s+value/g,"~~~originalPrice")
       .replace(/priceCurrency/g, "~~~priceCurrency")
       .replace(/validFrom/g,"~~~validFrom")
       .replace(/validThrough/g, "~~~validThrough")

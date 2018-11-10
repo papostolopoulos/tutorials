@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Examples: Off Canvas Navigation</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of hiding and revealing parts of a web page by horizontally sliding it right and left." />
+
+<script>
+var init = function() {
+
+  var page = document.getElementById('page');
+  var toggle = document.getElementById('toggle');
+  
+  
+  toggle.addEventListener( 'click', function(){
+  
+      var webkitAnimationName = window.getComputedStyle(page).getPropertyValue("-webkit-animation-name");
+      var animationName = window.getComputedStyle(page).getPropertyValue("animation-name");
+
+      if(webkitAnimationName != ""){
+          ((webkitAnimationName != "open") ? (page.style.webkitAnimationName = "open", toggle.firstChild.data = "Close" ) : (page.style.webkitAnimationName = "close", toggle.firstChild.data = "Open" ));
+      }
+
+      if(animationName != null){
+          ((animationName != "open")       ? (page.style.animationName       = "open", toggle.firstChild.data = "Close" ) : (page.style.animationName       = "close", toggle.firstChild.data = "Open" ));
+      }
+
+  }, false);
+
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+/* ------------------------------------ */
+/* --- GENERAL
+/* ------------------------------------ */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "helvetica", "sans-serif";
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* ------------------------------------ */
+/* --- CONTAINERS
+/* ------------------------------------ */
+.container {
+    width: 100%;
+    overflow: hidden;
+    background: #ccc;
+}
+
+.page {
+    width: 125%;
+
+    -webkit-transform: translateX(-22%);
+        -ms-transform: translateX(-22%);
+            transform: translateX(-22%);
+
+
+    -webkit-animation-name: hello;
+            animation-name: hello;
+
+    -webkit-animation-duration: 0.75s;
+            animation-duration: 0.75s;
+
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+
+}
+
+
+/* ------------------------------------ */
+/* --- @KEYFRAMES
+/* ------------------------------------ */
+@-webkit-keyframes open {
+    0% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+    
+    5% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+    
+    10% {
+        -webkit-transform: translateX(-23%);
+            -ms-transform: translateX(-23%);
+                transform: translateX(-23%);
+    }
+    
+    90% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+    
+    95% {
+        -webkit-transform: translateX(0%);
+            -ms-transform: translateX(0%);
+                transform: translateX(0%);
+    }
+    
+    100% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+}
+
+@keyframes open {
+    0% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+    
+    5% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+    
+    10% {
+        -webkit-transform: translateX(-23%);
+            -ms-transform: translateX(-23%);
+                transform: translateX(-23%);
+    }
+    
+    90% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+    
+    95% {
+        -webkit-transform: translateX(0%);
+            -ms-transform: translateX(0%);
+                transform: translateX(0%);
+    }
+    
+    100% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+}
+
+@-webkit-keyframes close {
+    0% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+    
+    5% {
+        -webkit-transform: translateX(0%);
+            -ms-transform: translateX(0%);
+                transform: translateX(0%);
+    }
+    
+    10% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+    
+    90% {
+        -webkit-transform: translateX(-23%);
+            -ms-transform: translateX(-23%);
+                transform: translateX(-23%);
+    }
+    
+    95% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+    
+    100% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+}
+
+@keyframes close {
+    0% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+    
+    5% {
+        -webkit-transform: translateX(0%);
+            -ms-transform: translateX(0%);
+                transform: translateX(0%);
+    }
+    
+    10% {
+        -webkit-transform: translateX(-2%);
+            -ms-transform: translateX(-2%);
+                transform: translateX(-2%);
+    }
+    
+    90% {
+        -webkit-transform: translateX(-23%);
+            -ms-transform: translateX(-23%);
+                transform: translateX(-23%);
+    }
+    
+    95% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+    
+    100% {
+        -webkit-transform: translateX(-22%);
+            -ms-transform: translateX(-22%);
+                transform: translateX(-22%);
+    }
+}
+
+
+/* ------------------------------------ */
+/* --- SIDEBAR
+/* ------------------------------------ */
+.sidebar {
+    width: 27%;
+    background: #555;
+    padding-top: 1em;
+    float: left;
+    height: 600px;
+
+}
+
+.main {
+    width: 73%;
+    float: left;
+    height: 600px;
+    padding: 1em 25%;
+}
+
+
+/* ------------------------------------ */
+/* --- MENU
+/* ------------------------------------ */
+.toggle {
+    float: right;
+    margin-right: 3%; 
+    padding: 0.5em 1em;
+    background: #fff;
+    border: 0;
+}
+
+.menu {
+    list-style: none;
+    padding: 2em 0% 2em 5%;
+    margin: 0;
+    width: 100%;
+    background: #555;
+}
+
+.menu a {
+    display: block;
+    padding: 0.75em 1.5em;
+    background: #555;
+    text-decoration: none;
+    color: #fff;
+
+}
+
+.menu a:after {
+    content: "\25c9";
+    float: right;
+    margin-right: 3%;
+}
+
+.one:after     {color: #f00;}
+.two:after     {color: #0f0;}
+.three:after   {color: #99f;}
+.four:after    {color: #ff0;}
+.five:after    {color: #0ff;}
+
+.menu a:hover {
+    background: #777;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="page" id="page">
+        <div class="sidebar">
+            <button class="toggle" id="toggle">Open</button>
+            <ul class="menu">
+                <li><a href="" class="one">Menu Item 1</a></li>
+                <li><a href="" class="two">Menu Item 2</a></li>
+                <li><a href="" class="three">Menu Item 3</a></li>
+                <li><a href="" class="four">Menu Item 4</a></li>
+                <li><a href="" class="five">Menu Item 5</a></li>
+            </ul>
+        </div>
+        <div class="main">
+            <h1>Main Page Heading</h1>
+            <p>Content here</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -528,8 +528,8 @@
 
 THOUGHTS
 /*
-this.mainArray = []; --> This can be optional. The user might want to paste a bunch of
-JSON files and see all the products
-
-Create an input slot where the user can enter keywords and filter the products displayed
+[x] A bunch of JSON files pasted in the textformand see all the products
+[x] Create an input slot where the user can enter RegEx keywords and filter the products displayed
+[] Filter by size of description text (minimum text length), maximum text length
+[] Filter based other parameters? like missing images or based on having or not having price?
 */

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Transform Rendering</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing the effect of a transform on other elements" />
+
+<script src="utility.js"></script>
+<script>
+var init = function() {
+  var box = document.getElementsByClassName('box');
+  
+  document.getElementById('transform').addEventListener( 'click', function(){
+    box[0].toggleClassName('transformed');
+  }, false);
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+    font-family: helvetica;
+    font-size: 100%;
+}
+
+button {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background: #ccc;
+    border: 1px solid #777;
+    margin: 3em auto;
+}
+
+.container {
+	width: 400px;
+	height: 400px;
+	outline: 1px solid red;
+	margin: 5em auto;
+}
+
+.box {
+	width: 200px;
+	height: 200px;
+}
+
+.one {
+    background: #575;
+}
+
+.transformed {
+	-webkit-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.two {
+    background: #755;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box one"></div>
+    <div class="box two"></div>
+</div>
+<button id="transform">Transform</button>
+
+</body>
+</html>

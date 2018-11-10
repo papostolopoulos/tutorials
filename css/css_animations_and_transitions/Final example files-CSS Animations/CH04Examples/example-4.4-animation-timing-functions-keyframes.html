@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Example 4.4 - Animation Timing Function on Keyframes</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing how animation-timing-functions can be applied independently to each keyframe." />
+
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #393;
+}
+
+.box {
+	-webkit-animation-name: slide;
+	        animation-name: slide;
+
+	-webkit-animation-duration: 5s;
+	        animation-duration: 5s;
+
+	-webkit-animation-timing-function: ease-in;
+	        animation-timing-function: ease-in;
+}
+
+
+@-webkit-keyframes slide {
+
+    0% {
+        -webkit-transform: translate(0px, 0px);
+            -ms-transform: translate(0px, 0px);
+                transform: translate(0px, 0px);
+    }
+
+    25% {
+        -webkit-transform: translate(150px, 0px);
+            -ms-transform: translate(150px, 0px);
+                transform: translate(150px, 0px);
+
+        -webkit-animation-timing-function: linear;
+                animation-timing-function: linear;
+    }
+
+    50% {
+        -webkit-transform: translate(300px, 0px);
+            -ms-transform: translate(300px, 0px);
+                transform: translate(300px, 0px);
+    }
+
+    75% {
+        -webkit-transform: translate(450px, 0px);
+            -ms-transform: translate(450px, 0px);
+                transform: translate(450px, 0px);
+
+        -webkit-animation-timing-function: linear;
+                animation-timing-function: linear;
+    }
+
+    100% {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+
+}
+
+
+@keyframes slide {
+
+    0% {
+        -webkit-transform: translate(0px, 0px);
+            -ms-transform: translate(0px, 0px);
+                transform: translate(0px, 0px);
+    }
+
+    25% {
+        -webkit-transform: translate(150px, 0px);
+            -ms-transform: translate(150px, 0px);
+                transform: translate(150px, 0px);
+    }
+
+    50% {
+        -webkit-transform: translate(300px, 0px);
+            -ms-transform: translate(300px, 0px);
+                transform: translate(300px, 0px);
+    }
+
+    75% {
+        -webkit-transform: translate(450px, 0px);
+            -ms-transform: translate(450px, 0px);
+                transform: translate(450px, 0px);
+    }
+
+    100% {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+  
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box" id="box"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Transition-Timing-Function: Steps()</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing the effect of of the steps timing-function" />
+
+<style>
+
+.container{
+    width: 200px;
+    margin: 5em auto; 
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #33f;
+
+    
+	-webkit-transition-property: background-color;
+	        transition-property: background-color;
+
+    -webkit-transition-duration: 5s;
+            transition-duration: 5s;
+
+	-webkit-transition-timing-function: steps(5, start);
+	        transition-timing-function: steps(5, start);
+	        
+}
+
+.box:hover {
+    background-color: #f33;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="box"></div>
+</div>
+
+</body>
+</html>
