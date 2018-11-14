@@ -381,7 +381,291 @@
   }
 }
 
+{
+  "@graph": [
+    {
+      "@id": "_:41325e81-615b-488f-a741-e8065ab593f9",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:66164303-94ee-4358-aed2-bae571183a67",
+        "@type": "Organization",
+        "name": "Michaels"
+      },
+      "description": "20% OFF Entire Purchase of Frames & Display Cases",
+      "image": {
+        "@id": "_:207cd141-ff01-42e4-a7a1-9c1327a4cb59",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://image.emdeals.michaels.com/lib/fe4115707564057d701172/m/13/dd85d268-58b4-4f50-a7a0-0b64dd9c6418.png"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.emdeals.michaels.com/?qs=efd4a2f0373d3044245a57f86d4d4e47e6b421ea41bbe44b2abb52157cd4a1bbb09a0db2ca76121284475694623d9a96cf81ac441279fb9118cc6c360681ea6d"
+      },
+      "validThrough": "2018-11-10T00:00:00"
+    },
+    {
+      "@id": "_:83e08d48-9c95-4231-a289-f1ef744b4597",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:8567b63d-1190-43d3-9482-1bf2e2896fc6",
+        "@type": "Organization",
+        "name": "Michaels"
+      },
+      "description": "20% OFF Entire Purchase of Frames & Display Cases",
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.emdeals.michaels.com/?qs=efd4a2f0373d3044245a57f86d4d4e47e6b421ea41bbe44b2abb52157cd4a1bbb09a0db2ca76121284475694623d9a96cf81ac441279fb9118cc6c360681ea6d"
+      },
+      "validThrough": "2018-11-10T00:00:00"
+    },
+    {
+      "@id": "_:7fa1ecef-89de-48da-a30c-9757e63e4ef8",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:0a9b30cf-a26c-4bf4-86a8-0cacf2785a34",
+        "@type": "Organization",
+        "name": "Michaels"
+      },
+      "description": "40% Off Any One Regular Price Item",
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.emdeals.michaels.com/?qs=efd4a2f0373d3044df6a7c057b36ae1cc7b14b34d94148d375e31a67accb7985f9466c728d6d2da733a773f8af260baf8fc10e89553fe754954be5b9638722d6"
+      },
+      "validThrough": "2018-11-10T00:00:00"
+    },
+    {
+      "@id": "_:450a1ada-3f22-4d75-a734-2964f4da5e0e",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:14dbc8f8-816d-459f-8dd2-98acc1cd5ace",
+        "@type": "Organization",
+        "name": "Michaels"
+      },
+      "description": "40% Off Any One Regular Price Item",
+      "image": {
+        "@id": "_:411b308e-0c87-4fa7-84be-96ae1dde9e88",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://image.emdeals.michaels.com/lib/fe4115707564057d701172/m/8/9570b935-8e18-4fa4-9472-358cac8f4c85.png"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://click.emdeals.michaels.com/?qs=efd4a2f0373d3044df6a7c057b36ae1cc7b14b34d94148d375e31a67accb7985f9466c728d6d2da733a773f8af260baf8fc10e89553fe754954be5b9638722d6"
+      }
+    },
+    {
+      "@id": "_:db55d2f1-ee61-4db3-9727-30a4aa8107d0",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:e1c426c6-d697-465f-9c2b-c4c09086ce38",
+        "@type": "Organization",
+        "name": "Michaels"
+      },
+      "description": "BUY 1, GET 2 FREE:              Buy one item at regular price & get the second & third of equal or lesser value free.",
+      "url": {
+        "@type": "URL",
+        "@value": "http://view.emdeals.michaels.com/?qs=ef6ae81859839fc37e21ba0ecee72f7d99f703a3ca12ec15627e343512ed9502d0c0ba9e224b831e074f53c67084d4f987fff91ed6b6dc4991bed4e9032b1d8450b542833d36b22f"
+      }
+    },
+    {
+      "@id": "_:d3e7d93e-38be-4273-9da5-14facb6f319b",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:b203fbf2-6e54-474a-801c-115f2b5d259d",
+        "@type": "Organization",
+        "name": "Michaels"
+      },
+      "description": "BUY ONE, GET ONE 50% OFF:              Buy one item at regular price & get the second of equal or lesser value 50% off.",
+      "url": {
+        "@type": "URL",
+        "@value": "http://view.emdeals.michaels.com/?qs=ef6ae81859839fc37e21ba0ecee72f7d99f703a3ca12ec15627e343512ed9502d0c0ba9e224b831e074f53c67084d4f987fff91ed6b6dc4991bed4e9032b1d8450b542833d36b22f"
+      }
+    }
+  ],
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "identifier": {
+      "@id": "http://schema.org/identifier",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "contactPoint": {
+      "@id": "http://schema.org/contactPoint",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "category": {
+      "@id": "http://schema.org/category",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@id": "http://schema.org/sameAs",
+      "@type": "@vocab",
+      "@container": "@set"
+    }
+  }
+}
 
+{
+  "@graph": [
+    {
+      "@id": "_:c32597b6-a477-49f0-a6bf-6dcdcefefe3d",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:9a5758a4-9b31-4f6c-8a40-6b97012e21eb",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "VIB 20% OFF Starts Today",
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bcc8/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-11-12T00:00:00"
+    },
+    {
+      "@id": "_:b3ba69e5-f134-481b-8dbe-ab599f48f5cd",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:0ff5601c-8863-4799-833e-2e0aac56b5b0",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "VIB 20% OFF Starts Today",
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bcc9/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-11-12T00:00:00"
+    },
+    {
+      "@id": "_:3ae94845-8308-4d13-b772-090c1ad92e20",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:0f82764c-a0e2-4143-9690-6e26cb02f080",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "VIB 20% OFF Starts Today",
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bcca/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-11-12T00:00:00"
+    },
+    {
+      "@id": "_:36ad8517-1aba-470a-a3ff-eeef12460afc",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:6ebcc49b-4598-4fb6-9999-81ec2b7e9bd6",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "VIB 20% OFF Starts Today",
+      "image": {
+        "@id": "_:3a3a44c4-7429-4924-8af3-f5e2708201e3",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://images.harmony.epsilon.com/ContentHandler/images?id=0aff0b1b-2c1b-4f6f-aa2c-5e0c3e7a07e2"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bccb/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-11-12T00:00:00"
+    },
+    {
+      "@id": "_:2ec753da-37a2-4c0f-9641-c0e072baf642",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:1e475894-ba48-47fa-9436-48e796d7184d",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "VIB 20% OFF Starts Today",
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bccc/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      },
+      "validThrough": "2018-11-12T00:00:00"
+    },
+    {
+      "@id": "_:987561ec-f4ae-4b42-afe9-59e673520f99",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:ab5e2dc0-03e8-47d8-a1b2-fbc522ee5370",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "Flash 2 Day shipping on all orders",
+      "image": {
+        "@id": "_:037b0343-72fc-4a47-876e-fc88f744ea3e",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://images.harmony.epsilon.com/ContentHandler/images?id=1d322a16-6827-47ab-bbc0-eb041ba1d428"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bcf3/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      }
+    },
+    {
+      "@id": "_:c039fda5-f85d-41ae-aac3-71027d88e662",
+      "@type": "Coupon",
+      "broker": {
+        "@id": "_:7c5f907f-bd95-4b77-9443-6700413432b0",
+        "@type": "Organization",
+        "name": "SEPHORA"
+      },
+      "description": "3 Free Samples",
+      "image": {
+        "@id": "_:d43b6f4a-ebb7-46bb-b903-5561fd0717d3",
+        "@type": "ImageObject",
+        "url": {
+          "@type": "URL",
+          "@value": "http://images.harmony.epsilon.com/ContentHandler/images?id=861abe5c-2b5b-4ae5-92d0-92f781af9706"
+        }
+      },
+      "url": {
+        "@type": "URL",
+        "@value": "http://app.sephora.com/T/v400000166f8d1a46382ba736e96c566a0/ed4566c192bc402b0000021ef3a0bd07/ed4566c1-92bc-402b-9fd6-182f0a638f3c?__dU__=v0oQlZ2XmHtXiVm2YkfcmjT-eFVxyXa9wG"
+      }
+    }
+  ],
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "identifier": {
+      "@id": "http://schema.org/identifier",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "contactPoint": {
+      "@id": "http://schema.org/contactPoint",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "category": {
+      "@id": "http://schema.org/category",
+      "@type": "@vocab",
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@id": "http://schema.org/sameAs",
+      "@type": "@vocab",
+      "@container": "@set"
+    }
+  }
+}
 
 
 /* LINKBASED COUPON */
@@ -530,6 +814,6 @@ THOUGHTS
 /*
 [x] A bunch of JSON files pasted in the textformand see all the products
 [x] Create an input slot where the user can enter RegEx keywords and filter the products displayed
-[] Filter by size of description text (minimum text length), maximum text length
+[X] Filter by size of description text (minimum text length), maximum text length
 [] Filter based other parameters? like missing images or based on having or not having price?
 */

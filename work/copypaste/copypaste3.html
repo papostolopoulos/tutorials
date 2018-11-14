@@ -280,36 +280,33 @@
 
       //2. remove unecessary symbols and text
       var replacements = [
-        /[@""\[\]\{\}]/g,
-        // /context:\s+vocab[\S\s]+\}/g,
-        /graph:\s+/,
-        /id:\s_:[\w-]+,\s+/g,
-        /type:\s[A-z}]+,\s+/g,
+        {oldStr:/[\@\"\"\[\]\{\}]/g, newStr:""},
+        {oldStr:/graph:\s+/, newStr:""},
+        {oldStr:/id:\s_:[\w-]+,\s+/g, newStr:""},
+        {oldStr:/type:\s[A-z}]+,\s+/g, newStr:""},
+        {oldStr:/\s+,/g, newStr:","},
+        {oldStr:/image:\s+url:\s+value/g, newStr:"~~~imageUrl"},
+        {oldStr:/url:\s+value/g, newStr:"~~~url"},
+        {oldStr:/broker:\s+name/g, newStr:"SPLIT~~~organization"},
+        {oldStr:/description/g, newStr:"~~~description"},
+        {oldStr:/offerPrice:\s+value/g, newStr:"~~~offerPrice"},
+        {oldStr:/originalPrice:\s+value/g, newStr:"~~~originalPrice"},
+        {oldStr:/priceCurrency/g, newStr:"~~~priceCurrency"},
+        {oldStr:/validFrom/g, newStr:"~~~validFrom"},
+        {oldStr:/validThrough/g, newStr:"~~~validThrough"},
+        {oldStr:/,\s+SPLIT~~~/g, newStr:"SPLIT~~~"},
+        {oldStr:/,\s+~~~/g, newStr:"~~~"},
+        {oldStr:/http:\/\/schema\.org\/([A-z]+)?,\s/g, newStr:""},
+        {oldStr:/id:\s+container:\sset,?\s+/g, newStr:""},
+        {oldStr:/\s+vocab:/g, newStr:""},
+        {oldStr:/\s+graph:/g, newStr:""},
+        {oldStr:/,\s+context:\s+identifier:\s+contactPoint:\s+category:\s+sameAs:/g, newStr:""},
       ];
 
-      for (var i = 0; i < replacements.length; i++) {
-        this.startStr = this.startStr.replace(replacements[i], "");
+
+      for(var el of replacements){
+        this.startStr = this.startStr.replace(el.oldStr, el.newStr);
       }
-
-
-      // 3. replace category titles to match the final object keys
-      this.startStr = this.startStr
-      .replace(/\s+,/g, ",")
-      .replace(/url:\s+value/g, "url")
-      .replace(/image:\s+url/g, "~~~imageUrl")
-      .replace(/url/g,"~~~url")
-      .replace(/broker:\s+name/g, "SPLIT~~~organization")
-      .replace(/description/g, "~~~description")
-      .replace(/offerPrice:\s+value/g, "~~~offerPrice")
-      .replace(/originalPrice:\s+value/g,"~~~originalPrice")
-      .replace(/priceCurrency/g, "~~~priceCurrency")
-      .replace(/validFrom/g,"~~~validFrom")
-      .replace(/validThrough/g, "~~~validThrough")
-      .replace(/\s{2, }/g, " ")
-      .replace(/,\s+~~~/g, "~~~")
-      .replace(/,\s+SPLIT~~~/g, "SPLIT~~~")
-      .trim();
-
 
 
       // 4. Create an array from the existing string. Remove first element

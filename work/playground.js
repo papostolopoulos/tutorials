@@ -17,51 +17,70 @@
 
 
 
-function transform(data,node,headers){
-  if(data){
-    var headerUnixTimestamp = headers.get("Date");
-    var date = new Date(headerUnixTimestamp * 1000);
-     var dateString = date.toISOString();
-    if(data.match(/ends\s*tomorrow/i)) return date.addDays(1);
-    else if(data.match(/Last\s*Day/i)) return date;
-    else if(data.match(/Ends\s\d+\/\d+/i)) return new Date(data.replace(/.*Ends|\,.*/gi,""));
-    else if(data.match(/Now\-[a-z]+\.?\,?\s*\d+/i)) return data.replace(/.*Now\-|\.|\,/gi,"");
-    else if(data.match(/Now\-\s*\w+\.?\,?\s*\w+\.?\,?\s*\d+/i)) return new Date(data.replace(/.*Now\-\s*|\./gi,"").replace(/^(\w+\,\s)(.*\d+)(\,.*)/,"$2"));
-    else if(data.match(/ends\s*\w+/i)) return findNextDate(dateString, data.match(/ends\s*\w+/i).toString().replace(/ends/i,""));
-    else return null;
+function transform(data){
+
+  //MM/DD/YYYY
+	if (data.match(/([\d]{1,2}\/){2}\d{2,4}/)) return data.match(/([\d]{1,2}\/){2}\d{2,4}/);
+
+
+
+  //YYYY/MM/DD
+  	if(data.match(/\d{4}(\.[\d]{1,2}){2}/)){
+      data = data.match(/\d{4}(\.[\d]{1,2}){2}/)[0].split(".");
+      return data[1] + "/" + data[2] + "/" + data[0];
+    }
+
+
+
+  //YYYY/MM/DD - Japanese
+  if(data.match(/\d{4}年\d{1,2}月\d{1,2}/)){
+      data = data.match(/\\d{4}年\d{1,2}月\d{1,2}/)[0].replace(/[年月]/g,".").split(".");
+      return data[1] + "/" + data[2] + "/" + data[0];
+    }
+
+
+
+  //DD.MM.YYYY
+  if (data.match(/([\d]{1,2}\.){2}\d{2,4}/)){
+    data = data.match(/([\d]{1,2}\.){2}\d{2,4}/)[0].split(".");
+	return data[1] + "/" + data[0] + "/" + data[2];
   }
-  else return null;
+
+
+return "";
+
 }
 
-function findNextDate(startDateStr, dayOfWeekStr) {
-  var startDate = new Date(startDateStr);
-  // .getUTCDay() needed here versus .getDay() b/c .getDay() gives the day of the week based on local time, whereas Date objects all use UTC time
-  var startDayInt = startDate.getUTCDay();
 
-  var newDayInt = -1;
-  //get value of newDayInt
-  var dayOfWeek = dayOfWeekStr.toLowerCase().trim();
-  var dayOfWeekArray = ['sun','mon','tues','wed','thu','fri','sat'];
-  for (var i = 0; i < dayOfWeekArray.length; i++) {
-    if (dayOfWeek.startsWith(dayOfWeekArray[i])) {
-      newDayInt = i;
-      break;
-    }
-  }
-  if (newDayInt == -1) {
-    return null;
+
+function transform(data){
+  data = data.replace(/[\*©®ǂ†→§™¹]/g, "");
+
+  var stringArr = [
+    /%/,
+    /free/i,
+    /gratuits/i, //French: Free
+    /Kostenloser/i, //German: Free
+    /gratuita/i, //Spanish: Free
+    /gratis/i, //Italian, Dutch, Corsican: Free
+    /GRÁTIS/i, //Portuguese: Free
+    /ingyenes/i, //Hungarian: Free
+    /gratuită/i, //Romanian: Free
+    /Бесплатная/i, //Russian: Free
+    /Δωρεάν/i, //Greek: Free
+    /БЕЗПЛАТНА/i, //Bulgarian: Free
+    /zdarma/i, //Czech: Free
+    /ZADARMO/i, //Slovak: Free
+    /Bezpłatna/i, //Polish: Free
+    /ÜCRETSİZ/i //Turkish: Free
+
+  ];
+
+  for (var i = 0; i < stringArr.length; i++) {
+    if (data.match(stringArr[i])) return data;
   }
 
-  var returnDate = new Date(startDateStr);
-  if (newDayInt > startDayInt) {
-    var numDays = newDayInt - startDayInt;
-    returnDate.setDate(returnDate.getDate() + numDays);
-  } else {
-    var numDays = 7 - (startDayInt - newDayInt);
-    returnDate.setDate(returnDate.getDate() + numDays);
-  }
-
-  return returnDate;
+  return "";
 }
 
 
@@ -138,6 +157,76 @@ function transform(data) {
 
 
 
+function transform(data){
+	return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] || "";
+}
+
+
+
+function transform(data, node, headers){
+  if (data.match(/%\soff/) && data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)) {
+    return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] || "";
+  }
+
+  if (data.match(/2-day\sshipping/)) {
+     return new Date()(headers.get("Date") * 1000).getDate() + 2);
+  }
+
+
+
+  return "";
+}
+
+
+
+
+
+
+
+
+
+function transform(data){
+  var replaceStrArr = [
+    {oldStr: /[\*©®ǂ†→§™¹]/g, newStr: ""},
+    {oldStr: /Shop\sNow$/i, newStr: ""}
+  ];
+
+  replaceStrArr.forEach(function(el) {
+    data = data.replace(el, "");
+  });
+
+
+
+	if(data.match(/Enter\spromotion\scode\s.*\sor\smore\./)) return data.match(/Enter\spromotion\scode\s.*\sor\smore\./)[0];
+
+  return data || "";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -161,7 +250,7 @@ function transform(data) {
   var removeStrings = [
     /[\*©®ǂ†→§™¹›]/g,
     /Valid\sthrough.*/i,
-    /Valid\s((\d{1,2}\/){2}\d{2}–?){2}.*/i,
+    /Valid\s((\d{1,2}\/){2}\d{2,4})\s?-?–?\s?((\d{1,2}\/){2}\d{2,4}).*/i,
     /Valid\sfor\sone-time\suse(.*)?/i,
     /coupon\svalid\sfor.*/i,
     /Browse\sBottles$/i,
@@ -191,7 +280,8 @@ function transform(data) {
 
 
   var replaceStrings = [
-    {oldStr:/(.*):/, newStr: "$1"}
+    {oldStr:/(.*):/, newStr: "$1"},
+    {oldStr: /:\sBUY\sWINE\sONLINE,\sPICK\sUP\sIN\sSTORE:?\s?/, newStr: "-"}
   ];
 
   replaceStrings.forEach(function(el) {
