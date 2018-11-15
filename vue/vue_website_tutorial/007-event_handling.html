@@ -15,12 +15,84 @@
   <a href="https://vuejs.org/v2/guide/events.html"><h3>Source</h3></a>
 
   <h1>7 - Event Handling</h1>
-  <div class="textDiv">
-
-</div>
 
 
-<a href="./006-list_rendering.html">Previous - List Rendering</a> <a href="./008-form_input_bindings.html">Next - Form Input Bindings</a>
+  <div id="eventHandling1">
+    <h2>Listening to events</h2>
+    <p>
+      The <code>v-on</code> directive can be used to listen to DOM events. JavaScript
+      can be implemented with these events.
+    </p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        In the following example, we can do basic arithmetic calculations based
+        on the entry in the <code>input</code> tag and the button we click on.
+      </p>
+      <input type="text" name="" value="" v-model="counter">
+      <button type="button" name="button" @click="result += Number(counter)">Add</button>
+      <button type="button" name="button" @click="result -= Number(counter)">Subtract</button>
+      <button type="button" name="button" @click="result *= Number(counter)">Multiply</button>
+      <button type="button" name="button" @click="result /= Number(counter)">Divide</button>
+      <button type="button" name="button" @click="result = 0">Make zero</button>
+      <p>The result is: {{result}}</p>
+      <hr>
+      <h6>The code for the html is:</h6>
+      <pre>
+        <code>
+          &lt;input type="text" name="" value="" v-model="counter"&gt;
+          &lt;button type="button" name="button" @click="result += Number(counter)"&gt;Add&lt;/button&gt;
+          &lt;button type="button" name="button" @click="result -= Number(counter)"&gt;Subtract&lt;/button&gt;
+          &lt;button type="button" name="button" @click="result *= Number(counter)"&gt;Multiply&lt;/button&gt;
+          &lt;button type="button" name="button" @click="result /= Number(counter)"&gt;Divide&lt;/button&gt;
+          &lt;button type="button" name="button" @click="result = 0"&gt;Make zero&lt;/button&gt;
+        </code>
+      </pre>
+      <h6>The code for the script is</h6>
+      <pre>
+        <code>
+          el: "#eventHandling1",
+          data: {
+            result: 0,
+            counter: 0
+          }
+        </code>
+      </pre>
+    </div>
+  </div>
+
+  <script>
+    var eventHandling1 = new Vue({
+      el: "#eventHandling1",
+      data: {
+        result: 0,
+        counter: 0
+      }
+    });
+  </script>
+
+
+
+
+
+
+
+  <div id="eventHandling2">
+
+  </div>
+
+  <script>
+    var eventHandling2 = new Vue({
+      el: "#eventHandling2",
+      data: {
+        
+      }
+    });
+  </script>
+
+
+  <a href="./006-list_rendering.html">Previous - List Rendering</a> <a href="./008-form_input_bindings.html">Next - Form Input Bindings</a>
 
 </body>
 </html>

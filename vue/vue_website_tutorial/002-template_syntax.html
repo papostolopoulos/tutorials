@@ -34,11 +34,13 @@
       “Mustache” syntax (double curly braces):</p>
     <div class="jumbotron">
       <h4>Example</h4>
-      <span>Message: {{message}}</span><br>
-      <span v-once>The text after the colon will never change: {{message}}. <br>
-        The <code>v-once</code> directive is used so even if the <code>message</code>
-        property in the <code>data</code> property changes, <code>v-once</code> keeps
-        it unchanged. </span>
+      <p>
+        <span>Message: <b>{{message}}</b></span><br>
+        <span v-once>The text after the colon will never change: <b>{{message}}</b>. <br>
+          The <code>v-once</code> directive is used so even if the <code>message</code>
+          property in the <code>data</code> property changes, <code>v-once</code> keeps
+          it unchanged. </span>
+      </p>
         <p>
           The following <code>input</code> tag has a <code>v-model</code> that displays the same
           <code>message</code>. As soon as the message will change in the

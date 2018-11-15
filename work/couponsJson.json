@@ -2022,7 +2022,7 @@
         "id": "b7695c3d-acae-406e-9529-a3ccf82c00e3",
         "repeating": true,
         "locations": [
-          "/descendant::p[contains(.,\"%\")]"
+          "/descendant::p[contains(.,\"%\")]\n|\n/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[contains(@class,\"is-hidden-mobile\")]/descendant::a[not (contains(text(),\"INFLUENCER\"))]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -2033,14 +2033,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "concat(./preceding::text(), .)"
+                  "xpath": "."
                 }
               ]
             },
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n  if(!data) return \"\";\n  data = data.replace(/[\\*©®ǂ†→]/g, \"\");\n  //return data.substring(0,3);\n  if(data.match(/CLUB\\sDAYS\\s15%\\sOFF/)) data = data.match(/CLUB\\sDAYS\\s15%\\sOFF/)[0];\n  if(data.slice(data.length-1) === \":\") data = data.slice(0, data.length-1);\n  return data;\n}",
+            "javascript": "function transform(data){\n  data = data.replace(/[\\*©®ǂ†→§™¹]/g, \"\");\n\n  var stringArr = [\n    /%/,\n    /free/i,\n    /gratuits/i, //French: Free\n    /Kostenloser/i, //German: Free\n    /gratuita/i, //Spanish: Free\n    /gratis/i, //Italian, Dutch, Corsican: Free\n    /GRÁTIS/i, //Portuguese: Free\n    /ingyenes/i, //Hungarian: Free\n    /gratuită/i, //Romanian: Free\n    /Бесплатная/i, //Russian: Free\n    /Δωρεάν/i, //Greek: Free\n    /БЕЗПЛАТНА/i, //Bulgarian: Free\n    /zdarma/i, //Czech: Free\n    /ZADARMO/i, //Slovak: Free\n    /Bezpłatna/i, //Polish: Free\n    /ÜCRETSİZ/i //Turkish: Free\n  ];\n\n  for (var i = 0; i < stringArr.length; i++) {\n    if (data.match(stringArr[i])) return data;\n  }\n\n  return \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -2069,14 +2069,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "./parent::p"
+                  "xpath": "concat(., \"\", /descendant::div[contains(@class,\"footerContainer\")])"
                 }
               ]
             },
             "name": "http://schema.org/validThrough",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  \n  //MM/DD/YYYY\n\tif (data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)) return data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/);\n  \n  \n  \t\n  //YYYY/MM/DD\n  \tif(data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)){\n      data = data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)[0].split(\".\");\n      return data[1] + \"/\" + data[2] + \"/\" + data[0];\n    }\n  \n  \n  \n  //YYYY/MM/DD - Japanese\n  if(data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)){\n      data = data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)[0].replace(/[年月]/g,\".\").split(\".\");\n      return data[1] + \"/\" + data[2] + \"/\" + data[0];\n    }\n  \n  \n  \n  //DD.MM.YYYY\n  if (data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)){\n    data = data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)[0].split(\".\");\n\treturn data[1] + \"/\" + data[0] + \"/\" + data[2];\n  }\n  \n\nreturn \"\";\n  \t\n}",
+            "javascript": "function transform(data){\n\n\n//Define array of strings that are possibly both in the coupon and the footer of the email\n  var stringArr = [\n    \"%\",\n    \"free\",\n    \"gratuits\", //French: Free\n    \"Kostenloser\", //German: Free\n    \"gratuita\", //Spanish: Free\n    \"gratis\", //Italian, Dutch, Corsican: Free\n    \"GRÁTIS\", //Portuguese: Free\n    \"ingyenes\", //Hungarian: Free\n    \"gratuită\", //Romanian: Free\n    \"Бесплатная\", //Russian: Free\n    \"Δωρεάν\", //Greek: Free\n    \"БЕЗПЛАТНА\", //Bulgarian: Free\n    \"zdarma\", //Czech: Free\n    \"ZADARMO\", //Slovak: Free\n    \"Bezpłatna\", //Polish: Free\n    \"ÜCRETSİZ\" //Turkish: Free\n  ];\n\n\n\n  //Iterate through the array. If the string is included twice in the concatenated text\n  //then see if there are any date formats\n  for (var i = 0; i < stringArr.length; i++) {\n    var el = stringArr[i];\n    if (data.toLowerCase().indexOf(el.toLowerCase()) !== data.toLowerCase().lastIndexOf(el.toLowerCase())) {\n\n\n      //MM/DD/YYYY\n      if (data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)) return data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)[0];\n\n\n\n      //YYYY/MM/DD\n        if(data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)){\n          data = data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)[0].split(\".\");\n          return data[1] + \"/\" + data[2] + \"/\" + data[0];\n        }\n\n\n\n      //YYYY/MM/DD - Japanese\n      if(data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)){\n          data = data.match(/\\\\d{4}年\\d{1,2}月\\d{1,2}/)[0].replace(/[年月]/g,\".\").split(\".\");\n          return data[1] + \"/\" + data[2] + \"/\" + data[0];\n        }\n\n\n\n      //DD.MM.YYYY\n      if (data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)){\n        data = data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)[0].split(\".\");\n      return data[1] + \"/\" + data[0] + \"/\" + data[2];\n      }\n      \n    } //End of top if statement\n  } //End of for loop\n\n\n\nreturn \"\";\n}",
             "dataTypes": [
               "DateTime"
             ],
@@ -2084,15 +2084,15 @@
           }
         ],
         "hints": {
-          "_raw_validThrough": "/descendant::span[contains(@class,\"footer-terms\") and contains(text(),\"%\")]",
-          "_footer": "/descendant::td[@class = \"footer\"]"
+          "_footer": "/descendant::td[@class = \"footer\"]",
+          "_raw_validThrough": "concat(., \"\", /descendant::div[contains(@class,\"footerContainer\")])"
         }
       },
       {
         "id": "47f1e546-87ee-405f-8477-e9dc9a73d276",
         "repeating": true,
         "locations": [
-          "/descendant::p[contains(.,\"%\")]"
+          "/descendant::p[contains(.,\"%\")]\n|\n/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[contains(@class,\"is-hidden-mobile\")]/descendant::a[not (contains(text(),\"INFLUENCER\"))]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
