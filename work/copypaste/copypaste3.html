@@ -189,8 +189,6 @@
         (minCharacters === '' || item.description.length >= minCharacters) &&
         (maxCharacters === '' || item.description.length <= maxCharacters)"
         >
-        <!-- v-show="minCharacters === '' || item.description.length >= minCharacters"
-        v-show="maxCharacters === '' || item.description.length >= maxCharacters" -->
 
           <div class="media-left media-middle">
             <a :href="item.url" target="_blank">
@@ -308,6 +306,8 @@
         this.startStr = this.startStr.replace(el.oldStr, el.newStr);
       }
 
+      this.startStr = this.startStr.trim();
+
 
       // 4. Create an array from the existing string. Remove first element
       this.startStr = this.startStr.slice(0, this.startStr.length-1).split("SPLIT");
@@ -320,8 +320,7 @@
       // create an object that will be pushed to the mainArray.
       var self = this;
       this.startStr.forEach(function(el) {
-        //Clean up each string with all the text after "context"
-        el = el.replace(/context:\s+vocab[\S\s]+/g, "");
+
 
         //Create new object with all the expected keys for rendering in the page.
         var newObj = {

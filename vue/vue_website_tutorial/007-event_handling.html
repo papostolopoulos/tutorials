@@ -39,26 +39,26 @@
       <p>The result is: {{result}}</p>
       <hr>
       <h6>The code for the html is:</h6>
-      <pre>
-        <code>
+      <code>
+        <pre>
           &lt;input type="text" name="" value="" v-model="counter"&gt;
           &lt;button type="button" name="button" @click="result += Number(counter)"&gt;Add&lt;/button&gt;
           &lt;button type="button" name="button" @click="result -= Number(counter)"&gt;Subtract&lt;/button&gt;
           &lt;button type="button" name="button" @click="result *= Number(counter)"&gt;Multiply&lt;/button&gt;
           &lt;button type="button" name="button" @click="result /= Number(counter)"&gt;Divide&lt;/button&gt;
           &lt;button type="button" name="button" @click="result = 0"&gt;Make zero&lt;/button&gt;
-        </code>
-      </pre>
+        </pre>
+      </code>
       <h6>The code for the script is</h6>
-      <pre>
-        <code>
+      <code>
+        <pre>
           el: "#eventHandling1",
           data: {
             result: 0,
             counter: 0
           }
-        </code>
-      </pre>
+        </pre>
+      </code>
     </div>
   </div>
 
@@ -79,16 +79,197 @@
 
 
   <div id="eventHandling2">
+    <h2>Methods in Event Handlers</h2>
+      <p>
+        Even though the event handlers are effective in managing small snippets
+        of code and return some results on the page, they might not be so effective
+        in managing the code within the html tag since the code might be too long
+        in size. Event handlers can easily get methods attached to them and invoke
+        results that are based on lengthier sizes of code.
+      </p>
+      <div class="jumbotron">
+        <h4>Example</h4>
+        <p>
+          In the following example, the <code>greet</code> method is attached on
+          the event handler. As you can see below, the code written for this
+          page behavior was big so it was better that it was added inside a method.
+        </p>
+        <button type="button" name="button" @click="greet($event)">When was I last clicked?</button>
+        <hr>
+        <h6>html code</h6>
+        <code>
+          &lt;button type="button" name="button" @click="greet($event)"&gt;When was I last clicked?&lt;/button&gt;
+        </code>
+        <h6>Vue code</h6>
+        <code><pre>
+  var eventHandling2 = new Vue({
+    el: "#eventHandling2",
+    data: {
+      timeStamp: 0
+    },
+    methods: {
+      greet(event){
+        var timeStamp = 0;
+        alert(`This is wnere I want to present the timestamp in a date / time format.
+          ${messages(this)}
+          Just now it was clicked at ${Math.round(event.timeStamp / 1000)} seconds.`);
+          this.timeStamp = Math.round(event.timeStamp / 1000);
 
+          function messages(self) {
+            return self.timeStamp === 0?
+            `This button was not clicked before.`:
+            `This button was clicked before at ${self.timeStamp} seconds.`
+          }
+      }
+    }
+  });
+          </pre></code>
+      </div>
   </div>
 
   <script>
     var eventHandling2 = new Vue({
       el: "#eventHandling2",
       data: {
-        
+        timeStamp: 0
+      },
+      methods: {
+        greet(event){
+          var timeStamp = 0;
+          alert(`This is wnere I want to present the timestamp in a date / time format.
+            ${messages(this)}
+            Just now it was clicked at ${Math.round(event.timeStamp / 1000)} seconds.`);
+            this.timeStamp = Math.round(event.timeStamp / 1000);
+
+            function messages(self) {
+              return self.timeStamp === 0?
+              `This button was not clicked before.`:
+              `This button was clicked before at ${self.timeStamp} seconds.`
+            }
+        }
       }
     });
+  </script>
+
+
+
+
+
+
+
+
+
+
+  <div id="eventHandling3">
+    <h2>Methods in Inline handlers</h2>
+    <p>
+      The methods that are binded in the event handlers can also have parameters
+      passed to them as inline arguments. The arguments can either be built in
+      variables (ex: <code>$event</code>) or arguments that are connected to the
+      user's interaction to the page.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        Write something, anything and I will alert it for you.
+      </p>
+      <input type="text" name="" value="">
+      <button type="button" name="button" @click="alertMe($event)">Do it!</button>
+
+      <hr>
+      <h6>html code</h6>
+      <code><pre>
+        &lt;button type="button" name="button" @click="alertMe($event)"&gt;Do it!&lt;/button&gt;
+      </pre></code>
+      <h6>Vue code</h6>
+      <code><pre>
+        var eventHandling3 = new Vue({
+          el: "#eventHandling3",
+          data: {
+            message: ""
+          },
+          methods: {
+            alertMe(event){
+              alert(event.target.previousElementSibling.value === "" ?
+                "Enter some text will you?" :
+                event.target.previousElementSibling.value);
+            }
+          }
+        });
+      </pre></code>
+    </div>
+
+  </div>
+
+  <script>
+    var eventHandling3 = new Vue({
+      el: "#eventHandling3",
+      data: {
+        message: ""
+      },
+      methods: {
+        alertMe(event){
+          alert(event.target.previousElementSibling.value === "" ?
+            "Enter some text will you?" :
+            event.target.previousElementSibling.value);
+        }
+      }
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+  <div id="eventHandling4">
+    <h2>Event modifiers</h2>
+    <p>
+      Vue has modifiers that replicate JavaScript's built in modifiers and can be
+      attached on the event modifier, instead of running the JavaScript Modifiers
+      inside the run function. For example, instead of invoking
+      <code>event.preventDefault()</code>, we can use
+      <code>v-on:click.<b>prevent</b></code>.
+    </p>
+    <p>
+      All the modifiers are postfixes denoted by a dot.
+      <ul>
+        <li>
+          <code><b>.stop</b></code> - Similar to: <code>Event.stopPropagation()</code> <br>
+          No propagation of the current event allowed in the capturing or bubbling phases
+        </li>
+        <li>
+          <code><b>.prevent</b></code>  - Similar to: <code>Event.preventDefault()</code> <br>
+          Prevents the default action should not be handled as it would normaly
+          be. For example, a form will not refresh a page on submit or a checkbox
+          will not be selected.
+        </li>
+        <li>
+          <code>.capture</code> - Similar to:
+          <code>target.(add or remove)EventListener(type, listener[, useCapture]);</code> <br>
+          
+        </li>
+
+.capture
+.self
+.once
+.passive
+      </ul>
+    </p>
+  </div>
+
+  <script>
+  var eventHandling4 = new Vue({
+    el: "#eventHandling4",
+    data: {
+
+    }
+  });
+
   </script>
 
 

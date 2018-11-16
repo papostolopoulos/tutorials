@@ -1880,148 +1880,6 @@
         "id": "b7695c3d-acae-406e-9529-a3ccf82c00e3",
         "repeating": true,
         "locations": [
-          "/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[@class='is-hidden-mobile']/descendant::a[not (contains(text(),\"新品\") or contains(text(),\"ARRIVALS\"))]\n|\n/descendant::text()[contains(.,\"%\")]"
-        ],
-        "type": "http://schema.org/Coupon",
-        "javascript": null,
-        "entityIdRef": "",
-        "attributes": [
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
-                  "xpath": "."
-                }
-              ]
-            },
-            "name": "http://schema.org/description",
-            "relative": true,
-            "transient": false,
-            "javascript": "function transform(data){\n  data = data.replace(/[\\*©®ǂ†→§™¹]/g, \"\");\n\n  var stringArr = [\n    /%/,\n    /free/i,\n    /gratuits/i, //French: Free\n    /Kostenloser/i, //German: Free\n    /gratuita/i, //Spanish: Free\n    /gratis/i, //Italian, Dutch, Corsican: Free\n    /GRÁTIS/i, //Portuguese: Free\n    /ingyenes/i, //Hungarian: Free\n    /gratuită/i, //Romanian: Free\n    /Бесплатная/i, //Russian: Free\n    /Δωρεάν/i, //Greek: Free\n    /БЕЗПЛАТНА/i, //Bulgarian: Free\n    /zdarma/i, //Czech: Free\n    /ZADARMO/i, //Slovak: Free\n    /Bezpłatna/i //Polish: Free\n\n  ];\n\n  for (var i = 0; i < stringArr.length; i++) {\n    if (data.match(stringArr[i])) return data;\n  }\n\n  return \"\";\n}",
-            "dataTypes": [
-              "Text"
-            ],
-            "mandatory": false
-          },
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
-                  "xpath": "./@href \n| \n/descendant::p[contains(@class,\"view-in-browser\")]/descendant::a/@href"
-                }
-              ]
-            },
-            "name": "http://schema.org/url",
-            "relative": true,
-            "transient": false,
-            "javascript": null,
-            "dataTypes": [
-              "URL"
-            ],
-            "mandatory": false
-          },
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
-                  "xpath": "concat(., /descendant::span[contains(@class,\"footer-terms\") and contains(text(),\"%\") or contains(text(),\"Free\") or contains(text(),\"FREE\")]/following-sibling::text())"
-                }
-              ]
-            },
-            "name": "http://schema.org/validThrough",
-            "relative": true,
-            "transient": false,
-            "javascript": "function transform(data){\n  \n  //MM/DD/YYYY\n\tif (data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)) return data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/);\n  \n  \n  \t\n  //YYYY/MM/DD\n  \tif(data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)){\n      data = data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)[0].split(\".\");\n      return data[1] + \"/\" + data[2] + \"/\" + data[0];\n    }\n  \n  \n  \n  //YYYY/MM/DD - Japanese\n  if(data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)){\n      data = data.match(/\\\\d{4}年\\d{1,2}月\\d{1,2}/)[0].replace(/[年月]/g,\".\").split(\".\");\n      return data[1] + \"/\" + data[2] + \"/\" + data[0];\n    }\n  \n  \n  \n  //DD.MM.YYYY\n  if (data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)){\n    data = data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)[0].split(\".\");\n\treturn data[1] + \"/\" + data[0] + \"/\" + data[2];\n  }\n  \n\nreturn \"\";\n  \t\n}",
-            "dataTypes": [
-              "DateTime"
-            ],
-            "mandatory": false
-          }
-        ],
-        "hints": {
-          "_footer": "/descendant::td[contains(@class,\"footer\")]",
-          "_raw_validThrough": "concat(., /descendant::span[contains(@class,\"footer-terms\") and contains(text(),\"%\") or contains(text(),\"Free\") or contains(text(),\"FREE\")]/following-sibling::text())"
-        }
-      },
-      {
-        "id": "47f1e546-87ee-405f-8477-e9dc9a73d276",
-        "repeating": true,
-        "locations": [
-          "/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[@class='is-hidden-mobile']/descendant::a\n|\n/descendant::text()[contains(.,\"%\")]"
-        ],
-        "type": "http://schema.org/Organization",
-        "javascript": null,
-        "entityIdRef": "",
-        "attributes": [
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
-                  "xpath": "\"H&M\""
-                }
-              ]
-            },
-            "name": "http://schema.org/name",
-            "relative": true,
-            "transient": false,
-            "javascript": null,
-            "dataTypes": [
-              "Text"
-            ],
-            "mandatory": false
-          }
-        ],
-        "hints": {
-          "_footer": "/descendant::td[contains(@class,\"footer\")]"
-        }
-      }
-    ],
-    "edgeRules": [
-      {
-        "from": {
-          "entityRule": "b7695c3d-acae-406e-9529-a3ccf82c00e3",
-          "matchAttr": ""
-        },
-        "to": {
-          "entityRule": "47f1e546-87ee-405f-8477-e9dc9a73d276",
-          "matchAttr": ""
-        },
-        "predicate": "http://schema.org/broker",
-        "cardinality": "ONE_TO_ONE"
-      }
-    ],
-    "entityNS": null
-  },
-  "metaData": {
-    "useVTDXML": "true",
-    "ignoredValidations": null
-  }
-}
-/* email.hm.com --> coupon from the body of the email */
-{
-  "extract": {
-    "extractEmbedded": false,
-    "source": null,
-    "schema": [
-      {
-        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
-        "ns": "http://schema.org",
-        "context": {
-          "@type": [
-            "Coupon"
-          ]
-        }
-      }
-    ],
-    "entityRules": [
-      {
-        "id": "b7695c3d-acae-406e-9529-a3ccf82c00e3",
-        "repeating": true,
-        "locations": [
           "/descendant::p[contains(.,\"%\")]\n|\n/descendant::div[contains(@class,\"merchRibbonContainer\")]/descendant::div[contains(@class,\"is-hidden-mobile\")]/descendant::a[not (contains(text(),\"INFLUENCER\"))]"
         ],
         "type": "http://schema.org/Coupon",
@@ -2040,7 +1898,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  data = data.replace(/[\\*©®ǂ†→§™¹]/g, \"\");\n\n  var stringArr = [\n    /%/,\n    /free/i,\n    /gratuits/i, //French: Free\n    /Kostenloser/i, //German: Free\n    /gratuita/i, //Spanish: Free\n    /gratis/i, //Italian, Dutch, Corsican: Free\n    /GRÁTIS/i, //Portuguese: Free\n    /ingyenes/i, //Hungarian: Free\n    /gratuită/i, //Romanian: Free\n    /Бесплатная/i, //Russian: Free\n    /Δωρεάν/i, //Greek: Free\n    /БЕЗПЛАТНА/i, //Bulgarian: Free\n    /zdarma/i, //Czech: Free\n    /ZADARMO/i, //Slovak: Free\n    /Bezpłatna/i, //Polish: Free\n    /ÜCRETSİZ/i //Turkish: Free\n  ];\n\n  for (var i = 0; i < stringArr.length; i++) {\n    if (data.match(stringArr[i])) return data;\n  }\n\n  return \"\";\n}",
+            "javascript": "function transform(data){\n  data = data.replace(/[\\*©®ǂ†→§™¹]/g, \"\");\n\n  var stringArr = [\n    /%/,\n    /free/i,\n    /gratuits/i, //French: Free\n    /Kostenloser/i, //German: Free\n    /gratuita/i, //Spanish: Free\n    /gratis/i, //Italian, Dutch, Corsican: Free\n    /GRÁTIS/i, //Portuguese: Free\n    /ingyenes/i, //Hungarian: Free\n    /gratuită/i, //Romanian: Free\n    /Бесплатная/i, //Russian: Free\n    /Δωρεάν/i, //Greek: Free\n    /БЕЗПЛАТНА/i, //Bulgarian: Free\n    /zdarma/i, //Czech: Free\n    /ZADARMO/i, //Slovak: Free\n    /Bezpłatna/i, //Polish: Free\n    /ÜCRETSİZ/i, //Turkish: Free\n    /مجاناً/i, //Arabic: Free\n    /折优惠/i, //Chinese: Discount (% off)\n    /\\d{1,2}折/i //Chinese: Num off\n  ];\n\n  for (var i = 0; i < stringArr.length; i++) {\n    if (data.match(stringArr[i])) return data;\n  }\n\n  return \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -2076,7 +1934,7 @@
             "name": "http://schema.org/validThrough",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n\n\n//Define array of strings that are possibly both in the coupon and the footer of the email\n  var stringArr = [\n    \"%\",\n    \"free\",\n    \"gratuits\", //French: Free\n    \"Kostenloser\", //German: Free\n    \"gratuita\", //Spanish: Free\n    \"gratis\", //Italian, Dutch, Corsican: Free\n    \"GRÁTIS\", //Portuguese: Free\n    \"ingyenes\", //Hungarian: Free\n    \"gratuită\", //Romanian: Free\n    \"Бесплатная\", //Russian: Free\n    \"Δωρεάν\", //Greek: Free\n    \"БЕЗПЛАТНА\", //Bulgarian: Free\n    \"zdarma\", //Czech: Free\n    \"ZADARMO\", //Slovak: Free\n    \"Bezpłatna\", //Polish: Free\n    \"ÜCRETSİZ\" //Turkish: Free\n  ];\n\n\n\n  //Iterate through the array. If the string is included twice in the concatenated text\n  //then see if there are any date formats\n  for (var i = 0; i < stringArr.length; i++) {\n    var el = stringArr[i];\n    if (data.toLowerCase().indexOf(el.toLowerCase()) !== data.toLowerCase().lastIndexOf(el.toLowerCase())) {\n\n\n      //MM/DD/YYYY\n      if (data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)) return data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)[0];\n\n\n\n      //YYYY/MM/DD\n        if(data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)){\n          data = data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)[0].split(\".\");\n          return data[1] + \"/\" + data[2] + \"/\" + data[0];\n        }\n\n\n\n      //YYYY/MM/DD - Japanese\n      if(data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)){\n          data = data.match(/\\\\d{4}年\\d{1,2}月\\d{1,2}/)[0].replace(/[年月]/g,\".\").split(\".\");\n          return data[1] + \"/\" + data[2] + \"/\" + data[0];\n        }\n\n\n\n      //DD.MM.YYYY\n      if (data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)){\n        data = data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)[0].split(\".\");\n      return data[1] + \"/\" + data[0] + \"/\" + data[2];\n      }\n      \n    } //End of top if statement\n  } //End of for loop\n\n\n\nreturn \"\";\n}",
+            "javascript": "function transform(data){\n//Define array of strings that are possibly both in the coupon and the footer of the email\n  var stringArr = [\n    /%/g,\n    /free/gi,\n    /gratuits/gi, //French: Free\n    /Kostenloser/gi, //German: Free\n    /gratuita/gi, //Spanish: Free\n    /gratis/gi, //Italian, Dutch, Corsican: Free\n    /GRÁTIS/gi, //Portuguese: Free\n    /ingyenes/gi, //Hungarian: Free\n    /gratuită/gi, //Romanian: Free\n    /Бесплатная/gi, //Russian: Free\n    /Δωρεάν/gi, //Greek: Free\n    /БЕЗПЛАТНА/gi, //Bulgarian: Free\n    /zdarma/gi, //Czech: Free\n    /ZADARMO/gi, //Slovak: Free\n    /Bezpłatna/gi, //Polish: Free\n    /ÜCRETSİZ/gi, //Turkish: Free\n    /مجاناً/gi, //Arabic: Free\n    /折优惠/gi, //Chinese: Discount (% off)\n    /\\d{1,2}折/gi //Chinese: Num off\n  ];\n\n\n\n  //Iterate through the array. If the string is included twice in the concatenated text\n  //then see if there are any date formats\n  for (var i = 0; i < stringArr.length; i++) {\n    var el = stringArr[i];\n    if (data.match(el) !== null && data.match(el).length >= 2) {\n\n\n      //MM/DD/YYYY\n      if (data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)) return data.match(/([\\d]{1,2}\\/){2}\\d{2,4}/)[0];\n\n\n\n      //YYYY/MM/DD\n        if(data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)){\n          data = data.match(/\\d{4}(\\.[\\d]{1,2}){2}/)[0].split(\".\");\n          return data[1] + \"/\" + data[2] + \"/\" + data[0];\n        }\n\n\n\n\n      //YYYY/MM/DD - Chinese\n      if(data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)){\n          data = data.match(/\\d{4}年\\d{1,2}月\\d{1,2}/)[0].replace(/[年月]/g,\".\").split(\".\");\n          return data[1] + \"/\" + data[2] + \"/\" + data[0];\n        }\n\n\n\n      //DD.MM.YYYY\n      if (data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)){\n        data = data.match(/([\\d]{1,2}\\.){2}\\d{2,4}/)[0].split(\".\");\n      return data[1] + \"/\" + data[0] + \"/\" + data[2];\n      }\n\n    } //End of top if statement\n  } //End of for loop\n\n\n\nreturn \"\";\n}",
             "dataTypes": [
               "DateTime"
             ],
@@ -2927,7 +2785,7 @@
         "id": "c497c926-0231-4a60-bb9b-56fe6a97d247",
         "repeating": true,
         "locations": [
-          "//descendant::img[contains(@alt,\"%\")]\n|\n/descendant::b[contains(text(),\"% OFF\") or contains(text(), \"FREE\")]"
+          "/descendant::img[contains(@alt,\"%\")][not (preceding::tr/following-sibling::tr[3]/descendant::a[contains(text(),\"Exclusions apply\")])]\n|\n/descendant::b[contains(text(),\"% OFF\") or contains(text(), \"FREE\")]\n|\n/descendant::text()[contains(.,\"DISCOUNT\")]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -2948,7 +2806,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  return data.replace(/Excludes\\sclearance\\./, \"\").trim() || \"\";\n}",
+            "javascript": "function transform(data){\n  var replaceArr = [\n    {oldStr: /Excludes\\sclearance\\./, newStr: \"\"},\n    {oldStr: /:\\sMust\\spresent\\soffer\\sto\\sredeem./, newStr: \"\"}\n  ];\n  \n  replaceArr.forEach(function(el){\n    data = data.replace(el.oldStr, el.newStr);\n  });\n  \n  return data.trim() || \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -2977,14 +2835,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "./following::a[contains(text(),\"VALID THRU\")]"
+                  "xpath": "/descendant::text()[contains(.,\"Offers and pricing listed in this email are valid\")]"
                 }
               ]
             },
             "name": "http://schema.org/validThrough",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  return data.match(/(\\d{1,2}\\/){2}\\d{2,4}/)[0];\n}",
+            "javascript": "function transform(data) {\n\tif(!data) return \"\";\n\tvar months = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n\tfor (var i = 0; i < months.length; i++) {\n\t\tif (data.indexOf(months[i]) !== -1) return data.slice(data.lastIndexOf(months[i])).match(/[A-z\\s]+\\s\\d{1,2}\\s?(-?\\s?\\d{1,2})?,?(\\s\\d{4})?/i)[0].replace(/\\d{1,2}\\s?-/, \"\") + \" 1970\";\n\t}\n}",
             "dataTypes": [
               "DateTime"
             ],
@@ -2992,8 +2850,8 @@
           }
         ],
         "hints": {
-          "_raw_validThrough": "./following::a[contains(text(),\"VALID THRU\")]",
-          "_footer": "/descendant::span[contains(text(),\"Michaels Stores\")]/parent::td/parent::tr/parent::tbody"
+          "_footer": "/descendant::span[contains(text(),\"Michaels Stores\")]/parent::td/parent::tr/parent::tbody",
+          "_raw_validThrough": "/descendant::text()[contains(.,\"Offers and pricing listed in this email are valid\")]"
         }
       },
       {
@@ -3048,7 +2906,7 @@
         "id": "bbd9cd3c-f13a-45dd-84b1-c7483c48949f",
         "repeating": true,
         "locations": [
-          "/descendant::td[contains(@class,\"camarker-inner\")]/descendant::img[contains(@alt,\"%\")]\n|\n/descendant::b[contains(text(),\"% OFF\") or contains(text(), \"FREE\")]"
+          "/descendant::img[contains(@alt,\"%\")][not (preceding::tr/following-sibling::tr[3]/descendant::a[contains(text(),\"Exclusions apply\")])]\n|\n/descendant::b[contains(text(),\"% OFF\") or contains(text(), \"FREE\")]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
@@ -3079,18 +2937,6 @@
       {
         "from": {
           "entityRule": "c497c926-0231-4a60-bb9b-56fe6a97d247",
-          "matchAttr": ""
-        },
-        "to": {
-          "entityRule": "bbd9cd3c-f13a-45dd-84b1-c7483c48949f",
-          "matchAttr": ""
-        },
-        "predicate": "http://schema.org/broker",
-        "cardinality": "ONE_TO_ONE"
-      },
-      {
-        "from": {
-          "entityRule": "c497c926-0231-4a60-bb9b-56fe6a97d247",
           "matchAttr": "http://schema.org/description"
         },
         "to": {
@@ -3099,7 +2945,19 @@
         },
         "predicate": "http://schema.org/image",
         "cardinality": "ONE_TO_ONE",
-        "matchThreshold": "0.4"
+        "matchThreshold": "0.7"
+      },
+      {
+        "from": {
+          "entityRule": "c497c926-0231-4a60-bb9b-56fe6a97d247",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "bbd9cd3c-f13a-45dd-84b1-c7483c48949f",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
       }
     ],
     "entityNS": null
@@ -3820,7 +3678,7 @@
         "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
         "repeating": true,
         "locations": [
-          "/descendant::div[@id='DESKTOP']/descendant::img[contains(@alt,\"%\") or contains(@alt, \"Rewards Bazaar\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::div[@id='DESKTOP']/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::img[contains(@alt,\"%\")][preceding::td[contains(.,\"Use code\")]]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -3834,7 +3692,7 @@
                   "xpath": "./@alt"
                 },
                 {
-                  "xpath": "concat(., \" \", ./following::text(), ./following::text()/following::text())"
+                  "xpath": "concat(./descendant::text(), \" \", ./descendant::text()/following::text(), \" \", ./descendant::text()/following::text()/following::text())"
                 }
               ]
             },
@@ -3942,7 +3800,7 @@
         "id": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
         "repeating": true,
         "locations": [
-          "/descendant::div[@id='DESKTOP']/descendant::img[contains(@alt,\"%\") or contains(@alt, \"Rewards Bazaar\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::div[@id='DESKTOP']/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::img[contains(@alt,\"%\")][preceding::td[contains(.,\"Use code\")]]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
@@ -3980,8 +3838,7 @@
           "matchAttr": "http://schema.org/_imgtext"
         },
         "predicate": "http://schema.org/image",
-        "cardinality": "ONE_TO_ONE",
-        "matchThreshold": "0.3"
+        "cardinality": "ONE_TO_ONE"
       },
       {
         "from": {

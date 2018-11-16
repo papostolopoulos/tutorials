@@ -20,74 +20,77 @@
 var str = "15% rabatt på all strikk**: Tilbudet gjelder for utvalgte varer på hm.com t.o.m. 28.10.2018 eller så langt lageret rekker. 15% rabatt på all strikk: Tilbudet gjelder for utvalgte varer på hm.com t.o.m. 24.10.2018 eller så langt lageret rekker. Kan ikke kombineres med andre tilbud, rabatter, designersamarbeid eller spesialkolleksjoner. Dette tilbudet koster 0 poeng.";
 var str2 = "LAST CHANCE! FREE SHIPPING - Use code 0922!* LADIESMENKIDSH&M HOMEFollow us onlineDownload appiOS ANDROID Stores & ServiceFIND STORE CONTACT *LAST CHANCE! FREE SHIPPING - Use code 0922!: Valid until 2018.11.07. : Online & in store May be subject to printing errors, changes, price changes, delivery delays and limited availability of stock.You are receiving this email because you are signed up to receive H&M promotional communications. This message was sent by H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 Stockholm, Sweden.Click here for the European Commission's Online Dispute Resolution website.Unsubscribe";
 var str3 = "保暖也要时尚 - 精选外套75折优惠* 女士男士儿童H&M家居关注我们下载APPiOS ANDROID 门店和服务查看门店 联系 您好Mary, 您的积分有0分101810178728008*精选外套 - 75折优惠: 本次优惠截至2018年10月25日早上8点，仅适用于网店女士，DIVIDED和男士部门，售完即止。 可能会出现印刷错误、修改、价格变动、延迟交付和库存有限的情况。您之所以收到这封电子邮件，是因为您已注册接收H&M促销信息。 本信息来自H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 斯德哥尔摩, 瑞典。退订";
-
+var str4 = "11.11 SINGLES' DAY - ÖZEL BİR FIRSAT % 11 İNDİRİM: Bizi takip edinUygulamamızı indiriniOS ANDROID Mağazalar ve HizmetlerMAĞAZA BUL İLETİŞİM *11.11 SINGLES' DAY - ÖZEL BİR FIRSAT % 11 İNDİRİM: 1111 kodunu kullanınız. Ücretsiz kargo dahildir. 11.11.2018 günü sabah 11:11'den akşam 11:11'e kadar geçerlidir. Başka bir teklif, indirim, özel koleksiyon veya tasarımcı iş birliği ile birleştirilemez. Basım hataları, değişiklikler, fiyat değişiklikleri, teslimde gecikmeler veya sınırlı stok durumu söz konusu olabilir.Bu e-postayı H&M tanıtım iletişimlerini almak üzere abone olduğunuz için alıyorsunuz. Bu mesaj H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 Stockholm, İsveç tarafından gönderilmiştir.Abonelikten çık";
 
 function transform(data){
-//Define array of strings that are possibly both in the coupon and the footer of the email
-  var stringArr = [
-    /%/,
-    /free/gi,
-    /gratuits/gi, //French: Free
-    /Kostenloser/gi, //German: Free
-    /gratuita/gi, //Spanish: Free
-    /gratis/gi, //Italian, Dutch, Corsican: Free
-    /GRÁTIS/gi, //Portuguese: Free
-    /ingyenes/gi, //Hungarian: Free
-    /gratuită/gi, //Romanian: Free
-    /Бесплатная/gi, //Russian: Free
-    /Δωρεάν/gi, //Greek: Free
-    /БЕЗПЛАТНА/gi, //Bulgarian: Free
-    /zdarma/gi, //Czech: Free
-    /ZADARMO/gi, //Slovak: Free
-    /Bezpłatna/gi, //Polish: Free
-    /ÜCRETSİZ/gi, //Turkish: Free
-    /مجاناً/gi, //Arabic: Free
-    /折优惠/gi //Chinese: Discount (% off)
-  ];
+  //Define array of strings that are possibly both in the coupon and the footer of the email
+    var stringArr = [
+      /%/g,
+      /free/gi,
+      /gratuits/gi, //French: Free
+      /Kostenloser/gi, //German: Free
+      /gratuita/gi, //Spanish: Free
+      /gratis/gi, //Italian, Dutch, Corsican: Free
+      /GRÁTIS/gi, //Portuguese: Free
+      /ingyenes/gi, //Hungarian: Free
+      /gratuită/gi, //Romanian: Free
+      /Бесплатная/gi, //Russian: Free
+      /Δωρεάν/gi, //Greek: Free
+      /БЕЗПЛАТНА/gi, //Bulgarian: Free
+      /zdarma/gi, //Czech: Free
+      /ZADARMO/gi, //Slovak: Free
+      /Bezpłatna/gi, //Polish: Free
+      /ÜCRETSİZ/gi, //Turkish: Free
+      /مجاناً/gi, //Arabic: Free
+      /BEZPŁATNA/gi, //Polish: Free
+      /折优惠/gi, //Chinese: Discount (% off)
+      /\d{1,2}折/gi //Chinese: Num off
+    ];
 
 
 
-  //Iterate through the array. If the string is included twice in the concatenated text
-  //then see if there are any date formats
-  for (var i = 0; i < stringArr.length; i++) {
-    var el = stringArr[i];
-    if (data.match(el) !== null && data.match(el).length >= 2) {
+    //Iterate through the array. If the string is included twice in the concatenated text
+    //then see if there are any date formats
+    for (var i = 0; i < stringArr.length; i++) {
+      var el = stringArr[i];
+
+      if (data.match(el) !== null && data.match(el).length >= 2) {
 
 
-      //MM/DD/YYYY
-      if (data.match(/([\d]{1,2}\/){2}\d{2,4}/)) return data.match(/([\d]{1,2}\/){2}\d{2,4}/)[0];
+        //MM/DD/YYYY
+        if (data.match(/([\d]{1,2}\/){2}\d{2,4}/)) return data.match(/([\d]{1,2}\/){2}\d{2,4}/)[0];
 
 
 
-      //YYYY/MM/DD
-        if(data.match(/\d{4}(\.[\d]{1,2}){2}/)){
-          data = data.match(/\d{4}(\.[\d]{1,2}){2}/)[0].split(".");
-          return data[1] + "/" + data[2] + "/" + data[0];
+        //YYYY/MM/DD
+          if(data.match(/\d{4}(\.[\d]{1,2}){2}/)){
+            data = data.match(/\d{4}(\.[\d]{1,2}){2}/)[0].split(".");
+            return data[1] + "/" + data[2] + "/" + data[0];
+          }
+
+
+
+
+        //YYYY/MM/DD - Chinese
+        if(data.match(/\d{4}年\d{1,2}月\d{1,2}/)){
+            data = data.match(/\d{4}年\d{1,2}月\d{1,2}/)[0].replace(/[年月]/g,".").split(".");
+            return data[1] + "/" + data[2] + "/" + data[0];
+          }
+
+
+
+        //DD.MM.YYYY
+        if (data.match(/([\d]{1,2}\.){2}\d{2,4}/)){
+          data = data.match(/([\d]{1,2}\.){2}\d{2,4}/)[0].split(".");
+        return data[1] + "/" + data[0] + "/" + data[2];
         }
 
+      } //End of top if statement
+    } //End of for loop
 
 
 
-      //YYYY/MM/DD - Chinese
-      if(data.match(/\d{4}年\d{1,2}月\d{1,2}/)){
-          data = data.match(/\d{4}年\d{1,2}月\d{1,2}/)[0].replace(/[年月]/g,".").split(".");
-          return data[1] + "/" + data[2] + "/" + data[0];
-        }
-
-
-
-      //DD.MM.YYYY
-      if (data.match(/([\d]{1,2}\.){2}\d{2,4}/)){
-        data = data.match(/([\d]{1,2}\.){2}\d{2,4}/)[0].split(".");
-      return data[1] + "/" + data[0] + "/" + data[2];
-      }
-
-    } //End of top if statement
-  } //End of for loop
-
-
-
-return "";
+  return "";
 }
 
 
@@ -116,7 +119,9 @@ function transform(data){
     "Bezpłatna", //Polish: Free
     "ÜCRETSİZ", //Turkish: Free
     "مجاناً", //Arabic: Free
-    "折优惠" //Chinese: Discount (% off)
+    "BEZPŁATNA", //Polish: Free
+    "折优惠", //Chinese: Discount (% off)
+    "折" //Chinese: off
   ];
 
 
@@ -197,7 +202,7 @@ function transform(data){
   data = data.replace(/[\*©®ǂ†→§™¹]/g, "");
 
   var stringArr = [
-    /%/,
+    /%/i,
     /free/i,
     /gratuits/i, //French: Free
     /Kostenloser/i, //German: Free
@@ -213,8 +218,10 @@ function transform(data){
     /ZADARMO/i, //Slovak: Free
     /Bezpłatna/i, //Polish: Free
     /ÜCRETSİZ/i, //Turkish: Free
+    /BEZPŁATNA/i, //Polish: Free
     /مجاناً/i, //Arabic: Free
-    /折优惠/i //Chinese: Discount (% off)
+    /折优惠/i, //Chinese: Discount (% off)
+    /\d{1,2}折/gi //Chinese: Num off
   ];
 
   for (var i = 0; i < stringArr.length; i++) {
