@@ -250,8 +250,18 @@
         </li>
         <li>
           <code>.capture</code> - Similar to:
-          <code>target.(add or remove)EventListener(type, listener[, useCapture]);</code> <br>
-          
+          <code>target.(add or remove)EventListener(type, listener, TRUE);</code> <br>
+          Bubbling phase disabled. Only capture phase enabled.
+        </li>
+        <li>
+          <code>.self</code> - Similar to:
+          Triggers handle if the <code>event.target</code> is the element itself.
+          So if I click on a different handle, the event will not propagate at the
+          specific element (but it will bubble up to other elements that have event
+          listeners).
+        </li>
+        <li>
+          <code>.capture</code>
         </li>
 
 .capture

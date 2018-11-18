@@ -16,6 +16,17 @@
 // the x on top of the other x when you are closing modals342
 
 
+function transform(data, node, headers){
+  var throughDateTime = data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/);
+  var throughTimeDate = data.match(/\sthrough\s11:59pm\sPT\son\s(\d{1,2}\s?\/){2}\d{0,4}/);
+
+  return throughDateTime ? throughDateTime[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] :
+  throughTimeDate ? throughTimeDate[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] : "";
+}
+
+\sthrough\s11:59pm\sPT\son\s(\d{1,2}\s?\/){2}\d{0,4}
+
+
 
 var str = "15% rabatt på all strikk**: Tilbudet gjelder for utvalgte varer på hm.com t.o.m. 28.10.2018 eller så langt lageret rekker. 15% rabatt på all strikk: Tilbudet gjelder for utvalgte varer på hm.com t.o.m. 24.10.2018 eller så langt lageret rekker. Kan ikke kombineres med andre tilbud, rabatter, designersamarbeid eller spesialkolleksjoner. Dette tilbudet koster 0 poeng.";
 var str2 = "LAST CHANCE! FREE SHIPPING - Use code 0922!* LADIESMENKIDSH&M HOMEFollow us onlineDownload appiOS ANDROID Stores & ServiceFIND STORE CONTACT *LAST CHANCE! FREE SHIPPING - Use code 0922!: Valid until 2018.11.07. : Online & in store May be subject to printing errors, changes, price changes, delivery delays and limited availability of stock.You are receiving this email because you are signed up to receive H&M promotional communications. This message was sent by H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 Stockholm, Sweden.Click here for the European Commission's Online Dispute Resolution website.Unsubscribe";
@@ -438,3 +449,68 @@ function transform(data) {
 
  return data.trim();
 }
+
+
+
+
+
+
+
+
+/descendant::div[@id="DESKTOP"]/descendant::img[contains(@alt, "Rewards Bazaar") or contains(@alt, "REWARDS BAZAAR") or contains(@alt,"POINT REWARDS") or contains(@alt,"shipping") or contains(@alt,"points per dollar") or contains(@alt,"SHIPPING") or contains(@alt,"Free") or contains(@alt, "rouge reward") or contains(@alt, "% off") or contains(@alt, "% OFF")]
+
+
+
+
+./@alt
+
+function transform(data){
+  var replaceStrArr = [
+    {oldStr: /[\*©®ǂ†→§™¹]/g, newStr: ""},
+    //{oldStr: /Shop\sNow$/i, newStr: ""},
+    //{oldStr: /Welcome\skit\sis\sredeemable.*/, newStr: ""},
+    {oldStr: /POINT REWARDS\s\|.*/, newStr: "POINT REWARDS"},
+    {oldStr: /([A-z]+\s(\d{1,2}-?){2},\s\d{0,4}\.)\s\|.*/, newStr: "$1"}
+  ];
+
+  replaceStrArr.forEach(function(el) {
+    data = data.replace(el.oldStr, el.newStr);
+  });
+
+
+
+	if(data.match(/Enter\spromotion\scode\s.*\sor\smore\./)) return data.match(/Enter\spromotion\scode\s.*\sor\smore\./)[0];
+
+  return data || "";
+}
+
+
+
+
+./parent::a/@href
+|
+/descendant::a[1]/@href
+
+concat(./@alt, /descendant::text()[contains(.,"Offer valid")])
+
+
+
+
+concat(./@alt, /descendant::text()[contains(.,"Offer valid")])
+
+
+function transform(data, node, headers){
+  if (data.match(/%\soff/i) && data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)) {
+    return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0];
+  }
+
+  return "";
+}
+
+
+
+/descendant::text()[contains(.,"JCPenney")]/parent::font/parent::td
+|
+/descendant::text()[contains(.,"JCPenney")]/parent::span/parent::td
+|
+/descendant::text()[contains(.,"JCPenney")]/parent::a/parent::td
