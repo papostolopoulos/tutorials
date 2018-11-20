@@ -505,6 +505,17 @@ var couponCodeColon = /coupon\scode:/i;
 
 
 
+//ADD IN THE COUPON ROOT TO FILTER OUT EMAILS WHERE YOU DON'T WANT THE TITLE
+//(THAT IS WHEN YOU ARE USING __METADATA.Subject IN THE DESCRIPTION)
+function transform(data){
+ var n=data.get("http://schema.org/description")[0];
+   return n ? data : "";
+}
+
+
+
+
+
 //REMOVE OR CLEAN COUPONS WITH CRAPPY TEXT AT LINKBASE
 function transform(data) {
   //Return empty strings if the following are included since they are not coupons.

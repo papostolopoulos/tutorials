@@ -224,6 +224,49 @@
 
 
 
+
+  <style media="screen">
+    .outer {
+      border: 2px solid black;
+      padding: 20px;
+      background-color: white;
+      width: 200px;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+
+    .outer-clicked{
+      background-color: gray;
+    }
+
+    .middle {
+      padding: 20px;
+      background-color: red;
+      width: auto;
+      height: 100%;
+    }
+
+    .middle-clicked{
+      background-color: pink;
+    }
+
+    .inner{
+      padding: 20px;
+      background-color: green;
+      width: auto;
+      height: 100%;
+    }
+
+    .inner-clicked{
+      background-color: lime;
+    }
+
+    .code, .square{
+      display: inline-block;
+    }
+
+  </style>
+
   <div id="eventHandling4">
     <h2>Event modifiers</h2>
     <p>
@@ -248,26 +291,56 @@
         </li>
         <li>
           <code>.capture</code> - Similar to:
-          <code>target.(add or remove)EventListener(type, listener, TRUE);</code> <br>
+          <code>target.(add or remove)EventListener(type, listener, {capture: true});</code> <br>
           Bubbling phase disabled. Only capture phase enabled.
         </li>
         <li>
-          <code>.self</code> - Similar to:
+          <code>.self</code> - Similar to: <br>
           Triggers handle if the <code>event.target</code> is the element itself.
           So if I click on a different handle, the event will not propagate at the
           specific element (but it will bubble up to other elements that have event
           listeners).
         </li>
         <li>
-          <code>.capture</code>
+          <code>.once</code> - Similar to:
+          <code>target.(add or remove)EventListener(type, listener, {once: true});</code> <br>
+          Triggers the event only once and then it is done. After the first trigger,
+          the event listener will not do anything else. Alternatively one could use
+          the <code>removeEventListener</code> but that results into having to remember
+          the name of the element in order to call the method.
         </li>
-
-.capture
-.self
-.once
-.passive
+        <li>
+          <code>.passive</code> - Similar to:
+          <code>target.(add or remove)EventListener(type, listener, {passive: true});</code> <br>
+          Does not allow <code>preventDefault</code> to kick in when expensive
+          JavaScript is running, resulting into the prevention of expected Browser
+          behavior (ex: scrolling would be prevented if the page does not fully load)
+        </li>
       </ul>
+      Since the order of executing the modifiers is happening in the way they are
+      written, the order matters. For example, <code>v-on:click.prevent.self</code>
+      will prevent the default action and <code>.self</code> will never execute.
+      On the other hand, <code>v-on:click.self.prevent</code> will allow <code>self</code>
+      to execute first and then <code>prevent</code> will execute.
     </p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <h5>Classic bubble</h5>
+      <p>The following set of squares behaves as expected. </p>
+      <div class="square">
+        <div class="outer" id="outerBubble" @click="bubble($event)">
+          <div class="middle" id="middleBubble" @click="bubble($event)">
+            <div class="inner" id="innerBubble" @click="bubble($event)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code">
+
+      </div>
+    </div>
   </div>
 
   <script>
@@ -275,6 +348,12 @@
     el: "#eventHandling4",
     data: {
 
+    },
+    methods: {
+      bubble(event){
+        console.log(event);
+        console.log(event.path[0]);
+      }
     }
   });
 

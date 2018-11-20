@@ -454,63 +454,51 @@ function transform(data) {
 
 
 
+var str1 = "Boxbe";
+var str2 = "Sears®";
+var str3 = "Shop Your Way®";
+var str4 = "exclusive invite MEMBERS PRIVATE EVENT | EARLY ACCESS TO BLACK FRIDAY DOORBUSTERS AND DEALS | IN STORE 4-9 PM AND ONLINE ALL DAY";
+var str5 = "SHOP ALL DEALS";
+var str6 = "FIND A STORE";
+var str7 = "Event ends 11/18/18.";
+var str8 = "YOU WANT IT. WE'VE GOT IT.";
+var str9 = "HOME";
+var str10 = "SHOES";
+var str11 = "LAWN & GARDEN";
+var str12 = "AUTOMOTIVE";
+var str13 = "OUTDOOR LIVING";
+var str14 = "JEWELRY";
+var str15 = "SPORTING GOODS";
+var str16 = "WEEKLY AD";
+var str17 = "DOWNLOAD THE SEARS APP";
+var str18 = "Download on the App Store";
+var str19 = "GET IT ON Google Play";
+var str20 = "Shop Your Way";
+var str21 = "Facebook";
+var str22 = "Twitter";
+var str23 = "Instagram";
+var str24 = "YouTube";
 
-
-
-/descendant::div[@id="DESKTOP"]/descendant::img[contains(@alt, "Rewards Bazaar") or contains(@alt, "REWARDS BAZAAR") or contains(@alt,"POINT REWARDS") or contains(@alt,"shipping") or contains(@alt,"points per dollar") or contains(@alt,"SHIPPING") or contains(@alt,"Free") or contains(@alt, "rouge reward") or contains(@alt, "% off") or contains(@alt, "% OFF")]
-
-
-
-
-./@alt
 
 function transform(data){
-  var replaceStrArr = [
-    {oldStr: /[\*©®ǂ†→§™¹]/g, newStr: ""},
-    //{oldStr: /Shop\sNow$/i, newStr: ""},
-    //{oldStr: /Welcome\skit\sis\sredeemable.*/, newStr: ""},
-    {oldStr: /POINT REWARDS\s\|.*/, newStr: "POINT REWARDS"},
-    {oldStr: /([A-z]+\s(\d{1,2}-?){2},\s\d{0,4}\.)\s\|.*/, newStr: "$1"}
+  var removeStrArr = [
+    /[\*©®ǂ†→§™¹]/g,
+    /\|\sSHOP\sNOW/i,
   ];
 
-  replaceStrArr.forEach(function(el) {
-    data = data.replace(el.oldStr, el.newStr);
+  removeStrArr.forEach(function(el){
+    data = data.replace(el, "");
   });
 
+  var stringArr = [
+    /%/i,
+    /free/i,
+    /cashback/i
+  ];
 
-
-	if(data.match(/Enter\spromotion\scode\s.*\sor\smore\./)) return data.match(/Enter\spromotion\scode\s.*\sor\smore\./)[0];
-
-  return data || "";
-}
-
-
-
-
-./parent::a/@href
-|
-/descendant::a[1]/@href
-
-concat(./@alt, /descendant::text()[contains(.,"Offer valid")])
-
-
-
-
-concat(./@alt, /descendant::text()[contains(.,"Offer valid")])
-
-
-function transform(data, node, headers){
-  if (data.match(/%\soff/i) && data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)) {
-    return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0];
+  for (var i = 0; i < stringArr.length; i++) {
+    if (data.match(stringArr[i])) return data.trim();
   }
 
   return "";
 }
-
-
-
-/descendant::text()[contains(.,"JCPenney")]/parent::font/parent::td
-|
-/descendant::text()[contains(.,"JCPenney")]/parent::span/parent::td
-|
-/descendant::text()[contains(.,"JCPenney")]/parent::a/parent::td

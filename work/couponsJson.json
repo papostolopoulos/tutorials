@@ -3676,7 +3676,7 @@
         "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
         "repeating": true,
         "locations": [
-          "/descendant::div[@id=\"DESKTOP\"]/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\") or contains(@alt, \"% off\") or contains(@alt, \"% OFF\")]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
+          "/descendant::img[(contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\") or contains(@alt, \"% off\") or contains(@alt, \"% Off\")) and (preceding::span[contains(.,\"Use code\")])]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -3688,6 +3688,9 @@
               "-1": [
                 {
                   "xpath": "./@alt"
+                },
+                {
+                  "xpath": "concat(./tr[2]/descendant::text(), \" \", ./tr[3]/descendant::text(), \" \", ./tr[4]/descendant::text())"
                 }
               ]
             },
@@ -3795,7 +3798,7 @@
         "id": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
         "repeating": true,
         "locations": [
-          "/descendant::div[@id=\"DESKTOP\"]/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\") or contains(@alt, \"% off\") or contains(@alt, \"% OFF\")]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\") or contains(@alt, \"% off\") or contains(@alt, \"% Off\")]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
@@ -3819,22 +3822,11 @@
             ],
             "mandatory": false
           }
-        ]
+        ],
+        "hints": {}
       }
     ],
     "edgeRules": [
-      {
-        "from": {
-          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
-          "matchAttr": "http://schema.org/description"
-        },
-        "to": {
-          "entityRule": "53021d0e-c463-4bbb-b845-4c9bd73232a0",
-          "matchAttr": "http://schema.org/_imgtext"
-        },
-        "predicate": "http://schema.org/image",
-        "cardinality": "ONE_TO_ONE"
-      },
       {
         "from": {
           "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
@@ -3846,6 +3838,19 @@
         },
         "predicate": "http://schema.org/broker",
         "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "53021d0e-c463-4bbb-b845-4c9bd73232a0",
+          "matchAttr": "http://schema.org/_imgtext"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE",
+        "matchThreshold": ".7"
       }
     ],
     "entityNS": null
