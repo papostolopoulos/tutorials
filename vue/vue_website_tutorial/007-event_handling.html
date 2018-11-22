@@ -263,7 +263,9 @@
 
     .code, .square{
       display: inline-block;
+      padding: 0 10px;
     }
+
 
   </style>
 
@@ -339,18 +341,46 @@
             </div>
           </div>
         </div>
+      </div>
 
         <div class="code">
-
+          <hr>
+          <h6>html code</h6>
+          <code> <pre>
+&lt;div class="outer" id="outerBubble" @click="bubble($event)"&gt;
+  &lt;div class="middle" id="middleBubble" @click="bubble($event)"&gt;
+    &lt;div class="inner" id="innerBubble" @click="bubble($event)"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+          </pre> </code>
+          <h6>Vue code</h6>
+          <code> <pre>
+bubble(event){
+  for (let i = 1; i < 4; i++) {
+    setTimeout(function() {
+      if (!event.path[i-1].className.includes("-clicked")) {
+        event.path[i-1].className += " " + event.path[i-1].className +"-clicked";
+      }
+    }, i*1000);
+  }
+}
+          </pre> </code>
         </div>
 
 
         <h5>Capture</h5>
         <p>
           The following set of squares imitates the behavior of all the events
-          happening with <code>capture : true</code>. This is set with a timeout
+          happening with <code>capture: true</code>. This is set with a timeout
           so that it can present how the behavior would execute,
           but in a slower motion.
+        </p>
+        <p>
+          For this code, even though entered, the <code>.capture</code> is
+          not working because the <code>setTimeout</code> manages the capture phase
+          instead. The <code>setTimeout</code> was entered to better display
+          what the <code>.capture</code> modifier does.
         </p>
         <div class="square">
           <div ref="outer" class="outer" id="outerBubbleCapture" @click.capture="capture($event)">
@@ -362,38 +392,50 @@
         </div>
 
           <div class="code">
-            <h6>
-              html code
-              (capture not working because the <code>setTimeout</code> manages the
-              capture phase)
-            </h6>
+            <hr>
+            <h6>html code</h6>
             <code> <pre>
-
+&lt;div ref="outer" class="outer" id="outerBubbleCapture" @click.capture="capture($event)"&gt;
+  &lt;div ref="middle" class="middle" id="middleBubbleCapture" @click.capture="capture($event)"&gt;
+    &lt;div ref="inner" class="inner" id="innerBubbleCapture" @click.capture="capture($event)"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
             </pre> </code>
             <h6>Vue code</h6>
             <code> <pre>
-
+capture(event){
+  let two = 0, one = 0, zero = 0;
+  for (let i = 2; i >= 0; i--) {
+    two === 0 ? two = i : one === 0 ? one = i + 1 : zero = i + 2;
+    setTimeout(function() {
+      if (!event.path[i].className.includes("-clicked")) {
+        event.path[i].className += " " + event.path[i].className +"-clicked";
+      }
+    }, (two + one + zero)*500);
+  }
+}
             </pre> </code>
           </div>
 
+          <h5>self</h5>
+          <p>
+            When you click on the inner box, you will see that there is an <code>alert</code>
+            that is triggered only twice. Once for the inner box and once for the
+            outer box. That is because the middle box has a <code>.self</code>
+            modifier that prefents it from firing at the click event, unless it is
+            clicked by itself.
+          </p>
+          <div class="square">
+            <div class="outer" id="outerSelf" @click="self($event)">
+              <div class="middle" id="middleSelf" @click.self="self($event)">
+                <div class="inner" id="innerSelf" @click="self($event)">
+                </div>
+              </div>
+            </div>
+          </div>
 
 
-      </div>
-
-      <div class="code">
-        <h6>
-          html code
-          (capture not working because the <code>setTimeout</code> manages the
-          capture phase)
-        </h6>
-        <code> <pre>
-
-        </pre> </code>
-        <h6>Vue code</h6>
-        <code> <pre>
-
-        </pre> </code>
-      </div>
     </div>
   </div>
 
@@ -409,26 +451,27 @@
           setTimeout(function() {
             if (!event.path[i-1].className.includes("-clicked")) {
               event.path[i-1].className += " " + event.path[i-1].className +"-clicked";
-              console.log(event.path[i-1]);
-              console.log(i-1);
             }
           }, i*1000);
         }
       },
       capture(event){
         let two = 0, one = 0, zero = 0;
+
         for (let i = 2; i >= 0; i--) {
           two === 0 ? two = i : one === 0 ? one = i + 1 : zero = i + 2;
           setTimeout(function() {
-            console.log(i);
             if (!event.path[i].className.includes("-clicked")) {
-              console.log("In if");
               event.path[i].className += " " + event.path[i].className +"-clicked";
             }
-            console.log("after the if", event.path[i]);
-            console.log(i);
           }, (two + one + zero)*500);
+        }
 
+      },
+      self(event){
+        alert("I am the box " + event.target.id);
+        if (!event.target.className.includes("-clicked")) {
+          event.target.className += " " + event.target.className +"-clicked";
         }
       }
     } //End of methods
