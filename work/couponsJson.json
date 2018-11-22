@@ -2485,7 +2485,7 @@
         "id": "1a5ffb37-1c1f-4d26-82d1-7f1f2d5dfbc6",
         "repeating": true,
         "locations": [
-          "/descendant::img[\ncontains(@alt,\"percent Off\") or contains(@alt,\"percent off\") or contains(@alt,\"Percent Off\") or contains(@alt,\"% off\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\") or \ncontains(@alt,\"free\")]\n[not (contains(@alt,\"Rewards\") or \ncontains(@alt,\"rewards\") or \ncontains(@alt,\"Credit Card\") or \ncontains(@alt,\"Gifts\"))]\n|\n/descendant::a[contains(.,\"%\")]\n"
+          "/descendant::img[\ncontains(@alt,\"percent Off\") or contains(@alt,\"percent off\") or contains(@alt,\"Percent Off\") or contains(@alt,\"% off\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\") or \ncontains(@alt,\"free\") or\ncontains(@alt,\"get $\")]\n[not (contains(@alt,\"Rewards\") or \ncontains(@alt,\"rewards\") or \ncontains(@alt,\"Credit Card\") or \ncontains(@alt,\"Gifts\"))]\n|\n/descendant::a[contains(.,\"%\")]\n"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -2503,7 +2503,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n  if(!data) return null;\n\n\n  var removeStrings = [\n    /\\,\\sOut\\sof\\sStore.*/g,\n    /\\,\\sFinancing.*/g,\n    /\\,\\sExclusions.*/g,\n    /Exclusions.*/g,\n    /\\,\\s*Shop\\s*All\\s*\\w+/g,\n    /\\,\\sJoin\\sNow/g,\n    /\\,\\sShop\\sNow/g,\n    /Terms.*/g,\n  ]\n\n  removeStrings.forEach(function(el) {\n    data = data.replace(el, \"\");\n  });\n\n\n\n  var replaceStrings = [\n    {oldStr: /\\spercent/g, newStr: \"%\"},\n    {oldStr: /(\\$)\\s(\\d)/, newStr: \"$1$2\"},\n    {oldStr: /([A-z])(&)/g, newStr: \"$1 $2\"}\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  })\n\n return data.trim();\n}",
+            "javascript": "function transform(data) {\n  if(!data) return null;\n\n  var replaceStrings = [\n    {oldStr: /\\,\\sOut\\sof\\sStore.*/g, newStr: \"\"},\n    {oldStr: /\\,\\sFinancing.*/g, newStr: \"\"},\n    {oldStr: /\\,\\sExclusions.*/g, newStr: \"\"},\n    {oldStr: /Exclusions.*/g, newStr: \"\"},\n    {oldStr: /\\,\\s*Shop\\s*All\\s*\\w+/g, newStr: \"\"},\n    {oldStr: /\\,\\sJoin\\sNow/g, newStr: \"\"},\n    {oldStr: /\\,\\sShop\\sNow/g, newStr: \"\"},\n    {oldStr: /Terms.*/g, newStr: \"\"},\n    {oldStr: /^Plus,\\s/g, newStr: \"\"},\n    {oldStr: /\\spercent/g, newStr: \"%\"},\n    {oldStr: /(\\$)\\s(\\d)/, newStr: \"$1$2\"},\n    {oldStr: /([A-z])(&)/g, newStr: \"$1 $2\"},\n    {oldStr: /Offer\\sgood\\swhile\\ssupplies\\slast.*/, newStr:\"\"}\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  })\n\n return data.trim();\n}",
             "dataTypes": [
               "Text"
             ],
@@ -2547,16 +2547,16 @@
           }
         ],
         "hints": {
-          "_raw_validThrough": "./@alt|.",
-          "_footer": "/descendant::text()[contains(.,\"Macys.com\")]/parent::span/parent::td"
+          "_footer": "/descendant::text()[contains(.,\"Macys.com\")]/parent::span/parent::td",
+          "_raw_validThrough": "./@alt|."
         },
-        "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
+        "hintsJavascript": null
       },
       {
         "id": "3209e700-8e00-4d09-8d7b-b4a7ee5a1edd",
         "repeating": true,
         "locations": [
-          "/descendant::img[\ncontains(@alt,\"percent Off\") or contains(@alt,\"percent off\") or contains(@alt,\"Percent Off\") or contains(@alt,\"% off\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\") or \ncontains(@alt,\"free\")]\n[not (contains(@alt,\"Rewards\") or \ncontains(@alt,\"rewards\") or \ncontains(@alt,\"Credit Card\") or \ncontains(@alt,\"Gifts\"))]\n|\n/descendant::a[contains(.,\"%\")]\n"
+          "/descendant::img[\ncontains(@alt,\"percent Off\") or contains(@alt,\"percent off\") or contains(@alt,\"Percent Off\") or contains(@alt,\"% off\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\") or \ncontains(@alt,\"free\") or\ncontains(@alt,\"get $\")]\n[not (contains(@alt,\"Rewards\") or \ncontains(@alt,\"rewards\") or \ncontains(@alt,\"Credit Card\") or \ncontains(@alt,\"Gifts\"))]\n|\n/descendant::a[contains(.,\"%\")]\n"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
@@ -3676,7 +3676,7 @@
         "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
         "repeating": true,
         "locations": [
-          "/descendant::img[(contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\") or contains(@alt, \"% off\") or contains(@alt, \"% Off\")) and (preceding::span[contains(.,\"Use code\")])]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::img[contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")][parent::a/parent::td/parent::tr/following-sibling::tr[1][contains(.,\"Use code\")]]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -3688,9 +3688,6 @@
               "-1": [
                 {
                   "xpath": "./@alt"
-                },
-                {
-                  "xpath": "concat(./tr[2]/descendant::text(), \" \", ./tr[3]/descendant::text(), \" \", ./tr[4]/descendant::text())"
                 }
               ]
             },
@@ -3726,7 +3723,7 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "concat(./@alt, /descendant::text()[contains(.,\"Offer valid\")], \" \", /descendant::text()[contains(.,\"at 11:59pm PT\")])"
+                  "xpath": "concat(./@alt, \" \", /descendant::text()[contains(.,\"Offer valid\")])"
                 }
               ]
             },
@@ -3741,8 +3738,8 @@
           }
         ],
         "hints": {
-          "_footer": "/descendant::text()[contains(.,\"JCPenney\")]/parent::font/parent::td\n|\n/descendant::text()[contains(.,\"JCPenney\")]/parent::span/parent::td\n|\n/descendant::text()[contains(.,\"JCPenney\")]/parent::a/parent::td",
-          "_raw_validThrough": "concat(./@alt, /descendant::text()[contains(.,\"Offer valid\")])"
+          "_raw_validThrough": "concat(./@alt, \" \", /descendant::text()[contains(.,\"Offer valid\")])",
+          "_footer": "/descendant::text()[contains(.,\"JCPenney\")]/parent::font/parent::td\n|\n/descendant::text()[contains(.,\"JCPenney\")]/parent::span/parent::td\n|\n/descendant::text()[contains(.,\"JCPenney\")]/parent::a/parent::td"
         },
         "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
       },
@@ -3798,7 +3795,7 @@
         "id": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\") or contains(@alt, \"% off\") or contains(@alt, \"% Off\")]\n|\n/descendant::text()[contains(.,\"Enter promotion code\") or contains(.,\"welcome kit\")]\n|\n/descendant::a[contains(.,\"$\") and contains(.,\"value\")]/parent::td/parent::tr/parent::tbody"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::img[contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")][parent::a/parent::td/parent::tr/following-sibling::tr[1][contains(.,\"Use code\")]]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
@@ -3830,18 +3827,6 @@
       {
         "from": {
           "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
-          "matchAttr": ""
-        },
-        "to": {
-          "entityRule": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
-          "matchAttr": ""
-        },
-        "predicate": "http://schema.org/broker",
-        "cardinality": "ONE_TO_ONE"
-      },
-      {
-        "from": {
-          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
           "matchAttr": "http://schema.org/description"
         },
         "to": {
@@ -3851,6 +3836,18 @@
         "predicate": "http://schema.org/image",
         "cardinality": "ONE_TO_ONE",
         "matchThreshold": ".7"
+      },
+      {
+        "from": {
+          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
       }
     ],
     "entityNS": null

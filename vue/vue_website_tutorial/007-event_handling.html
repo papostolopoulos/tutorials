@@ -327,7 +327,11 @@
     <div class="jumbotron">
       <h4>Example</h4>
       <h5>Classic bubble</h5>
-      <p>The following set of squares behaves as expected. </p>
+      <p>
+        The following set of squares imitates the behavior of all the events
+        bubbling out. This is set with a timeout so that it can present how the
+        bubbling behavior would execute, but in a slower motion.
+      </p>
       <div class="square">
         <div class="outer" id="outerBubble" @click="bubble($event)">
           <div class="middle" id="middleBubble" @click="bubble($event)">
@@ -335,10 +339,60 @@
             </div>
           </div>
         </div>
+
+        <div class="code">
+
+        </div>
+
+
+        <h5>Capture</h5>
+        <p>
+          The following set of squares imitates the behavior of all the events
+          happening with <code>capture : true</code>. This is set with a timeout
+          so that it can present how the behavior would execute,
+          but in a slower motion.
+        </p>
+        <div class="square">
+          <div ref="outer" class="outer" id="outerBubbleCapture" @click.capture="capture($event)">
+            <div ref="middle" class="middle" id="middleBubbleCapture" @click.capture="capture($event)">
+              <div ref="inner" class="inner" id="innerBubbleCapture" @click.capture="capture($event)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="code">
+            <h6>
+              html code
+              (capture not working because the <code>setTimeout</code> manages the
+              capture phase)
+            </h6>
+            <code> <pre>
+
+            </pre> </code>
+            <h6>Vue code</h6>
+            <code> <pre>
+
+            </pre> </code>
+          </div>
+
+
+
       </div>
 
       <div class="code">
+        <h6>
+          html code
+          (capture not working because the <code>setTimeout</code> manages the
+          capture phase)
+        </h6>
+        <code> <pre>
 
+        </pre> </code>
+        <h6>Vue code</h6>
+        <code> <pre>
+
+        </pre> </code>
       </div>
     </div>
   </div>
@@ -348,13 +402,36 @@
     el: "#eventHandling4",
     data: {
 
-    },
+    }, //End of data
     methods: {
       bubble(event){
-        console.log(event);
-        console.log(event.path[0]);
+        for (let i = 1; i < 4; i++) {
+          setTimeout(function() {
+            if (!event.path[i-1].className.includes("-clicked")) {
+              event.path[i-1].className += " " + event.path[i-1].className +"-clicked";
+              console.log(event.path[i-1]);
+              console.log(i-1);
+            }
+          }, i*1000);
+        }
+      },
+      capture(event){
+        let two = 0, one = 0, zero = 0;
+        for (let i = 2; i >= 0; i--) {
+          two === 0 ? two = i : one === 0 ? one = i + 1 : zero = i + 2;
+          setTimeout(function() {
+            console.log(i);
+            if (!event.path[i].className.includes("-clicked")) {
+              console.log("In if");
+              event.path[i].className += " " + event.path[i].className +"-clicked";
+            }
+            console.log("after the if", event.path[i]);
+            console.log(i);
+          }, (two + one + zero)*500);
+
+        }
       }
-    }
+    } //End of methods
   });
 
   </script>

@@ -16,23 +16,6 @@
 // the x on top of the other x when you are closing modals342
 
 
-function transform(data, node, headers){
-  var throughDateTime = data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/);
-  var throughTimeDate = data.match(/\sthrough\s11:59pm\sPT\son\s(\d{1,2}\s?\/){2}\d{0,4}/);
-
-  return throughDateTime ? throughDateTime[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] :
-  throughTimeDate ? throughTimeDate[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] : "";
-}
-
-\sthrough\s11:59pm\sPT\son\s(\d{1,2}\s?\/){2}\d{0,4}
-
-
-
-var str = "15% rabatt på all strikk**: Tilbudet gjelder for utvalgte varer på hm.com t.o.m. 28.10.2018 eller så langt lageret rekker. 15% rabatt på all strikk: Tilbudet gjelder for utvalgte varer på hm.com t.o.m. 24.10.2018 eller så langt lageret rekker. Kan ikke kombineres med andre tilbud, rabatter, designersamarbeid eller spesialkolleksjoner. Dette tilbudet koster 0 poeng.";
-var str2 = "LAST CHANCE! FREE SHIPPING - Use code 0922!* LADIESMENKIDSH&M HOMEFollow us onlineDownload appiOS ANDROID Stores & ServiceFIND STORE CONTACT *LAST CHANCE! FREE SHIPPING - Use code 0922!: Valid until 2018.11.07. : Online & in store May be subject to printing errors, changes, price changes, delivery delays and limited availability of stock.You are receiving this email because you are signed up to receive H&M promotional communications. This message was sent by H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 Stockholm, Sweden.Click here for the European Commission's Online Dispute Resolution website.Unsubscribe";
-var str3 = "保暖也要时尚 - 精选外套75折优惠* 女士男士儿童H&M家居关注我们下载APPiOS ANDROID 门店和服务查看门店 联系 您好Mary, 您的积分有0分101810178728008*精选外套 - 75折优惠: 本次优惠截至2018年10月25日早上8点，仅适用于网店女士，DIVIDED和男士部门，售完即止。 可能会出现印刷错误、修改、价格变动、延迟交付和库存有限的情况。您之所以收到这封电子邮件，是因为您已注册接收H&M促销信息。 本信息来自H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 斯德哥尔摩, 瑞典。退订";
-var str4 = "11.11 SINGLES' DAY - ÖZEL BİR FIRSAT % 11 İNDİRİM: Bizi takip edinUygulamamızı indiriniOS ANDROID Mağazalar ve HizmetlerMAĞAZA BUL İLETİŞİM *11.11 SINGLES' DAY - ÖZEL BİR FIRSAT % 11 İNDİRİM: 1111 kodunu kullanınız. Ücretsiz kargo dahildir. 11.11.2018 günü sabah 11:11'den akşam 11:11'e kadar geçerlidir. Başka bir teklif, indirim, özel koleksiyon veya tasarımcı iş birliği ile birleştirilemez. Basım hataları, değişiklikler, fiyat değişiklikleri, teslimde gecikmeler veya sınırlı stok durumu söz konusu olabilir.Bu e-postayı H&M tanıtım iletişimlerini almak üzere abone olduğunuz için alıyorsunuz. Bu mesaj H & M Hennes & Mauritz GBC AB, Mäster Samuelsgatan 46, 106 38 Stockholm, İsveç tarafından gönderilmiştir.Abonelikten çık";
-
 function transform(data){
   //Define array of strings that are possibly both in the coupon and the footer of the email
     var stringArr = [
@@ -183,32 +166,6 @@ return "";
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function transform(data){
   data = data.replace(/[\*©®ǂ†→§™¹]/g, "");
 
@@ -249,151 +206,41 @@ function transform(data){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var str = "Sign up for texts& get 25% off your first order! Exclusions apply.";
-
-function transform(data) {
-  if(!data) return null;
-
-
-  var removeStrings = [
-    /\,\sOut\sof\sStore.*/g,
-    /\,\sFinancing.*/g,
-    /\,\sExclusions\,/g,
-    /Exclusions\,/g,
-    /Exclusions\sapply\./g,
-    /\,\s*Shop\s*All\s*\w+/g,
-    /\,\sJoin\sNow/g,
-    /\,\sShop\sNow/g,
-    /Terms.*/g,
-    /\,\sExclusions\sand\sDetails/g
-  ]
-
-  removeStrings.forEach(function(el) {
-    data = data.replace(el, "");
-  });
-
-
-
-  var replaceStrings = [
-    {oldStr: /\spercent/g, newStr: "%"},
-    {oldStr: /(\$)\s(\d)/, newStr: "$1$2"},
-    {oldStr: /([A-z])(&)/g, newStr: "$1 $2"}
-  ]
-
-  replaceStrings.forEach(function(el) {
-    data = data.replace(el.oldStr, el.newStr);
-  });
-
- return data.trim();
-}
-
-
-
-
-function transform(data) {
- if (data) return data.replace(/\spercent/g,"%").replace(/\,\sOut of Store.*|\,\sFinancing.*|\,\sExclusions\,|Exclusions\,|Exclusions apply\.|\,\s*Shop\s*All\s*\w+|\, Join Now|\, Shop Now|Terms.*|\,\sExclusions and Details/g,"").replace(/(\$)\s(\d)/,"$1$2").trim();
- else return null;
-}
-
-
-
-
-
-
-
 function transform(data){
-	return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] || "";
+  if(data.match(/\$[\d\,\.]{4,}/)){
+    var price = data.replace(/\$/,'')
+    var amt = parseFloat(price.match(/[\$\d\,\.]+/)[0].replace(/,/,'')).toFixed(2);
+    return amt;
+  } else {
+    return null;
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 function transform(data, node, headers){
-  if (data.match(/%\soff/) && data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)) {
-    return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0] || "";
+  if (data.match(/%\soff/i) && data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)) {
+    return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0];
   }
-
-  if (data.match(/2-day\sshipping/)) {
-     return new Date()(headers.get("Date") * 1000).getDate() + 2);
-  }
-
-
 
   return "";
 }
-
-
-
-
-
-
-
-
-
-function transform(data){
-  var replaceStrArr = [
-    {oldStr: /[\*©®ǂ†→§™¹]/g, newStr: ""},
-    {oldStr: /Shop\sNow$/i, newStr: ""}
-  ];
-
-  replaceStrArr.forEach(function(el) {
-    data = data.replace(el, "");
-  });
-
-
-
-	if(data.match(/Enter\spromotion\scode\s.*\sor\smore\./)) return data.match(/Enter\spromotion\scode\s.*\sor\smore\./)[0];
-
-  return data || "";
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -405,100 +252,24 @@ function transform(data){
 function transform(data) {
   if(!data) return null;
 
-
-  var removeStrings = [
-    /[\*©®ǂ†→§™¹›]/g,
-    /Valid\sthrough.*/i,
-    /Valid\s((\d{1,2}\/){2}\d{2,4})\s?-?–?\s?((\d{1,2}\/){2}\d{2,4}).*/i,
-    /Valid\sfor\sone-time\suse(.*)?/i,
-    /coupon\svalid\sfor.*/i,
-    /Browse\sBottles$/i,
-    /Browse\sBeers$/i,
-    /Shop\sNow$/i,
-    /Shop\sNow\sUse\sBarcode.*$/i,
-    /Use\sBarcode\sTo\sRedeem.*/,
-    /^Plus,?\s/i,
-    /^\d\sDays?\sOnly!?\sEnds\s\d{1,2}\/\d{1,2}/i,
-    /Free\sitem\smust\sbe\sof\sequal\sor\slesser\svalue(.*)?/,
-    /worldmarket.com(\/[a-z]+)?/i,
-    /Find\sA\sStore$/i,
-    /Sign\sIn$/,
-    /Join\sNow$/,
-    /MEMBER\sPRICING:?/,
-    /HALLMARK\sCHANNEL\sMOVIE\sSWEEPSTAKES.*/,
-    /to\sredeem\soffer\..*/,
-    /Shopper\sReward\scredits\searned.*/,
-    /^Or\s/,
-    /^Plus\s/
-  ]
-
-  removeStrings.forEach(function(el) {
-    data = data.replace(el, "");
-  });
-
-
-
   var replaceStrings = [
-    {oldStr:/(.*):/, newStr: "$1"},
-    {oldStr: /:\sBUY\sWINE\sONLINE,\sPICK\sUP\sIN\sSTORE:?\s?/, newStr: "-"}
+    {oldStr: /\,\sOut\sof\sStore.*/g, newStr: ""},
+    {oldStr: /\,\sFinancing.*/g, newStr: ""},
+    {oldStr: /\,\sExclusions.*/g, newStr: ""},
+    {oldStr: /Exclusions.*/g, newStr: ""},
+    {oldStr: /\,\s*Shop\s*All\s*\w+/g, newStr: ""},
+    {oldStr: /\,\sJoin\sNow/g, newStr: ""},
+    {oldStr: /\,\sShop\sNow/g, newStr: ""},
+    {oldStr: /Terms.*/g, newStr: ""},
+    {oldStr: /^Plus,\s/g, newStr: ""},
+    {oldStr: /\spercent/g, newStr: "%"},
+    {oldStr: /(\$)\s(\d)/, newStr: "$1$2"},
+    {oldStr: /([A-z])(&)/g, newStr: "$1 $2"}
   ];
 
   replaceStrings.forEach(function(el) {
     data = data.replace(el.oldStr, el.newStr);
-  });
+  })
 
  return data.trim();
-}
-
-
-
-
-
-var str1 = "Boxbe";
-var str2 = "Sears®";
-var str3 = "Shop Your Way®";
-var str4 = "exclusive invite MEMBERS PRIVATE EVENT | EARLY ACCESS TO BLACK FRIDAY DOORBUSTERS AND DEALS | IN STORE 4-9 PM AND ONLINE ALL DAY";
-var str5 = "SHOP ALL DEALS";
-var str6 = "FIND A STORE";
-var str7 = "Event ends 11/18/18.";
-var str8 = "YOU WANT IT. WE'VE GOT IT.";
-var str9 = "HOME";
-var str10 = "SHOES";
-var str11 = "LAWN & GARDEN";
-var str12 = "AUTOMOTIVE";
-var str13 = "OUTDOOR LIVING";
-var str14 = "JEWELRY";
-var str15 = "SPORTING GOODS";
-var str16 = "WEEKLY AD";
-var str17 = "DOWNLOAD THE SEARS APP";
-var str18 = "Download on the App Store";
-var str19 = "GET IT ON Google Play";
-var str20 = "Shop Your Way";
-var str21 = "Facebook";
-var str22 = "Twitter";
-var str23 = "Instagram";
-var str24 = "YouTube";
-
-
-function transform(data){
-  var removeStrArr = [
-    /[\*©®ǂ†→§™¹]/g,
-    /\|\sSHOP\sNOW/i,
-  ];
-
-  removeStrArr.forEach(function(el){
-    data = data.replace(el, "");
-  });
-
-  var stringArr = [
-    /%/i,
-    /free/i,
-    /cashback/i
-  ];
-
-  for (var i = 0; i < stringArr.length; i++) {
-    if (data.match(stringArr[i])) return data.trim();
-  }
-
-  return "";
 }

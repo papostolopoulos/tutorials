@@ -329,7 +329,7 @@ function transform(data){
 // SPECIAL CHARACTERS
 //List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
 function transform(data) {
-  data = data.replace(/[\*©®ǂ†→§™¹]/g, "");
+  data = data.replace(/[\*©®ǂ†→§™¹>]/g, "");
   return data || "";
 }
 
@@ -470,6 +470,148 @@ function transform(data){
   return "";
 }
 
+//When keywords in the description are matched with keywords in the VT in footer (.match)
+function transform(data){
+  //Define array of strings that are possibly both in the coupon and the footer of the email
+    var stringArr = [
+      /%/g,
+      /free/gi,
+      /gratuits/gi, //French: Free
+      /Kostenloser/gi, //German: Free
+      /gratuita/gi, //Spanish: Free
+      /gratis/gi, //Italian, Dutch, Corsican: Free
+      /GRÁTIS/gi, //Portuguese: Free
+      /ingyenes/gi, //Hungarian: Free
+      /gratuită/gi, //Romanian: Free
+      /Бесплатная/gi, //Russian: Free
+      /Δωρεάν/gi, //Greek: Free
+      /БЕЗПЛАТНА/gi, //Bulgarian: Free
+      /zdarma/gi, //Czech: Free
+      /ZADARMO/gi, //Slovak: Free
+      /Bezpłatna/gi, //Polish: Free
+      /ÜCRETSİZ/gi, //Turkish: Free
+      /مجاناً/gi, //Arabic: Free
+      /BEZPŁATNA/gi, //Polish: Free
+      /折优惠/gi, //Chinese: Discount (% off)
+      /\d{1,2}折/gi //Chinese: Num off
+    ];
+
+
+
+    //Iterate through the array. If the string is included twice in the concatenated text
+    //then see if there are any date formats
+    for (var i = 0; i < stringArr.length; i++) {
+      var el = stringArr[i];
+
+      if (data.match(el) !== null && data.match(el).length >= 2) {
+
+
+        //MM/DD/YYYY
+        if (data.match(/([\d]{1,2}\/){2}\d{2,4}/)) return data.match(/([\d]{1,2}\/){2}\d{2,4}/)[0];
+
+
+
+        //YYYY/MM/DD
+          if(data.match(/\d{4}(\.[\d]{1,2}){2}/)){
+            data = data.match(/\d{4}(\.[\d]{1,2}){2}/)[0].split(".");
+            return data[1] + "/" + data[2] + "/" + data[0];
+          }
+
+
+
+
+        //YYYY/MM/DD - Chinese
+        if(data.match(/\d{4}年\d{1,2}月\d{1,2}/)){
+            data = data.match(/\d{4}年\d{1,2}月\d{1,2}/)[0].replace(/[年月]/g,".").split(".");
+            return data[1] + "/" + data[2] + "/" + data[0];
+          }
+
+
+
+        //DD.MM.YYYY
+        if (data.match(/([\d]{1,2}\.){2}\d{2,4}/)){
+          data = data.match(/([\d]{1,2}\.){2}\d{2,4}/)[0].split(".");
+        return data[1] + "/" + data[0] + "/" + data[2];
+        }
+
+      } //End of top if statement
+    } //End of for loop
+
+
+
+  return "";
+}
+
+//When keywords in the description are matched with keywords in the VT in footer (.indexOf)
+function transform(data){
+//Define array of strings that are possibly both in the coupon and the footer of the email
+  var stringArr = [
+    "%",
+    "free",
+    "gratuits", //French: Free
+    "Kostenloser", //German: Free
+    "gratuita", //Spanish: Free
+    "gratis", //Italian, Dutch, Corsican: Free
+    "GRÁTIS", //Portuguese: Free
+    "ingyenes", //Hungarian: Free
+    "gratuită", //Romanian: Free
+    "Бесплатная", //Russian: Free
+    "Δωρεάν", //Greek: Free
+    "БЕЗПЛАТНА", //Bulgarian: Free
+    "zdarma", //Czech: Free
+    "ZADARMO", //Slovak: Free
+    "Bezpłatna", //Polish: Free
+    "ÜCRETSİZ", //Turkish: Free
+    "مجاناً", //Arabic: Free
+    "BEZPŁATNA", //Polish: Free
+    "折优惠", //Chinese: Discount (% off)
+    "折" //Chinese: off
+  ];
+
+
+
+  //Iterate through the array. If the string is included twice in the concatenated text
+  //then see if there are any date formats
+  for (var i = 0; i < stringArr.length; i++) {
+    var el = stringArr[i];
+    if (data.toLowerCase().indexOf(el.toLowerCase()) !== data.toLowerCase().lastIndexOf(el.toLowerCase())) {
+
+
+      //MM/DD/YYYY
+      if (data.match(/([\d]{1,2}\/){2}\d{2,4}/)) return data.match(/([\d]{1,2}\/){2}\d{2,4}/)[0];
+
+
+
+      //YYYY/MM/DD
+        if(data.match(/\d{4}(\.[\d]{1,2}){2}/)){
+          data = data.match(/\d{4}(\.[\d]{1,2}){2}/)[0].split(".");
+          return data[1] + "/" + data[2] + "/" + data[0];
+        }
+
+
+
+      //YYYY/MM/DD - Japanese
+      if(data.match(/\d{4}年\d{1,2}月\d{1,2}/)){
+          data = data.match(/\\d{4}年\d{1,2}月\d{1,2}/)[0].replace(/[年月]/g,".").split(".");
+          return data[1] + "/" + data[2] + "/" + data[0];
+        }
+
+
+
+      //DD.MM.YYYY
+      if (data.match(/([\d]{1,2}\.){2}\d{2,4}/)){
+        data = data.match(/([\d]{1,2}\.){2}\d{2,4}/)[0].split(".");
+      return data[1] + "/" + data[0] + "/" + data[2];
+      }
+
+    } //End of top if statement
+  } //End of for loop
+
+
+
+return "";
+}
+
 
 
 //PAYMENT STATUS
@@ -497,7 +639,7 @@ var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
 var percentOff = /%\s([Oo][Ff]{2})/;
 var upTpNumPercent = /up\sto\s\d{1,2}%/i;
 var saveNumPercent = /((SAVE)|(Save))\s\d{1,2}%/;
-var saveNumDollar = /((SAVE)|(Save))\s\d{1,2}\$/;
+var saveDollarNum = /((SAVE)|(Save))\s\$\d{1,2}/;
 var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
 var downToAmmount = /down\sto\s\$\d{1,}(\.\d{2})?/i;
 var couponColon = /coupon:/i;
@@ -518,42 +660,54 @@ function transform(data){
 
 //REMOVE OR CLEAN COUPONS WITH CRAPPY TEXT AT LINKBASE
 function transform(data) {
-  //Return empty strings if the following are included since they are not coupons.
-  var reg1 = /.*with\sapproved\scredit.*/i;
-  var reg2 = /You\sPay\sOnly.*/i;
-  var reg3 = /\/month!.*/i;
-  var reg4 = /.*fees.*/i;
-  var reg5 = /%\sdown/i;
-  var reg6 = /all\srights\sreserved/i;
-  var reg7 = /please\snote/i;
-  var reg8 = /100%/;
-  var reg9 = /stocks/i;
-  var reg10 = /trade/i;
-  var reg11 = /United\sStates/;
-  var reg12 = /the\sbest\sdeals/;
-  var reg13 = /beauty/i;
-  var regExArr = [reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13];
-
-  for (var i = 0; i < regExArr.length; i++) {
-    if (data.match(regExArr[i])) return "";
-  }
+  if(!data) return null;
 
 
+  var replaceStrings = [
+    {oldStr:/[\*©®ǂ†→§™¹›]/g, newStr: ""},
+    {oldStr:/Valid\sthrough.*/i, newStr: ""},
+    {oldStr:/Valid\s((\d{1,2}\/){2}\d{2,4})\s?-?–?\s?((\d{1,2}\/){2}\d{2,4}).*/i, newStr: ""},
+    {oldStr:/Valid\sfor\sone-time\suse(.*)?/i, newStr: ""},
+    {oldStr:/coupon\svalid\sfor.*/i, newStr: ""},
+    {oldStr:/Browse\sBottles\s?/i, newStr: ""},
+    {oldStr:/Browse\sBeers\s?/i, newStr: ""},
+    {oldStr:/Shop\sNow\sUse\sBarcode.*$/i, newStr: ""},
+    {oldStr:/Shop\sNow\s?/i, newStr: ""},
+    {oldStr:/Use\sBarcode\sTo\sRedeem.*/, newStr: ""},
+    {oldStr:/^Plus,?\s/i, newStr: ""},
+    {oldStr:/^\d\sDays?\sOnly!?\sEnds\s\d{1,2}\/\d{1,2}/i, newStr: ""},
+    {oldStr:/Free\sitem\smust\sbe\sof\sequal\sor\slesser\svalue(.*)?/, newStr: ""},
+    {oldStr:/worldmarket.com(\/[a-z]+)?/i, newStr: ""},
+    {oldStr:/worldmarketexplorer.com(\/[a-z]+)?/i, newStr: ""},
+    {oldStr:/Find\sA\sStore$/i, newStr: ""},
+    {oldStr:/Sign\sIn$/, newStr: ""},
+    {oldStr:/Join\sNow$/, newStr: ""},
+    {oldStr:/MEMBER\sPRICING:?/, newStr: ""},
+    {oldStr:/HALLMARK\sCHANNEL\sMOVIE\sSWEEPSTAKES.*/, newStr: ""},
+    {oldStr:/to\sredeem\soffer\..*/, newStr: ""},
+    {oldStr:/Shopper\sReward\scredits\searned.*/, newStr: ""},
+    {oldStr:/^Or\s/, newStr: ""},
+    {oldStr:/^Plus\s/, newStr: ""},
+    {oldStr:/(.*):/, newStr: "$1"},
+    {oldStr: /:\sBUY\sWINE\sONLINE,\sPICK\sUP\sIN\sSTORE:?\s?/, newStr: "-"},
+    {oldStr: /Online\sOnly[!\|]\s/, newStr:""},
+    {oldStr: /^-/, newStr:""},
+    {oldStr: /Ends\s((Today!\s)|(Tonight!\s)|(Saturday!\s)|(Monday!\s)|(Tomorrow!\s))?\d{1,2}\/\s?\d{1,2}\s/i, newStr: ""},
+    {oldStr: /GOLDEN\sSEAHORSE\sSCAVENGER\sHUNT:\swww\.\s\.\sPromoter:\sCost\sPlus\sWorld\sMarket.\s/, newStr: ""},
+    {oldStr: /Find\sA\sStore\s?/, newStr: ""},
+    {oldStr: /(With\sCoupon)\sBelow/, newStr: "$1"},
+    {oldStr: /Sign\sIn/gi, newStr: ""},
+    {oldStr: /Join\snow/gi, newStr: ""},
+    {oldStr: /FOURTH\sOF\sJULY\sSTORE\sHOURS:\s/, newStr: ""},
+    {oldStr: /Contact\syour\slocal\sstore\sfor\shours\.\s/, newStr: ""},
+    {oldStr: /.*Marina\sVillage\sParkway,\sAlameda,\sCA\s94501.\s/, newStr: ""},
+  ];
 
-  //Replace uncecessary text
-  var rep1 = /Click\sto\sunsubscribe/i;
-  var rep2 = /[\*©®ǂ†→]/g;
-  var rep3 = /No\sother\sdiscounts\sapply\./;
-  var rep4 = /Buy\snow\.?$/;
-  var replaceArr = [rep1, rep2, rep3];
+  replaceStrings.forEach(function(el) {
+    data = data.replace(el.oldStr, el.newStr);
+  });
 
-  for (var i = 0; i < replaceArr.length; i++) {
-    if (data.match(replaceArr[i])) data = data.replace(replaceArr[i], "");
-  }
-
-
-
-  return data.trim();
+ return data.trim();
 }
 
 
