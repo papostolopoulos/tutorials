@@ -292,19 +292,19 @@
           will not be selected.
         </li>
         <li>
-          <code>.capture</code> - Similar to:
+          <code><b>.capture</b> </code> - Similar to:
           <code>target.(add or remove)EventListener(type, listener, {capture: true});</code> <br>
           Bubbling phase disabled. Only capture phase enabled.
         </li>
         <li>
-          <code>.self</code> - Similar to: <br>
+          <code><b>.self</b></code> - Similar to: <br>
           Triggers handle if the <code>event.target</code> is the element itself.
           So if I click on a different handle, the event will not propagate at the
           specific element (but it will bubble up to other elements that have event
           listeners).
         </li>
         <li>
-          <code>.once</code> - Similar to:
+          <code> <b>.once</b> </code> - Similar to:
           <code>target.(add or remove)EventListener(type, listener, {once: true});</code> <br>
           Triggers the event only once and then it is done. After the first trigger,
           the event listener will not do anything else. Alternatively one could use
@@ -312,7 +312,7 @@
           the name of the element in order to call the method.
         </li>
         <li>
-          <code>.passive</code> - Similar to:
+          <code><b>.passive</b> </code> - Similar to:
           <code>target.(add or remove)EventListener(type, listener, {passive: true});</code> <br>
           Does not allow <code>preventDefault</code> to kick in when expensive
           JavaScript is running, resulting into the prevention of expected Browser
@@ -357,15 +357,14 @@
           <h6>Vue code</h6>
           <code> <pre>
 bubble(event){
-  for (let i = 1; i < 4; i++) {
+  for (let i = 1; i &lt; 4; i++) {
     setTimeout(function() {
       if (!event.path[i-1].className.includes("-clicked")) {
         event.path[i-1].className += " " + event.path[i-1].className +"-clicked";
       }
     }, i*1000);
   }
-}
-          </pre> </code>
+} </pre> </code>
         </div>
 
 
@@ -400,13 +399,12 @@ bubble(event){
     &lt;div ref="inner" class="inner" id="innerBubbleCapture" @click.capture="capture($event)"&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
-            </pre> </code>
+&lt;/div&gt; </pre> </code>
             <h6>Vue code</h6>
             <code> <pre>
 capture(event){
   let two = 0, one = 0, zero = 0;
-  for (let i = 2; i >= 0; i--) {
+  for (let i = 2; i &gt;= 0; i--) {
     two === 0 ? two = i : one === 0 ? one = i + 1 : zero = i + 2;
     setTimeout(function() {
       if (!event.path[i].className.includes("-clicked")) {
@@ -423,8 +421,8 @@ capture(event){
             When you click on the inner box, you will see that there is an <code>alert</code>
             that is triggered only twice. Once for the inner box and once for the
             outer box. That is because the middle box has a <code>.self</code>
-            modifier that prefents it from firing at the click event, unless it is
-            clicked by itself.
+            modifier that prevents it from firing at the click event of other nodes.
+            Unless the middle box is clicked, the <code>alert</code> will not trigger.
           </p>
           <div class="square">
             <div class="outer" id="outerSelf" @click="self($event)">
@@ -435,6 +433,28 @@ capture(event){
             </div>
           </div>
 
+          <div class="code">
+            <h6>html code</h6>
+            <code>
+              <pre>&lt;div class="outer" id="outerBubble" @click="self($event)"&gt;
+  &lt;div class="middle" id="middleBubble" @click.self="self($event)"&gt;
+    &lt;div class="inner" id="innerBubble" @click="self($event)"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;  </pre>
+            </code>
+            <h6>Vue code</h6>
+            <code><pre>
+self(event){
+  this.selfClick += 1;
+  if(this.selfClick === 3) this.selfClick = 1;
+  alert("I clicked the box. This is the alert No " + this.selfClick);
+  if (!event.target.className.includes("-clicked")) {
+    event.target.className += " " + event.target.className +"-clicked";
+  }
+}          </pre> </code>
+          </div>
+
 
     </div>
   </div>
@@ -443,7 +463,7 @@ capture(event){
   var eventHandling4 = new Vue({
     el: "#eventHandling4",
     data: {
-
+      selfClick: 0
     }, //End of data
     methods: {
       bubble(event){
@@ -469,7 +489,9 @@ capture(event){
 
       },
       self(event){
-        alert("I am the box " + event.target.id);
+        this.selfClick += 1;
+        if(this.selfClick === 3) this.selfClick = 1;
+        alert("I clicked the box. This is the alert No " + this.selfClick);
         if (!event.target.className.includes("-clicked")) {
           event.target.className += " " + event.target.className +"-clicked";
         }
@@ -477,6 +499,159 @@ capture(event){
     } //End of methods
   });
 
+  </script>
+
+
+
+
+
+  <div id="eventHandling5">
+    <h2>Key modifiers</h2>
+    <p>
+      The <code>v-on</code> listener can also accept key modifiers and click modifiers.
+      Hence, we can activate the listeners depending on the keys we set for the
+      event listener to be activated, or based on the click events we are doing with
+      our mouse.
+    </p>
+    <p>
+      We can identify the different <code>keyCode</code> identifiers by logging
+      the <code>event.keyCode</code> events of a <code>keyup</code> or a <code>keydown</code>
+      event. For example, the Event Handler <code>@keydown.65="activateMethod"</code>
+      is going to activate the method when the key "a" is pressed.
+    </p>
+    <p>
+      Moreover, there are preset key modifiers for which there is no need to know
+      the key code. The key modifier aliases are:
+      <ul>
+        <code>
+          <li>.enter</li>
+          <li>.tab</li>
+          <li>.delete / both for delete and backspace keys</li>
+          <li>.esc</li>
+          <li>.space</li>
+          <li>.up</li>
+          <li>.down</li>
+          <li>.left</li>
+          <li>.right</li>
+        </code>
+      </ul>
+    </p>
+    <h3>Automatic Key Modifiers</h3>
+    <p>
+      Instead of key codes, we can also use valid key names that are exposed during
+      the keyboard event by identifying the property of <code>KeyboardEvent.key</code>.
+      The only detail is that for event keys that are two words like <code>ArrowDown</code>
+      we need to enter the modifier with a kebab-case.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        Enter in the following input field different keys and see the <code>keyCode</code>
+        and the <code>key</code> being displayed on the screen.
+      </p>
+      <input type="text" name="" value="" @keyup="showEvent">
+      <p>
+        You pressed the key <b>{{key}}</b> that has a key code <b>{{keyCode}}</b>.
+      </p>
+    </div>
+  </div>
+
+
+  <script>
+    var eventHandling5 = new Vue({
+      el: "#eventHandling5",
+      data: {
+        keyCode: "",
+        key: ""
+      }, //End of data
+      methods: {
+        showEvent(){
+          this.keyCode = event.keyCode;
+          this.key = event.key;
+        }
+      }
+    });
+  </script>
+
+
+
+
+
+  <div id="eventHandling6">
+    <h2>System Modifier Keys</h2>
+    <p>
+      The following modifier keys can be used to trigger keyboard or mouse event
+      listeners only when the corresponding modifier keys are pressed.
+      <code>
+        <li>.ctrl</li>
+        <li>.alt</li>
+        <li>.shift</li>
+        <li>.meta (The Mac home key ⌘ or the windows home key ⊞ etc)</li>
+      </code>
+    </p>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        The following button will trigger the event only if the <code>shift</code>
+        key is pressed when clicked.
+      </p>
+      <button type="button" name="button" @click.shift="modifierClick">shift Click me</button>
+      <h6>html code</h6>
+      <code>&lt;button type="button" name="button" @click.shift="modifierClick"&gt;shift Click me&lt;/button&gt;</code>
+    </div>
+
+    <h3><code>.exact</code> Modifier </h3>
+    <p>
+      The <code>.exact</code> modifier allows for the exact combination of Modifiers
+      to be applied in order to trigger an event.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        Even though Shift is the modifier, this will fire even if Alt or Ctrl are
+        pressed at the same time.
+      </p>
+      <button type="button" name="button" @click.shift="modifierClick">Shift and any other key and click</button>
+      <code>&lt;button type="button" name="button" @click.shift="modifierClick"&gt;shift Click me&lt;/button&gt;</code>
+      <p>
+        This will only fire when the Shift key is clicked but nothing else.
+      </p>
+      <button type="button" name="button" @click.shift.exact="modifierClick">Shift and no other key and click</button>
+      <code>&lt;button type="button" name="button" @click.shift.exact="modifierClick"&gt;Shift and no other key and click&lt;/button&gt;</code>
+      <p>
+        This will only fire when no modifier keys are pressed.
+      </p>
+      <button type="button" name="button" @click.exact="modifierClick">Click with no modifier keys</button>
+      <code>&lt;button type="button" name="button" @click.exact="modifierClick"&gt;Click with no modifier keys&lt;/button&gt;</code>
+    </div>
+
+    <h3>Mouse Button Modifiers</h3>
+    <p>
+      These modifiers restrict the handler to events that are triggered only when
+      a specific mouse button is clicked.
+      <ul>
+        <code>
+          <li>.left</li>
+          <li>.right</li>
+          <li>.middle</li>
+        </code>
+      </ul>
+    </p>
+  </div>
+
+  <script>
+    var eventHandling6 = new Vue({
+      el: "#eventHandling6",
+      data: {
+
+      }, //End of data
+      methods: {
+        modifierClick(){
+          alert("Sucess!")
+        }
+      }
+    });
   </script>
 
 
