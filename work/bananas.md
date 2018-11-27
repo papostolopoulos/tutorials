@@ -6,7 +6,7 @@
 * Variables
   * Data types and values (primitive and objects)
   * Numbers
-    * Primitiive number (integers and floats)
+    * Primitive number (integers and floats)
     * Infinity
   * Strings
     * Primitive strings
@@ -63,7 +63,7 @@
   * .endsWith()
   * .includes()
   * .indexOf()
-  * lastIndexOf()
+  * .lastIndexOf()
   * .match()
   * .replace()
   * .search()

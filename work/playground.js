@@ -226,50 +226,15 @@ function transform(data){
 
 
 
-
-
-
-
-
-
-
-
-function transform(data, node, headers){
-  if (data.match(/%\soff/i) && data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)) {
-    return data.match(/\sthrough\s(\d{1,2}\s?\/){2}\d{0,4}\sat\s11:59pm\sPT/)[0].match(/(\d{1,2}\s?\/){2}\d{0,4}/)[0];
-  }
-
-  return "";
-}
-
-
-
-
-
-
-
-
-function transform(data) {
-  if(!data) return null;
-
+function transform(data){
   var replaceStrings = [
-    {oldStr: /\,\sOut\sof\sStore.*/g, newStr: ""},
-    {oldStr: /\,\sFinancing.*/g, newStr: ""},
-    {oldStr: /\,\sExclusions.*/g, newStr: ""},
-    {oldStr: /Exclusions.*/g, newStr: ""},
-    {oldStr: /\,\s*Shop\s*All\s*\w+/g, newStr: ""},
-    {oldStr: /\,\sJoin\sNow/g, newStr: ""},
-    {oldStr: /\,\sShop\sNow/g, newStr: ""},
-    {oldStr: /Terms.*/g, newStr: ""},
-    {oldStr: /^Plus,\s/g, newStr: ""},
-    {oldStr: /\spercent/g, newStr: "%"},
-    {oldStr: /(\$)\s(\d)/, newStr: "$1$2"},
-    {oldStr: /([A-z])(&)/g, newStr: "$1 $2"}
+    {oldStr:/[\*©®ǂ†→§™¹›]/g, newStr: ""},
+    {oldStr:/-$/g, newStr: ""},
   ];
 
   replaceStrings.forEach(function(el) {
     data = data.replace(el.oldStr, el.newStr);
-  })
+  });
 
- return data.trim();
+  return data.trim() || "";
 }

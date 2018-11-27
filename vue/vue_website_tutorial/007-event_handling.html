@@ -40,24 +40,20 @@
       <hr>
       <h6>The code for the html is:</h6>
       <code>
-        <pre>
           &lt;input type="text" name="" value="" v-model="counter"&gt;
           &lt;button type="button" name="button" @click="result += Number(counter)"&gt;Add&lt;/button&gt;
           &lt;button type="button" name="button" @click="result -= Number(counter)"&gt;Subtract&lt;/button&gt;
           &lt;button type="button" name="button" @click="result *= Number(counter)"&gt;Multiply&lt;/button&gt;
           &lt;button type="button" name="button" @click="result /= Number(counter)"&gt;Divide&lt;/button&gt;
           &lt;button type="button" name="button" @click="result = 0"&gt;Make zero&lt;/button&gt;
-        </pre>
       </code>
       <h6>The code for the script is</h6>
       <code>
-        <pre>
           el: "#eventHandling1",
           data: {
             result: 0,
             counter: 0
           }
-        </pre>
       </code>
     </div>
   </div>
@@ -101,7 +97,7 @@
           &lt;button type="button" name="button" @click="greet($event)"&gt;When was I last clicked?&lt;/button&gt;
         </code>
         <h6>Vue code</h6>
-        <code><pre>
+        <code>
   var eventHandling2 = new Vue({
     el: "#eventHandling2",
     data: {
@@ -122,7 +118,7 @@
       }
     }
   });
-          </pre></code>
+          </code>
       </div>
   </div>
 
@@ -176,11 +172,11 @@
 
       <hr>
       <h6>html code</h6>
-      <code><pre>
+      <code>
         &lt;button type="button" name="button" @click="alertMe($event)"&gt;Do it!&lt;/button&gt;
-      </pre></code>
+      </code>
       <h6>Vue code</h6>
-      <code><pre>
+      <code>
         var eventHandling3 = new Vue({
           el: "#eventHandling3",
           data: {
@@ -194,7 +190,7 @@
             }
           }
         });
-      </pre></code>
+      </code>
     </div>
 
   </div>
@@ -346,16 +342,16 @@
         <div class="code">
           <hr>
           <h6>html code</h6>
-          <code> <pre>
+          <code>
 &lt;div class="outer" id="outerBubble" @click="bubble($event)"&gt;
   &lt;div class="middle" id="middleBubble" @click="bubble($event)"&gt;
     &lt;div class="inner" id="innerBubble" @click="bubble($event)"&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
-          </pre> </code>
+           </code>
           <h6>Vue code</h6>
-          <code> <pre>
+          <code>
 bubble(event){
   for (let i = 1; i &lt; 4; i++) {
     setTimeout(function() {
@@ -364,7 +360,7 @@ bubble(event){
       }
     }, i*1000);
   }
-} </pre> </code>
+}  </code>
         </div>
 
 
@@ -393,15 +389,15 @@ bubble(event){
           <div class="code">
             <hr>
             <h6>html code</h6>
-            <code> <pre>
+            <code>
 &lt;div ref="outer" class="outer" id="outerBubbleCapture" @click.capture="capture($event)"&gt;
   &lt;div ref="middle" class="middle" id="middleBubbleCapture" @click.capture="capture($event)"&gt;
     &lt;div ref="inner" class="inner" id="innerBubbleCapture" @click.capture="capture($event)"&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt; </pre> </code>
+&lt;/div&gt;  </code>
             <h6>Vue code</h6>
-            <code> <pre>
+            <code>
 capture(event){
   let two = 0, one = 0, zero = 0;
   for (let i = 2; i &gt;= 0; i--) {
@@ -413,7 +409,7 @@ capture(event){
     }, (two + one + zero)*500);
   }
 }
-            </pre> </code>
+             </code>
           </div>
 
           <h5>self</h5>
@@ -436,15 +432,15 @@ capture(event){
           <div class="code">
             <h6>html code</h6>
             <code>
-              <pre>&lt;div class="outer" id="outerBubble" @click="self($event)"&gt;
+              &lt;div class="outer" id="outerBubble" @click="self($event)"&gt;
   &lt;div class="middle" id="middleBubble" @click.self="self($event)"&gt;
     &lt;div class="inner" id="innerBubble" @click="self($event)"&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;  </pre>
+&lt;/div&gt;
             </code>
             <h6>Vue code</h6>
-            <code><pre>
+            <code>
 self(event){
   this.selfClick += 1;
   if(this.selfClick === 3) this.selfClick = 1;
@@ -452,7 +448,7 @@ self(event){
   if (!event.target.className.includes("-clicked")) {
     event.target.className += " " + event.target.className +"-clicked";
   }
-}          </pre> </code>
+}           </code>
           </div>
 
 

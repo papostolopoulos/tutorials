@@ -28,3 +28,7 @@ td {
 p{
   margin-bottom: 10px;
 }
+
+code {
+  white-space: pre;
+}

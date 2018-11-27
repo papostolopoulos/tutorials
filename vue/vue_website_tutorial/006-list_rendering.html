@@ -32,25 +32,25 @@
         data source property.
       </p>
       <code>
-        <pre>
+
     data: {
       items: [
         {message: "Foo"},
         {message: "Bar"}
       ]
     }
-        </pre>
+
       </code>
       <p>
         In order to render the <code>items</code> array, the v-for directive is
         used to iterate through.
       </p>
       <code>
-        <pre>
+
     &lt;ul&gt;
       &lt;li v-for="item in items"&gt;{ {item.message} }&lt;/li&gt;
     &lt;/ul&gt;
-        </pre>
+
       </code>
 
       <ul>
@@ -92,7 +92,7 @@
       </p>
 
       <code>
-        <pre>
+
 data: {
   parentMessage: "Parent",
   items: [
@@ -100,7 +100,7 @@ data: {
     {message: "Bar"}
   ]
 }
-        </pre>
+
       </code>
 
       <p>
@@ -164,15 +164,15 @@ data: {
         string.
       </p>
   <code>
-    <pre>
+
   &lt;ul&gt;
     &lt;li v-for="property in userObj"&gt;{ {property} }&lt;/li&gt;
   &lt;/ul&gt;
-    </pre>
+
   </code>
 
   <code>
-    <pre>
+
       new Vue ({
         el: "#listRendering3",
         data: {
@@ -183,7 +183,7 @@ data: {
           }
         }
       });
-    </pre>
+
   </code>
 
       <ul>
@@ -195,11 +195,11 @@ data: {
         add a second argument for accessing the key, and another one for the indexes.
       </p>
       <code>
-        <pre>
+
       &lt;ul&gt;
         &lt;li v-for="property, key, index in userObj"&gt;{ {index + 1} }. { {key} }: { {property} }&lt;/li&gt;
       &lt;/ul&gt;
-        </pre>
+
       </code>
 
       <ul>
@@ -329,7 +329,7 @@ data: {
         the array that is being iterated in the list above.
       </p>
       <code>
-        <pre>
+
           methods: {
             filterIt: function(event) {
               this.students = this.students.filter(function(el) {
@@ -338,7 +338,7 @@ data: {
               event.target.value = "";
             }
           }
-        </pre>
+
       </code>
     </div>
     <h5>Note from me</h5>
@@ -357,7 +357,7 @@ data: {
     <ol>
       <li>When we try to change the value of each element directly: <br>
         <code>
-          <pre>
+
             var vm = new Vue({
               data: {
                 items: ['a', 'b', 'c']
@@ -368,7 +368,7 @@ data: {
             <span style="color: gray;">// is NOT reactive. The value in index 1 will not change.</span>
             vm.items.length = 2
             <span style="color: gray;">// is NOT reactive. The length of the array will not change.</span>
-          </pre>
+
         </code>
       </li>
     </ol>
@@ -417,7 +417,7 @@ data: {
         <input type="text" name="" value="" v-on:keydown.enter="spliceMe($event)">
       </div>
       <code>
-        <pre>
+
   spliceMe: function(event) {
     if (event.target.value === "") return;
 
@@ -433,7 +433,7 @@ data: {
       }
     }
   }
-        </pre>
+
       </code>
     </div>
 
@@ -457,7 +457,7 @@ data: {
         <input type="text" name="" value="" v-on:keydown.enter="vueSet($event)">
       </div>
       <code>
-        <pre>
+
   vueSet: function(event) {
     if (event.target.value === "") return;
     var dropDownValue = event.path[1].children[1].value;
@@ -470,7 +470,7 @@ data: {
       }
     }
   }
-        </pre>
+
       </code>
 
     </div>
@@ -547,7 +547,7 @@ data: {
         in the Vue constructor.
         Hence: <br>
         <code>
-          <pre>
+
   var vm = new Vue({
     data: {
       a: 1
@@ -557,7 +557,7 @@ data: {
 
   vm.b = 2
   <span style="color: gray;">// `vm.b` is NOT reactive</span>
-          </pre>
+
         </code>
       </p>
 
@@ -589,17 +589,17 @@ data: {
           The code for the above input fields and button is:
         </p>
         <code>
-          <pre>
+
 &lt;div id="addNewProperty"&gt;
   Key: &lt;input type="text" name="key" value="" placeholder="Enter key"&gt;
   Value: &lt;input type="text" name="value" value="" placeholder="Enter value"&gt;
   &lt;button type="button" name="button" v-on:click="addNewProperty($event)"&gt;Add new property&lt;/button&gt;
 &lt;/div&gt;
-          </pre>
+
         </code>
         <p>The code for the method used is:</p>
         <code>
-          <pre>
+
 addNewProperty: function(event) {
   var inputKey = event.path[1].children[0];
   var inputValue = event.path[1].children[1];
@@ -612,7 +612,7 @@ addNewProperty: function(event) {
   inputKey.placeholder = "Enter key";
   inputValue.placeholder = "Enter value";
 }
-          </pre>
+
         </code>
       </div>
 
@@ -659,7 +659,7 @@ addNewProperty: function(event) {
         <hr>
         <h5>The code for the html is:</h5>
         <code>
-          <pre>
+
 &lt;div class="inputSlot" v-for="(propName, idx) in propNames"&gt;
   &lt;label for="" v-if="propName.active"&gt;
     { {propName.keyVal.toUpperCase()} }:
@@ -670,11 +670,11 @@ addNewProperty: function(event) {
     @keydown.enter="addSeveralProperties($event)"&gt;
   &lt;/label&gt;
 &lt;/div&gt;
-          </pre>
+
         </code>
         <h5>The code for the method is:</h5>
         <code>
-          <pre>
+
 addSeveralProperties: function(event) {
   var inputSlot = event.target;
   var inputSlotValue = event.target.value;
@@ -707,7 +707,7 @@ addSeveralProperties: function(event) {
     }
   }
 }
-          </pre>
+
         </code>
       </div>
     </div>
@@ -833,7 +833,7 @@ addSeveralProperties: function(event) {
         <hr>
         <h5>The code for the html is</h5>
         <code>
-          <pre>
+
 &lt;ul&gt;
   &lt;li v-for="user in users" v-if="activeGender === user.gender || activeGender === 'Any gender'"&gt;{ {user.name} }, { {user.age} }&lt;/li&gt;
 &lt;/ul&gt;
@@ -845,11 +845,11 @@ addSeveralProperties: function(event) {
   &lt;option value="male"&gt;Males&lt;/option&gt;
   &lt;option value="female"&gt;Females&lt;/option&gt;
 &lt;/select&gt;
-          </pre>
+
         </code>
         <h5>The code for the Vue instance is</h5>
         <code>
-          <pre>
+
 new Vue ({
   el: "#listRendering6",
   data: {
@@ -879,7 +879,7 @@ new Vue ({
       return ageTotal / filteredGenders.length;
     }
   }
-          </pre>
+
         </code>
       </div>
 
@@ -908,25 +908,25 @@ new Vue ({
         <hr>
         <h5>The code for the html is</h5>
         <code>
-          <pre>
+
 &lt;span v-for="n in filterNumbers(numbers)"&gt;{ {n} } &lt;/span&gt;
 &lt;select class="" name="" v-on:change="activeNumbers = $event.target.value"&gt;
   &lt;option value="all numbers"&gt;All numbers&lt;/option&gt;
   &lt;option value="odd"&gt;Odd numbers&lt;/option&gt;
   &lt;option value="even"&gt;Even numbers&lt;/option&gt;
 &lt;/select&gt;
-          </pre>
+
         </code>
         <h5>The code for the method is</h5>
         <code>
-          <pre>
+
 methods: {
   filterNumbers: function(numbers) {
     if (this.activeNumbers === "odd") return this.numbers.filter((el) =&gt; el % 2 !== 0);
     if (this.activeNumbers === "even") return this.numbers.filter((el) =&gt; el % 2 === 0);
     return numbers;
   }
-          </pre>
+
         </code>
       </div>
     </div>
@@ -1011,12 +1011,12 @@ methods: {
         <hr>
         <h5>The html code used is</h5>
         <code>
-          <pre>
+
 &lt;template id="" v-for="person in people"&gt;
   &lt;h6&gt;{ {person.name} } { {person.surname} }&lt;/h6&gt;
   &lt;p&gt;{ {person.name} }'s favorite color is { {person.color} }.&lt;/p&gt;
 &lt;/template&gt;
-          </pre>
+
         </code>
       </div>
 
@@ -1065,7 +1065,7 @@ methods: {
         <hr>
         <h5>The code in the html is</h5>
         <code>
-          <pre>
+
 &lt;div class="conditionalDisplay" v-if="people.length &gt; 3"&gt;
   &lt;ul&gt;
     &lt;li v-for="person in people"&gt;
@@ -1074,11 +1074,11 @@ methods: {
     &lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;
-          </pre>
+
         </code>
         <h5>The code in the Vue component is:</h5>
         <code>
-          <pre>
+
 clickLeave: function(event) {
   var checkValue = event.target.value;
   var idxPosition = this.people.findIndex((el) =&gt; el.surname === checkValue);
@@ -1088,7 +1088,7 @@ clickLeave: function(event) {
     event.target.checked = false;
   }, 500);
 }
-          </pre>
+
         </code>
       </div>
 
@@ -1187,7 +1187,7 @@ clickLeave: function(event) {
         <hr>
         <h6>The code for the html is</h6>
         <code>
-          <pre>
+
 &lt;ul&gt;
   &lt;li
   is="todo-item"
@@ -1197,12 +1197,12 @@ clickLeave: function(event) {
   v-on:remove="todos.splice(index, 1)"
   &gt;&lt;/li&gt;
 &lt;/ul&gt;
-          </pre>
+
         </code>
 
         <h6>The code for Vue is</h6>
         <code>
-          <pre>
+
 Vue.component("todo-item", {
   props: ["name", "title"],
   template: `
@@ -1233,7 +1233,7 @@ new Vue({
     }
   }
 });
-          </pre>
+
         </code>
       </div>
     </div>

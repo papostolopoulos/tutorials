@@ -15,9 +15,191 @@
   <a href="https://vuejs.org/v2/guide/forms.html"><h3>Source</h3></a>
 
   <h1>8 - Form Input and Bindings</h1>
-  <div class="textDiv">
+  <div id="formInput1">
+    <h2>Basic usage</h2>
+    <p>
+      The <code>v-model</code> directive is a syntactical sugar way for updating
+      data on user input events. This two way data binding directive allows the
+      use of <code>input</code>, <code>textarea</code> and <code>select</code> tags.
+    </p>
+    <p>
+      <code>v-model</code> ignores the initial <code>value</code>, <code>selected</code>
+      or <code>checked</code> attributes on form elements. It always treats the Vue
+      instance data as the source of truth. For an initial value, it is better if
+      we use the value of the particular <code>data</code> property that is bound
+      to the <code>v-model</code> directive.
+    </p>
+    <div class="jumbotron">
+      <h4>Examples</h4>
+      <h5>Text</h5>
+      <p>
+        The text from the <code>input</code> is: <br>
+        {{input}}
+      </p>
+      <input type="text" name="" value="" v-model="input"> <br>
+      <code>
+&lt;p&gt;The text from the &lt;code&gt;input&lt;/code&gt; is: { {input} }&lt;/p&gt;
+&lt;input type="text" name="" value="" v-model="input"&gt;
+      </code>
 
-</div>
+
+      <h5>Multiline text</h5>
+      <p style="white-space: pre;">
+        The text from the <code>textarea</code> is:
+        {{textArea}}
+      </p>
+      <textarea rows="2" cols="80" v-model="textArea"></textarea> <br>
+      <code>&lt;p style="white-space: pre;"&gt;
+  The text from the &lt;code&gt;textarea&lt;/code&gt; is:
+  { {textArea} }
+&lt;/p&gt;
+&lt;textarea rows="2" cols="80" v-model="textArea"&gt;&lt;/textarea&gt;</code>
+
+
+
+
+      <h5>Checkbox</h5>
+      <p>
+        The box is checked: {{checkBox}}
+        <input type="checkbox" name="" value="" v-model="checkBox">
+      </p>
+      <code>
+        &lt;p&gt;
+          The box is checked: {{checkBox}}
+          &lt;input type="checkbox" name="" value="" v-model="checkBox"&gt;
+        &lt;/p&gt;
+      </code>
+
+
+
+      <h5>Multiple checkboxes</h5>
+      <p>
+        Multiple check boxes array: {{multiCheckBoxes}}
+      </p>
+      <input type="checkbox" name="Giorgos" id="Giorgos" value="Giorgos" v-model="multiCheckBoxes">
+      <label for="Giorgos">Giorgos</label>
+      <input type="checkbox" name="Olga" id="Olga" value="Olga" v-model="multiCheckBoxes">
+      <label for="Olga">Olga</label>
+      <input type="checkbox" name="Stam" id="Stam" value="Stam" v-model="multiCheckBoxes">
+      <label for="Stam">Stam</label>
+      <code>
+        &lt;input type="checkbox" name="Giorgos" id="Giorgos" value="Giorgos" v-model="multiCheckBoxes"&gt;
+        &lt;label for="Giorgos"&gt;Giorgos&lt;/label&gt;
+        &lt;input type="checkbox" name="Olga" id="Olga" value="Olga" v-model="multiCheckBoxes"&gt;
+        &lt;label for="Olga"&gt;Olga&lt;/label&gt;
+        &lt;input type="checkbox" name="Stam" id="Stam" value="Stam" v-model="multiCheckBoxes"&gt;
+        &lt;label for="Stam"&gt;Stam&lt;/label&gt;
+      </code>
+
+
+
+
+      <h5>Radio Buttons</h5>
+      <p>
+        Radio Buttons selection: {{radioButton}}
+      </p>
+      <input type="radio" name="" value="Giannis" id="Giannis" v-model="radioButton">
+      <label for="Giannis">Giannis</label>
+      <input type="radio" name="" value="Lefteris" id="Lefteris" v-model="radioButton">
+      <label for="Lefteris">Lefteris</label>
+      <input type="radio" name="" value="Evangelos" id="Evangelos" v-model="radioButton">
+      <label for="Evangelos">Evangelos</label>
+      <code>
+        &lt;input type="radio" name="" value="Giannis" id="Giannis" v-model="radioButton"&gt;
+        &lt;label for="Giannis"&gt;Giannis&lt;/label&gt;
+        &lt;input type="radio" name="" value="Lefteris" id="Lefteris" v-model="radioButton"&gt;
+        &lt;label for="Lefteris"&gt;Lefteris&lt;/label&gt;
+        &lt;input type="radio" name="" value="Evangelos" id="Evangelos" v-model="radioButton"&gt;
+        &lt;label for="Evangelos"&gt;Evangelos&lt;/label&gt;
+      </code>
+
+
+
+
+      <h5>Select</h5>
+      <p>
+        Select option: {{select}}
+      </p>
+      <select class="" name="" v-model="select">
+        <option disabled value="">Select an option</option>
+        <option value="Maria">Maria</option>
+        <option value="Sofia">Sofia</option>
+        <option value="Georgia">Georgia</option>
+      </select>
+      <code>
+        &lt;select class="" name="" v-model="select"&gt;
+          &lt;option disabled value=""&gt;Select an option&lt;/option&gt;
+          &lt;option value="Maria"&gt;Maria&lt;/option&gt;
+          &lt;option value="Sofia"&gt;Sofia&lt;/option&gt;
+          &lt;option value="Georgia"&gt;Georgia&lt;/option&gt;
+        &lt;/select&gt;
+      </code>
+
+
+
+      <h5>Select multiple</h5>
+      <p>
+        Selected options: {{selectMultiple}}
+      </p>
+      <select class="" name="" v-model="selectMultiple" multiple>
+        <option value="Tasia">Tasia</option>
+        <option value="Sakis">Sakis</option>
+        <option value="Makis">Makis</option>
+        <option value="Takis">Takis</option>
+      </select>
+      <code>
+        &lt;select class="" name="" v-model="selectMultiple" multiple&gt;
+          &lt;option value="Tasia"&gt;Tasia&lt;/option&gt;
+          &lt;option value="Sakis"&gt;Sakis&lt;/option&gt;
+          &lt;option value="Makis"&gt;Makis&lt;/option&gt;
+          &lt;option value="Takis"&gt;Takis&lt;/option&gt;
+        &lt;/select&gt;
+      </code>
+
+
+
+
+      <h5>Dynamic options rendered with <code>v-for</code></h5>
+      <p>
+        Dynamic option selection: {{dynamicSelection}}
+      </p>
+      <select class="" name="" v-model="dynamicSelection">
+        <option disabled value="" selected>Select an option</option>
+        <option v-for="option in options" :value="option.value">{{option.option}}</option>
+      </select>
+      <code>
+        &lt;select class="" name="" v-model="dynamicSelection"&gt;
+          &lt;option disabled value="" selected&gt;Select an option&lt;/option&gt;
+          &lt;option v-for="option in options" :value="option.value"&gt;{ {option.option} }&lt;/option&gt;
+        &lt;/select&gt;
+      </code>
+
+
+    </div>
+
+  </div>
+
+  <script>
+    var formInput1 = new Vue({
+      el: "#formInput1",
+      data: {
+        input: "",
+        textArea: "",
+        checkBox: false,
+        multiCheckBoxes: [],
+        radioButton: "",
+        select: "",
+        selectMultiple: [],
+        dynamicSelection: "",
+        options: [
+          {option: "Alpha", value: "A"},
+          {option: "Bita", value: "B"},
+          {option: "Gamma", value: "Γ"},
+          {option: "Delta", value: "Δ"}
+        ]
+      }
+    });
+  </script>
 
 
 <a href="./006-list_rendering.html">Previous - List Rendering</a> <a href="./009-components_basics.html">Next - Components basics</a>

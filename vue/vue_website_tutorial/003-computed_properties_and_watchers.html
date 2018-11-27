@@ -54,14 +54,14 @@
     <div class="jumbotron">
       <h4>Example</h4>
       <p>The code here:</p>
-      <pre>
+
         &lt;div id="example"&gt;
           &lt;p&gt;Original message: "{{ message }}"&lt;/p&gt;
           &lt;p&gt;Computed reversed message: "{{ reversedMessage }}"&lt;/p&gt;
         &lt;/div&gt;
-      </pre>
+
       <p>with the vue here:</p>
-      <pre>
+
           var vm = new Vue ({
             el: "#",
             data: {
@@ -73,7 +73,7 @@
               }
             }
           });
-      </pre>
+
       <p>can display the following:</p>
       <p>Original message: "{{ message }}" - <code>{ { message } }</code></p>
       <p>Computed reversed message: "{{ reversedMessage }}" - <code>{ { reversedMessage } }</code> </p>
@@ -117,21 +117,21 @@
         <input type="text" id="someInput" name="" v-on:keyup.enter="nameMe($event)" value="">
         (<code>v-on:keyup.enter="nameMe($event)"</code>)
         <code>
-<pre>
+
   methods: {
     nameMe: function(event) {
       var names = event.target.value.split(' ');
       this.firstName = names[0];
       this.lastName = names[names.length - 1];
     }
-</pre>
+
         </code>
         <h5>Computed property value change</h5>
         <p>Hit "enter" after you enter the text in the input field</p>
         <input type="text" id="someInput" name="" v-on:keyup.enter="fullName = $event.target.value" value="">
         (<code>v-on:keyup.enter="fullName = $event.target.value"</code>)
         <code>
-<pre>
+
   computed: {
     fullName: {
       get: function() {
@@ -144,7 +144,7 @@
       }
     }
   }
-</pre>
+
         </code>
     </div>
   </div>

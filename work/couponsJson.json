@@ -2000,6 +2000,145 @@
   }
 }
 
+/* HOTTOPIC rewards.hottopic.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "03121823-7e52-440c-92a2-23d14884ff87",
+        "repeating": true,
+        "locations": [
+          "/descendant::td[contains(.,\"OFFER\")]/descendant::strong[contains(text(),\"OFFER\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr:/-$/g, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./following-sibling::text()"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data,node,headers){\n  if(/\\d+\\s+days\\s+from/.exec(data)) {\n    var numOfDays = Number(/\\d+\\s+days\\s+from/.exec(data)[0].replace(/[^0-9]/g, \"\"));\n    var n = headers.get(\"Date\");\n    var n1 = new Date(n * 1000);\n    var day1 = n1.getDate() + numOfDays;\n    var mon1 = n1.getMonth();\n    var vt = new Date(\"1970\", mon1, day1);\n    return vt;\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(text(),\"browser\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::text()[contains(.,\"City of Industry\")]/parent::td/parent::tr/parent::tbody"
+        }
+      },
+      {
+        "id": "2b0d252a-30ee-4b1d-8cf4-03254a6260d8",
+        "repeating": true,
+        "locations": [
+          "/descendant::td[contains(.,\"OFFER\")]/descendant::strong[contains(text(),\"OFFER\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"Hot Topic\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "03121823-7e52-440c-92a2-23d14884ff87",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "2b0d252a-30ee-4b1d-8cf4-03254a6260d8",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
 /* JCPENNEY e.jcpenney.com */
 {
   "extract": {
@@ -3886,7 +4025,7 @@
         "id": "380be5ca-e482-48e1-8847-63ffade6f9ea",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt,\"CASHBACK\") and not (contains(@alt,\"GasBuddy\"))]"
+          "/descendant::img[contains(@alt,\"CASHBACK\")]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -3904,7 +4043,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n\treturn data.match(/\\|.*\\|/)[0].replace(/\\|/g, \"\").trim() || \"\";\n}",
+            "javascript": "function transform(data){\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -3933,14 +4072,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "/descendant::a[contains(text(),\"Offer ends\")]"
+                  "xpath": "/descendant::a[contains(.,\"Offer ends\") or contains(.,\"Offers end\")]"
                 }
               ]
             },
             "name": "http://schema.org/validThrough",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n\treturn data.match(/([\\d]{1,2}\\/){2}[\\d]{2,4}?/)[0] || \"\";\n}",
+            "javascript": "function transform(data) {\n  return /Offers\\send\\s([\\d]{1,2}\\/){2}[\\d]{2,4}?/.exec(data)[0].replace(/Offers\\send\\s/,\"\") || \"\";\n}",
             "dataTypes": [
               "DateTime"
             ],
@@ -3948,8 +4087,8 @@
           }
         ],
         "hints": {
-          "_footer": "descendant::text()[contains(.,\"Sears Brands, LLC\")]/parent::td/parent::tr/parent::tbody",
-          "_raw_validThrough": "/descendant::a[contains(text(),\"Offer ends\")]"
+          "_raw_validThrough": "/descendant::a[contains(.,\"Offer ends\") or contains(.,\"Offers end\")]",
+          "_footer": "descendant::text()[contains(.,\"Sears Brands, LLC\")]/parent::td/parent::tr/parent::tbody"
         }
       },
       {

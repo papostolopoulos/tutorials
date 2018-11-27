@@ -612,6 +612,20 @@ function transform(data){
 return "";
 }
 
+//When the footer reads "num of days from" - Pulling based on the sent date from header
+function transform(data,node,headers){
+  if(/\d+\s+days\s+from/.exec(data)) {
+    var numOfDays = Number(/\d+\s+days\s+from/.exec(data)[0].replace(/[^0-9]/g, ""));
+    var n = headers.get("Date");
+    var n1 = new Date(n * 1000);
+    var day1 = n1.getDate() + numOfDays;
+    var mon1 = n1.getMonth();
+    var vt = new Date("1970", mon1, day1);
+    return vt;
+  }
+  return "";
+}
+
 
 
 //PAYMENT STATUS

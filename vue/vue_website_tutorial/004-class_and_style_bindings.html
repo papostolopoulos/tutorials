@@ -89,12 +89,12 @@
         &lt;div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"&gt;&lt;/div&gt;
       </code>
       <p>And the script in the Vue instance looks like this:</p>
-      <code><pre>
+      <code>
         data: {
           isActive: true,
           hasError: false
         }
-      </pre></code>
+      </code>
       <p>then the final html code will be like this:</p>
       <code>&lt;div class="static active"&gt;&lt;/div&gt;</code>
     </div>
@@ -116,14 +116,14 @@
       <p>The html can look like:</p>
       <code>&lt;div v-bind:class="classObject"&gt;&lt;/div&gt;</code>
       <p>The script in the Vue instance can look like:</p>
-      <pre>
+
         data: {
           classObject: {
           active: true,
           'text-danger': false
           }
         }
-      </pre>
+
       <p>
         Click on the following buttons to toggle between different classes that
         are affecting this <code>div</code> tag. You can check on the console to
@@ -147,7 +147,7 @@
     </p>
 
     <div class="jumbotron">
-      <pre>
+
         data: {
         isActive: true,
         error: null
@@ -160,7 +160,7 @@
             }
           }
         }
-      </pre>
+
     </div>
 
 
@@ -172,12 +172,12 @@
       <p>The html can look like:</p>
       <code>&lt;div v-bind:class="[activeClass, errorClass]"&gt;&lt;/div&gt;</code>
       <p>The object in the Vue instance can look like:</p>
-      <pre>
+
         data: {
           activeClass: 'active',
           errorClass: 'text-danger'
         }
-      </pre>
+
       <p>The above will render:</p>
       <code>&lt;div class="active text-danger"&gt;&lt;/div&gt;</code>
     </div>
@@ -193,11 +193,11 @@
       <p>
         If a component with classes is declared:
       </p>
-      <pre>
+
         Vue.component('my-component', {
           template: "&lt;p class="foo bar"&gt;Hi there&lt;/p&gt;"
         });
-      </pre>
+
       <p>and some more classes are being declared in the html:</p>
       <code>&lt;my-component class="baz boo"&gt;&lt;/my-component&gt;</code>
       <p>then all the class selectors will be added in the html:</p>
@@ -220,12 +220,12 @@
       </p>
       <code>&lt;div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"&gt;&lt;/div&gt;</code>
       <p>And the code within the Vue instance can look like this:</p>
-      <pre>
+
         data: {
           activeColor: 'red',
           fontSize: 30
         }
-      </pre>
+
     </div>
 
     <p>
@@ -237,14 +237,14 @@
       <p>The html code can look like:</p>
       <code>&lt;div v-bind:style="styleObject"&gt;&lt;/div&gt;</code>
       <p>And the Vue instance can look like:</p>
-      <pre>
+
         data: {
           styleObject: {
             color: 'red',
             fontSize: '13px'
           }
         }
-      </pre>
+
       <p>For the above example, we can have this result:</p>
       <div v-bind:style="styleObject">Hello, I am a div tag and I have red fonts that
         are 13px big. My style comes from a binded object.</div>
