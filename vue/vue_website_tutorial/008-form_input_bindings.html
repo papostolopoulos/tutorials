@@ -121,7 +121,7 @@
         Select option: {{select}}
       </p>
       <select class="" name="" v-model="select">
-        <option disabled value="">Select an option</option>
+        <option disabled value="" selected>Select an option</option>
         <option value="Maria">Maria</option>
         <option value="Sofia">Sofia</option>
         <option value="Georgia">Georgia</option>
@@ -161,6 +161,10 @@
 
       <h5>Dynamic options rendered with <code>v-for</code></h5>
       <p>
+        The following options are binded to an array that is nested in the <code>data</code>
+        of the Vue model. When a different option is selected, the related value
+        is matched to the particular element object of the array, and a different
+        property value from the same element object is displayed. <br>
         Dynamic option selection: {{dynamicSelection}}
       </p>
       <select class="" name="" v-model="dynamicSelection">
@@ -194,12 +198,163 @@
         options: [
           {option: "Alpha", value: "A"},
           {option: "Bita", value: "B"},
-          {option: "Gamma", value: "Γ"},
-          {option: "Delta", value: "Δ"}
+          {option: "Gamma", value: "&#915;"},
+          {option: "Delta", value: "&#916;"}
         ]
       }
     });
   </script>
+
+
+
+
+
+
+
+
+  <div id="formInput2">
+    <h2>Value bindings</h2>
+    <p>
+      Other than the last example above, all the examples for <code>input - text</code>,
+      <code>input - radio</code>, <code>input - checkbox</code> and <code>select</code>
+      are returning static value attributes. Yet, we can also use <code>v-bind</code>
+      to bind dynamic data from the Vue instance. This option also gives us the
+      opportunity to not just add strings but all sorts of data types.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <h5>Checkbox</h5>
+      <p>
+        In the following example, see how the options are changing based on the
+        <code>true-value</code> and <code>false-value</code> attributes added in
+        the <code>input</code> checkbox tag. These attributes do not affect the
+        value of the <code>input</code> checkbox because the browsers do not include
+        unchecked boxes in form submissions. On the other hand, a radio input would
+        guarantee that one of the values is submitted.
+      </p>
+      <p>
+        Select the checkbox to see how the value changes based on the selection or not
+        of the checkbox: {{toggleCheckbox}}
+      </p>
+      <input
+      type="checkbox"
+      v-model="toggleCheckbox"
+      id="trueFalseCheckbox"
+      true-value="yes"
+      false-value="no">
+      <label for="trueFalseCheckbox">Select me</label>
+      <code>
+&lt;input type="checkbox" v-model="toggleCheckbox" id="trueFalseCheckbox" true-value="yes" false-value="no"&gt;
+&lt;label for="trueFalseCheckbox"&gt;Select me&lt;/label&gt;
+      </code>
+
+
+
+        <h5>Radio buttons</h5>
+      <p>
+        See how when the checkbox is selected, the v-model inherits the value of
+        the binded attribute. <br>
+        Radio button v-model: {{radioVModel}} <br>
+        Radio button value attribute: {{radioBindValue}}
+      </p>
+      <input type="radio" v-model="radioVModel" v-bind:value="radioBindValue">
+      <code>
+&lt;input type=&quot;radio&quot; v-model=&quot;radioVModel&quot; v-bind:value=&quot;radioBindValue&quot;&gt;
+      </code>
+
+
+
+
+      <h5>Select options</h5>
+      <p>
+        See in the following code how the select options' values are not strings but are
+        objects. They do not necessarily need to be in the <code>data</code>
+        property of the Vue instance but they can be attached directly to the <code>value</code>
+        attribute of the <code>option</code>.
+      </p>
+      <select class="" name="" v-model="car">
+        <option disabled value="" selected>Select your favorite cars</option>
+        <option v-for="option in options" :value="option">{{option.text}}</option>
+      </select>
+      <p>
+        I see you are into {{car.text}}. Would you like to have a {{car.value}}? The
+        <code>car</code> property is: {{car}}.
+      </p>
+      <code>
+&lt;select class=&quot;&quot; name=&quot;&quot; v-model=&quot;car&quot;&gt;
+  &lt;option value=&quot;Select your car&quot; disabled&gt;Select your favorite cars&lt;/option&gt;
+  &lt;option v-for=&quot;option in options&quot; :value=&quot;option&quot;&gt;{ {option.text} }&lt;/option&gt;
+&lt;/select&gt;
+      </code>
+    </div>
+  </div>
+
+
+  <script>
+    var formInput2 = new Vue({
+      el: "#formInput2",
+      data: {
+        toggleCheckbox: "",
+        radioVModel: "",
+        radioBindValue: "Sotiris",
+        car: {},
+        options: [
+          {text: "German cars", value: "BMW"},
+          {text: "Italian cars", value: "Fiat"},
+          {text: "French cars", value: "Renault"},
+          {text: "Spanish cars", value: "Seat"}
+        ]
+      }
+    });
+  </script>
+
+
+
+
+
+  <div id="formInput3">
+    <h2>Modifiers</h2>
+    <h3><code>.lazy</code> </h3>
+    <p>
+      <code>v-model</code> updates the binded data with each event. The <code>.lazy</code>
+      modifier updates the data on the <code>change</code> event only.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        This text renders on each event: {{textInput}} <br>
+        <input type="text" v-model="textInput" name="" value="">
+      </p>
+      <code>&lt;input type=&quot;text&quot; v-model=&quot;textInput&quot; name=&quot;&quot; value=&quot;&quot;&gt;</code>
+      <p>
+        This text renders after the <code>change</code> events. Hit tab or
+        click away from the <code>input</code> tag after you are
+        done entering the text: {{lazyTextInput}} <br>
+        <input type="text" v-model.lazy="lazyTextInput" name="" value="">
+      </p>
+      <code>&lt;input type=&quot;text&quot; v-model.lazy=&quot;lazyTextInput&quot; name=&quot;&quot; value=&quot;&quot;&gt;</code>
+    </div>
+
+    <h3><code>.number</code></h3>
+
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <input type="number" name="" value="">
+    </div>
+  </div>
+
+
+  <script>
+    var formInput3 = new Vue({
+      el: "#formInput3",
+      data: {
+        lazyTextInput: "",
+        textInput: ""
+      }
+    });
+  </script>
+
+
 
 
 <a href="./006-list_rendering.html">Previous - List Rendering</a> <a href="./009-components_basics.html">Next - Components basics</a>

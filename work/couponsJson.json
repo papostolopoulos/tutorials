@@ -1738,6 +1738,370 @@
   }
 }
 
+/* GOLDSTAR mg.goldstar.com (div class=event)*/
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "250b951a-cde8-445b-85be-bd079dfe4f30",
+        "repeating": true,
+        "locations": [
+          "/descendant::div[contains(@class,\"event\")]\n[descendant::p[contains(@style,\"text-decoration: line-through\") and contains(text(),\"$\")] or\ndescendant::p[contains(text(),\"FREE\")]/ancestor::div[contains(@class,\"more\")]]\n|\ndescendant::td[@class=\"content\"][descendant::h1]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "concat(./descendant::h1, \" - \",\n./descendant::div[contains(@class,\"heading\")]/descendant::h3, \" - \",\n./descendant::div[contains(@class,\"heading\")]/descendant::p, \" \",\n./descendant::p[contains(@class,\"our\")], \". Was \",\n./descendant::p[contains(@class,\"full\")])"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr:/Was$/, newStr: \"\"},\n    {oldStr: /Get\\sTickets.*/, newStr: \"\"},\n    {oldStr: /(\\d+\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+)(\\$\\d+)/, newStr: \"$3. Was\"},\n    {oldStr: /^\\-\\s/, newStr: \"\"},\n    {oldStr: /-\\s+-/, newStr: \"-\"},   \n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::p[contains(text(),\"Goldstar Events\")]/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody"
+        }
+      },
+      {
+        "id": "03a1439b-8818-4550-8d08-4a7b91fd6740",
+        "repeating": true,
+        "locations": [
+          "/descendant::div[contains(@class,\"event\")]\n[descendant::p[contains(@style,\"text-decoration: line-through\") and contains(text(),\"$\")] or\ndescendant::p[contains(text(),\"FREE\")]/ancestor::div[contains(@class,\"more\")]]\n|\ndescendant::td[@class=\"content\"][descendant::h1]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"goldstar\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::p[contains(text(),\"Goldstar Events\")]/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody"
+        }
+      },
+      {
+        "id": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
+        "repeating": true,
+        "locations": [
+          "/descendant::img"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ./@title"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgurl",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
+          "matchAttr": "http://schema.org/_imgurl"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "03a1439b-8818-4550-8d08-4a7b91fd6740",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+/* Second scenario (table class=nb) */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "250b951a-cde8-445b-85be-bd079dfe4f30",
+        "repeating": true,
+        "locations": [
+          "/descendant::table[contains(@class,\"nb\")]/descendant::table[1][descendant::span[contains(@style,\"text-decoration: line-through\")]]\n|\n/descendant::a[contains(text(),\"Get Tickets\")]/ancestor::table[contains(@class,\"nb\")]"
+        ],
+        "type": "http://schema.org/Coupon",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "concat(./descendant::table[2]/descendant::td[1], \" - \",\n./descendant::table[2]/descendant::td[2], \" \",\n./descendant::table[3]/descendant::a/child::text(), \". Was \",\n./descendant::table[3]/descendant::a/child::span)"
+                }
+              ]
+            },
+            "name": "http://schema.org/description",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr: /Get\\sTickets.*/, newStr: \"\"},\n    {oldStr: /(\\d+\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+)(\\$\\d+)/, newStr: \"$3. Was\"},\n    {oldStr:/Was$/, newStr: \"\"},\n    {oldStr: /\\s\\./, newStr: \"\"},\n    {oldStr:/\\s{2,}Was/, newStr: \". Was\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "_footer": "/descendant::p[contains(text(),\"Goldstar Events\")]/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody"
+        }
+      },
+      {
+        "id": "03a1439b-8818-4550-8d08-4a7b91fd6740",
+        "repeating": true,
+        "locations": [
+          "/descendant::table[contains(@class,\"nb\")]/descendant::table[1][descendant::span[contains(@style,\"text-decoration: line-through\")]]\n|\n/descendant::a[contains(text(),\"Get Tickets\")]/ancestor::table[contains(@class,\"nb\")]"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"goldstar\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
+        "repeating": true,
+        "locations": [
+          "/descendant::img"
+        ],
+        "type": "http://schema.org/ImageObject",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./@alt | ./@title"
+                }
+              ]
+            },
+            "name": "http://schema.org/_imgurl",
+            "relative": true,
+            "transient": true,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
+          "matchAttr": "http://schema.org/_imgurl"
+        },
+        "predicate": "http://schema.org/image",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "03a1439b-8818-4550-8d08-4a7b91fd6740",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
 /* ICICI BANK custcomm.icicibank.com */
 {
   "extract": {
@@ -3815,7 +4179,7 @@
         "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::img[contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")][parent::a/parent::td/parent::tr/following-sibling::tr[1][contains(.,\"Use code\")]]"
+          "/descendant::div[@id=\"DESKTOP\"]/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -3833,7 +4197,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  var replaceStrArr = [\n    {oldStr: /[\\*©®ǂ†→§™¹]/g, newStr: \"\"},\n    //{oldStr: /Shop\\sNow$/i, newStr: \"\"},\n    //{oldStr: /Welcome\\skit\\sis\\sredeemable.*/, newStr: \"\"},\n    {oldStr: /POINT REWARDS\\s\\|.*/, newStr: \"POINT REWARDS\"},\n    {oldStr: /([A-z]+\\s(\\d{1,2}-?){2},\\s\\d{0,4}\\.)\\s\\|.*/, newStr: \"$1\"}\n  ];\n\n  replaceStrArr.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n\n\n\tif(data.match(/Enter\\spromotion\\scode\\s.*\\sor\\smore\\./)) return data.match(/Enter\\spromotion\\scode\\s.*\\sor\\smore\\./)[0];\n\n  return data || \"\";\n}",
+            "javascript": "function transform(data){\n  var replaceStrArr = [\n    {oldStr: /[\\*©®ǂ†→§™¹]/g, newStr: \"\"},\n    //{oldStr: /Shop\\sNow$/i, newStr: \"\"},\n    //{oldStr: /Welcome\\skit\\sis\\sredeemable.*/, newStr: \"\"},\n    {oldStr: /POINT REWARDS\\s\\|.*/, newStr: \"POINT REWARDS\"},\n    {oldStr: /([A-z]+\\s(\\d{1,2}-?){2},\\s\\d{0,4}\\.)\\s\\|.*/, newStr: \"$1\"},\n    {oldStr: /^[1234]\\s/, newStr: \"\"}\n  ];\n\n  replaceStrArr.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -3856,29 +4220,10 @@
               "URL"
             ],
             "mandatory": false
-          },
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
-                  "xpath": "concat(./@alt, \" \", /descendant::text()[contains(.,\"Offer valid\")])"
-                }
-              ]
-            },
-            "name": "http://schema.org/validThrough",
-            "relative": true,
-            "transient": false,
-            "javascript": "function transform(data, node, headers){\n  if (data.match(/%\\soff/i) && data.match(/\\sthrough\\s(\\d{1,2}\\s?\\/){2}\\d{0,4}\\sat\\s11:59pm\\sPT/)) {\n    return data.match(/\\sthrough\\s(\\d{1,2}\\s?\\/){2}\\d{0,4}\\sat\\s11:59pm\\sPT/)[0].match(/(\\d{1,2}\\s?\\/){2}\\d{0,4}/)[0];\n  }\n\n  return \"\";\n}",
-            "dataTypes": [
-              "DateTime"
-            ],
-            "mandatory": false
           }
         ],
         "hints": {
-          "_raw_validThrough": "concat(./@alt, \" \", /descendant::text()[contains(.,\"Offer valid\")])",
-          "_footer": "/descendant::text()[contains(.,\"JCPenney\")]/parent::font/parent::td\n|\n/descendant::text()[contains(.,\"JCPenney\")]/parent::span/parent::td\n|\n/descendant::text()[contains(.,\"JCPenney\")]/parent::a/parent::td"
+          "_footer": "/descendant::text()[contains(.,\"valid while supplies last\")]/parent::td"
         },
         "hintsJavascript": "function transform(data) {\n\tvar n=data.get(\"_footer\");\n\tn=n.toString();\n\tn= n.replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n\treturn {'_footer': [n]};\n}"
       },
@@ -3909,24 +4254,6 @@
               "URL"
             ],
             "mandatory": false
-          },
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
-                  "xpath": "./@title | ./@alt"
-                }
-              ]
-            },
-            "name": "http://schema.org/_imgtext",
-            "relative": true,
-            "transient": true,
-            "javascript": null,
-            "dataTypes": [
-              "Text"
-            ],
-            "mandatory": false
           }
         ]
       },
@@ -3934,7 +4261,7 @@
         "id": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\") or contains(@alt, \"rouge reward\")]\n|\n/descendant::img[contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")][parent::a/parent::td/parent::tr/following-sibling::tr[1][contains(.,\"Use code\")]]"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
@@ -3966,19 +4293,6 @@
       {
         "from": {
           "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
-          "matchAttr": "http://schema.org/description"
-        },
-        "to": {
-          "entityRule": "53021d0e-c463-4bbb-b845-4c9bd73232a0",
-          "matchAttr": "http://schema.org/_imgtext"
-        },
-        "predicate": "http://schema.org/image",
-        "cardinality": "ONE_TO_ONE",
-        "matchThreshold": ".7"
-      },
-      {
-        "from": {
-          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
           "matchAttr": ""
         },
         "to": {
@@ -3986,6 +4300,18 @@
           "matchAttr": ""
         },
         "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "259fa107-ae46-4563-8ec8-86d9275d2492",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "53021d0e-c463-4bbb-b845-4c9bd73232a0",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/image",
         "cardinality": "ONE_TO_ONE"
       }
     ],
