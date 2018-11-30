@@ -14,10 +14,142 @@
 
   <a href="https://vuejs.org/v2/guide/components.html"><h3>Source</h3></a>
 
-  <h1>8 - Components Basics</h1>
-  <div class="textDiv">
-
+  <h1>9 - Components Basics</h1>
+  <div id="componentBasics1">
+    <h2>Components are reusable</h2>
+    <p>
+      Components are reusable Vue instances with a name.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        In the following example, two different buttons are created. They both feed
+        from the same component. The data in the components do not conflict with one
+        another since the component is reusable and therefore it represents a different
+        Vue instance.
+      </p>
+      <button-counter></button-counter> <br>
+      <button-counter></button-counter>
+      <code>
+Vue.component(&quot;button-counter&quot;, {
+  data() {
+    return {
+      counter: 0
+    }
+  },
+  template: &quot;&lt;button v-on:click=&apos;counter++&apos;&gt;I was clicked { {counter} } times&lt;/button&gt;&quot;
+});
+      </code>
+    </div>
+    <h2>Components characteristics</h2>
+    <p>
+      As mentioned above, the components are reusable Vue instances. Same like all
+      the instances, they accept the same properties like the <code>new Vue();</code>
+      instance. Therefore, the components can have <code>data</code>, <code>methods</code>,
+      <code>watch</code>, <code>computed</code>.
+    </p>
+    <p>
+      On the other hand, the components do not need an <code>el</code> property.
+    </p>
+    <h3><code>data</code> should be a function</h3>
+    <p>
+      Contrary to the <code>new Vue</code> instance, the <code>data</code> property
+      in the components should always be a function. That is because the components
+      are reusable and therefore, the function is needed to return an independent copy
+      of the <code>data</code> object.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        As you see in the following example, when clicking one of the buttons, both
+        of them have their value updated. That is because they are both feeding from
+        the same <code>data</code> property in the <code>new Vue</code> instance.
+        So contrary to the example above where the <code>Vue.component</code> allows
+        for the <code>data</code> properties values to be different (through the
+        returned function), the <code>new Vue</code> instance is feeding both of
+        the buttons from only one <code>data</code> property and therefore the
+        value rendered for both buttons is the same.
+      </p>
+      <button v-on:click='counter++'>You clicked me {{counter}} times</button>
+      <button v-on:click='counter++'>You clicked me {{counter}} times</button>
+      <code>
+&lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
+&lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
+      </code>
+    </div>
 </div>
+
+<script>
+  Vue.component("button-counter", {
+    data() {
+      return {
+        counter: 0
+      }
+    },
+    template: "<button v-on:click='counter++'>You clicked me {{counter}} times</button>"
+  });
+
+
+  var componentBasics1 = new Vue({
+    el: "#componentBasics1",
+    data: {
+      counter: 0
+    }
+  });
+</script>
+
+
+
+
+<div id="componentBasics2">
+  <h2>Organizing components</h2>
+  <p>
+    The components can be
+    used in a tree format to represent different parts of the web page like the
+    heading of the page, the nav tag, different sections, differentm articles, the
+    footer et cetera.
+  </p>
+  <p>
+    Components can either be organized locally or globally. Globaly registered
+    components (<code>Vue.component</code>) can be used by the root Vue instance,
+    which is <b>created afterwards</b>. Also the components can be used inside all
+    the sub-components of the Vue instance's component tree.
+  </p>
+
+
+  <h2>Passing data to child components with props</h2>
+  <p>
+    Props are custom attributes that can be passed to a component. For example,
+    same like in an <code>input</code> tag we have attributes like <code>type</code>
+    or <code>name</code>, we can create custom attributes to the Vue component in
+    order to bind different types of data that come from the root Vue instance
+    (<code>new Vue</code>).
+  </p>
+  <p>
+    When a value is passed into the prop attribute, it becomes a property of that
+    component instance. As mentioned in the above paragraph, we can pass different
+    props values (in the format of an array) who in their turn can pull different
+    data from the root Vue istance.
+  </p>
+  <div class="jumbotron">
+    <h4>Example</h4>
+
+  </div>
+</div>
+
+
+<script>
+  var componentBasics2 = new Vue({
+    el: "#componentBasics2",
+    data: {
+      history: {
+        {id: , title: "", fact: ""}
+      }
+    }
+  });
+</script>
+
+
 
 
 <a href="./008-form_input_bindings.html">Previous - Form Input Bindings</a> <a href="./010-component_registration.html">Next - Component Registration</a>

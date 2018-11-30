@@ -336,10 +336,53 @@
     </div>
 
     <h3><code>.number</code></h3>
-
+      <p>
+        The modifier <code>.number</code> allows us to transfer number value entries
+        in the property that is connected through the <code>v-model</code>. When the
+        attribute <code>type="number"</code> is added in the <code>input</code>
+        it still returns a type string. The <code>.number</code> modifier changes
+        the value's type to number.
+      </p>
     <div class="jumbotron">
       <h4>Example</h4>
-      <input type="number" name="" value="">
+      <p>
+        In the following example, I used <code>v-once</code> to render the original
+        <code>typeof</code> the property that is v-modeled.
+        The entry below that is displaying how the type of the value changes from
+        a string to a number when entering number values versus entering string values.
+      </p>
+      <p>
+        <span v-once>The original type of the property value was: {{typeof numberInput}}</span> <br>
+        The the entry in the input is: {{numberInput}} <br>
+        and the type of the property value is now a {{typeof numberInput}}
+      </p>
+      <input type="text" name="" value="" v-model.number="numberInput">
+      <code>
+        &lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; v-model.number=&quot;numberInput&quot;&gt;
+      </code>
+    </div>
+    <h4><code>.trim</code></h4>
+    <p>
+      <code>.trim</code> can be used to trim down the user entries that come through
+      the <code>v-model</code> directive.
+    </p>
+    <div class="jumbotron">
+      <h4>Example</h4>
+      <p>
+        The following input does not have a <code>.trim</code> modifier. Enter
+        some text and add some spaces at the end to see how the length changes. <br>
+        The length is: {{noTrimInput.length}}
+      </p>
+      <input type="text" name="" value="" v-model="noTrimInput">
+      <p>
+        The following input uses the <code>.trim</code> modifier. Enter some text
+        with spaces at the end to see how the text is trimmed down.<br>
+        The length is: {{trimInput.length}}
+      </p>
+      <input type="text" name="" value="" v-model.trim="trimInput">
+      <code>
+        &lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; v-model.trim=&quot;trimInput&quot;&gt;
+      </code>
     </div>
   </div>
 
@@ -349,7 +392,10 @@
       el: "#formInput3",
       data: {
         lazyTextInput: "",
-        textInput: ""
+        textInput: "",
+        numberInput: "",
+        noTrimInput: "",
+        trimInput: ""
       }
     });
   </script>

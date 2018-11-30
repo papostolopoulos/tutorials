@@ -206,14 +206,10 @@ function transform(data){
 
 
 
-function transform(data){
-  if(data.match(/\$[\d\,\.]{4,}/)){
-    var price = data.replace(/\$/,'')
-    var amt = parseFloat(price.match(/[\$\d\,\.]+/)[0].replace(/,/,'')).toFixed(2);
-    return amt;
-  } else {
-    return null;
-  }
+function transform(data,node,headers){
+  if(!data) return "";
+  if (data.match(/(\d{1,2}\/){2}\d{2,4}/)) return data.match(/(\d{1,2}\/){2}\d{2,4}/);
+  return new Date(headers.get("Date")*1000);
 }
 
 
@@ -223,78 +219,32 @@ function transform(data){
 
 
 
+var str1 = "must be received by 7p.m. ET on 11/12";
+var str2 = "Payment dated: Today";
+var str3 = "Payment Due Date: 11/12/2018";
+var str4 = "Payment dated: 11/06/18";
+var str5 = "payment is due on 11/18/2018";
+
+function transform(data,node,headers){
+  if(!data) return "";
 
 
-var str = "*CYBER MONDAY - OP TIL 70% RABAT: Tilbuddet gælder udvalgte varer på hm.com indtil 26.11.2018. : Gælder på hm.com t.o.m. 26.11.2018 eller så længe lager haves. Gælder ikke ved køb af gavekort.";
-
-function transform(data){
-//Define array of strings that are possibly both in the coupon and the footer of the email
   var stringArr = [
-    /%/,
-    /free/gi,
-    /gratuits/gi, //French: Free
-    /Kostenloser/gi, //German: Free
-    /gratuita/gi, //Spanish: Free
-    /gratis/gi, //Italian, Dutch, Corsican: Free
-    /GRÁTIS/gi, //Portuguese: Free
-    /ingyenes/gi, //Hungarian: Free
-    /gratuită/gi, //Romanian: Free
-    /Бесплатная/gi, //Russian: Free
-    /Δωρεάν/gi, //Greek: Free
-    /БЕЗПЛАТНА/gi, //Bulgarian: Free
-    /zdarma/gi, //Czech: Free
-    /ZADARMO/gi, //Slovak: Free
-    /Bezpłatna/gi, //Polish: Free
-    /ÜCRETSİZ/gi, //Turkish: Free
-    /مجاناً/gi, //Arabic: Free
-    /折优惠/gi //Chinese: Discount (% off)
+    {oldStr: /payment\sis\sdue\son\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"},
+    {oldStr: /Payment\sdated:\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"},
+    {oldStr: /Payment\sDue\sDate:\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"},
+    {oldStr: /must\sbe\sreceived\sby\s7p.m.\sET\son\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"}
   ];
 
+  stringArr.forEach(function(el) {
+    if (data.search(el.oldStr) !==-1) return el.oldStr.exec(data)[0].replace(el.oldStr, el.newStr);
+  });
 
 
-  //Iterate through the array. If the string is included twice in the concatenated text
-  //then see if there are any date formats
-  for (var i = 0; i < stringArr.length; i++) {
-    var el = stringArr[i];
-    if (data.search(el) !== -1 && data.indexOf(el) !== data.lastIndexOf(el)) {
-      var mmddyyyy = /([\d]{1,2}\/){2}\d{2,4}/; //MM/DD/YYYY
-      var yyyymmdd = /\d{4}(\.[\d]{1,2}){2}/; //YYYY/MM/DD
-      var yyyymmddChn = /\d{4}年\d{1,2}月\d{1,2}/; //YYYY/MM/DD - Chinese
-      var ddmmyyyy = /([\d]{1,2}\.){2}\d{2,4}/; //DD.MM.YYYY
+  if (data.indexOf("Payment dated: Today") !== -1) return new Date(headers.get("Date")*1000);
+}
 
 
-      //MM/DD/YYYY
-      if (mmddyyyy.exec(data)) return mmddyyyy.exec(data)[0];
-
-
-
-      //YYYY/MM/DD
-        if(yyyymmdd.exec(data)){
-          data = yyyymmdd.exec(data)[0].split(".");
-          return data[1] + "/" + data[2] + "/" + data[0];
-        }
-
-
-
-
-      //YYYY/MM/DD - Chinese
-      if(yyyymmddChn.exec(data)){
-          data = yyyymmddChn.exec(data)[0].replace(/[年月]/g,".").split(".");
-          return data[1] + "/" + data[2] + "/" + data[0];
-        }
-
-
-
-      //DD.MM.YYYY
-      if (ddmmyyyy.exec(data)){
-        data = ddmmyyyy.exec(data)[0].split(".");
-      return data[1] + "/" + data[0] + "/" + data[2];
-      }
-
-    } //End of top if statement
-  } //End of for loop
-
-
-
-return "";
+for (var i = 0; i < array.length; i++) {
+  array[i]
 }

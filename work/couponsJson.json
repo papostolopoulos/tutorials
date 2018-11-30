@@ -1759,7 +1759,7 @@
         "id": "250b951a-cde8-445b-85be-bd079dfe4f30",
         "repeating": true,
         "locations": [
-          "/descendant::div[contains(@class,\"event\")]\n[descendant::p[contains(@style,\"text-decoration: line-through\") and contains(text(),\"$\")] or\ndescendant::p[contains(text(),\"FREE\")]/ancestor::div[contains(@class,\"more\")]]\n|\ndescendant::td[@class=\"content\"][descendant::h1]"
+          "/descendant::div[contains(@class,\"event\")]\n[descendant::p[contains(@style,\"text-decoration: line-through\") and contains(text(),\"$\")] or\ndescendant::p[contains(text(),\"FREE\")]/ancestor::div[contains(@class,\"more\")]]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -1770,14 +1770,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "concat(./descendant::h1, \" - \",\n./descendant::div[contains(@class,\"heading\")]/descendant::h3, \" - \",\n./descendant::div[contains(@class,\"heading\")]/descendant::p, \" \",\n./descendant::p[contains(@class,\"our\")], \". Was \",\n./descendant::p[contains(@class,\"full\")])"
+                  "xpath": "concat(./descendant::div[contains(@class,\"heading\")]/descendant::h3, \" - \",\n./descendant::div[contains(@class,\"heading\")]/descendant::p, \" \",\n./descendant::p[contains(@class,\"our\")], \". Was \",\n./descendant::p[contains(@class,\"full\")])"
                 }
               ]
             },
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr:/Was$/, newStr: \"\"},\n    {oldStr: /Get\\sTickets.*/, newStr: \"\"},\n    {oldStr: /(\\d+\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+)(\\$\\d+)/, newStr: \"$3. Was\"},\n    {oldStr: /^\\-\\s/, newStr: \"\"},\n    {oldStr: /-\\s+-/, newStr: \"-\"},   \n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
+            "javascript": "function transform(data){\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr:/Was$/, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n  return data.trim() || \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -1788,7 +1788,7 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "./descendant::a/@href"
+                  "xpath": "./child::a/@href"
                 }
               ]
             },
@@ -1800,21 +1800,41 @@
               "URL"
             ],
             "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td[contains(text(),\"Now through\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/validThrough",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data,node,headers){\n  if(/Now\\sthrough/.exec(data)) {\n    var daysOfWeek = [\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"];\n    var headersArr = [];\n    for (var key in headers){\n      headersArr.push(headers[key]);\n    }\n    var emailDate = new Date(headersArr[3] * 1000);\n    var emailDay = emailDate.getDay();\n    var expirDay = daysOfWeek.indexOf(/Now\\sthrough.*/.exec(data)[0].replace(/Now\\sthrough\\s/, \"\").replace(/\\./, \"\"));\n    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay + 7 - emailDay;\n\n    var finalDay = emailDate.getDate() + addedDays;\n    var month = emailDate.getMonth();\n\n    return new Date(\"1970\", month, finalDay);\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
           }
         ],
         "hints": {
-          "_footer": "/descendant::p[contains(text(),\"Goldstar Events\")]/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody"
-        }
+          "_footer": "/descendant::p[contains(text(),\"Goldstar Events\")]/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody",
+          "_raw_validThrough": "/descendant::td[contains(text(),\"Now through\")]"
+        },
+        "hintsJavascript": "function transform(data) {\n  var n=data.get(\"_footer\");\n  n = n.toString().replace(/[A-z0-9.%+-_]{2,64}\\@[A-z0-9.]{2,64}/g,'');\n  return {'_footer': [n]};\n}"
       },
       {
         "id": "03a1439b-8818-4550-8d08-4a7b91fd6740",
         "repeating": true,
         "locations": [
-          "/descendant::div[contains(@class,\"event\")]\n[descendant::p[contains(@style,\"text-decoration: line-through\") and contains(text(),\"$\")] or\ndescendant::p[contains(text(),\"FREE\")]/ancestor::div[contains(@class,\"more\")]]\n|\ndescendant::td[@class=\"content\"][descendant::h1]"
+          "/descendant::div[contains(@class,\"event\")]\n[descendant::p[contains(@style,\"text-decoration: line-through\") and contains(text(),\"$\")] or\ndescendant::p[contains(text(),\"FREE\")]/ancestor::div[contains(@class,\"more\")]]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
-        "entityIdRef": "",
+        "entityIdRef": null,
         "attributes": [
           {
             "repeating": false,
@@ -1834,10 +1854,7 @@
             ],
             "mandatory": false
           }
-        ],
-        "hints": {
-          "_footer": "/descendant::p[contains(text(),\"Goldstar Events\")]/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody/parent::table/parent::td/parent::tr/parent::tbody"
-        }
+        ]
       },
       {
         "id": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
@@ -1892,18 +1909,6 @@
       {
         "from": {
           "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
-          "matchAttr": "http://schema.org/description"
-        },
-        "to": {
-          "entityRule": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
-          "matchAttr": "http://schema.org/_imgurl"
-        },
-        "predicate": "http://schema.org/image",
-        "cardinality": "ONE_TO_ONE"
-      },
-      {
-        "from": {
-          "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
           "matchAttr": ""
         },
         "to": {
@@ -1911,6 +1916,18 @@
           "matchAttr": ""
         },
         "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "250b951a-cde8-445b-85be-bd079dfe4f30",
+          "matchAttr": "http://schema.org/description"
+        },
+        "to": {
+          "entityRule": "57c65384-7a46-4ff6-8d2c-57b234d0b6c4",
+          "matchAttr": "http://schema.org/_imgurl"
+        },
+        "predicate": "http://schema.org/image",
         "cardinality": "ONE_TO_ONE"
       }
     ],
@@ -3997,7 +4014,7 @@
         "id": "f5a298ac-6358-4606-82fb-a1e4f1639819",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt,\"% OFF\") or\ncontains(@alt,\"Sale\") or contains(@alt,\"CASHBACK\")][not (contains(@alt,\"Exclusions apply\"))]"
+          "/descendant::img[contains(@alt,\"% OFF\") or\ncontains(@alt,\"Sale\") or contains(@alt,\"CASHBACK\") or contains(@alt, \"exclusive\")][not (contains(@alt,\"Exclusions apply\"))]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -4015,7 +4032,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  var removeStrArr = [\n    /[\\*©®ǂ†→§™¹]/g,\n    /\\|\\sSHOP\\sNOW/i,\n  ];\n  \n  removeStrArr.forEach(function(el){\n    data = data.replace(el, \"\");\n  });\n  \n  return data.trim() || \"\";\n}",
+            "javascript": "function transform(data){\n  var removeStrArr = [\n    /[\\*©®ǂ†→§™¹]/g,\n    /\\|\\sSHOP\\sNOW/i,\n    /^\\-/,\n    /^\\+\\s/,\n    /\\|\\s+SHOP\\s+ALL\\s+DEALS/,\n    /-\\s\\OR\\s-\\sSHOP\\sONLINE\\sNOW/\n  ];\n  \n  removeStrArr.forEach(function(el){\n    data = data.replace(el, \"\");\n  });\n  \n  return data[0].toUpperCase() + data.slice(1).trim() || \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -4044,14 +4061,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "/descendant::img[contains(@alt,\"Offer ends\")]/@alt"
+                  "xpath": "/descendant::img[contains(@alt,\"Offer ends\") or contains(@alt,\"offer ends\")]/@alt"
                 }
               ]
             },
             "name": "http://schema.org/validThrough",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n\treturn data.match(/([\\d\\/]{2,3}){2}([\\d]{2,4})?/) || \"\";\n}",
+            "javascript": "function transform(data) {\n  return /offer\\sends\\s(\\d{1,2}\\/){2}([\\d]{2,4})?/g.exec(data)[0].replace(/offer\\sends\\s/g, \"\") || \"\";\n\t\n}",
             "dataTypes": [
               "DateTime"
             ],
@@ -4059,15 +4076,15 @@
           }
         ],
         "hints": {
-          "_raw_validThrough": "./following::span[contains(text(),\"Offer Ends\")]",
-          "_footer": "/descendant::td[contains(.,\"limited\")]"
+          "_footer": "/descendant::td[contains(.,\"limited\")]",
+          "_raw_validThrough": "/descendant::img[contains(@alt,\"Offer ends\") or contains(@alt,\"offer ends\")]/@alt"
         }
       },
       {
         "id": "12cd83a0-8963-47e3-b898-460b54103aa2",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt,\"%\") or\ncontains(@alt,\"Sale\") or\ncontains(@alt,\"$\")\n]"
+          "/descendant::img[contains(@alt,\"% OFF\") or\ncontains(@alt,\"Sale\") or contains(@alt,\"CASHBACK\") or contains(@alt, \"exclusive\")][not (contains(@alt,\"Exclusions apply\"))]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,

@@ -701,7 +701,7 @@ function transform(data,node,headers){
 
 
 
-//PAYMENT STATUS
+//PAYMENT STATUS - INVOICES
 function transform(data) {
   var textMatchObj = {
     'keyword1': 'PaymentDue',
@@ -795,6 +795,16 @@ function transform(data) {
   });
 
  return data.trim();
+}
+
+
+
+
+// REMOVE PII
+function transform(data) {
+  var n=data.get("_footer");
+  n = n.toString().replace(/[A-z0-9.%+-_]{2,64}\@[A-z0-9.]{2,64}/g,'');
+  return {'_footer': [n]};
 }
 
 
