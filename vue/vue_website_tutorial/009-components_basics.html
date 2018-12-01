@@ -70,8 +70,8 @@ Vue.component(&quot;button-counter&quot;, {
         the buttons from only one <code>data</code> property and therefore the
         value rendered for both buttons is the same.
       </p>
-      <button v-on:click='counter++'>You clicked me {{counter}} times</button>
-      <button v-on:click='counter++'>You clicked me {{counter}} times</button>
+      <button v-on:click="counter++">You clicked me {{counter}} times</button>
+      <button v-on:click="counter++">You clicked me {{counter}} times</button>
       <code>
 &lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
 &lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
@@ -142,9 +142,12 @@ Vue.component(&quot;button-counter&quot;, {
   var componentBasics2 = new Vue({
     el: "#componentBasics2",
     data: {
-      history: {
-        {id: , title: "", fact: ""}
-      }
+      history: [
+        {id: 1, title: "Battle of Marathon", fact: "The Battle of Marathon took place in 490 BC, during the first Persian invasion of Greece. It was fought between the citizens of Athens, aided by Plataea, and a Persian force commanded by Datis and Artaphernes. The battle was the culmination of the first attempt by Persia, under King Darius I, to subjugate Greece."},
+        {id: 1, title: "Battle of Thermopylae", fact: "The Battle of Thermopylae was fought between an alliance of Greek city-states, led by King Leonidas of Sparta, and the Persian Empire of Xerxes I over the course of three days, during the second Persian invasion of Greece."},
+        {id: 1, title: "Battle of Plataea", fact: "The Battle of Plataea was the final land battle during the second Persian invasion of Greece. It took place in 479 BC near the city of Plataea in Boeotia, and was fought between an alliance of the Greek city-states, and the Persian Empire of Xerxes I."},
+        {id: 1, title: "Battle of Salamis", fact: "The Battle of Salamis was a naval battle fought between an alliance of Greek city-states under Themistocles and the Persian Empire under King Xerxes in 480 BC which resulted in a decisive victory for the outnumbered Greeks."},
+      ]
     }
   });
 </script>
