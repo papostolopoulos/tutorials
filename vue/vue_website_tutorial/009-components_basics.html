@@ -70,8 +70,8 @@ Vue.component(&quot;button-counter&quot;, {
         the buttons from only one <code>data</code> property and therefore the
         value rendered for both buttons is the same.
       </p>
-      <button v-on:click='counter++'>You clicked me {{counter}} times</button>
-      <button v-on:click='counter++'>You clicked me {{counter}} times</button>
+      <button v-on:click="counter++">You clicked me {{counter}} times</button>
+      <button v-on:click="counter++">You clicked me {{counter}} times</button>
       <code>
 &lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
 &lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
@@ -133,18 +133,199 @@ Vue.component(&quot;button-counter&quot;, {
   </p>
   <div class="jumbotron">
     <h4>Example</h4>
+    <p>
+      REMEMBER: The props represent the properties in the array you want to
+      render, not the array itself. So if you have an array <code>history</code> with
+      elements <code>{id:1, title: "some title", content: "some content"}</code> then
+      the props you should use are <code>title</code> and <code>content</code>.
+    </p>
+    <p>
+      In the following example, there is a <code>v-for</code> itteration through
+      one of the <code>data</code> properties and the <code>props</code> are
+      binded with each one of the properties in the element objects.
+    </p>
+      <battles
+      v-for="battle in history"
+      v-bind:key="battle.id"
+      v-bind:title="battle.title"
+      v-bind:fact="battle.fact"
+      >
+      </battles>
 
+
+      <h6>html code</h6>
+      <code>
+        &lt;battles
+        v-for=&quot;battle in history&quot;
+        v-bind:key=&quot;battle.id&quot;
+        v-bind:title=&quot;battle.title&quot;
+        v-bind:fact=&quot;battle.fact&quot;
+        &gt;
+        &lt;/battles&gt;
+      </code>
+      <h6>Vue code</h6>
+      <code>
+        Vue.component(&quot;battles&quot;, {
+          props: [&quot;title&quot;, &quot;fact&quot;],
+          template: &grave;
+          &lt;div&gt;
+          &lt;h3&gt;Battle: { {title} }&lt;/h3&gt;
+          &lt;p&gt;&lt;i&gt;{ {fact} }&lt;/i&gt;&lt;/p&gt;
+          &lt;/div&gt;
+          &grave;
+        });
+      </code>
   </div>
 </div>
 
 
 <script>
+
+  Vue.component("battles", {
+    props: ["title", "fact"],
+    template: `
+    <div>
+      <h3>Battle: {{title}}</h3>
+      <p><i>{{fact}}</i></p>
+    </div>
+    `
+  });
+
   var componentBasics2 = new Vue({
     el: "#componentBasics2",
     data: {
-      history: {
-        {id: , title: "", fact: ""}
-      }
+      history: [
+        {id: 1, title: "Marathon", fact: "The Battle of Marathon took place in 490 BC, during the first Persian invasion of Greece. It was fought between the citizens of Athens, aided by Plataea, and a Persian force commanded by Datis and Artaphernes. The battle was the culmination of the first attempt by Persia, under King Darius I, to subjugate Greece."},
+        {id: 2, title: "Thermopylae", fact: "The Battle of Thermopylae was fought between an alliance of Greek city-states, led by King Leonidas of Sparta, and the Persian Empire of Xerxes I over the course of three days, during the second Persian invasion of Greece."},
+        {id: 3, title: "Salamis", fact: "The Battle of Salamis was a naval battle fought between an alliance of Greek city-states under Themistocles and the Persian Empire under King Xerxes in 480 BC which resulted in a decisive victory for the outnumbered Greeks."},
+        {id: 4, title: "Plataea", fact: "The Battle of Plataea was the final land battle during the second Persian invasion of Greece. It took place in 479 BC near the city of Plataea in Boeotia, and was fought between an alliance of the Greek city-states, and the Persian Empire of Xerxes I."},
+      ]
+    }
+  });
+</script>
+
+
+
+
+
+<div id="componentBasics3">
+  <h2>Single Root element and Single prop</h2>
+  <p>
+    In the above example, you can see that the component's tempate has an <code>h3</code>
+    and a <code>p</code> tag that are wrapped inside a <code>div</code> tag.
+    That is because the component is expecting only <b>one root element</b>. If
+    you do not do that, then an error will be thrown by Vue. In order to avoid this,
+    you should wrap all the different html nodes within one single node in order to
+    avoid the error.
+  </p>
+  <h3>Managin multiple props</h3>
+  <p>
+    There could be cases where the data object that is connected to the component has
+    a lot different props to be matched with different properties. That can result in
+    a chaotic and tedious work since each one of the props would have to be matched with
+    the related element's object's property. in order to avoid that, we can create
+    one prop only that is binded to each one of the elements of the array and then
+    call each one of array's element's object property directly in the template.
+  </p>
+  <div class="jumbotron">
+    <h4>Example</h4>
+    <p>
+
+    </p>
+    <greco-persian
+    v-for="battle in history"
+    :key="battle.id"
+    :battle="battle"
+    >
+    </greco-persian>
+  </div>
+  <h6>html code</h6>
+  <code>
+&lt;greco-persian
+    v-for=&quot;battle in history&quot;
+    :key=&quot;battle.id&quot;
+    :battle=&quot;battle&quot;
+    &gt;
+&lt;/greco-persian&gt;
+  </code>
+  <h6>Vue code</h6>
+  <code>
+Vue.component(&quot;greco-persian&quot;, {
+  props: [&quot;battle&quot;],
+  template: &grave;
+    &lt;div&gt;
+      &lt;hr&gt;
+      &lt;img :src=&quot;battle.imageUrl&quot; style=&quot;width: 250px; float: right;&quot;/&gt;
+      &lt;h3&gt;Battle { {battle.title} }&lt;/h3&gt;
+      &lt;p&gt;{ {battle.fact} }&lt;/p&gt;
+      &lt;h6&gt;Greek Force: { {battle.armyGr} }&lt;/h6&gt;
+      &lt;h6&gt;Persian Force: { {battle.armyPr} }&lt;/h6&gt;
+      &lt;h6&gt;Outcome: { {battle.outcome} }&lt;/h6&gt;
+    &lt;/div&gt;
+  &grave;
+});
+  </code>
+</div>
+
+
+
+<script>
+  Vue.component("greco-persian", {
+    props: ["battle"],
+    template: `
+      <div>
+        <hr>
+        <img :src="battle.imageUrl" style="width: 250px; float: right;"/>
+        <h3>Battle {{battle.title}}</h3>
+        <p>{{battle.fact}}</p>
+        <h6>Greek Force: {{battle.armyGr}}</h6>
+        <h6>Persian Force: {{battle.armyPr}}</h6>
+        <h6>Outcome: {{battle.outcome}}</h6>
+      </div>
+    `
+  });
+
+  var componentBasics3 = new Vue({
+    el: "#componentBasics3",
+    data: {
+      history: [
+        {
+          id: 1,
+          title: "Marathon",
+          fact: "The Battle of Marathon took place in 490 BC, during the first Persian invasion of Greece. It was fought between the citizens of Athens, aided by Plataea, and a Persian force commanded by Datis and Artaphernes. The battle was the culmination of the first attempt by Persia, under King Darius I, to subjugate Greece.",
+          armyGr: 11000,
+          armyPr: 126000,
+          outcome: "Greek victory",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/42/Battle_of_Marathon_Initial_Situation.png"
+        },
+        {
+          id: 2,
+          title: "Thermopylae",
+          fact: "The Battle of Thermopylae (/θərˈmɒpɪliː/ thər-MOP-i-lee; Greek: Μάχη τῶν Θερμοπυλῶν, Máchē tōn Thermopylōn) was fought between an alliance of Greek city-states, led by King Leonidas of Sparta, and the Persian Empire of Xerxes I over the course of three days, during the second Persian invasion of Greece. It took place simultaneously with the naval battle at Artemisium, in August or September 480 BC, at the narrow coastal pass of Thermopylae ('The Hot Gates'). The Persian invasion was a delayed response to the defeat of the first Persian invasion of Greece, which had been ended by the Athenian victory at the Battle of Marathon in 490 BC. By 480 BC Xerxes had amassed a huge army and navy, and set out to conquer all of Greece. The Athenian politician and general Themistocles had proposed that the allied Greeks block the advance of the Persian army at the pass of Thermopylae, and simultaneously block the Persian navy at the Straits of Artemisium.",
+          armyGr: 7000,
+          armyPr: 150000,
+          outcome: "Persian victory",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Thermopylae_map_480bc.png"
+        },
+        {
+          id: 3,
+          title: "Salamis",
+          fact: "The Battle of Salamis was a naval battle fought between an alliance of Greek city-states under Themistocles and the Persian Empire under King Xerxes in 480 BC which resulted in a decisive victory for the outnumbered Greeks. The battle was fought in the straits between the mainland and Salamis, an island in the Saronic Gulf near Athens, and marked the high-point of the second Persian invasion of Greece.",
+          armyGr: 371,
+          armyPr: 700,
+          outcome: "Greek victory",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Battle_of_salamis.png"
+        },
+        {
+          id: 4,
+          title: "Plataea",
+          fact: "The Battle of Plataea was the final land battle during the second Persian invasion of Greece. It took place in 479 BC near the city of Plataea in Boeotia, and was fought between an alliance of the Greek city-states, and the Persian Empire of Xerxes I.",
+          armyGr: 80000,
+          armyPr: 120000,
+          outcome: "Greek victory",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e1/Battle_of_Plataea_part_2.PNG"
+        },
+      ]
     }
   });
 </script>
