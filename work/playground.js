@@ -216,35 +216,61 @@ function transform(data,node,headers){
 
 
 
+var str = "We couldn't wait to share ridiculously good prices on these concerts, musicals, cruises, food fests & more. Now through Tuesday.";
 
-
-
-var str1 = "must be received by 7p.m. ET on 11/12";
-var str2 = "Payment dated: Today";
-var str3 = "Payment Due Date: 11/12/2018";
-var str4 = "Payment dated: 11/06/18";
-var str5 = "payment is due on 11/18/2018";
 
 function transform(data,node,headers){
-  if(!data) return "";
-
-
-  var stringArr = [
-    {oldStr: /payment\sis\sdue\son\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"},
-    {oldStr: /Payment\sdated:\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"},
-    {oldStr: /Payment\sDue\sDate:\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"},
-    {oldStr: /must\sbe\sreceived\sby\s7p.m.\sET\son\s((\d{1,2}\/){2}\d{2,4})/, newStr: "$1"}
-  ];
-
-  stringArr.forEach(function(el) {
-    if (data.search(el.oldStr) !==-1) return el.oldStr.exec(data)[0].replace(el.oldStr, el.newStr);
-  });
-
-
-  if (data.indexOf("Payment dated: Today") !== -1) return new Date(headers.get("Date")*1000);
+  if(data.match(/Now\s+through/)) {
+    var headersArr = [];
+    for (var key in headers){
+      headersArr.push(headers[key]);
+    }
+    return headersArr[3];
+    var n = headers.get("Date");
+    return "inside";
+    //var n1 = new Date(n * 1000);
+    //var day1 = n1.getDate() + 30;
+    //var mon1 = n1.getMonth();
+    //var vt = new Date("1970", mon1, day1);
+    //return vt;
+  }
+  else return "";
 }
 
 
-for (var i = 0; i < array.length; i++) {
-  array[i]
+function transform(data,node,headers){
+  if(/Now\sthrough/.exec(data)) {
+    var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var headersArr = [];
+    for (var key in headers){
+      headersArr.push(headers[key]);
+    }
+    var emailDate = new Date(headersArr[3] * 1000);
+    var emailDay = emailDate.getDay();
+    var expirDay = daysOfWeek.indexOf(/Now\sthrough.*/.exec(data)[0].replace(/Now\sthrough\s/, "").replace(/\./, ""));
+    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay + 7 - emailDay;
+
+    var finalDay = emailDate.getDate() + addedDays;
+    var month = emailDate.getMonth();
+
+    return Date("1970", month, finalDay);
+  }
+  return "";
+}
+
+
+function transform(data,node,headers){
+  if(data.match(/30 days from/)) {
+    var n = headers.get("Date");
+    var n1 = new Date(n * 1000);
+    var day1 = n1.getDate() + 30;
+    var mon1 = n1.getMonth();
+    var vt = new Date("1970", mon1, day1);
+    return vt;
+  }
+  else return "";
+}
+
+function transform(data){
+  return /Ends\s\d{1,2}\/\d{1,2}([\d]{2,4})?/.exec(data)[0] ? /\d{1,2}\/\d{1,2}([\d]{2,4})?/.exec(data)[0] : "";
 }

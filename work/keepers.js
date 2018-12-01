@@ -699,6 +699,27 @@ function transform(data,node,headers){
   return "";
 }
 
+//When the footer reads "now through Tuesday" - Pulling based on the sent date from header
+function transform(data,node,headers){
+  if(/Now\sthrough/.exec(data)) {
+    var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var headersArr = [];
+    for (var key in headers){
+      headersArr.push(headers[key]);
+    }
+    var emailDate = new Date(headersArr[3] * 1000);
+    var emailDay = emailDate.getDay();
+    var expirDay = daysOfWeek.indexOf(/Now\sthrough.*/.exec(data)[0].replace(/Now\sthrough\s/, "").replace(/\./, ""));
+    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay + 7 - emailDay;
+
+    var finalDay = emailDate.getDate() + addedDays;
+    var month = emailDate.getMonth();
+
+    return new Date("1970", month, finalDay);
+  }
+  return "";
+}
+
 
 
 //PAYMENT STATUS - INVOICES
@@ -806,6 +827,17 @@ function transform(data) {
   n = n.toString().replace(/[A-z0-9.%+-_]{2,64}\@[A-z0-9.]{2,64}/g,'');
   return {'_footer': [n]};
 }
+
+
+
+
+//Function for cleaning up CartWheel or other unwanted images based on the url extension
+function transform(data) {
+   if (Util.getSchemaAttributeFirstValue(data, "http://schema.org/url").match(/INSERTTEXT/)) return null;
+
+    return data;
+}
+
 
 
 
