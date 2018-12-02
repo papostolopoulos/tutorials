@@ -230,7 +230,12 @@ Vue.component(&quot;button-counter&quot;, {
   <div class="jumbotron">
     <h4>Example</h4>
     <p>
-
+      In the following example, the component's prop "battle" is binded with each one
+      of the elements of the array that the data are being pulled from. Therefore,
+      there is no need for each one of the properties of the element to be binded
+      individually. The advantage is that in the event a new property is added to each
+      one of the elements of the array where the data are being pulled from, there will
+      not be a need for binding it since the whole element is binded already.
     </p>
     <greco-persian
     v-for="battle in history"
@@ -273,7 +278,7 @@ Vue.component(&quot;greco-persian&quot;, {
   Vue.component("greco-persian", {
     props: ["battle"],
     template: `
-      <div>
+      <div style="margin-bottom:30px;">
         <hr>
         <img :src="battle.imageUrl" style="width: 250px; float: right;"/>
         <h3>Battle {{battle.title}}</h3>
