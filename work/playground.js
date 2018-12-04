@@ -206,71 +206,31 @@ function transform(data){
 
 
 
-function transform(data,node,headers){
-  if(!data) return "";
-  if (data.match(/(\d{1,2}\/){2}\d{2,4}/)) return data.match(/(\d{1,2}\/){2}\d{2,4}/);
-  return new Date(headers.get("Date")*1000);
-}
-
-
-
-
-
-var str = "We couldn't wait to share ridiculously good prices on these concerts, musicals, cruises, food fests & more. Now through Tuesday.";
-
-
-function transform(data,node,headers){
-  if(data.match(/Now\s+through/)) {
-    var headersArr = [];
-    for (var key in headers){
-      headersArr.push(headers[key]);
-    }
-    return headersArr[3];
-    var n = headers.get("Date");
-    return "inside";
-    //var n1 = new Date(n * 1000);
-    //var day1 = n1.getDate() + 30;
-    //var mon1 = n1.getMonth();
-    //var vt = new Date("1970", mon1, day1);
-    //return vt;
+function(data) {
+  var stringRegex = /offer\sends\s((\d{1,2}\/){2}([\d]{2,4})?)/i;
+  if (data.indexOf("†") !== data.lastIndexOf("†") && data.indexOf("†") !== -1) {
+    return stringRegex.exec(data)[0].replace(stringRegex, "$1");
   }
-  else return "";
-}
 
-
-function transform(data,node,headers){
-  if(/Now\sthrough/.exec(data)) {
-    var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var headersArr = [];
-    for (var key in headers){
-      headersArr.push(headers[key]);
-    }
-    var emailDate = new Date(headersArr[3] * 1000);
-    var emailDay = emailDate.getDay();
-    var expirDay = daysOfWeek.indexOf(/Now\sthrough.*/.exec(data)[0].replace(/Now\sthrough\s/, "").replace(/\./, ""));
-    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay + 7 - emailDay;
-
-    var finalDay = emailDate.getDate() + addedDays;
-    var month = emailDate.getMonth();
-
-    return Date("1970", month, finalDay);
-  }
   return "";
 }
 
 
-function transform(data,node,headers){
-  if(data.match(/30 days from/)) {
-    var n = headers.get("Date");
-    var n1 = new Date(n * 1000);
-    var day1 = n1.getDate() + 30;
-    var mon1 = n1.getMonth();
-    var vt = new Date("1970", mon1, day1);
-    return vt;
-  }
-  else return "";
-}
 
 function transform(data){
-  return /Ends\s\d{1,2}\/\d{1,2}([\d]{2,4})?/.exec(data)[0] ? /\d{1,2}\/\d{1,2}([\d]{2,4})?/.exec(data)[0] : "";
+  var removeStrArr = [
+    {oldStr: /[\*©®ǂ†→§™¹]/g, newStr: ""},
+    {oldStr: /\|\sSHOP\sNOW/i, newStr: ""},
+    {oldStr: /^\+\s/, newStr: ""},
+    {oldStr: /^\-/, newStr: ""},
+    {oldStr: /\|\s+SHOP\s+ALL\s+DEALS/, newStr: ""},
+    {oldStr: /-\s\OR\s-\sSHOP\sONLINE\sNOW/, newStr: ""},
+    {oldStr: /\s9\sPM\sCT\sTODAY\s-\s7\sCT\sFRIDAY\s\|\s/, newStr: ""},
+  ];
+
+  removeStrArr.forEach(function(el){
+    data = data.replace(el.oldStr, el.newStr);
+  });
+
+  return data[0].toUpperCase() + data.slice(1).trim() || "";
 }

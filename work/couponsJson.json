@@ -4032,7 +4032,7 @@
             "name": "http://schema.org/description",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  var removeStrArr = [\n    /[\\*©®ǂ†→§™¹]/g,\n    /\\|\\sSHOP\\sNOW/i,\n    /^\\-/,\n    /^\\+\\s/,\n    /\\|\\s+SHOP\\s+ALL\\s+DEALS/,\n    /-\\s\\OR\\s-\\sSHOP\\sONLINE\\sNOW/\n  ];\n  \n  removeStrArr.forEach(function(el){\n    data = data.replace(el, \"\");\n  });\n  \n  return data[0].toUpperCase() + data.slice(1).trim() || \"\";\n}",
+            "javascript": "function transform(data){\n  var removeStrArr = [\n    {oldStr: /[\\*©®ǂ†→§™¹]/g, newStr: \"\"},\n    {oldStr: /\\|\\sSHOP\\sNOW/i, newStr: \"\"},\n    {oldStr: /^\\+\\s/, newStr: \"\"},\n    {oldStr: /^\\-/, newStr: \"\"},\n    {oldStr: /\\|\\s+SHOP\\s+ALL\\s+DEALS/, newStr: \"\"},\n    {oldStr: /-\\s\\OR\\s-\\sSHOP\\sONLINE\\sNOW/, newStr: \"\"},\n    {oldStr: /\\s9\\sPM\\sCT\\sTODAY\\s-\\s7\\sCT\\sFRIDAY\\s\\|\\s/, newStr: \"\"},\n  ];\n  \n  removeStrArr.forEach(function(el){\n    data = data.replace(el.oldStr, el.newStr);\n  });\n  \n  return data[0].toUpperCase() + data.slice(1).trim() || \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -4061,14 +4061,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "/descendant::img[contains(@alt,\"Offer ends\") or contains(@alt,\"offer ends\")]/@alt"
+                  "xpath": "concat(./@alt, \" \", /descendant::a[contains(.,\"Offer ends\") or contains(.,\"offer ends\")])"
                 }
               ]
             },
             "name": "http://schema.org/validThrough",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n  return /offer\\sends\\s(\\d{1,2}\\/){2}([\\d]{2,4})?/g.exec(data)[0].replace(/offer\\sends\\s/g, \"\") || \"\";\n\t\n}",
+            "javascript": "function transform(data) {\n  var stringRegex = /offer\\sends\\s((\\d{1,2}\\/){2}([\\d]{2,4})?)/i;\n  if (data.indexOf(\"†\") !== data.lastIndexOf(\"†\") && data.indexOf(\"†\") !== -1) {\n    return stringRegex.exec(data)[0].replace(stringRegex, \"$1\");\n  }\n\n  return \"\";\n}",
             "dataTypes": [
               "DateTime"
             ],
@@ -4076,9 +4076,10 @@
           }
         ],
         "hints": {
-          "_footer": "/descendant::td[contains(.,\"limited\")]",
-          "_raw_validThrough": "/descendant::img[contains(@alt,\"Offer ends\") or contains(@alt,\"offer ends\")]/@alt"
-        }
+          "_raw_validThrough": "concat(./@alt, \" \", /descendant::a[contains(.,\"Offer ends\") or contains(.,\"offer ends\")])",
+          "_footer": "/descendant::text()[contains(.,\"Sears Holdings Corporation\")]/parent::td"
+        },
+        "hintsJavascript": null
       },
       {
         "id": "12cd83a0-8963-47e3-b898-460b54103aa2",
@@ -4196,7 +4197,7 @@
         "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
         "repeating": true,
         "locations": [
-          "/descendant::div[@id=\"DESKTOP\"]/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")]"
+          "/descendant::div[@id=\"DESKTOP\"]/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per\") or contains(@alt,\"Points per\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")]"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,
@@ -4278,7 +4279,7 @@
         "id": "5dcbab78-f12a-49b6-95e0-9fb23fd7c56f",
         "repeating": true,
         "locations": [
-          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per dollar\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")]"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per\") or contains(@alt,\"Points per\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\")]"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,

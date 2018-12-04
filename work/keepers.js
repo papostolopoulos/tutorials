@@ -720,6 +720,54 @@ function transform(data,node,headers){
   return "";
 }
 
+//*******When the months are stated. BETTER function structure for all other date formats*******
+function transform(data){
+  var dateFormats = {
+    fromTo: /from (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,}\s\d{1,2}(st|nd|rd|th)?\sto\s((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,}\s\d{1,2}(st|nd|rd|th)?,?\s\d{4})/, // from mon(th) (n)n(st|nd|rd|th) to mon(th) (n)n(st|nd|rd|th), yyyy
+    mmddyyyy: /([\d]{1,2}\/){2}\d{2,4}/, //MM/DD/YYYY
+    yyyymmdd: /\d{4}(\.[\d]{1,2}){2}/, //YYYY/MM/DD
+    yyyymmddChn: /\d{4}年\d{1,2}月\d{1,2}/, //YYYY/MM/DD - Chinese
+    ddmmyyyy: /([\d]{1,2}\.){2}\d{2,4}/ //DD.MM.YYYY
+  };
+
+
+  for(var key in dateFormats){
+    if (dateFormats[key].exec(data)) {
+
+      //fromto
+      if (key === "fromTo") return new Date(dateFormats[key].exec(data)[0].replace(dateFormats[key], "$3"));
+
+
+
+      //mmddyyyy
+      if (key === "mmddyyyy") return dateFormats[key].exec(data)[0];
+
+
+
+
+      //yyyymmdd - yyyymmddChn - ddmmyyyy
+      if(key === "yyyymmdd" || key === "yyyymmddChn" || key === "ddmmyyyy") {
+        data = dateFormats[key].exec(data)[0].replace(/[年月]/g,".").split(".");
+        return key === "ddmmyyyy" ? data[1] + "/" + data[0] + "/" + data[2] : data[1] + "/" + data[2] + "/" + data[0];
+      }
+
+
+    } //End of parent if statement
+  } //End of for loop
+
+return "";
+}
+
+//Concatenation of top description with VT footer
+function(data) {
+  var stringRegex = /offer\sends\s((\d{1,2}\/){2}([\d]{2,4})?)/i;
+  if (data.indexOf("†") !== data.lastIndexOf("†") && data.indexOf("†") !== -1) {
+    return stringRegex.exec(data)[0].replace(stringRegex, "$1");
+  }
+
+  return "";
+}
+
 
 
 //PAYMENT STATUS - INVOICES
