@@ -358,6 +358,57 @@ Vue.component(&quot;button-counter&quot;, {
     the <code>$emit</code> built-in method. Hence, we can pass data to the root Vue
     instance and accomplish a bi-directional communication.
   </p>
+  <p>
+    We can connect the <code>$emit</code> function with:
+    <ul>
+      <li>a data property in the root Vue instance or</li>
+      <li>a function in the methods property of the root Vue instance</li>
+    </ul>
+     Also we can use the <code>$event</code> and other parameters to pass particular
+     values to the connected function. The extra parameters are passed following
+     the name of the event. For example:
+     <code>$emit('some-event-name', parameter, parameter)</code>.
+  </p>
+  <h3><code>v-model</code> in components</h3>
+  <p>
+    In general, <code>v-model</code> is syntactical sugar. What <code>v-model</code>
+    does is that it
+    <ul>
+      <li>binds a data property to the related tag</li>
+      <li>It changes the value of the data property based on the defined event (keydown mostly)</li>
+    </ul>
+    For example, the code:
+    <code>&lt;input type=&quot;text&quot; v-model=&quot;someProperty&quot;&gt;</code>
+    can also be entered like:
+    <code>&lt;input type=&quot;text&quot; v-bind:value=&quot;someProperty&quot; v-on:keyup=&quot;SomeProperty = &quot;$event.target.value&quot;
+&gt;&lt;/input&gt;</code>.
+  </p>
+  <p>
+    In the case of a component, we do not use the <code>v-model</code> directive but
+    we rather:
+    <ul>
+      <li>
+        We need to bind the <code>value</code> attribute of the related tag to a
+        <code>prop</code> in the component.
+      </li>
+      <li>
+        Create a <code>v-on</code> directive that triggers an <code>$emmit</code>
+        function. As parameters in the <code>$emit</code> function, we pass the
+        custom name the <code>v-on</code> is binded with, and the <code>$event.target.value</code>
+      </li>
+    </ul>
+    <code>
+Vue.component(&apos;custom-input&apos;, {
+  props: [&apos;value&apos;],
+  template: &grave;
+    &lt;input
+      v-bind:value=&quot;value&quot;
+      v-on:input=&quot;$emit(&apos;input&apos;, $event.target.value)&quot;
+    &gt;
+  &grave;
+});
+    </code>
+  </p>
   <div class="jumbotron">
     <h4>Example</h4>
     <p>
@@ -367,10 +418,17 @@ Vue.component(&quot;button-counter&quot;, {
       to see how the font style changes. The changes are done through the <code>$emit</code>
       built in function that resides in the attached Vue component's buttons.
     </p>
+    <p>
+      The buttons are working by binding the name of the parameter in the <code>$emit</code>
+     function with the related <b>property</b> that resides in the <code>data</code>
+     property in the root Vue instance. The <code>select</code> opitions are working
+     by binding the name of the parameter in the <code>$emit</code> function with
+     the related <b>method</b> that resides in the root Vue instance.
+    </p>
     <h5>Doing it directly to the root Vue Instance</h5>
     <p>
       The following buttons and select options are changing the font characteristics
-      of the data directly through click events or v-models. Nothing is happening at
+      of the data directly through @click events or v-models. Nothing is happening at
       the constructor level.
     </p>
 
@@ -451,6 +509,8 @@ Vue.component(&quot;button-counter&quot;, {
       <hellas-persia v-for="battle in history"
       :key="battle.id"
       :battle="battle"
+      :spanvalue="articleFonts.fontSize"
+      :measuringunit="measuringUnit"
       @enlarge-text="articleFonts.fontSize++"
       @decrease-text="articleFonts.fontSize--"
       @font-family="fontFamily()"
@@ -461,13 +521,121 @@ Vue.component(&quot;button-counter&quot;, {
       >
       </hellas-persia>
     </div>
+    <h6>html code</h6>
+    <code>
+&lt;div :style=&quot;{
+  fontStyle: articleFonts.fontStyle,
+  fontSize: articleFonts.fontSize + measuringUnit,
+  fontFamily: articleFonts.fontFamily,
+  fontWeight: articleFonts.fontWeight,
+  color: articleFonts.color
+}&quot;&gt;
+
+  &lt;hellas-persia v-for=&quot;battle in history&quot;
+  :key=&quot;battle.id&quot;
+  :battle=&quot;battle&quot;
+  :spanvalue=&quot;articleFonts.fontSize&quot;
+  :measuringunit=&quot;measuringUnit&quot;
+  @enlarge-text=&quot;articleFonts.fontSize++&quot;
+  @decrease-text=&quot;articleFonts.fontSize--&quot;
+  @font-family=&quot;fontFamily()&quot;
+  @font-style=&quot;fontStyle()&quot;
+  @color=&quot;color()&quot;
+  @font-weight=&quot;fontWeight()&quot;
+  @measuring-unit=&quot;measureUnit()&quot;
+  &gt;
+  &lt;/hellas-persia&gt;
+&lt;/div&gt;
+    </code>
+    <h6>Vue code</h6>
+    <code>
+      Vue.component(&quot;hellas-persia&quot;, {
+        props: [&quot;battle&quot;, &quot;spanvalue&quot;, &quot;measuringunit&quot;],
+        template: &grave;
+          &lt;article style=&quot;margin-bottom:30px;&quot;&gt;
+            &lt;hr&gt;
+            &lt;img :src=&quot;battle.imageUrl&quot; style=&quot;width: 250px; float: right; padding: 10px;&quot;/&gt;
+            &lt;h3 style=&quot;color: black;&quot;&gt;Battle {{battle.title}}&lt;/h3&gt;
+            &lt;p&gt;{{battle.fact}}&lt;/p&gt;
+            &lt;h6&gt;Greek Force: {{battle.armyGr}}&lt;/h6&gt;
+            &lt;h6&gt;Persian Force: {{battle.armyPr}}&lt;/h6&gt;
+            &lt;h6&gt;Outcome: {{battle.outcome}}&lt;/h6&gt;
+
+            &lt;hr&gt;
+            &lt;div class=&quot;buttonsSelects&quot;&gt;
+              &lt;div class=&quot;divBtnSlctUnt&quot;&gt;
+                &lt;h6&gt;
+                  &lt;b&gt;Modify font size -
+                    &lt;span&gt;{{spanvalue}}{{measuringunit}}&lt;/span&gt;
+                  &lt;/b&gt;
+                &lt;/h6&gt;
+                &lt;button @click=&quot;$emit(&apos;enlarge-text&apos;)&quot;&gt;+&lt;/button&gt;
+                &lt;button @click=&quot;$emit(&apos;decrease-text&apos;)&quot;&gt;-&lt;/button&gt;
+                &lt;select class=&quot;&quot; name=&quot;&quot; @change=&quot;$emit(&apos;measuring-unit&apos;)&quot;&gt;
+                  &lt;option value=&quot;px&quot;&gt;px&lt;/option&gt;
+                  &lt;option value=&quot;em&quot;&gt;em&lt;/option&gt;
+                  &lt;option value=&quot;cm&quot;&gt;cm&lt;/option&gt;
+                  &lt;option value=&quot;vh&quot;&gt;vh&lt;/option&gt;
+                  &lt;option value=&quot;vw&quot;&gt;vw&lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/div&gt;
+
+              &lt;div class=&quot;divBtnSlctUnt&quot;&gt;
+              &lt;h6&gt;&lt;b&gt;Modify font family&lt;/b&gt;&lt;/h6&gt;
+              &lt;select class=&quot;&quot; name=&quot;&quot; @change=&quot;$emit(&apos;font-family&apos;)&quot;&gt;
+                &lt;option value=&quot;Arial&quot;&gt;Arial&lt;/option&gt;
+                &lt;option value=&quot;Verdana&quot;&gt;Verdana&lt;/option&gt;
+                &lt;option value=&quot;Tahoma&quot;&gt;Tahoma&lt;/option&gt;
+                &lt;option value=&quot;Times New Roman&quot;&gt;Times New Roman&lt;/option&gt;
+                &lt;option value=&quot;Serif&quot;&gt;Serif&lt;/option&gt;
+              &lt;/select&gt;
+
+              &lt;/div&gt;
+
+              &lt;div class=&quot;divBtnSlctUnt&quot;&gt;
+                &lt;h6&gt;Modify font style&lt;/h6&gt;
+                &lt;select class=&quot;&quot; name=&quot;&quot; @change=&quot;$emit(&apos;font-style&apos;)&quot;&gt;
+                  &lt;option value=&quot;normal&quot;&gt;normal&lt;/option&gt;
+                  &lt;option value=&quot;italic&quot;&gt;italic&lt;/option&gt;
+                  &lt;option value=&quot;oblique&quot;&gt;oblique&lt;/option&gt;
+                  &lt;option value=&quot;initial&quot;&gt;initial&lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/div&gt;
+
+              &lt;div class=&quot;divBtnSlctUnt&quot;&gt;
+                &lt;h6&gt;Modify font weight&lt;/h6&gt;
+                &lt;select class=&quot;&quot; name=&quot;&quot; @change=&quot;$emit(&apos;font-weight&apos;)&quot;&gt;
+                  &lt;option value=&quot;normal&quot;&gt;normal&lt;/option&gt;
+                  &lt;option value=&quot;bold&quot;&gt;bold&lt;/option&gt;
+                  &lt;option value=&quot;bolder&quot;&gt;bolder&lt;/option&gt;
+                  &lt;option value=&quot;lighter&quot;&gt;lighter&lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/div&gt;
+
+              &lt;div class=&quot;divBtnSlctUnt&quot;&gt;
+                &lt;h6&gt;Modify font color&lt;/h6&gt;
+                &lt;select class=&quot;&quot; name=&quot;&quot; @change=&quot;$emit(&apos;color&apos;)&quot;&gt;
+                  &lt;option value=&quot;black&quot;&gt;black&lt;/option&gt;
+                  &lt;option value=&quot;brown&quot;&gt;brown&lt;/option&gt;
+                  &lt;option value=&quot;green&quot;&gt;green&lt;/option&gt;
+                  &lt;option value=&quot;red&quot;&gt;red&lt;/option&gt;
+                  &lt;option value=&quot;yellow&quot;&gt;yellow&lt;/option&gt;
+                  &lt;option value=&quot;blue&quot;&gt;blue&lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+
+          &lt;/article&gt;
+        &grave;
+      });
+    </code>
   </div>
 </div>
 
-
 <script>
 Vue.component("hellas-persia", {
-  props: ["battle"],
+  props: ["battle", "spanvalue", "measuringunit"],
   template: `
     <article style="margin-bottom:30px;">
       <hr>
@@ -481,7 +649,11 @@ Vue.component("hellas-persia", {
       <hr>
       <div class="buttonsSelects">
         <div class="divBtnSlctUnt">
-          <h6><b>Modify font size -</b></h6>
+          <h6>
+            <b>Modify font size -
+              <span>{{spanvalue}}{{measuringunit}}</span>
+            </b>
+          </h6>
           <button @click="$emit('enlarge-text')">+</button>
           <button @click="$emit('decrease-text')">-</button>
           <select class="" name="" @change="$emit('measuring-unit')">
@@ -614,6 +786,19 @@ Vue.component("hellas-persia", {
 </script>
 
 
+<div id="componentBasics5">
+  <h2>Content distribution with slots</h2>
+  <p>
+    The <code><slot></code> tag is a special tag that can be used to pass additional
+      html in the vue component directly within the html document. 
+  </p>
+</div>
+
+<script>
+  Vue.component("slot-magic", {
+    template: ""
+  });
+</script>
 
 
 <a href="./008-form_input_bindings.html">Previous - Form Input Bindings</a> <a href="./010-component_registration.html">Next - Component Registration</a>

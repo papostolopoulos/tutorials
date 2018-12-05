@@ -759,7 +759,7 @@ return "";
 }
 
 //Concatenation of top description with VT footer
-function(data) {
+function transform(data) {
   var stringRegex = /offer\sends\s((\d{1,2}\/){2}([\d]{2,4})?)/i;
   if (data.indexOf("†") !== data.lastIndexOf("†") && data.indexOf("†") !== -1) {
     return stringRegex.exec(data)[0].replace(stringRegex, "$1");
