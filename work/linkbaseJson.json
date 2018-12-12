@@ -408,9 +408,785 @@ MOTHER
   }
 }
 
+/* BOOHOO  emailboohoo.com */
+{
+  "extract": {
+    "edgeRules": [],
+    "entityNS": null,
+    "entityRules": [
+      {
+        "attributes": [],
+        "entityIdRef": "",
+        "id": "f66018c8-423b-459b-b55a-c639d92daf68",
+        "javascript": null,
+        "locations": [
+          "/"
+        ],
+        "repeating": true,
+        "type": "http://schema.org/Coupon"
+      }
+    ],
+    "extractEmbedded": false,
+    "schema": [
+      {
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        },
+        "ns": "http://schema.org",
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json"
+      }
+    ],
+    "source": null
+  },
+  "extractLn": {
+    "edgeRules": [
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/broker",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474au",
+          "matchAttr": null
+        }
+      },
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/image",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+          "matchAttr": null
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "attributes": [
+          {
+            "blackList": [],
+            "concat": "true",
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data) {\n  if(!data) return null;\n\n\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr: /Offer\\sends.*/i, newStr: \"\"},\n    {oldStr: /Offer\\sis\\sapplicable\\sto\\sselected\\slines\\sonly.*/, newStr: \"\"},\n    {oldStr: /Applicable.*/i, newStr: \"\"},\n    {oldStr: /Offer\\sexcludes\\ssale.*/, newStr: \"\"},\n    {oldStr: /is\\sapplicable\\sto\\sselected\\slines\\sonly.*/, newStr: \"\"},\n    {oldStr: /(\\d{1,2}\\.\\d{1,2}\\s)?Please\\sremember\\sto\\sadd\\sto\\syour\\saddress\\sbook.*/, newStr: \"\"},\n    {oldStr: /Angebot\\sendet\\sam.*/, newStr: \"\"},\n    {oldStr: /is\\sautomatically\\sapplied.*/, newStr: \"\"},\n    {oldStr: /exclud(ing|es)\\ssale.*/i, newStr: \"\"},\n    {oldStr: /(\\>\\s)?NEW\\sIN.*/i, newStr: \"\"},\n    {oldStr: /SHOP\\sNOW/i, newStr: \"\"},\n    {oldStr: /Insert\\salt\\stext\\shere/, newStr: \"\"},\n    {oldStr: /Discount\\sautomatically\\sapplied\\sat\\scheckout.*/, newStr: \"\"},\n    {oldStr: /Postcode\\srestrictions.*/, newStr: \"\"},\n    {oldStr: /applicable\\s+to\\s+selected\\s+lines.*/, newStr: \"\"},\n    {oldStr: /Souvenez-vous\\sd'ajouter\\sfashion@emailboohoo.com/, newStr: \"\"},\n    {oldStr: /^0%.*/, newStr: \"\"},\n    {oldStr: /Hey,\\sYou\\smight\\shave\\sexperienced\\sa\\sproblem\\swith\\sa\\sprevious\\scode\\swe\\ssent\\syou\\stoday.\\sWe\\sknow\\sthis\\sis\\ssuper\\sannoying\\sbut\\splease\\saccept\\sour\\sapologies\\sand\\sbrilliant\\snew\\soffer.../, newStr: \"\"},\n    {oldStr: /L’offre\\sse\\stermine.*/, newStr: \"\"},\n    {oldStr: /Click\\shere.*/, newStr: \"\"},\n    //{oldStr: , newStr: \"\"},\n    {oldStr: /(\\s+)$/, newStr: \"\"},\n    {oldStr: /,$/, newStr: \"\"},\n    {oldStr: />$/, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n return data.trim();\n}",
+            "listOfValidNodeTypes": [
+              {
+                "name": "TEXT",
+                "type": "node"
+              },
+              {
+                "name": "ALT",
+                "type": "attr"
+              },
+              {
+                "name": "HREF",
+                "type": "attr"
+              }
+            ],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "200",
+            "minLength": "4",
+            "allowEmpty": "false",
+            "name": "http://schema.org/description",
+            "whiteList": [
+              {
+                "value": "\\$\\d+(\\.\\d{1,2})?\\s([Oo][Ff]{2})/",
+                "type": "REGEX"
+              },
+              {
+                "value": "%\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "up\\sto\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\$\\d{1,2}",
+                "type": "REGEX"
+              },
+              {
+                "value": "down\\sto\\s\\$\\d{1,}(\\.\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "%",
+                "type": "SUBSTRING"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "value": "sale ends",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "valid through",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "ends",
+                "type": "SUBSTRING"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/validThrough",
+            "whiteList": []
+          },
+          {
+            "blackList": [
+              {
+                "type": "SUBSTRING",
+                "value": "sale ends"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "valid through"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "ends"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/validFrom"
+          },
+          {
+            "blackList": [
+              {
+                "type": "REGEX",
+                "value": "\\$.*off$"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/offerPrice",
+            "whiteList": [
+              {
+                "type": "SUBSTRING",
+                "value": "Free shipping"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "type": "REGEX",
+                "value": "\\$.*off$"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/originalPrice",
+            "whiteList": [
+              {
+                "type": "SUBSTRING",
+                "value": "Free shipping"
+              }
+            ]
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data){content=data.trim();if(content&&content.startsWith('C$')){return'CAD'}else if(content&&content.startsWith('$')){return'USD'}else{return null}};",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/priceCurrency",
+            "whiteList": null
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "minBundleSize": "-1",
+          "maxBundleSize": "-1",
+          "minLeafNodesSize": "-1",
+          "maxLeafNodesSize": "-1",
+          "maxDepth": "-1",
+          "defaultPatternAnnotationThreshold": "0.8",
+          "linkThreshold": "4",
+          "footerPercentage": 0.6,
+          "overRideValidThroughFromFooter": false,
+          "listOfValidNodeTypes": [],
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ]
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474af",
+        "javascript": null,
+        "type": "http://schema.org/Coupon"
+      },
+      {
+        "attributes": [
+          {
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": null,
+            "location": [
+              {
+                "xpath": "\"emailboohoo.com\""
+              }
+            ],
+            "mandatory": "true",
+            "name": "http://schema.org/name",
+            "minLength": "",
+            "maxLength": "",
+            "whiteList": [],
+            "blackList": [],
+            "listOfValidNodeTypes": []
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ],
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "defaultPatternAnnotationThreshold": 0.8,
+          "linkThreshold": 2
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474au",
+        "javascript": null,
+        "type": "http://schema.org/Organization"
+      },
+      {
+        "attributes": [
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": null,
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "linkThreshold": 2,
+          "defaultPatternAnnotationThreshold": 0.8
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+        "javascript": null,
+        "type": "http://schema.org/ImageObject"
+      }
+    ]
+  },
+  "metaData": {
+    "debug": "true",
+    "linkAlgoHandler": "LinkExtractor15",
+    "decodeHtmlEntity": "true"
+  }
+}
+
+/* CARTERS em.carters.com */
+{
+  "extract": {
+    "edgeRules": [],
+    "entityNS": null,
+    "entityRules": [
+      {
+        "attributes": [],
+        "entityIdRef": "",
+        "id": "f66018c8-423b-459b-b55a-c639d92daf68",
+        "javascript": null,
+        "locations": [
+          "/"
+        ],
+        "repeating": true,
+        "type": "http://schema.org/Coupon"
+      }
+    ],
+    "extractEmbedded": false,
+    "schema": [
+      {
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        },
+        "ns": "http://schema.org",
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json"
+      }
+    ],
+    "source": null
+  },
+  "extractLn": {
+    "edgeRules": [
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/broker",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474au",
+          "matchAttr": null
+        }
+      },
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/image",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+          "matchAttr": null
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "attributes": [
+          {
+            "blackList": [],
+            "concat": "true",
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data) {\n  if(!data) return null;\n\n\n  var replaceStrings = [\n    {oldStr:/[\\*∗©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr:/excludes\\sclearance(.*)?/i, newStr: \"\"},\n    {oldStr:/Your\\slocal\\sstore:.*/, newStr: \"\"},\n    {oldStr:/Savings\\s+based\\s+on\\s+MSRP\\.?/ig, newStr: \"\"},\n    {oldStr: /Offer\\sdetails\\sbelow\\./, newStr: \"\"},\n    {oldStr: /Discount\\sapplied\\sin\\sCart\\.?/, newStr: \"\"},\n    {oldStr: /Shop\\s+Now/ig, newStr: \"\"},\n    {oldStr: /Exclusions\\s\\+\\sin[\\-\\–]store\\scoupon\\sbelow\\.?/g, newStr: \"\"},\n    {oldStr: /Exclusions\\sand\\sin\\sstore\\scoupon\\sbelow\\.?/, newStr: \"\"},\n    {oldStr: /Exclusions\\sand\\scoupon\\sbelow./, newStr: \"\"},\n    {oldStr: /In-store\\scoupon\\s\\&\\sexclusions\\sbelow/, newStr: \"\"},\n    {oldStr: /exclusions\\sbelow/, newStr: \"\"},\n    {oldStr: /In-store\\scoupon\\sbelow/, newStr: \"\"},\n    {oldStr: /Offer details below\\.?/, newStr: \"\"},\n    {oldStr: /Discount\\sapplied\\sin\\scart/, newStr: \"\"},\n    {oldStr: /-\\sMaine\\smom/, newStr: \"\"},\n    {oldStr: /Exclusions\\sapply(.*)?/, newStr: \"\"},\n    {oldStr: /First\\sitem\\sat\\sMSRP/, newStr: \"\"},\n    {oldStr: /Prices\\sas\\smarked\\.?/g, newStr:\"\"},\n    {oldStr: /In\\sstore\\s\\+\\sonline/, newStr: \"\"},\n    {oldStr: /\\d{6}\\s(EXTRA\\s15%\\sOFF)/g, newStr:\"OR $1 YOUR IN-STORE PURCHASE OF $20+\"},\n    {oldStr: /\\d{6}/g, newStr:\"\"},\n    {oldStr: /Excludes.*/g, newStr: \"\"},\n    {oldStr: /(Free\\sshipping\\sto\\s800\\sstores).*/, newStr: \"$1\"},\n    {oldStr: /Styles\\svary\\sby\\sstore/, newStr: \"\"},\n    {oldStr: /Exclusions\\s&\\sin-store\\scoupon\\sbelow/, newStr: \"\"},\n    {oldStr: /Other\\sexclusions\\sapply./, newStr: \"\"},\n    {oldStr: /Get\\sStarted/, newStr:\"\"},\n    {oldStr: /Find\\sA\\sStore/i, newStr: \"\"},\n    {oldStr: /Enroll\\snow/i, newStr: \"\"},\n    {oldStr: /See\\sOffer\\sDetails/i, newStr: \"\"},\n    {oldStr: /we're just around the corner! Tanger Outlets - Fort Worth 15841 North Freeway Fort Worth, TX 76177/, newStr: \"\"},\n    {oldStr: /(\\|\\s?){2,}/g, newStr: \"\"},\n    {oldStr: /\\s{2,}/, newStr: \" \"},\n    {oldStr: /\\|$/, newStr: \"\"},\n    {oldStr: /-$/, newStr: \"\"},\n    {oldStr: /\\s+\\.$/g, newStr: \".\"},\n    {oldStr: /!\\./, newStr: \"!\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n return data.trim();\n}",
+            "listOfValidNodeTypes": [
+              {
+                "name": "TEXT",
+                "type": "node"
+              },
+              {
+                "name": "ALT",
+                "type": "attr"
+              },
+              {
+                "name": "HREF",
+                "type": "attr"
+              }
+            ],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "200",
+            "minLength": "4",
+            "allowEmpty": "false",
+            "name": "http://schema.org/description",
+            "whiteList": [
+              {
+                "value": "\\$\\d+(\\.\\d{1,2})?\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "%\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "up\\sto\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\$\\d{1,2}",
+                "type": "REGEX"
+              },
+              {
+                "value": "down\\sto\\s\\$\\d{1,}(\\.\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "[Ff][Rr][Ee]{2}",
+                "type": "REGEX"
+              },
+              {
+                "value": "[Cc]learance",
+                "type": "REGEX"
+              },
+              {
+                "value": "[Dd]iscount",
+                "type": "REGEX"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "value": "sale ends",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "valid through",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "ends",
+                "type": "SUBSTRING"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/validThrough",
+            "whiteList": []
+          },
+          {
+            "blackList": [
+              {
+                "type": "SUBSTRING",
+                "value": "sale ends"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "valid through"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "ends"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/validFrom"
+          },
+          {
+            "blackList": [
+              {
+                "type": "REGEX",
+                "value": "\\$.*off$"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/offerPrice",
+            "whiteList": [
+              {
+                "type": "SUBSTRING",
+                "value": "Free shipping"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "type": "REGEX",
+                "value": "\\$.*off$"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/originalPrice",
+            "whiteList": [
+              {
+                "type": "SUBSTRING",
+                "value": "Free shipping"
+              }
+            ]
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data){content=data.trim();if(content&&content.startsWith('C$')){return'CAD'}else if(content&&content.startsWith('$')){return'USD'}else{return null}};",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/priceCurrency",
+            "whiteList": null
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "minBundleSize": "-1",
+          "maxBundleSize": "-1",
+          "minLeafNodesSize": "-1",
+          "maxLeafNodesSize": "-1",
+          "maxDepth": "-1",
+          "defaultPatternAnnotationThreshold": "0.8",
+          "linkThreshold": "2",
+          "listOfValidNodeTypes": [],
+          "linkMatcher": [
+            {
+              "regex": "http.*"
+            }
+          ]
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474af",
+        "javascript": null,
+        "type": "http://schema.org/Coupon"
+      },
+      {
+        "attributes": [
+          {
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": null,
+            "location": [
+              {
+                "xpath": "\" em.carters.com\""
+              }
+            ],
+            "mandatory": "true",
+            "name": "http://schema.org/name",
+            "minLength": "",
+            "maxLength": "",
+            "whiteList": [],
+            "blackList": [],
+            "listOfValidNodeTypes": []
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ],
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "defaultPatternAnnotationThreshold": 0.8,
+          "linkThreshold": 2
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474au",
+        "javascript": null,
+        "type": "http://schema.org/Organization"
+      },
+      {
+        "attributes": [
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": null,
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "linkThreshold": 2,
+          "defaultPatternAnnotationThreshold": 0.8
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+        "javascript": null,
+        "type": "http://schema.org/ImageObject"
+      }
+    ]
+  },
+  "metaData": {
+    "debug": "true",
+    "linkAlgoHandler": "LinkExtractor15",
+    "decodeHtmlEntity": "true"
+  }
+}
+
 /* COST PLUS WORLD MARKET emailworldmarket.com */
-
-
 
 /* BANGGOOD deals.banggood.com */
 {
@@ -865,5 +1641,414 @@ MOTHER
     "linkAlgoHandler": "LinkExtractor15",
     "decodeHtmlEntity": "true",
     "useVTDXML": "false"
+  }
+}
+
+
+
+{
+  "extract": {
+    "edgeRules": [],
+    "entityNS": null,
+    "entityRules": [
+      {
+        "attributes": [],
+        "entityIdRef": "",
+        "id": "f66018c8-423b-459b-b55a-c639d92daf68",
+        "javascript": null,
+        "locations": [
+          "/"
+        ],
+        "repeating": true,
+        "type": "http://schema.org/Coupon"
+      }
+    ],
+    "extractEmbedded": false,
+    "schema": [
+      {
+        "context": {
+          "@type": [
+            "Coupon"
+          ]
+        },
+        "ns": "http://schema.org",
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json"
+      }
+    ],
+    "source": null
+  },
+  "extractLn": {
+    "edgeRules": [
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/broker",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474au",
+          "matchAttr": null
+        }
+      },
+      {
+        "cardinality": "ONE_TO_ONE",
+        "from": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
+          "matchAttr": null
+        },
+        "predicate": "http://schema.org/image",
+        "to": {
+          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+          "matchAttr": null
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "attributes": [
+          {
+            "blackList": [],
+            "concat": "true",
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data) {\n  if(!data) return null;\n\n\n  var replaceStrings = [\n    {oldStr: /[\\*©®ǂ†→§™¹›]/g, newStr: \"\"},\n    {oldStr: /\\[NOOK.*/, newStr: \"\"},\n    {oldStr: /Not\\svalid.*/, newStr: \"\"},\n    {oldStr: /SHOP\\sNOW.*/, newStr: \"\"},\n    {oldStr: /May\\sbe\\sredeemed.*/i, newStr: \"\"},\n    {oldStr: /Ends\\s([A-z]+day|tomorrow).*/i, newStr: \"\"},\n    {oldStr: /While\\ssupplies\\slast.*/i, newStr: \"\"},\n    {oldStr: /SHOP\\sTHE\\sGIFT\\sGUIDE.*/, newStr: \"\"},\n    {oldStr: /Select\\sbrands.*/i, newStr: \"\"},\n    {oldStr: /Get\\s(online|store)\\scoupon.*/i, newStr: \"\"},\n    {oldStr: /Learn\\smore.*/i, newStr: \"\"},\n    {oldStr: /Select\\sitems\\sexcluded\\./, newStr: \"\"},\n    {oldStr: /Get\\sstore\\scoupon.*/i, newStr: \"\"},\n    {oldStr: /Save\\s\\$\\d{1,3}\\s(Save\\s\\${1,3})/, newStr: \"$1\"},\n    {oldStr: /All\\soffers\\sare\\ssubject.*/i, newStr: \"\"},\n    {oldStr: /We're\\ssorry.*/, newStr: \"\"},\n    {oldStr: /See\\sall$/i, newStr: \"\"},\n    {oldStr: /Sign\\sup.*/i, newStr: \"\"},\n    {oldStr: /\\s+$/, newStr: \"\"},\n    {oldStr: /\\|$/, newStr: \"\"},\n    {oldStr: /-$/, newStr: \"\"},\n    // {oldStr: /NOOK\\sdevices\\sand\\sNOOK\\sBooks\\sexcluded.*/i, newStr: \"\"},\n    // {oldStr: /NOOK\\s.*excluded\\..*/, newStr: \"\"},\n    //{oldStr: /Prices\\sare\\ssubject.*/i, newStr: \"\"},\n    // {oldStr: /Other\\sexclusions.*/, newStr: \"\"},\n    // {oldStr: /Stores\\s&\\sEvents\\sAuthor\\sEvents.*/, newStr: \"\"},\n    // {oldStr: /Download\\sthe\\sfree.*/, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n return data.trim();\n}",
+            "listOfValidNodeTypes": [
+              {
+                "name": "TEXT",
+                "type": "node"
+              },
+              {
+                "name": "ALT",
+                "type": "attr"
+              },
+              {
+                "name": "HREF",
+                "type": "attr"
+              }
+            ],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "300",
+            "minLength": "4",
+            "allowEmpty": "false",
+            "passThroughout": "true",
+            "similarityScore": "1.1",
+            "name": "http://schema.org/description",
+            "whiteList": [
+              {
+                "value": "(?i)free\\sshipping",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\$\\d+(\\.\\d{1,2})?\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "%\\s([Oo][Ff]{2})",
+                "type": "REGEX"
+              },
+              {
+                "value": "up\\sto\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\d{1,2}%",
+                "type": "REGEX"
+              },
+              {
+                "value": "((SAVE)|(Save))\\s\\$\\d{1,2}",
+                "type": "REGEX"
+              },
+              {
+                "value": "down\\sto\\s\\$\\d{1,}(\\.\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)discount",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)\\(\\$\\d{1,4}\\svalue\\)",
+                "type": "REGEX"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "value": "sale ends",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "valid through",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "ends",
+                "type": "SUBSTRING"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) \n{\n  if (data) {\n    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];\n    var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;\n    var match = regex.exec(data);\n    if (match && match[1]) {\n      return monthNames[match[1] - 1] + ', ' + match[2];\n    }\n    else{\n      return data;\n    }\n  }return null;\n}",
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/validThrough",
+            "whiteList": [
+              {
+                "value": "valid\\suntil\\s\\d{1,2}\\/\\d{1,2}",
+                "type": "SUBSTRING"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "type": "SUBSTRING",
+                "value": "sale ends"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "valid through"
+              },
+              {
+                "type": "SUBSTRING",
+                "value": "ends"
+              }
+            ],
+            "dataTypes": [
+              "DateTime"
+            ],
+            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/validFrom"
+          },
+          {
+            "blackList": [
+              {
+                "type": "REGEX",
+                "value": "\\$.*off$"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/offerPrice",
+            "whiteList": [
+              {
+                "type": "SUBSTRING",
+                "value": "Free shipping"
+              }
+            ]
+          },
+          {
+            "blackList": [
+              {
+                "type": "REGEX",
+                "value": "\\$.*off$"
+              }
+            ],
+            "dataTypes": [
+              "Number"
+            ],
+            "javascript": null,
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/originalPrice",
+            "whiteList": [
+              {
+                "type": "SUBSTRING",
+                "value": "Free shipping"
+              }
+            ]
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "function transform(data){content=data.trim();if(content&&content.startsWith('C$')){return'CAD'}else if(content&&content.startsWith('$')){return'USD'}else{return null}};",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/priceCurrency",
+            "whiteList": null
+          },
+          {
+            "blackList": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": null,
+            "location": null,
+            "mandatory": "true",
+            "maxLength": -1,
+            "minLength": -1,
+            "name": "http://schema.org/url",
+            "whiteList": null
+          }
+        ],
+        "bundleInfo": {
+          "minBundleSize": "-1",
+          "maxBundleSize": "-1",
+          "minLeafNodesSize": "-1",
+          "maxLeafNodesSize": "-1",
+          "maxDepth": "-1",
+          "defaultPatternAnnotationThreshold": "0.8",
+          "linkThreshold": "4",
+          "listOfValidNodeTypes": [],
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ]
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474af",
+        "javascript": null,
+        "type": "http://schema.org/Coupon"
+      },
+      {
+        "attributes": [
+          {
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": null,
+            "location": [
+              {
+                "xpath": "\"BARNES & NOBLE\""
+              }
+            ],
+            "mandatory": "true",
+            "name": "http://schema.org/name",
+            "minLength": "",
+            "maxLength": "",
+            "whiteList": [],
+            "blackList": [],
+            "listOfValidNodeTypes": []
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": [
+            {
+              "regex": ".*"
+            }
+          ],
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "defaultPatternAnnotationThreshold": 0.8,
+          "linkThreshold": 2
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474au",
+        "javascript": null,
+        "type": "http://schema.org/Organization"
+      },
+      {
+        "attributes": [
+          {
+            "blackList": [
+              {
+                "value": ".*spacer2x2.gif.*",
+                "type": "REGEX"
+              }
+            ],
+            "dataTypes": [
+              "Text"
+            ],
+            "javascript": "",
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
+            "mandatory": "true",
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/url",
+            "whiteList": []
+          }
+        ],
+        "bundleInfo": {
+          "clusterAlgo": {
+            "endIdx": -1,
+            "regex": "",
+            "replaceInfo": [
+              {
+                "regexStr": "",
+                "replaceAll": "true",
+                "replacement": ""
+              }
+            ],
+            "startIdx": 0,
+            "type": "SUBSTRING"
+          },
+          "linkMatcher": null,
+          "listOfValidNodeTypes": null,
+          "maxBundleSize": -1,
+          "maxDepth": -1,
+          "maxLeafNodesSize": -1,
+          "minBundleSize": -1,
+          "minLeafNodesSize": -1,
+          "linkThreshold": 2,
+          "defaultPatternAnnotationThreshold": 0.8
+        },
+        "id": "b4917ca5-ee83-4569-87c7-37feef5474aj",
+        "javascript": null,
+        "type": "http://schema.org/ImageObject"
+      }
+    ]
+  },
+  "metaData": {
+    "debug": "true",
+    "linkAlgoHandler": "LinkExtractor15",
+    "decodeHtmlEntity": "true"
   }
 }

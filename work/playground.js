@@ -15,37 +15,43 @@
 // single colors is better
 // the x on top of the other x when you are closing modals342
 
-
 function transform(data) {
-  var stringRegex = /offer\sends\s((\d{1,2}\/){2}([\d]{2,4})?)/i;
-  if (data.indexOf("†") !== data.lastIndexOf("†") && data.indexOf("†") !== -1) {
-    return stringRegex.exec(data)[0].replace(stringRegex, "$1");
-  }
-
-  return "";
-}
+  if(!data) return null;
 
 
-function transform(data,node,headers){
-  var offerEnds = /offer\sends\s((\d{1,2}\/){2}([\d]{2,4})?)/i;
-  if (data.indexOf("†") !== data.lastIndexOf("†") && data.indexOf("†") !== -1) {
-    return offerEnds.exec(data)[0].replace(offerEnds, "$1");
-  }
+  var replaceStrings = [
+    {oldStr: /[\*©®ǂ†→§™¹›]/g, newStr: ""},
+    {oldStr: /\[NOOK.*/, newStr: ""},
+    {oldStr: /Not\svalid.*/, newStr: ""},
+    {oldStr: /SHOP\sNOW.*/, newStr: ""},
+    {oldStr: /May\sbe\sredeemed.*/i, newStr: ""},
+    {oldStr: /Ends\s([A-z]+day|tomorrow).*/i, newStr: ""},
+    {oldStr: /While\ssupplies\slast.*/i, newStr: ""},
+    {oldStr: /SHOP\sTHE\sGIFT\sGUIDE.*/, newStr: ""},
+    {oldStr: /Select\sbrands.*/i, newStr: ""},
+    {oldStr: /Get\s(online|store)\scoupon.*/i, newStr: ""},
+    {oldStr: /Learn\smore.*/i, newStr: ""},
+    {oldStr: /Select\sitems\sexcluded\./, newStr: ""},
+    {oldStr: /Get\sstore\scoupon.*/i, newStr: ""},
+    {oldStr: /Save\s\$\d{1,3}\s(Save\s\${1,3})/, newStr: "$1"},
+    {oldStr: /All\soffers\sare\ssubject.*/i, newStr: ""},
+    {oldStr: /We're\ssorry.*/, newStr: ""},
+    {oldStr: /See\sall$/i, newStr: ""},
+    {oldStr: /Sign\sup.*/i, newStr: ""},
+    {oldStr: /\s+$/, newStr: ""},
+    {oldStr: /\|$/, newStr: ""},
+    {oldStr: /-$/, newStr: ""},
+    // {oldStr: /NOOK\sdevices\sand\sNOOK\sBooks\sexcluded.*/i, newStr: ""},
+    // {oldStr: /NOOK\s.*excluded\..*/, newStr: ""},
+    //{oldStr: /Prices\sare\ssubject.*/i, newStr: ""},
+    // {oldStr: /Other\sexclusions.*/, newStr: ""},
+    // {oldStr: /Stores\s&\sEvents\sAuthor\sEvents.*/, newStr: ""},
+    // {oldStr: /Download\sthe\sfree.*/, newStr: ""},
+  ];
 
+  replaceStrings.forEach(function(el) {
+    data = data.replace(el.oldStr, el.newStr);
+  });
 
-
-  var todayToDay = /PM\sCT\sTODAY\s-\s\d{1,2}\sCT\s(.*)\s\|/
-  if(todayToDay.exec(data)) {
-    var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var emailDate = new Date(headers.Date * 1000);
-    var emailDay = emailDate.getDay();
-    var expirDay = daysOfWeek.indexOf(todayToDay.exec(data)[0].replace(todayToDay, "$1"));
-    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay + 7 - emailDay;
-
-    var finalDay = emailDate.getDate() + addedDays;
-    var month = emailDate.getMonth();
-
-    return new Date("1970", month, finalDay);
-  }
-  return "";
+ return data.trim();
 }

@@ -22,6 +22,40 @@
       display: block;
       padding: 10px;
     }
+
+    .componentTabs{
+      border: 1px solid gray;
+      background-color: white;
+    }
+
+    .buttonComponentTab{
+      background-color: black;
+      color: white;
+      width: 150px;
+      margin-right: -10px;
+    }
+
+    .buttonComponentTab:hover{
+      cursor: pointer;
+      background-color: gray;
+    }
+
+    .buttonComponentTab:focus{
+      background-color: white;
+      color: black;
+    }
+
+    #divJavaScript{
+      background-color: #ffff99;
+    }
+
+    #divVue{
+      background-color: #00cc00;
+    }
+
+    #divjQuery{
+      background-color: #b3b3b3;
+    }
   </style>
 </head>
 <body>
@@ -45,14 +79,14 @@
       <button-counter></button-counter> <br>
       <button-counter></button-counter>
       <code>
-Vue.component(&quot;button-counter&quot;, {
-  data() {
-    return {
-      counter: 0
-    }
-  },
-  template: &quot;&lt;button v-on:click=&apos;counter++&apos;&gt;I was clicked { {counter} } times&lt;/button&gt;&quot;
-});
+        Vue.component(&quot;button-counter&quot;, {
+          data() {
+            return {
+              counter: 0
+            }
+          },
+          template: &quot;&lt;button v-on:click=&apos;counter++&apos;&gt;I was clicked { {counter} } times&lt;/button&gt;&quot;
+        });
       </code>
     </div>
     <h2>Components characteristics</h2>
@@ -87,30 +121,30 @@ Vue.component(&quot;button-counter&quot;, {
       <button v-on:click="counter++">You clicked me {{counter}} times</button>
       <button v-on:click="counter++">You clicked me {{counter}} times</button>
       <code>
-&lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
-&lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
+        &lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
+        &lt;button v-on:click=&apos;counter++&apos;&gt;You clicked me {{counter}} times&lt;/button&gt;
       </code>
     </div>
-</div>
+  </div>
 
-<script>
-  Vue.component("button-counter", {
-    data() {
-      return {
+  <script>
+    Vue.component("button-counter", {
+      data() {
+        return {
+          counter: 0
+        }
+      },
+      template: "<button v-on:click='counter++'>You clicked me {{counter}} times</button>"
+    });
+
+
+    var componentBasics1 = new Vue({
+      el: "#componentBasics1",
+      data: {
         counter: 0
       }
-    },
-    template: "<button v-on:click='counter++'>You clicked me {{counter}} times</button>"
-  });
-
-
-  var componentBasics1 = new Vue({
-    el: "#componentBasics1",
-    data: {
-      counter: 0
-    }
-  });
-</script>
+    });
+  </script>
 
 
 
@@ -380,8 +414,7 @@ Vue.component(&quot;button-counter&quot;, {
     For example, the code:
     <code>&lt;input type=&quot;text&quot; v-model=&quot;someProperty&quot;&gt;</code>
     can also be entered like:
-    <code>&lt;input type=&quot;text&quot; v-bind:value=&quot;someProperty&quot; v-on:keyup=&quot;SomeProperty = &quot;$event.target.value&quot;
-&gt;&lt;/input&gt;</code>.
+    <code>&lt;input type=&quot;text&quot; :value=&quot;someProperty&quot; @keyup=&quot;SomeProperty = &quot;$event.target.value&quot;&gt;</code>.
   </p>
   <p>
     In the case of a component, we do not use the <code>v-model</code> directive but
@@ -398,15 +431,15 @@ Vue.component(&quot;button-counter&quot;, {
       </li>
     </ul>
     <code>
-Vue.component(&apos;custom-input&apos;, {
-  props: [&apos;value&apos;],
-  template: &grave;
-    &lt;input
-      v-bind:value=&quot;value&quot;
-      v-on:input=&quot;$emit(&apos;input&apos;, $event.target.value)&quot;
-    &gt;
-  &grave;
-});
+      Vue.component(&apos;custom-input&apos;, {
+        props: [&apos;value&apos;],
+        template: &grave;
+          &lt;input
+            v-bind:value=&quot;value&quot;
+            v-on:input=&quot;$emit(&apos;input&apos;, $event.target.value)&quot;
+          &gt;
+        &grave;
+      });
     </code>
   </p>
   <div class="jumbotron">
@@ -523,29 +556,29 @@ Vue.component(&apos;custom-input&apos;, {
     </div>
     <h6>html code</h6>
     <code>
-&lt;div :style=&quot;{
-  fontStyle: articleFonts.fontStyle,
-  fontSize: articleFonts.fontSize + measuringUnit,
-  fontFamily: articleFonts.fontFamily,
-  fontWeight: articleFonts.fontWeight,
-  color: articleFonts.color
-}&quot;&gt;
+      &lt;div :style=&quot;{
+        fontStyle: articleFonts.fontStyle,
+        fontSize: articleFonts.fontSize + measuringUnit,
+        fontFamily: articleFonts.fontFamily,
+        fontWeight: articleFonts.fontWeight,
+        color: articleFonts.color
+      }&quot;&gt;
 
-  &lt;hellas-persia v-for=&quot;battle in history&quot;
-  :key=&quot;battle.id&quot;
-  :battle=&quot;battle&quot;
-  :spanvalue=&quot;articleFonts.fontSize&quot;
-  :measuringunit=&quot;measuringUnit&quot;
-  @enlarge-text=&quot;articleFonts.fontSize++&quot;
-  @decrease-text=&quot;articleFonts.fontSize--&quot;
-  @font-family=&quot;fontFamily()&quot;
-  @font-style=&quot;fontStyle()&quot;
-  @color=&quot;color()&quot;
-  @font-weight=&quot;fontWeight()&quot;
-  @measuring-unit=&quot;measureUnit()&quot;
-  &gt;
-  &lt;/hellas-persia&gt;
-&lt;/div&gt;
+        &lt;hellas-persia v-for=&quot;battle in history&quot;
+        :key=&quot;battle.id&quot;
+        :battle=&quot;battle&quot;
+        :spanvalue=&quot;articleFonts.fontSize&quot;
+        :measuringunit=&quot;measuringUnit&quot;
+        @enlarge-text=&quot;articleFonts.fontSize++&quot;
+        @decrease-text=&quot;articleFonts.fontSize--&quot;
+        @font-family=&quot;fontFamily()&quot;
+        @font-style=&quot;fontStyle()&quot;
+        @color=&quot;color()&quot;
+        @font-weight=&quot;fontWeight()&quot;
+        @measuring-unit=&quot;measureUnit()&quot;
+        &gt;
+        &lt;/hellas-persia&gt;
+      &lt;/div&gt;
     </code>
     <h6>Vue code</h6>
     <code>
@@ -555,18 +588,18 @@ Vue.component(&apos;custom-input&apos;, {
           &lt;article style=&quot;margin-bottom:30px;&quot;&gt;
             &lt;hr&gt;
             &lt;img :src=&quot;battle.imageUrl&quot; style=&quot;width: 250px; float: right; padding: 10px;&quot;/&gt;
-            &lt;h3 style=&quot;color: black;&quot;&gt;Battle {{battle.title}}&lt;/h3&gt;
-            &lt;p&gt;{{battle.fact}}&lt;/p&gt;
-            &lt;h6&gt;Greek Force: {{battle.armyGr}}&lt;/h6&gt;
-            &lt;h6&gt;Persian Force: {{battle.armyPr}}&lt;/h6&gt;
-            &lt;h6&gt;Outcome: {{battle.outcome}}&lt;/h6&gt;
+            &lt;h3 style=&quot;color: black;&quot;&gt;Battle { {battle.title} }&lt;/h3&gt;
+            &lt;p&gt;{ {battle.fact} }&lt;/p&gt;
+            &lt;h6&gt;Greek Force: { {battle.armyGr} }&lt;/h6&gt;
+            &lt;h6&gt;Persian Force: { {battle.armyPr} }&lt;/h6&gt;
+            &lt;h6&gt;Outcome: { {battle.outcome} }&lt;/h6&gt;
 
             &lt;hr&gt;
             &lt;div class=&quot;buttonsSelects&quot;&gt;
               &lt;div class=&quot;divBtnSlctUnt&quot;&gt;
                 &lt;h6&gt;
                   &lt;b&gt;Modify font size -
-                    &lt;span&gt;{{spanvalue}}{{measuringunit}}&lt;/span&gt;
+                    &lt;span&gt;{ {spanvalue} }{ {measuringunit} }&lt;/span&gt;
                   &lt;/b&gt;
                 &lt;/h6&gt;
                 &lt;button @click=&quot;$emit(&apos;enlarge-text&apos;)&quot;&gt;+&lt;/button&gt;
@@ -634,7 +667,7 @@ Vue.component(&apos;custom-input&apos;, {
 </div>
 
 <script>
-Vue.component("hellas-persia", {
+  Vue.component("hellas-persia", {
   props: ["battle", "spanvalue", "measuringunit"],
   template: `
     <article style="margin-bottom:30px;">
@@ -713,9 +746,9 @@ Vue.component("hellas-persia", {
 
     </article>
   `
-});
+  });
 
-  var componentnBasics4 = new Vue({
+  var componentBasics4 = new Vue({
     el: "#componentBasics4",
     data: {
       measuringUnit: "px",
@@ -786,19 +819,151 @@ Vue.component("hellas-persia", {
 </script>
 
 
+
+
+
+
 <div id="componentBasics5">
   <h2>Content distribution with slots</h2>
   <p>
-    The <code><slot></code> tag is a special tag that can be used to pass additional
-      html in the vue component directly within the html document. 
+    The <code>&lt;slot&gt;</code> tag is a special tag that can be used to pass additional
+      html in the vue component directly within the html document.
   </p>
+  <div class="jumbotron">
+    <h4>Example</h4>
+    <p>
+      In the following example, the content after the ":" is entered directly in the html.
+    </p>
+    <slot-magic><b>Hello there, how is everything?</b></slot-magic>
+    <h6>html code</h6>
+    <code>&lt;slot-magic&gt;&lt;b&gt;Hello there, how is everything?&lt;/b&gt;&lt;/slot-magic&gt;</code>
+    <h6>Vue code</h6>
+    <code>
+      Vue.component("slot-magic", {
+        template: "&lt;p&gt;I am a paragraph. The value in &lt;code&gt;&amp;lt;slot&amp;gt;&lt;/code&gt; is: &lt;slot&gt;&lt;/slot&gt;&lt;/p&gt;&quot;"
+      });
+    </code>
+  </div>
 </div>
 
 <script>
   Vue.component("slot-magic", {
-    template: ""
+    template: "<p>I am a paragraph. The value in <code>&lt;slot&gt;</code> is: <slot></slot></p>"
+  });
+
+  var componentBasics5 = new Vue({
+    el: "#componentBasics5"
   });
 </script>
+
+
+
+
+
+
+<div id="componentBasics6">
+  <h2>Dynamic components</h2>
+  <p>
+    In the event that we want to render different components dynamically, Vue offers
+    a special tag called <code>&lt;component&gt;</code>. This tag can be used in
+    the html with an attribute called <code>is</code>. The <code>is</code> attribute
+    is binded to the <code>&lt;component&gt;</code> tag and works similar to the
+    <code>v-show</code> directive. That means that the component renders only if
+    the condition that the <code>is</code> equals to is the same like the name of
+    the component's tag name.
+  </p>
+
+  <div class="jumbotron">
+    <h4>Example</h4>
+    <p>
+      In the following example, the buttons are changing a data property value in
+      the root Vue instance. The <code>&lt;component&gt;</code> tag's <code>is</code>
+      directive is connected to a computed property in the root vue instance. The
+      computed property is returning the value that changes based on the button clicks.
+      This value equals to the different tag names each component has been assigned
+      to and therefore, they only render when there is a value match.
+    </p>
+    <button class="buttonComponentTab" @click="selectedComponent = 'JavaScript'">JavaScript</button>
+    <button class="buttonComponentTab" @click="selectedComponent = 'Vue'">Vue</button>
+    <button class="buttonComponentTab" @click="selectedComponent = 'jQuery'">jQuery</button>
+    <component :is="activeComponent" class="componentTabs"></component>
+    <h6>html code</h6>
+    <code>
+      &lt;button class=&quot;buttonComponentTab&quot; @click=&quot;selectedComponent = &apos;JavaScript&apos;&quot;&gt;JavaScript&lt;/button&gt;
+      &lt;button class=&quot;buttonComponentTab&quot; @click=&quot;selectedComponent = &apos;Vue&apos;&quot;&gt;Vue&lt;/button&gt;
+      &lt;button class=&quot;buttonComponentTab&quot; @click=&quot;selectedComponent = &apos;jQuery&apos;&quot;&gt;jQuery&lt;/button&gt;
+      &lt;component :is=&quot;activeComponent&quot; class=&quot;componentTabs&quot;&gt;&lt;/component&gt;
+    </code>
+
+    <h6>Vue code</h6>
+    <code>
+      Vue.component(&quot;tab-javascript&quot;, {
+        template: &grave;
+          &lt;div id=&quot;divJavaScript&quot;&gt;This is the JavaScript tab&lt;/div&gt;
+        &grave;
+      });
+
+      Vue.component(&quot;tab-vue&quot;, {
+        template: &grave;
+          &lt;div id=&quot;divVue&quot;&gt;This is the Vue tab&lt;/div&gt;
+        &grave;
+      });
+
+      Vue.component(&quot;tab-jquery&quot;, {
+        template: &grave;
+          &lt;div id=&quot;divjQuery&quot;&gt;This is the jQuery tab&lt;/div&gt;
+        &grave;
+      });
+    </code>
+  </div>
+  <h2>Dom parsing caveats</h2>
+  <p>
+    The advancage of the <code>is</code> directive is that it can also be used with
+    other html tags in order to property render Vue components. Some HTML elements
+    do not accept and random Vue components. For example, we cannot add a Vue
+    component inside a <code>table</code> tag, unless the template of the component
+    has the right elements to match the <code>table</code>. Alternatively, we can
+    use the <code>is</code> attribute to connect the Vue component to a child element
+    like a <code>tr</code>.
+  </p>
+</div>
+
+
+<script>
+  Vue.component("tab-javascript", {
+    template: `
+      <div id="divJavaScript">This is the JavaScript tab</div>
+    `
+  });
+
+  Vue.component("tab-vue", {
+    template: `
+      <div id="divVue">This is the Vue tab</div>
+    `
+  });
+
+  Vue.component("tab-jquery", {
+    template: `
+      <div id="divjQuery">This is the jQuery tab</div>
+    `
+  });
+
+
+  var componentBasics6 = new Vue({
+    el: "#componentBasics6",
+    data: {
+      selectedComponent: "JavaScript"
+    }, //End of data
+    computed: {
+      activeComponent: function() {
+        console.log("fired");
+        return "tab-" + this.selectedComponent.toLowerCase();
+      }
+    }
+  });
+</script>
+
+
 
 
 <a href="./008-form_input_bindings.html">Previous - Form Input Bindings</a> <a href="./010-component_registration.html">Next - Component Registration</a>

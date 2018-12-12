@@ -95,51 +95,6 @@ function transform(data) {
   return new Date(finalStrArr[0] + "/" + finalStrArr[1] + "/" + finalStrArr[2]);
 }
 
-//Same like above but with the array having the RegEx inside instead of pushing it
-function transform(data) {
-  if (!data) return "";
-  //---PHASE 1---
-  //Regular expressions array with all string scenarios
-  var expirTextArr = [
-    /valid\sthrough:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //valid through(:)(N)N/(N)N/(NNNN)
-    /expires:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //expires(:)(N)N/(N)N/(NNNN)
-    /until:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //until(:)(N)N/(N)N/(NNNN)
-    /offer\sends:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //offer ends(:)(N)N/(N)N/(NNNN)
-    /valid\suntil:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //valid until(:)(N)N/(N)N/(NNNN)
-    /\.\sEnds:?\s\d{1,2}[\/\.]\d{1,2}([\/\.]\d{2,4})?/ //. Ends(:)(N)N/(N)N/(NNNN)
-  ];
-
-
-
-  //---PHASE 2---
-  //String where the extracted (N)N/(N)N/(NNNN) is added. Then the string is split to an array.
-  var finalStrArr = "";
-  //loop through all the regular expressions inside the expirTextArr to see if there is a match
-  //If there is a match, then add the (N)N/(N)N/(NNNN) in finalStrArr and split it.
-  for (var i = 0; i < expirTextArr.length; i++) {
-   var el = expirTextArr[i];
-
-   if (data.match(el)) {
-    finalStrArr= data.match(el)[0].replace(/[\.A-Za-z]/g,"").trim().split("/");
-     break;
-   }
-  }
-
-
-
-  //---PHASE 3---
-  // If no array created, return null
-  if (finalStrArr.length === 0) return null;
-  // If there is no element that describes the year, make one
-  if (!finalStrArr[2]) finalStrArr[2] = "1970"
-
-
-
-  //---PHASE 4---
-  //Return a concatenation (this can be expanded based on other information like currency data)
-  return new Date(finalStrArr[0] + "/" + finalStrArr[1] + "/" + finalStrArr[2]);
-}
-
 // Useful when month is written in full
 function transform(data) {
 	if(!data) return "";
@@ -320,152 +275,6 @@ function transform(data){
 
     } //End of top if statement
   } //End of for loop
-
-  return "";
-}
-
-
-
-// SPECIAL CHARACTERS
-//List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
-function transform(data) {
-  data = data.replace(/[\*©®ǂ†→§™¹>]/g, "");
-  return data || "";
-}
-
-
-
-//PII REMOVAL
-function transform(data) {
-	var n=data.get("_footer");
-	n=n.toString();
-	n= n.replace(/[A-z0-9.%+-_]{2,64}\@[A-z0-9.]{2,64}/g,'');
-	return {'_footer': [n]};
-}
-
-
-
-// PRICE CURRENCY
-function transform(data){
-  var currencies = [
-    {code: 'USD', symbol: '$'}, //United States Dollar
-    {code: 'EUR', symbol: '€'}, //European Union Euro
-    {code: 'GBP', symbol: '£'}, //United Kingdom Pound
-    {code: 'ALL', symbol: 'Lek'}, //Albania Lek
-    {code: 'AFN', symbol: '؋'}, //Afghanistan Afghani
-    {code: 'ARS', symbol: 'AR$'}, //Argentina Peso
-    {code: 'AWG', symbol: 'ƒ'}, //Aruba Guilder
-    {code: 'AUD', symbol: 'A$'}, //Australia Dollar
-    {code: 'AZN', symbol: '₼'}, //Azerbaijan Manat
-    {code: 'BSD', symbol: 'B$'}, //Bahamas Dollar
-    {code: 'BBD', symbol: 'Bds$'}, //Barbados Dollar
-    {code: 'BYN', symbol: 'Br'}, //Belarus Ruble
-    {code: 'BZD', symbol: 'BZ$'}, //Belize Dollar
-    {code: 'BMD', symbol: 'BD$'}, //Bermuda Dollar
-    {code: 'BOB', symbol: '$b'}, //Bolivia Bolíviano
-    {code: 'BAM', symbol: 'KM'}, //Bosnia and Herzegovina Convertible Marka
-    {code: 'BWP', symbol: 'P'}, //Botswana Pula
-    {code: 'BGN', symbol: 'лв'}, //Bulgaria Lev
-    {code: 'BRL', symbol: 'R$'}, //Brazil Real
-    {code: 'BND', symbol: 'B$'}, //Brunei Darussalam Dollar
-    {code: 'KHR', symbol: '៛'}, //Cambodia Riel
-    {code: 'CAD', symbol: 'Can$'}, //Canada Dollar
-    {code: 'KYD', symbol: 'CI$'}, //Cayman Islands Dollar
-    {code: 'CLP', symbol: 'CLP$'}, //Chile Peso
-    {code: 'CNY', symbol: 'CN¥'}, //China Yuan Renminbi
-    {code: 'COP', symbol: 'COL$'}, //Colombia Peso
-    {code: 'CRC', symbol: '₡'}, //Costa Rica Colon
-    {code: 'HRK', symbol: 'kn'}, //Croatia Kuna
-    {code: 'CUP', symbol: '₱'}, //Cuba Peso
-    {code: 'CZK', symbol: 'Kč'}, //Czech Republic Koruna
-    {code: 'DKK', symbol: 'kr'}, //Denmark Krone
-    {code: 'DOP', symbol: 'RD$'}, //Dominican Republic Peso
-    {code: 'XCD', symbol: 'EC$'}, //East Caribbean Dollar
-    {code: 'EGP', symbol: 'E£'}, //Egypt Pound
-    {code: 'EGP', symbol: 'ج.م'}, //Egypt Pound
-    {code: 'SVC', symbol: '₡'}, //El Salvador Colon
-    {code: 'FKP', symbol: 'FK£'}, //Falkland Islands (Malvinas) Pound
-    {code: 'FJD', symbol: 'FJ$'}, //Fiji Dollar
-    {code: 'GHS', symbol: '¢'}, //Ghana Cedi
-    {code: 'GIP', symbol: 'GI£'}, //Gibraltar Pound
-    {code: 'GTQ', symbol: 'Q'}, //Guatemala Quetzal
-    {code: 'GGP', symbol: '£'}, //Guernsey Pound
-    {code: 'GYD', symbol: 'G$'}, //Guyana Dollar (or GY$)
-    {code: 'HNL', symbol: 'L'}, //Honduras Lempira
-    {code: 'HKD', symbol: 'HK$'}, //Hong Kong Dollar
-    {code: 'HUF', symbol: 'Ft'}, //Hungary Forint
-    {code: 'ISK', symbol: 'kr'}, //Iceland Krona
-    {code: 'INR', symbol: '₹'}, //Indian rupee
-    {code: 'IDR', symbol: 'Rp'}, //Indonesia Rupiah
-    {code: 'IRR', symbol: '﷼'}, //Iran Rial
-    {code: 'IMP', symbol: '£'}, //Isle of Man Pound
-    {code: 'ILS', symbol: '₪'}, //Israel Shekel
-    {code: 'JMD', symbol: 'J$'}, //Jamaica Dollar
-    {code: 'JPY', symbol: '¥'}, //Japan Yen
-    {code: 'JEP', symbol: '£'}, //Jersey Pound
-    {code: 'KZT', symbol: 'лв'}, //Kazakhstan Tenge
-    {code: 'KRW', symbol: '₩'}, //Korea (South) Won
-    {code: 'KPW', symbol: '₩'}, //Korea (North) Won
-    {code: 'KGS', symbol: 'лв'}, //Kyrgyzstan Som
-    {code: 'LAK', symbol: '₭'}, //Laos Kip
-    {code: 'LBP', symbol: 'ل.ل.‎'}, //Lebanon Pound
-    {code: 'LRD', symbol: 'L$'}, //Liberia Dollar - Also LD$
-    {code: 'MKD', symbol: 'ден'}, //Macedonia Denar
-    {code: 'MYR', symbol: 'RM'}, //Malaysia Ringgit
-    {code: 'MUR', symbol: '₨'}, //Mauritius Rupee
-    {code: 'MXN', symbol: 'Mex$'}, //Mexico Peso
-    {code: 'MNT', symbol: '₮'}, //Mongolia Tughrik
-    {code: 'MZN', symbol: 'MT'}, //Mozambique Metical
-    {code: 'NAD', symbol: 'N$'}, //Namibia Dollar
-    {code: 'NPR', symbol: '₨'}, //Nepal Rupee
-    {code: 'ANG', symbol: 'ƒ'}, //Netherlands Antilles Guilder
-    {code: 'NZD', symbol: 'NZ$'}, //New Zealand Dollar
-    {code: 'NIO', symbol: 'C$'}, //Nicaragua Cordoba
-    {code: 'NGN', symbol: '₦'}, //Nigeria Naira
-    {code: 'NOK', symbol: 'kr'}, //Norway Krone
-    {code: 'OMR', symbol: '﷼'}, //Oman Rial
-    {code: 'PKR', symbol: '₨'}, //Pakistan Rupee
-    {code: 'PAB', symbol: 'B/.'}, //Panama Balboa
-    {code: 'PYG', symbol: 'Gs'}, //Paraguay Guarani
-    {code: 'PEN', symbol: 'S/.'}, //Peru Sol
-    {code: 'PHP', symbol: '₱'}, //Philippines Piso
-    {code: 'PLN', symbol: 'zł'}, //Poland Zloty
-    {code: 'QAR', symbol: '﷼'}, //Qatar Riyal
-    {code: 'RON', symbol: 'lei'}, //Romania Leu
-    {code: 'RUB', symbol: '₽'}, //Russia Ruble (руб)
-    {code: 'RUB', symbol: 'руб'}, //Russia Ruble (руб)
-    {code: 'SHP', symbol: '£'}, //Saint Helena Pound
-    {code: 'SAR', symbol: '﷼'}, //Saudi Arabia Riyal
-    {code: 'RSD', symbol: 'Дин.'}, //Serbia Dinar
-    {code: 'SCR', symbol: '₨'}, //Seychelles Rupee
-    {code: 'SGD', symbol: 'S$'}, //Singapore Dollar
-    {code: 'SBD', symbol: 'SI$'}, //Solomon Islands Dollar
-    {code: 'SOS', symbol: 'S'}, //Somalia Shilling
-    {code: 'ZAR', symbol: 'R'}, //South Africa Rand
-    {code: 'LKR', symbol: '₨'}, //Sri Lanka Rupee
-    {code: 'SEK', symbol: 'kr'}, //Sweden Krona
-    {code: 'CHF', symbol: 'CHF'}, //Switzerland Franc
-    {code: 'SRD', symbol: 'Sr$'}, //Suriname Dollar
-    {code: 'SYP', symbol: '£S'}, //Syria Pound
-    {code: 'SYP', symbol: 'LS'}, //Syria Pound
-    {code: 'TWD', symbol: 'NT$'}, //Taiwan New Dollar
-    {code: 'THB', symbol: '฿'}, //Thailand Baht
-    {code: 'TTD', symbol: 'TT$'}, //Trinidad and Tobago Dollar
-    {code: 'TRY', symbol: '₺'}, //Turkish Lira
-    {code: 'TVD', symbol: '$'}, //Tuvalu Dollar
-    {code: 'UAH', symbol: '₴'}, //Ukraine Hryvnia
-    {code: 'UYU', symbol: '$U'}, //Uruguay Peso
-    {code: 'UGX', symbol: 'Ush'}, //Ugandan shilling - might also be 'USh' as per wikipedia
-    {code: 'UZS', symbol: 'лв'}, //Uzbekistan Som
-    {code: 'VEF', symbol: 'Bs'}, //Venezuela Bolívar
-    {code: 'VND', symbol: '₫'}, //Viet Nam Dong
-    {code: 'YER', symbol: '﷼'}, //Yemen Rial
-    {code: 'ZWD', symbol: 'Z$'} //Zimbabwe Dollar
-  ];
-
-  for (var i = 0; i < currencies.length; i++) {
-    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].code;
-  }
 
   return "";
 }
@@ -701,16 +510,20 @@ function transform(data,node,headers){
 
 //When the footer reads "now through Tuesday" - Pulling based on the sent date from header
 function transform(data,node,headers){
-  if(/Now\sthrough/.exec(data)) {
-    var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var headersArr = [];
-    for (var key in headers){
-      headersArr.push(headers[key]);
-    }
-    var emailDate = new Date(headersArr[3] * 1000);
+  var offerEnds = /offer\sends\s((\d{1,2}\/){2}([\d]{2,4})?)/i;
+  if (data.indexOf("†") !== data.lastIndexOf("†") && data.indexOf("†") !== -1) {
+    return offerEnds.exec(data)[0].replace(offerEnds, "$1");
+  }
+
+
+
+  var todayToDay = /PM\sCT\sTODAY\s-\s\d{1,2}\sCT\s(.*)\s\|/
+  if(todayToDay.exec(data)) {
+    var daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    var emailDate = new Date(headers.Date * 1000);
     var emailDay = emailDate.getDay();
-    var expirDay = daysOfWeek.indexOf(/Now\sthrough.*/.exec(data)[0].replace(/Now\sthrough\s/, "").replace(/\./, ""));
-    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay + 7 - emailDay;
+    var expirDay = daysOfWeek.indexOf(todayToDay.exec(data)[0].replace(todayToDay, "$1").toLowerCase());
+    var addedDays = expirDay > emailDay ? expirDay - emailDay : expirDay < emailDay ? expirDay + 7 - emailDay : 0;
 
     var finalDay = emailDate.getDate() + addedDays;
     var month = emailDate.getMonth();
@@ -789,15 +602,29 @@ function transform(data) {
 
 
 
+
+// SPECIAL CHARACTERS
+//List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
+function transform(data) {
+  data = data.replace(/[\*©®ǂ†→§™¹>]/g, "");
+  return data || "";
+}
+
+
+
+
 //REGEX $OFF
 // For linkbased when ignoring casing, put this at the front: (?i)
+var free = /[Ff][Rr][Ee]{2}/;
+var freeShipping = /(?i)free\sshipping/;
 var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
 var percentOff = /%\s([Oo][Ff]{2})/;
 var upTpNumPercent = /up\sto\s\d{1,2}%/i;
 var saveNumPercent = /((SAVE)|(Save))\s\d{1,2}%/;
 var saveDollarNum = /((SAVE)|(Save))\s\$\d{1,2}/;
-var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
 var downToAmmount = /down\sto\s\$\d{1,}(\.\d{2})?/i;
+var dollarValue = /(?i)\(\$\d{1,4}\svalue\)/; //Parenthesis included in this
+var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
 var couponColon = /coupon:/i;
 var couponCodeColon = /coupon\scode:/i;
 
@@ -821,42 +648,27 @@ function transform(data) {
 
   var replaceStrings = [
     {oldStr:/[\*©®ǂ†→§™¹›]/g, newStr: ""},
-    {oldStr:/Valid\sthrough.*/i, newStr: ""},
-    {oldStr:/Valid\s((\d{1,2}\/){2}\d{2,4})\s?-?–?\s?((\d{1,2}\/){2}\d{2,4}).*/i, newStr: ""},
-    {oldStr:/Valid\sfor\sone-time\suse(.*)?/i, newStr: ""},
-    {oldStr:/coupon\svalid\sfor.*/i, newStr: ""},
-    {oldStr:/Browse\sBottles\s?/i, newStr: ""},
-    {oldStr:/Browse\sBeers\s?/i, newStr: ""},
-    {oldStr:/Shop\sNow\sUse\sBarcode.*$/i, newStr: ""},
-    {oldStr:/Shop\sNow\s?/i, newStr: ""},
-    {oldStr:/Use\sBarcode\sTo\sRedeem.*/, newStr: ""},
-    {oldStr:/^Plus,?\s/i, newStr: ""},
-    {oldStr:/^\d\sDays?\sOnly!?\sEnds\s\d{1,2}\/\d{1,2}/i, newStr: ""},
-    {oldStr:/Free\sitem\smust\sbe\sof\sequal\sor\slesser\svalue(.*)?/, newStr: ""},
-    {oldStr:/worldmarket.com(\/[a-z]+)?/i, newStr: ""},
-    {oldStr:/worldmarketexplorer.com(\/[a-z]+)?/i, newStr: ""},
-    {oldStr:/Find\sA\sStore$/i, newStr: ""},
-    {oldStr:/Sign\sIn$/, newStr: ""},
-    {oldStr:/Join\sNow$/, newStr: ""},
-    {oldStr:/MEMBER\sPRICING:?/, newStr: ""},
-    {oldStr:/HALLMARK\sCHANNEL\sMOVIE\sSWEEPSTAKES.*/, newStr: ""},
-    {oldStr:/to\sredeem\soffer\..*/, newStr: ""},
-    {oldStr:/Shopper\sReward\scredits\searned.*/, newStr: ""},
-    {oldStr:/^Or\s/, newStr: ""},
-    {oldStr:/^Plus\s/, newStr: ""},
-    {oldStr:/(.*):/, newStr: "$1"},
-    {oldStr: /:\sBUY\sWINE\sONLINE,\sPICK\sUP\sIN\sSTORE:?\s?/, newStr: "-"},
-    {oldStr: /Online\sOnly[!\|]\s/, newStr:""},
-    {oldStr: /^-/, newStr:""},
-    {oldStr: /Ends\s((Today!\s)|(Tonight!\s)|(Saturday!\s)|(Monday!\s)|(Tomorrow!\s))?\d{1,2}\/\s?\d{1,2}\s/i, newStr: ""},
-    {oldStr: /GOLDEN\sSEAHORSE\sSCAVENGER\sHUNT:\swww\.\s\.\sPromoter:\sCost\sPlus\sWorld\sMarket.\s/, newStr: ""},
-    {oldStr: /Find\sA\sStore\s?/, newStr: ""},
-    {oldStr: /(With\sCoupon)\sBelow/, newStr: "$1"},
-    {oldStr: /Sign\sIn/gi, newStr: ""},
-    {oldStr: /Join\snow/gi, newStr: ""},
-    {oldStr: /FOURTH\sOF\sJULY\sSTORE\sHOURS:\s/, newStr: ""},
-    {oldStr: /Contact\syour\slocal\sstore\sfor\shours\.\s/, newStr: ""},
-    {oldStr: /.*Marina\sVillage\sParkway,\sAlameda,\sCA\s94501.\s/, newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
+    //{oldStr: , newStr: ""},
   ];
 
   replaceStrings.forEach(function(el) {
@@ -875,6 +687,16 @@ function transform(data) {
   n = n.toString().replace(/[A-z0-9.%+-_]{2,64}\@[A-z0-9.]{2,64}/g,'');
   return {'_footer': [n]};
 }
+//BETTER
+function transform(data) {
+  var ftr = data.get("_footer")[0].replace(/[A-z0-9.%+-_]{2,64}\@[A-z0-9.]{2,64}/g,'');
+  var rvt = data.get("_raw_validThrough")[0];
+
+  return {
+    '_footer': [ftr],
+    '_raw_validThrough': [rvt]
+  };
+}
 
 
 
@@ -889,23 +711,172 @@ function transform(data) {
 
 
 
+// PRICE CURRENCY
+function transform(data){
+  var currencies = [
+    {code: 'USD', symbol: '$'}, //United States Dollar
+    {code: 'EUR', symbol: '€'}, //European Union Euro
+    {code: 'GBP', symbol: '£'}, //United Kingdom Pound
+    {code: 'ALL', symbol: 'Lek'}, //Albania Lek
+    {code: 'AFN', symbol: '؋'}, //Afghanistan Afghani
+    {code: 'ARS', symbol: 'AR$'}, //Argentina Peso
+    {code: 'AWG', symbol: 'ƒ'}, //Aruba Guilder
+    {code: 'AUD', symbol: 'A$'}, //Australia Dollar
+    {code: 'AZN', symbol: '₼'}, //Azerbaijan Manat
+    {code: 'BSD', symbol: 'B$'}, //Bahamas Dollar
+    {code: 'BBD', symbol: 'Bds$'}, //Barbados Dollar
+    {code: 'BYN', symbol: 'Br'}, //Belarus Ruble
+    {code: 'BZD', symbol: 'BZ$'}, //Belize Dollar
+    {code: 'BMD', symbol: 'BD$'}, //Bermuda Dollar
+    {code: 'BOB', symbol: '$b'}, //Bolivia Bolíviano
+    {code: 'BAM', symbol: 'KM'}, //Bosnia and Herzegovina Convertible Marka
+    {code: 'BWP', symbol: 'P'}, //Botswana Pula
+    {code: 'BGN', symbol: 'лв'}, //Bulgaria Lev
+    {code: 'BRL', symbol: 'R$'}, //Brazil Real
+    {code: 'BND', symbol: 'B$'}, //Brunei Darussalam Dollar
+    {code: 'KHR', symbol: '៛'}, //Cambodia Riel
+    {code: 'CAD', symbol: 'Can$'}, //Canada Dollar
+    {code: 'KYD', symbol: 'CI$'}, //Cayman Islands Dollar
+    {code: 'CLP', symbol: 'CLP$'}, //Chile Peso
+    {code: 'CNY', symbol: 'CN¥'}, //China Yuan Renminbi
+    {code: 'COP', symbol: 'COL$'}, //Colombia Peso
+    {code: 'CRC', symbol: '₡'}, //Costa Rica Colon
+    {code: 'HRK', symbol: 'kn'}, //Croatia Kuna
+    {code: 'CUP', symbol: '₱'}, //Cuba Peso
+    {code: 'CZK', symbol: 'Kč'}, //Czech Republic Koruna
+    {code: 'DKK', symbol: 'kr'}, //Denmark Krone
+    {code: 'DOP', symbol: 'RD$'}, //Dominican Republic Peso
+    {code: 'XCD', symbol: 'EC$'}, //East Caribbean Dollar
+    {code: 'EGP', symbol: 'E£'}, //Egypt Pound
+    {code: 'EGP', symbol: 'ج.م'}, //Egypt Pound
+    {code: 'SVC', symbol: '₡'}, //El Salvador Colon
+    {code: 'FKP', symbol: 'FK£'}, //Falkland Islands (Malvinas) Pound
+    {code: 'FJD', symbol: 'FJ$'}, //Fiji Dollar
+    {code: 'GHS', symbol: '¢'}, //Ghana Cedi
+    {code: 'GIP', symbol: 'GI£'}, //Gibraltar Pound
+    {code: 'GTQ', symbol: 'Q'}, //Guatemala Quetzal
+    {code: 'GGP', symbol: '£'}, //Guernsey Pound
+    {code: 'GYD', symbol: 'G$'}, //Guyana Dollar (or GY$)
+    {code: 'HNL', symbol: 'L'}, //Honduras Lempira
+    {code: 'HKD', symbol: 'HK$'}, //Hong Kong Dollar
+    {code: 'HUF', symbol: 'Ft'}, //Hungary Forint
+    {code: 'ISK', symbol: 'kr'}, //Iceland Krona
+    {code: 'INR', symbol: '₹'}, //Indian rupee
+    {code: 'IDR', symbol: 'Rp'}, //Indonesia Rupiah
+    {code: 'IRR', symbol: '﷼'}, //Iran Rial
+    {code: 'IMP', symbol: '£'}, //Isle of Man Pound
+    {code: 'ILS', symbol: '₪'}, //Israel Shekel
+    {code: 'JMD', symbol: 'J$'}, //Jamaica Dollar
+    {code: 'JPY', symbol: '¥'}, //Japan Yen
+    {code: 'JEP', symbol: '£'}, //Jersey Pound
+    {code: 'KZT', symbol: 'лв'}, //Kazakhstan Tenge
+    {code: 'KRW', symbol: '₩'}, //Korea (South) Won
+    {code: 'KPW', symbol: '₩'}, //Korea (North) Won
+    {code: 'KGS', symbol: 'лв'}, //Kyrgyzstan Som
+    {code: 'LAK', symbol: '₭'}, //Laos Kip
+    {code: 'LBP', symbol: 'ل.ل.‎'}, //Lebanon Pound
+    {code: 'LRD', symbol: 'L$'}, //Liberia Dollar - Also LD$
+    {code: 'MKD', symbol: 'ден'}, //Macedonia Denar
+    {code: 'MYR', symbol: 'RM'}, //Malaysia Ringgit
+    {code: 'MUR', symbol: '₨'}, //Mauritius Rupee
+    {code: 'MXN', symbol: 'Mex$'}, //Mexico Peso
+    {code: 'MNT', symbol: '₮'}, //Mongolia Tughrik
+    {code: 'MZN', symbol: 'MT'}, //Mozambique Metical
+    {code: 'NAD', symbol: 'N$'}, //Namibia Dollar
+    {code: 'NPR', symbol: '₨'}, //Nepal Rupee
+    {code: 'ANG', symbol: 'ƒ'}, //Netherlands Antilles Guilder
+    {code: 'NZD', symbol: 'NZ$'}, //New Zealand Dollar
+    {code: 'NIO', symbol: 'C$'}, //Nicaragua Cordoba
+    {code: 'NGN', symbol: '₦'}, //Nigeria Naira
+    {code: 'NOK', symbol: 'kr'}, //Norway Krone
+    {code: 'OMR', symbol: '﷼'}, //Oman Rial
+    {code: 'PKR', symbol: '₨'}, //Pakistan Rupee
+    {code: 'PAB', symbol: 'B/.'}, //Panama Balboa
+    {code: 'PYG', symbol: 'Gs'}, //Paraguay Guarani
+    {code: 'PEN', symbol: 'S/.'}, //Peru Sol
+    {code: 'PHP', symbol: '₱'}, //Philippines Piso
+    {code: 'PLN', symbol: 'zł'}, //Poland Zloty
+    {code: 'QAR', symbol: '﷼'}, //Qatar Riyal
+    {code: 'RON', symbol: 'lei'}, //Romania Leu
+    {code: 'RUB', symbol: '₽'}, //Russia Ruble (руб)
+    {code: 'RUB', symbol: 'руб'}, //Russia Ruble (руб)
+    {code: 'SHP', symbol: '£'}, //Saint Helena Pound
+    {code: 'SAR', symbol: '﷼'}, //Saudi Arabia Riyal
+    {code: 'RSD', symbol: 'Дин.'}, //Serbia Dinar
+    {code: 'SCR', symbol: '₨'}, //Seychelles Rupee
+    {code: 'SGD', symbol: 'S$'}, //Singapore Dollar
+    {code: 'SBD', symbol: 'SI$'}, //Solomon Islands Dollar
+    {code: 'SOS', symbol: 'S'}, //Somalia Shilling
+    {code: 'ZAR', symbol: 'R'}, //South Africa Rand
+    {code: 'LKR', symbol: '₨'}, //Sri Lanka Rupee
+    {code: 'SEK', symbol: 'kr'}, //Sweden Krona
+    {code: 'CHF', symbol: 'CHF'}, //Switzerland Franc
+    {code: 'SRD', symbol: 'Sr$'}, //Suriname Dollar
+    {code: 'SYP', symbol: '£S'}, //Syria Pound
+    {code: 'SYP', symbol: 'LS'}, //Syria Pound
+    {code: 'TWD', symbol: 'NT$'}, //Taiwan New Dollar
+    {code: 'THB', symbol: '฿'}, //Thailand Baht
+    {code: 'TTD', symbol: 'TT$'}, //Trinidad and Tobago Dollar
+    {code: 'TRY', symbol: '₺'}, //Turkish Lira
+    {code: 'TVD', symbol: '$'}, //Tuvalu Dollar
+    {code: 'AED', symbol: '.إ'}, //United Arab Emirates dirham (د.إ;)
+    {code: 'UAH', symbol: '₴'}, //Ukraine Hryvnia
+    {code: 'UYU', symbol: '$U'}, //Uruguay Peso
+    {code: 'UGX', symbol: 'Ush'}, //Ugandan shilling - might also be 'USh' as per wikipedia
+    {code: 'UZS', symbol: 'лв'}, //Uzbekistan Som
+    {code: 'VEF', symbol: 'Bs'}, //Venezuela Bolívar
+    {code: 'VND', symbol: '₫'}, //Viet Nam Dong
+    {code: 'YER', symbol: '﷼'}, //Yemen Rial
+    {code: 'ZWD', symbol: 'Z$'}, //Zimbabwe Dollar
+  ];
+
+  for (var i = 0; i < currencies.length; i++) {
+    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].code;
+  }
+
+  return "";
+}
 
 
 
 
-function transform(data) {
+//REPLACE ARABIC NUMBERS TO WESTERN ONES
+function transfrom(data){
+  var arabicNumbers = [
+    {arabic: /٠/g, western: "0"},
+    {arabic: /١/g, western: "1"},
+    {arabic: /٢/g, western: "2"},
+    {arabic: /٣/g, western: "3"},
+    {arabic: /٤/g, western: "4"},
+    {arabic: /٥/g, western: "5"},
+    {arabic: /٦/g, western: "6"},
+    {arabic: /٧/g, western: "7"},
+    {arabic: /٨/g, western: "8"},
+    {arabic: /٩/g, western: "9"},
+  ];
 
+  arabicNumbers.forEach(function(el){
+    data = data.replace(el.arabic, el.western)
+  });
+
+  return data;
+}
+
+
+
+
+//PRESET RULE FOR VALID THROUGH FOR LINKBASED
+function transform(data)
+{
   if (data) {
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var regex = /(\s*\d+)\/(\s*\d+)/i;
     var match = regex.exec(data);
-
     if (match && match[1]) {
       return monthNames[match[1] - 1] + ', ' + match[2];
     }
     else{
       return data;
     }
-  }
-  return null;
+  }return null;
 }
