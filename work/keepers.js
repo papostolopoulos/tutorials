@@ -606,7 +606,7 @@ function transform(data) {
 // SPECIAL CHARACTERS
 //List of unicode characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
 function transform(data) {
-  data = data.replace(/[\*©®ǂ†→§™¹>]/g, "");
+  data = data.replace(/[\*©®ǂ†±→§™¹>]/g, "");
   return data || "";
 }
 
@@ -615,19 +615,38 @@ function transform(data) {
 
 //REGEX $OFF
 // For linkbased when ignoring casing, put this at the front: (?i)
+//Free
 var free = /[Ff][Rr][Ee]{2}/;
 var freeShipping = /(?i)free\sshipping/;
-var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
-var percentOff = /%\s([Oo][Ff]{2})/;
-var upTpNumPercent = /up\sto\s\d{1,2}%/i;
-var saveNumPercent = /((SAVE)|(Save))\s\d{1,2}%/;
-var saveDollarNum = /((SAVE)|(Save))\s\$\d{1,2}/;
-var downToAmmount = /down\sto\s\$\d{1,}(\.\d{2})?/i;
-var dollarValue = /(?i)\(\$\d{1,4}\svalue\)/; //Parenthesis included in this
-var numberOfPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
-var couponColon = /coupon:/i;
-var couponCodeColon = /coupon\scode:/i;
+var freeOnOrdersOf = /(?i)free\son\sorders\sof\s\$/;
 
+//$
+var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
+var saveDollarNum = /((SAVE)|(Save))\s\$\d{1,2}/;
+var savingsOfDollar = /(?i)savings\sof\s\$/;
+var dollarReward = /(?i)\$\d{1,3}\sreward/;
+var downToAmmount = /(?i)down\sto\s\$\d{1,}(\.\d{2})?/i;
+var dollarValue = /(?i)\(\?$\d{1,4}\svalue\)?/; //Parenthesis included in this
+var dollarDiscount = /(?i)\$\d+(\.\d{2})?\sdiscount/;
+var discountOfDollar = /(?i)discount\sof\s\$\d+(\.\d{2})?/;
+
+//%
+var percentOff = /%\s([Oo][Ff]{2})/;
+var percentSavings = /(?i)%\ssavings/;
+var extraNumberPercent = /(?i)extra\s\d{1,2}%/
+var upTpNumPercent = /(?i)up\sto\s\d{1,2}%/i;
+var saveNumPercent = /((SAVE)|(Save))\s\d{1,2}%/;
+var discountOfPercent = /(?i)discount\sof\s\d+%/;
+var percentDiscount = /(?i)\d+%\sdiscount/;
+var discountedByDollarPercent = /(?i)discounted\sby\s\$?\d{1,2}%?/;
+
+//Points
+var numberPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
+var earnNumberPoints = /(?i)earn\s\d+\spoints/;
+
+//Coupon
+var couponColon = /(?i)coupon:/i;
+var couponCodeColon = /(?i)coupon\scode:/i;
 
 
 //ADD IN THE COUPON ROOT TO FILTER OUT EMAILS WHERE YOU DON'T WANT THE TITLE
@@ -639,7 +658,7 @@ function transform(data){
 
 
 
-
+//(\$\d{1,2}(\.\d{2})?\s+\\|\s\$\d{1,2}(\.\d{2})?)
 
 //REMOVE OR CLEAN COUPONS WITH CRAPPY TEXT AT LINKBASE
 function transform(data) {
@@ -647,28 +666,28 @@ function transform(data) {
 
 
   var replaceStrings = [
-    {oldStr:/[\*©®ǂ†→§™¹›]/g, newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
-    //{oldStr: , newStr: ""},
+    {oldStr:/[\*©®ǂ‡†±→§™¹›]/g, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
   ];
 
   replaceStrings.forEach(function(el) {
@@ -866,8 +885,7 @@ function transfrom(data){
 
 
 //PRESET RULE FOR VALID THROUGH FOR LINKBASED
-function transform(data)
-{
+function transform(data){
   if (data) {
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var regex = /(\s*\d+)\/(\s*\d+)/i;
@@ -878,5 +896,16 @@ function transform(data)
     else{
       return data;
     }
-  }return null;
+  }
+
+  return null;
+}
+
+
+
+//PRESET RULE FOR PAYMENTSTATUS TO PUT IN THE ROOT OF THE INVOICE
+function transform (data){
+  var status =  Util.getSchemaAttributeFirstValue(data, "http://schema.org/paymentStatus");
+  if (status) return data;
+  return null;
 }

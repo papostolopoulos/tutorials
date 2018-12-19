@@ -1863,7 +1863,7 @@
           "/descendant::td/descendant::text()[contains(.,\"Payment amount:\") or contains(.,\"Payment Amount:\")]"
         ],
         "type": "http://schema.org/Invoice",
-        "javascript": null,
+        "javascript": "function transform (data){\n  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  if (status) return data;\n  return null;\n}",
         "entityIdRef": "",
         "attributes": [
           {
@@ -1889,24 +1889,6 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "/descendant::text()[contains(.,'Payment date') or contains(.,'Payment Date')]"
-                }
-              ]
-            },
-            "name": "http://schema.org/paymentDue",
-            "relative": true,
-            "transient": false,
-            "javascript": "function transform(data){\n  return data.replace(/payment\\sdate:\\s/i, \"\");\n}",
-            "dataTypes": [
-              "DateTime"
-            ],
-            "mandatory": false
-          },
-          {
-            "repeating": false,
-            "locations": {
-              "-1": [
-                {
                   "xpath": "/descendant::td/descendant::text()[contains(.,\"Thank you for\") or contains(.,\"delete your payment\")]"
                 }
               ]
@@ -1914,7 +1896,7 @@
             "name": "http://schema.org/paymentStatus",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    'Thank you for your payment': 'PaymentComplete',\n    'We\\'ve received your request to delete your payment': 'PaymentDeclined',\n    'Thank you for scheduling automatic payments': 'PaymentAutomaticallyApplied',\n    'Thank you for updating your payment': 'PaymentScheduled'\n\n  };\n\n  for(var key in textMatchObj){\n    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n  }\n  return \"\";\n}",
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    'Thank you for your payment': 'PaymentComplete',\n    //'keyword 4': 'PaymentDeclined',\n    'Thank you for scheduling automatic payments': 'PaymentAutomaticallyApplied',\n    'Thank you for updating your payment': 'PaymentScheduled'\n\n  };\n\n  for(var key in textMatchObj){\n    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n  }\n  return \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -2006,7 +1988,7 @@
         ]
       },
       {
-        "id": "68bc40b8-af5e-4133-87b8-4372a17441f9",
+        "id": "4f4b8074-9e6e-41b0-b9d4-7a2e93da4a8e",
         "repeating": true,
         "locations": [
           "/descendant::td/descendant::text()[contains(.,\"Payment amount:\") or contains(.,\"Payment Amount:\")]"
@@ -2020,14 +2002,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "/descendant::td/following::text()[contains(.,\"Comenity LLC\")]"
+                  "xpath": "\"Comenity\""
                 }
               ]
             },
             "name": "http://schema.org/name",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data){\n  return data.match(/Comenity\\sLLC/)[0] || \"\";\n}",
+            "javascript": null,
             "dataTypes": [
               "Text"
             ],
@@ -2079,18 +2061,6 @@
           "matchAttr": ""
         },
         "to": {
-          "entityRule": "68bc40b8-af5e-4133-87b8-4372a17441f9",
-          "matchAttr": ""
-        },
-        "predicate": "http://schema.org/broker",
-        "cardinality": "ONE_TO_ONE"
-      },
-      {
-        "from": {
-          "entityRule": "48748ebd-4d3b-41fb-9624-ca95bbbfb6f8",
-          "matchAttr": ""
-        },
-        "to": {
           "entityRule": "247411cd-b035-4e9a-8e78-a8fb7cb356ce",
           "matchAttr": ""
         },
@@ -2107,6 +2077,18 @@
           "matchAttr": ""
         },
         "predicate": "http://schema.org/customer",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "48748ebd-4d3b-41fb-9624-ca95bbbfb6f8",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "4f4b8074-9e6e-41b0-b9d4-7a2e93da4a8e",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
         "cardinality": "ONE_TO_ONE"
       }
     ],
@@ -2969,7 +2951,7 @@
   }
 }
 
-/* LOANCARE  myloancare.com */
+/* LOANCARE myloancare.com */
 {
   "extract": {
     "extractEmbedded": false,
@@ -3098,6 +3080,551 @@
           "matchAttr": ""
         },
         "predicate": "http://schema.org/broker",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/* NAVIENT navient.com */
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "7df3bbd3-35b3-4613-948e-fe73980fa661",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform (data){\n  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  if (status) return data;\n  return null;\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::text()[contains(.,\"Due date:\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    'Due date': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    //'keyword6': 'PaymentScheduled'\n  };\n\n  for(var key in textMatchObj){\n    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::strong[contains(.,\"Due date\")]/following::td[contains(.,'/')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentDue",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"view\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "'navient.com'"
+        }
+      },
+      {
+        "id": "5006affe-3a99-4c7e-adf1-455035310bf2",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Person",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,\"here's\")]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform (data){\n  \n if(data){\n   return(data.replace(/\\,.*/,''))\n }\n  \n  else{\n    return data;\n  }\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "bc94071f-45b7-4838-8148-a9235886205d",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "'USD'"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "48ef584b-c715-42a8-a8cf-d93f3cda38dc",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"NAVIENT\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "'https://www. navient.com/'"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::img[contains(@alt,\"Navient\")][1]/@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/image",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "7df3bbd3-35b3-4613-948e-fe73980fa661",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "5006affe-3a99-4c7e-adf1-455035310bf2",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/customer",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "7df3bbd3-35b3-4613-948e-fe73980fa661",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "bc94071f-45b7-4838-8148-a9235886205d",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/totalPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "7df3bbd3-35b3-4613-948e-fe73980fa661",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "48ef584b-c715-42a8-a8cf-d93f3cda38dc",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
+      }
+    ],
+    "entityNS": null
+  },
+  "metaData": {
+    "useVTDXML": "true",
+    "ignoredValidations": null
+  }
+}
+
+/*PG&E pge.com*/
+{
+  "extract": {
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
+    "entityRules": [
+      {
+        "id": "931e95e6-6011-491a-81b9-ee2246fb0554",
+        "repeating": true,
+        "locations": [
+          "/descendant::body"
+        ],
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform (data){\n\t  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  \tif (status){\n    \treturn data;\n    }\n  \telse return null;\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "substring-after(./descendant::text()[contains(.,\"account number\")],\"account number\")",
+                  "regex": "\\d+"
+                },
+                {
+                  "xpath": "substring-before(substring-after(./descendant::text()[contains(.,\"Account Number\")],\"Account Number ******\"), \".\")"
+                },
+                {
+                  "xpath": "substring-before(substring-after(./descendant::text()[contains(.,\"account ******\")],\"account ******\"), \". \")"
+                }
+              ]
+            },
+            "name": "http://schema.org/accountId",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false,
+            "hintsJavascript": null
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    'Payment Arrangement schedule': 'PaymentScheduled',\n    'automatic recurring payment plan': 'PaymentScheduled',\n  };\n  for(var key in textMatchObj){\n  if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n}\nreturn \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false,
+            "hintsJavascript": null
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::a[contains(.,'www.pge.com')]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "\"pge.com\""
+        }
+      },
+      {
+        "id": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"PG&E\""
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "\"https://www.pge.com/\""
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  return data;\n  if(data.match(/\\$[\\d\\,\\.]{4,}/)){\n    var price = data.replace(/\\$/,'')\n    var amt = parseFloat(price.match(/[\\$\\d\\,\\.]+/)[0].replace(/,/,'')).toFixed(2);\n    return amt;\n  } else {\n    return null;\n  }\n}",
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "."
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n  var currencies = [\n    {name: \"AUD\", symbol: \"A$\"},\n    {name: \"AUD\", symbol: \"AU$\"},\n    {name: \"AUD\", symbol: \"AUD\"},\n    {name: \"EGP\", symbol: \"ج.م\"},\n    {name: \"EUR\", symbol: \"€\"},\n    {name: \"GBP\", symbol: \"£\"},\n    {name: \"HUF\", symbol: \"Ft\"},\n     {name: \"IDR\", symbol: \"Rp\"},\n    {name: \"IND\", symbol: \"Rs\"},\n    {name: \"INR\", symbol: \"₹\"},\n    {name: \"MYR\", symbol: \"RM\"},\n    {name: \"NOK\", symbol: \"kr\"},\n    {name: \"PEN\", symbol: \"S/\"},\n    {name: \"PHP\", symbol: \"₱\"},\n    {name: \"PLN\", symbol: \"zł\"},\n    {name: \"QAR\", symbol: \"ر.ق\"},\n    {name: \"RON\", symbol: \"lei\"},\n    {name: \"THB\", symbol: \"฿\"},\n    {name: \"TRY\", symbol: \"TL\"},\n    {name: \"USD\", symbol: \"$\"},\n    {name: \"UGX\", symbol: \"Ush\"},\n    {name: \"VND\", symbol: \"₫\"},\n    {name: \"USD\", symbol: \"USD\"}\n  ];\n\n  for (var i = 0; i < currencies.length; i++) {\n    if (data.indexOf(currencies[i].symbol) !== -1) return currencies[i].name;\n  }\n\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "0f742efb-194f-4680-8d5d-c46e93e85966",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Person",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "./descendant::*[contains(.,'Dear')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform (data){\n  var symbol = data.indexOf(\":\") < data.indexOf(\",\") ? \":\" : \",\";\n  if (RegExp(symbol).test(data)) return data.replace(/Hello|Hi|Dear/,\"\").split(symbol)[0].trim();\n  return data || \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      }
+    ],
+    "edgeRules": [
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/totalPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "931e95e6-6011-491a-81b9-ee2246fb0554",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "0f742efb-194f-4680-8d5d-c46e93e85966",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/customer",
         "cardinality": "ONE_TO_ONE"
       }
     ],
