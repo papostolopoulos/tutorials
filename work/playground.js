@@ -22,44 +22,41 @@ function transform(data) {
 
   var replaceStrings = [
     {oldStr:/[\*©®ǂ‡†±→§™¹›]/g, newStr: ""},
-    {oldStr: /STARTS\sTODAY/i, newStr: ""},
-    {oldStr: /\|\sSHOP\sSALE(\syep.*)$/i, newStr: ""},
-    {oldStr: /^Also,\sthis\sperk:/i, newStr: ""},
+    {oldStr: /& a Special/i, newStr: "A Special"},
+    {oldStr: /Limit \d\./i, newStr: ""},
+    {oldStr: /2 DAYS ONLY! Don't Miss Out\..*/i, newStr: ""},
+    {oldStr: /\d Days of Cheer: \d{1,2}\/\d{1,2}-\d{1,2}\/\d{1,2} ONLY\./i, newStr: ""},
+    {oldStr: /Check back each day.*/i, newStr: ""},
+    {oldStr: /Cheer's Workshop of Savings\..*/i, newStr: ""},
+    {oldStr: /(Best part\?? They’re all at 50-90%)/i, newStr: "So many Big Brands. $1"},
+    {oldStr: /Check back each day.*/i, newStr: ""},
+    {oldStr: /SHOP HOLLAR.*/i, newStr: ""},
+    {oldStr: /UNWRAP YOUR MYSTERY OFFER/i, newStr: ""},
+    {oldStr: /^Ends Today(!|\.)/i, newStr: ""},
+    {oldStr: /Use Code \w+ at Checkout.*/i, newStr: ""},
+    {oldStr: /Use\s+Code.*/i, newStr: ""},
+    {oldStr: /(Feed\s+the\s+Heart|Feeding\s+Fun|Feel\s+the\s+Magic!).*/i, newStr: ""},
+    {oldStr: /gyou/i, newStr: "you"},
+    {oldStr: /^For H(er|im).*/i, newStr: ""},
+    {oldStr: /^For the (D(é|e)cor Lover|Littles)\..*/i, newStr: ""},
+    {oldStr: /^Kid Favorites.*/i, newStr: ""},
+    {oldStr: /Now Through \d{1,2}\/\d{1,2}\./i, newStr: ""},
     {oldStr: /^Plus,/i, newStr: ""},
-    {oldStr: /(|\s)?SHOP\sNOW.*/i, newStr: ""},
-    {oldStr: /.*oldnavy\.com\/supercash.*/i, newStr: ""},
-    {oldStr: /\|\sSHOP\sSALE/i, newStr: ""},
-    {oldStr: /FIND\sYOUR\sSTORE$/i, newStr: ""},
-    {oldStr: /(\|\s)?(Exclusions|Restrictions)(\smay)?\sapply\.\s(See)?\sDetails\sbelow\.?/i, newStr: ""},
-    {oldStr: /Or\sshow\scashier\sbarcode.*/i, newStr: ""},
-    {oldStr: /\|\sFIND\sA\sSTORE/i, newStr: ""},
-    {oldStr: /Valid\sUntil.*/i, newStr: ""},
-    {oldStr: /If\syou\shave\sany\squestions.*/i, newStr: ""},
-    {oldStr: /rn\s\(!\)/i, newStr: ""},
-    {oldStr: /.*Plus,\senjoy\sthis\sperk:/i, newStr: ""},
-    {oldStr: /So\.\sMany\.\sPerks\.\sSay\shi\sto\.\.\./i, newStr: ""},
-    {oldStr: /^WHAT'S\sBETTER.*Plus,/i, newStr: ""},
-    {oldStr: /^Come\ssee.*PLUS,/i, newStr: ""},
-    {oldStr: /Plus,\sso\smuch\s\$/i, newStr: ""},
-    {oldStr: /^((Hey,\swhat's\sup)|(Hi,\snice\sto)).*Plus,/i, newStr: ""},
-    {oldStr: /SCORE\sNOW$/i, newStr: ""},
-    {oldStr: /Cannot\sbe\scombined.*/i, newStr: ""},
-    {oldStr: /Limited\stime\sonly.*/i, newStr: ""},
-    {oldStr: /Use\scode\s\w+/i, newStr: ""},
-    {oldStr: /USE\sCODE(\s+)?$/i, newStr: ""},
-    {oldStr: /(\|\s)Details\sbelow\./i, newStr: ""},
-    {oldStr: /^Also,?/i, newStr: ""},
-    {oldStr: /OLD\sNAVY\sOUTLET.*Premium\sOutlets/i, newStr: ""},
-    {oldStr: /APPLY\sNOW/i, newStr: ""},
-    {oldStr: /BARCODE(\s\w+)/i, newStr: "$1"},
-    {oldStr: /New\sstore\sreopening.*(get\s\$\d{1,2})/i, newStr: "$1"},
+    {oldStr: /^Pack It Up.*/i, newStr: ""},
+    {oldStr: /UNWRAP YOUR MYSTERY OFFER/i, newStr: ""},
     //{oldStr: //i, newStr: ""},
     //{oldStr: //i, newStr: ""},
     //{oldStr: //i, newStr: ""},
     //{oldStr: //i, newStr: ""},
     //{oldStr: //i, newStr: ""},
     //{oldStr: //i, newStr: ""},
-    {oldStr: /\|(\s)?$/i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    // {oldStr: RegExp(String.fromCharCode(8204), "ugi"), newStr: ""},
+    // {oldStr: /\u200c/ugi, newStr: ""},
+    // {oldStr: /\s.\s./gi, newStr: ""},
+    // {oldStr: /\s{2,}/gi, newStr: ""},
   ];
 
   replaceStrings.forEach(function(el) {
@@ -68,3 +65,9 @@ function transform(data) {
 
  return data.trim();
 }
+
+var str = " ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ $3.99 Shipping and FREE SHIPPING on all order over $25"
+
+RegExp(String.fromCharCode(8204), "ugi");
+
+(?uig)\u200c

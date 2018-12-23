@@ -615,38 +615,43 @@ function transform(data) {
 
 //REGEX $OFF
 // For linkbased when ignoring casing, put this at the front: (?i)
-//Free
-var free = /[Ff][Rr][Ee]{2}/;
-var freeShipping = /(?i)free\sshipping/;
-var freeOnOrdersOf = /(?i)free\son\sorders\sof\s\$/;
+function transform(data){
+  //Free
+  var free = /[Ff][Rr][Ee]{2}/;
+  var freeShipping = /(?i)free\sshipping/;
+  var freeOnOrdersOf = /(?i)free\son\sorders\sof\s\$/;
 
-//$
-var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
-var saveDollarNum = /((SAVE)|(Save))\s\$\d{1,2}/;
-var savingsOfDollar = /(?i)savings\sof\s\$/;
-var dollarReward = /(?i)\$\d{1,3}\sreward/;
-var downToAmmount = /(?i)down\sto\s\$\d{1,}(\.\d{2})?/i;
-var dollarValue = /(?i)\(\?$\d{1,4}\svalue\)?/; //Parenthesis included in this
-var dollarDiscount = /(?i)\$\d+(\.\d{2})?\sdiscount/;
-var discountOfDollar = /(?i)discount\sof\s\$\d+(\.\d{2})?/;
+  //$
+  var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;
+  var saveDollarNum = /(?i)save\s((over|more\sthan|up\sto)\s)?\$\d+/;
+  var savingsOfDollar = /(?i)savings\sof\s\$/;
+  var dollarReward = /(?i)\$\d{1,3}\sreward/;
+  var downToAmmount = /(?i)down\sto\s\$\d{1,}(\.\d{2})?/i;
+  var dollarValue = /(?i)\(\?$\d{1,4}\svalue\)?/; //Parenthesis included in this
+  var dollarDiscount = /(?i)\$\d+(\.\d{2})?\sdiscount/;
+  var discountOfDollar = /(?i)discount\sof\s\$\d+(\.\d{2})?/;
+  var asLowAsDollar = /(?i)as\slow\sas\$/;
+  var dollarcredit = /(?i)\$\d+\scredit/;
 
-//%
-var percentOff = /%\s([Oo][Ff]{2})/;
-var percentSavings = /(?i)%\ssavings/;
-var extraNumberPercent = /(?i)extra\s\d{1,2}%/
-var upTpNumPercent = /(?i)up\sto\s\d{1,2}%/i;
-var saveNumPercent = /((SAVE)|(Save))\s\d{1,2}%/;
-var discountOfPercent = /(?i)discount\sof\s\d+%/;
-var percentDiscount = /(?i)\d+%\sdiscount/;
-var discountedByDollarPercent = /(?i)discounted\sby\s\$?\d{1,2}%?/;
+  //%
+  var percentOff = /%\s([Oo][Ff]{2})/;
+  var percentSavings = /(?i)%\ssavings/;
+  var extraNumberPercent = /(?i)extra\s\d{1,2}%/
+  var upTpNumPercent = /(?i)up\sto\s\d{1,2}%/i;
+  var saveNumPercent = /(?i)save\s((over|more\sthan|up\sto)\s)?\d{1,2}%/;
+  var discountOfPercent = /(?i)discount\sof\s\d+%/;
+  var percentDiscount = /(?i)\d+%\sdiscount/;
+  var discountedByDollarPercent = /(?i)discounted\sby\s\$?\d{1,2}%?/;
+  var percentSavings = /(?i)%\ssavings/;
 
-//Points
-var numberPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
-var earnNumberPoints = /(?i)earn\s\d+\spoints/;
+  //Points
+  var numberPoints = /\d+\s?[Pp][Oo][Ii][Nn][Tt][Ss]/;
+  var earnNumberPoints = /(?i)earn\s\d+\spoints/;
 
-//Coupon
-var couponColon = /(?i)coupon:/i;
-var couponCodeColon = /(?i)coupon\scode:/i;
+  //Coupon
+  var couponColon = /(?i)coupon:/i;
+  var couponCodeColon = /(?i)coupon\scode:/i;
+}
 
 
 //ADD IN THE COUPON ROOT TO FILTER OUT EMAILS WHERE YOU DON'T WANT THE TITLE
@@ -658,7 +663,6 @@ function transform(data){
 
 
 
-//(\$\d{1,2}(\.\d{2})?\s+\\|\s\$\d{1,2}(\.\d{2})?)
 
 //REMOVE OR CLEAN COUPONS WITH CRAPPY TEXT AT LINKBASE
 function transform(data) {
