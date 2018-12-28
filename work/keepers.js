@@ -620,6 +620,7 @@ function transform(data){
   var free = /[Ff][Rr][Ee]{2}/;
   var freeShipping = /(?i)free\sshipping/;
   var freeOnOrdersOf = /(?i)free\son\sorders\sof\s\$/;
+  var buyNumberGetNumberFree = /(?i)buy\s(one|two|three|\d),?\sget\s(one|two|three|\d)\s(free|\d{1,2}% off)/
 
   //$
   var dollarOff = /\$\d+(\.\d{1,2})?\s([Oo][Ff]{2})/;

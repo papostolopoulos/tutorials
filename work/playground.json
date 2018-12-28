@@ -62,27 +62,123 @@
           {
             "blackList": [
               {
-                "value": "book now",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "\\>|\\ »|3rd Night only.*",
+                "value": "\\»|\\*|\\|",
                 "type": "REGEX"
               },
               {
-                "value": "(plan\\smy|view\\s(all|offer|my)|Learn).*",
+                "value": "View\\s(Online|Coupon)",
                 "type": "REGEX"
               },
               {
-                "value": "»",
+                "value": "Find A Store",
                 "type": "SUBSTRING"
+              },
+              {
+                "value": "(?i)Shop Now[!\\.]?",
+                "type": "REGEX"
+              },
+              {
+                "value": "Rite Aid brand Personal Care, Medicine & Health Products -",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "View This Week's Deals.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "Learn More$",
+                "type": "REGEX"
+              },
+              {
+                "value": "Use Promo Code.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "Valid online only.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "1 Certain restrictions.*",
+                "type": "REGEX"
+              },
+              {
+                "value": ".*Display images to show real-time content",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)View Deal.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\d{1,2} DAYS LEFT TO SAVE[\\w\\s]*!",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)(Scan to )Redeem In-Store.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "View Products.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "View Deals.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "- REDEEM ONLINE -.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "While Supplies last.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\d{1,2} DAYS LEFT TO SAVE",
+                "type": "REGEX"
+              },
+              {
+                "value": "ONE WEEK LEFT .*, don't miss these special savings!?",
+                "type": "REGEX"
+              },
+              {
+                "value": "Understanding Your Benefits.*",
+                "type": "REGEX"
+              },
+              {
+                "value": ".*Your Rite Aid pharmacist.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "Get Started.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "<.*\\/?>",
+                "type": "REGEX"
+              },
+              {
+                "value": "\\d \\d{1,2} Days to Save In-Store",
+                "type": "REGEX"
+              },
+              {
+                "value": "STARTS TOMORROW!",
+                "type": "SUBSTRING"
+              },
+              {
+                "value": "Sun-Free Ways.*",
+                "type": "REGEX"
+              },
+              {
+                "value": "Mrs Dash.*",
+                "type": "REGEX"
               }
             ],
             "concat": "true",
             "dataTypes": [
               "Text"
             ],
-            "javascript": "function transform(data) {\n  if(!data) return null;\n\n  if (/\\d{1,2}%\\soff/.test(data) && /\\d{1,2}%\\soff/.exec(data).index > 40) data = data.slice(/\\d{1,2}%\\soff/.exec(data).index);\n\n\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ‡†±→§™¹›]/g, newStr: \"\"},\n    {oldStr: /(sale\\sextended\\!).*(\\sEnjoy\\srates)/i, newStr: \"$1 $2\"},\n    {oldStr: /(this\\s)?offer\\sexpires.*/i, newStr: \"\"},\n    {oldStr: /.*(10%\\sOff\\s(1|one)\\sNight)/i, newStr: \"$1\"},\n    {oldStr: /Use\\spromo\\scode.*/i, newStr: \"\"},\n    {oldStr: /Start\\sEarning(\\s+)?$/i, newStr: \"\"},\n    {oldStr: /see\\s(my\\sdeal|offer|((my|B&B)\\s)?savings).*/i, newStr: \"\"},\n    {oldStr: /but\\shurry.*/i, newStr: \"\"},\n    {oldStr: /For\\sreservations.*/i, newStr: \"\"},\n    {oldStr: /view\\s(savings|rates).*/i, newStr: \"\"},\n    {oldStr: /Register.*/i, newStr: \"\"},\n    {oldStr: /To\\sredeem.*/i, newStr: \"\"},\n    {oldStr: /.*it's\\sbeen\\sa\\swhile.*offer\\./i, newStr: \"\"},\n    {oldStr: /Register\\swith\\sone\\sclick/i, newStr: \"\"},\n    {oldStr: /-\\sfor\\sless.*/i, newStr: \"\"},\n    {oldStr: /Plan\\syour\\strip.*/i, newStr: \"\"},\n    {oldStr: /Hurry\\s-.*/i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    {oldStr: /\\s([\\.,])/i, newStr: \"$1\"},\n    {oldStr: /\\|(\\s+)?$/i, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n return data.trim();\n}",
+            "javascript": "function transform(data) {\n  if(!data) return null;\n\n\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ‡†±→§™¹›]/g, newStr: \"\"},\n    {oldStr: /Shop\\s+Now.*/i, newStr: \"\"},\n    {oldStr: /Wellness.*online enrollment required.*/, newStr: \"\"},\n    {oldStr: /ONE WEEK LEFT.*, don't miss these special savings!?/i, newStr: \"\"},\n    {oldStr: /How to Reduce Your Chance of Stroke.*/i, newStr: \"\"},\n    {oldStr: /.*(Shop With Us Again)/i, newStr: \"$1\"},\n    {oldStr: /The flu has arrived.*/i, newStr: \"\"},\n    {oldStr: /December 5th wellness 65 members.*/i, newStr: \"\"},\n    {oldStr: /In-Store.*/i, newStr: \"\"},\n    {oldStr: /Online Use.*/i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    {oldStr: /\\. \\..*/i, newStr: \"\"},\n    {oldStr: /-\\s?$/i, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n return data.trim();\n}",
             "listOfValidNodeTypes": [
               {
                 "name": "TEXT",
@@ -103,35 +199,18 @@
               }
             ],
             "mandatory": "true",
-            "maxLength": "1500",
+            "maxLength": "500",
             "minLength": "2",
             "allowEmpty": "false",
             "similarityScore": "1.1",
-            "passThroughout": "true",
             "name": "http://schema.org/description",
             "whiteList": [
               {
-                "value": "(?i)Free",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)as\\slow\\sas\\s\\$",
-                "type": "REGEX"
-              },
-              {
-                "value": "%",
+                "value": "% ",
                 "type": "SUBSTRING"
               },
               {
-                "value": "(?i)(sale.*)?rates\\sfrom\\s\\$",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)\\$\\d+\\s(dining\\s)?credit",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)complimentary\\sparking",
+                "value": "[Ff][Rr][Ee]{2}",
                 "type": "REGEX"
               },
               {
@@ -139,15 +218,43 @@
                 "type": "REGEX"
               },
               {
-                "value": "(?i)buy\\s\\d(.*)?\\sget\\s\\d",
+                "value": "(?i)save\\s((over|more\\sthan|up\\sto)\\s)?\\$\\d+",
                 "type": "REGEX"
               },
               {
-                "value": "(?i)(?i)save\\s((over|more\\sthan|up\\sto)\\s)?\\$\\d+",
+                "value": "(?i)savings\\sof\\s\\$",
                 "type": "REGEX"
               },
               {
-                "value": "(?i)limited\\stime",
+                "value": "(?i)\\$\\d{1,3}\\sreward",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)down\\sto\\s\\$\\d{1,}(\\.\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)\\(\\?$\\d{1,4}\\svalue\\)?",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)\\$\\d+(\\.\\d{2})?\\sdiscount",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)discount\\sof\\s\\$\\d+(\\.\\d{2})?",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)as\\slow\\sas\\$",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)\\$\\d+\\scredit",
+                "type": "REGEX"
+              },
+              {
+                "value": "(?i)Buy one,? Get one",
                 "type": "REGEX"
               }
             ]
@@ -155,42 +262,26 @@
           {
             "blackList": [
               {
-                "value": "NYC Summer Restaurant Week.*",
+                "value": "sale ends",
                 "type": "SUBSTRING"
               },
               {
-                "type": "SUBSTRING",
-                "value": "the month of.*"
+                "value": "valid through",
+                "type": "SUBSTRING"
               },
               {
-                "type": "SUBSTRING",
-                "value": ".*and blackout dates"
+                "value": "ends",
+                "type": "SUBSTRING"
               },
               {
-                "type": "SUBSTRING",
-                "value": "stay the month of.*"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": ".*Must book by.*CST"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "promotion for stays through.*"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "1-888-444-6664"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "4001 Maple Avenue, Ste. 500 Dallas, TX 75219"
+                "value": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2} -",
+                "type": "SUBSTRING"
               }
             ],
             "dataTypes": [
               "DateTime"
             ],
-            "javascript": "function transform(data){\n  if (data) {\n    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];\n    var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;\n    var match = regex.exec(data);\n    if (match && match[1]) {\n      return monthNames[match[1] - 1] + ', ' + match[2];\n    }\n    else{\n      return data;\n    }\n  }\n\n  return null;\n}",
+            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
             "listOfValidNodeTypes": [],
             "location": [
               {
@@ -201,58 +292,38 @@
             "maxLength": "-1",
             "minLength": "-1",
             "name": "http://schema.org/validThrough",
-            "whiteList": [
-              {
-                "value": "MMMM dd, yyyy",
-                "type": "DATEFORMAT"
-              }
-            ]
+            "whiteList": []
           },
           {
             "blackList": [
               {
-                "value": "NYC Summer Restaurant Week.*",
+                "value": "sale ends",
                 "type": "SUBSTRING"
               },
               {
-                "type": "SUBSTRING",
-                "value": "the month of.*"
+                "value": "valid through",
+                "type": "SUBSTRING"
               },
               {
-                "type": "SUBSTRING",
-                "value": ".*and blackout dates"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "stay the month of.*"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": ".*Must book by.*CST"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "promotion for stays through.*"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "1-888-444-6664"
-              },
-              {
-                "type": "SUBSTRING",
-                "value": "4001 Maple Avenue, Ste. 500 Dallas, TX 75219"
+                "value": "ends",
+                "type": "SUBSTRING"
               }
             ],
             "dataTypes": [
               "DateTime"
             ],
             "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
-            "listOfValidNodeTypes": null,
-            "location": null,
+            "listOfValidNodeTypes": [],
+            "location": [
+              {
+                "xpath": ""
+              }
+            ],
             "mandatory": "true",
-            "maxLength": -1,
-            "minLength": -1,
-            "name": "http://schema.org/validFrom"
+            "maxLength": "-1",
+            "minLength": "-1",
+            "name": "http://schema.org/validFrom",
+            "whiteList": []
           },
           {
             "blackList": [],
@@ -274,6 +345,10 @@
               {
                 "value": "Free shipping",
                 "type": "SUBSTRING"
+              },
+              {
+                "value": "(?i)off",
+                "type": "REGEX"
               }
             ]
           },
@@ -297,6 +372,10 @@
               {
                 "value": "Free shipping",
                 "type": "SUBSTRING"
+              },
+              {
+                "value": "(?i)off",
+                "type": "REGEX"
               }
             ]
           },
@@ -336,20 +415,13 @@
           "maxLeafNodesSize": "-1",
           "maxDepth": "-1",
           "defaultPatternAnnotationThreshold": "0.8",
-          "linkThreshold": "3",
-          "footerPercentage": 0.8,
-          "overRideValidThroughFromFooter": false,
+          "linkThreshold": "8",
           "dedupCondition": {
             "matchThreshold": 0.4,
-            "stopWords": [
-              "Use promo",
-              "hotels",
-              "resorts",
-              "Save",
-              "Get ready",
-              "72 hours"
-            ]
+            "stopWords": ["% OFF", "string2"]
           },
+          "footerPercentage": 0.8,
+          "overRideValidThroughFromFooter": false,
           "listOfValidNodeTypes": [],
           "linkMatcher": [
             {
@@ -370,16 +442,11 @@
             "javascript": null,
             "location": [
               {
-                "xpath": "\"Omni Hotels & Resorts\""
+                "xpath": "concat(\"email.beallsflorida.com\",\"\")"
               }
             ],
             "mandatory": "true",
-            "name": "http://schema.org/name",
-            "minLength": "",
-            "maxLength": "",
-            "whiteList": [],
-            "blackList": [],
-            "listOfValidNodeTypes": []
+            "name": "http://schema.org/name"
           }
         ],
         "bundleInfo": {
