@@ -9,65 +9,33 @@
 // tail recursive non tail recursive
 
 
-// background image has to go
 // Keep the same color scheme
 // text should be easy to read in different light
 // single colors is better
-// the x on top of the other x when you are closing modals342
 
+var str = `Thank you for using our online services.
 
-function transform(data) {
-  if(!data) return null;
+This confirms your Payment Arrangement for Account Number ******6864.
 
+Your Payment Arrangement schedule is shown below:
 
-  var replaceStrings = [
-    {oldStr:/[\*©®ǂ‡†±→§™¹›]/g, newStr: ""},
-    {oldStr: /& a Special/i, newStr: "A Special"},
-    {oldStr: /Limit \d\./i, newStr: ""},
-    {oldStr: /2 DAYS ONLY! Don't Miss Out\..*/i, newStr: ""},
-    {oldStr: /\d Days of Cheer: \d{1,2}\/\d{1,2}-\d{1,2}\/\d{1,2} ONLY\./i, newStr: ""},
-    {oldStr: /Check back each day.*/i, newStr: ""},
-    {oldStr: /Cheer's Workshop of Savings\..*/i, newStr: ""},
-    {oldStr: /(Best part\?? They’re all at 50-90%)/i, newStr: "So many Big Brands. $1"},
-    {oldStr: /Check back each day.*/i, newStr: ""},
-    {oldStr: /SHOP HOLLAR.*/i, newStr: ""},
-    {oldStr: /UNWRAP YOUR MYSTERY OFFER/i, newStr: ""},
-    {oldStr: /^Ends Today(!|\.)/i, newStr: ""},
-    {oldStr: /Use Code \w+ at Checkout.*/i, newStr: ""},
-    {oldStr: /Use\s+Code.*/i, newStr: ""},
-    {oldStr: /(Feed\s+the\s+Heart|Feeding\s+Fun|Feel\s+the\s+Magic!).*/i, newStr: ""},
-    {oldStr: /gyou/i, newStr: "you"},
-    {oldStr: /^For H(er|im).*/i, newStr: ""},
-    {oldStr: /^For the (D(é|e)cor Lover|Littles)\..*/i, newStr: ""},
-    {oldStr: /^Kid Favorites.*/i, newStr: ""},
-    {oldStr: /Now Through \d{1,2}\/\d{1,2}\./i, newStr: ""},
-    {oldStr: /^Plus,/i, newStr: ""},
-    {oldStr: /^Pack It Up.*/i, newStr: ""},
-    {oldStr: /UNWRAP YOUR MYSTERY OFFER/i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    //{oldStr: //i, newStr: ""},
-    // {oldStr: RegExp(String.fromCharCode(8204), "ugi"), newStr: ""},
-    // {oldStr: /\u200c/ugi, newStr: ""},
-    // {oldStr: /\s.\s./gi, newStr: ""},
-    // {oldStr: /\s{2,}/gi, newStr: ""},
-  ];
+First Payment:
+Date: 12/28/2018
+Amount:$ 39.11
 
-  replaceStrings.forEach(function(el) {
-    data = data.replace(el.oldStr, el.newStr);
-  });
+Second Payment:
+Date: 01/22/2019
+Amount:$ 30.42
 
- return data.trim();
-}
+Third Payment:
+Date: 02/21/2019
+Amount:$ 30.42
 
-var str = " ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ $3.99 Shipping and FREE SHIPPING on all order over $25"
+Fourth Payment:
+Date: 03/23/2019
+Amount:$ 30.41
 
-RegExp(String.fromCharCode(8204), "ugi");
+IMPORTANT NOTE:To avoid service interruption, pay your Payment Arrangement installments and any future charges on time.`
 
-(?uig)\u200c
+str.split(/(amount\s?(:|of)\s?\$\s?\d{1,}(\.\d{2})?)/i);
+str.split("Amount:")

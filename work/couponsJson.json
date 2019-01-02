@@ -4197,7 +4197,7 @@
         "id": "259fa107-ae46-4563-8ec8-86d9275d2492",
         "repeating": true,
         "locations": [
-          "/descendant::div[@id=\"DESKTOP\"]/descendant::img[contains(@alt, \"Rewards Bazaar\") or contains(@alt, \"REWARDS BAZAAR\") or contains(@alt,\"POINT REWARDS\") or contains(@alt,\"shipping\") or contains(@alt,\"points per\") or contains(@alt,\"Points per\") or contains(@alt,\"SHIPPING\") or contains(@alt,\"Free\")  or contains(@alt,\"free\") or contains(@alt,\"FREE\") or contains(@alt,\"Use code\") or contains(@alt, \"rouge reward\") or contains(@alt,\"% Off\") or contains(@alt,\"% OFF\") or (contains(@alt,\"$\") and contains(@alt,\"Off\"))]"
+          "/descendant::img[contains(@alt, \"Rewards Bazaar\") or \ncontains(@alt, \"REWARDS BAZAAR\") or \ncontains(@alt,\"POINT REWARDS\") or \ncontains(@alt,\"shipping\") or \ncontains(@alt,\"points per\") or \ncontains(@alt,\"Points per\") or \ncontains(@alt,\"SHIPPING\") or \ncontains(@alt,\"Free\")  or \ncontains(@alt,\"free\") or \ncontains(@alt,\"FREE\") or \ncontains(@alt,\"Use code\") or \ncontains(@alt, \"rouge reward\") or \ncontains(@alt,\"% Off\") or \ncontains(@alt,\"% OFF\") or \ncontains(@alt,\"% off\") or\n(contains(@alt,\"$\") and contains(@alt,\"Off\"))]\n"
         ],
         "type": "http://schema.org/Coupon",
         "javascript": null,

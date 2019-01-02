@@ -1,536 +1,277 @@
 {
   "extract": {
-    "edgeRules": [],
-    "entityNS": null,
+    "extractEmbedded": false,
+    "source": null,
+    "schema": [
+      {
+        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json",
+        "ns": "http://schema.org",
+        "context": {
+          "@type": [
+            "Invoice"
+          ]
+        }
+      }
+    ],
     "entityRules": [
       {
-        "attributes": [],
-        "entityIdRef": "",
-        "id": "f66018c8-423b-459b-b55a-c639d92daf68",
-        "javascript": null,
+        "id": "7ac7a0e7-d279-4b59-8d56-e87987d6b642",
+        "repeating": true,
         "locations": [
           "/"
         ],
-        "repeating": true,
-        "type": "http://schema.org/Coupon"
-      }
-    ],
-    "extractEmbedded": false,
-    "schema": [
+        "type": "http://schema.org/Invoice",
+        "javascript": "function transform(data){\n var n=data.get(\"http://schema.org/description\")[0];\n   return n ? data : \"\";\n}",
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::td[@class='text_gray_paragraph']/p[3]"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentStatus",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    'is due on': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    //'keyword6': 'PaymentScheduled'\n  };\n\n  for(var key in textMatchObj){\n    if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n  }\n  return \"\";\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,'Payment Due Date:')]",
+                  "regex": "\\:(.*)"
+                }
+              ]
+            },
+            "name": "http://schema.org/paymentDue",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "DateTime"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::a[contains(.,\"Make a Payment\")]/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ],
+        "hints": {
+          "domain": "'paypal.co.uk'"
+        }
+      },
       {
-        "context": {
-          "@type": [
-            "Coupon"
-          ]
-        },
-        "ns": "http://schema.org",
-        "url": "http://ws.rmf.yahoo.com:4080/rmf/v1/schema?type=schema.org&name=y.2.0&format=json"
+        "id": "a5190e4b-a7ff-420f-a8b0-b8be4efeeadf",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Person",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::span[@class='confidential']"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "e1eaeda2-1eaa-4446-8fc3-640678ac5b0f",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/PriceSpecification",
+        "javascript": null,
+        "entityIdRef": null,
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,'Minimum Payment')]"
+                }
+              ]
+            },
+            "name": "http://schema.org/price",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Number"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::p[contains(.,'Minimum Payment')]",
+                  "regex": "\\d+\\.\\d+\\s(.*)"
+                }
+              ]
+            },
+            "name": "http://schema.org/priceCurrency",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          }
+        ]
+      },
+      {
+        "id": "7a7fb7a3-15a5-4bb7-8b1a-be83babd0105",
+        "repeating": true,
+        "locations": [
+          "/"
+        ],
+        "type": "http://schema.org/Organization",
+        "javascript": null,
+        "entityIdRef": "",
+        "attributes": [
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::table[@id='emailFooter']"
+                }
+              ]
+            },
+            "name": "http://schema.org/name",
+            "relative": true,
+            "transient": false,
+            "javascript": "function transform(data){\n\treturn /PayPal\\s\\(Europe\\)/.exec(data)[0];\n}",
+            "dataTypes": [
+              "Text"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "descendant::img[contains(@alt,\"PayPal Credit\")]/@src"
+                }
+              ]
+            },
+            "name": "http://schema.org/image",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          },
+          {
+            "repeating": false,
+            "locations": {
+              "-1": [
+                {
+                  "xpath": "/descendant::li[contains(.,\"Log in to your PayPal\")]/descendant::a/@href"
+                }
+              ]
+            },
+            "name": "http://schema.org/url",
+            "relative": true,
+            "transient": false,
+            "javascript": null,
+            "dataTypes": [
+              "URL"
+            ],
+            "mandatory": false
+          }
+        ]
       }
     ],
-    "source": null
-  },
-  "extractLn": {
     "edgeRules": [
       {
-        "cardinality": "ONE_TO_ONE",
         "from": {
-          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
-          "matchAttr": null
+          "entityRule": "7ac7a0e7-d279-4b59-8d56-e87987d6b642",
+          "matchAttr": ""
         },
-        "predicate": "http://schema.org/broker",
         "to": {
-          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474au",
-          "matchAttr": null
-        }
+          "entityRule": "a5190e4b-a7ff-420f-a8b0-b8be4efeeadf",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/customer",
+        "cardinality": "ONE_TO_ONE"
       },
       {
-        "cardinality": "ONE_TO_ONE",
         "from": {
-          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474af",
-          "matchAttr": null
+          "entityRule": "7ac7a0e7-d279-4b59-8d56-e87987d6b642",
+          "matchAttr": ""
         },
-        "predicate": "http://schema.org/image",
         "to": {
-          "entityRule": "b4917ca5-ee83-4569-87c7-37feef5474aj",
-          "matchAttr": null
-        }
+          "entityRule": "e1eaeda2-1eaa-4446-8fc3-640678ac5b0f",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/minimumPaymentDue",
+        "cardinality": "ONE_TO_ONE"
+      },
+      {
+        "from": {
+          "entityRule": "7ac7a0e7-d279-4b59-8d56-e87987d6b642",
+          "matchAttr": ""
+        },
+        "to": {
+          "entityRule": "7a7fb7a3-15a5-4bb7-8b1a-be83babd0105",
+          "matchAttr": ""
+        },
+        "predicate": "http://schema.org/provider",
+        "cardinality": "ONE_TO_ONE"
       }
     ],
-    "entityRules": [
-      {
-        "attributes": [
-          {
-            "blackList": [
-              {
-                "value": "\\»|\\*|\\|",
-                "type": "REGEX"
-              },
-              {
-                "value": "View\\s(Online|Coupon)",
-                "type": "REGEX"
-              },
-              {
-                "value": "Find A Store",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "(?i)Shop Now[!\\.]?",
-                "type": "REGEX"
-              },
-              {
-                "value": "Rite Aid brand Personal Care, Medicine & Health Products -",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "View This Week's Deals.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "Learn More$",
-                "type": "REGEX"
-              },
-              {
-                "value": "Use Promo Code.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "Valid online only.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "1 Certain restrictions.*",
-                "type": "REGEX"
-              },
-              {
-                "value": ".*Display images to show real-time content",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)View Deal.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "\\d{1,2} DAYS LEFT TO SAVE[\\w\\s]*!",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)(Scan to )Redeem In-Store.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "View Products.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "View Deals.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "- REDEEM ONLINE -.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "While Supplies last.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "\\d{1,2} DAYS LEFT TO SAVE",
-                "type": "REGEX"
-              },
-              {
-                "value": "ONE WEEK LEFT .*, don't miss these special savings!?",
-                "type": "REGEX"
-              },
-              {
-                "value": "Understanding Your Benefits.*",
-                "type": "REGEX"
-              },
-              {
-                "value": ".*Your Rite Aid pharmacist.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "Get Started.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "<.*\\/?>",
-                "type": "REGEX"
-              },
-              {
-                "value": "\\d \\d{1,2} Days to Save In-Store",
-                "type": "REGEX"
-              },
-              {
-                "value": "STARTS TOMORROW!",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "Sun-Free Ways.*",
-                "type": "REGEX"
-              },
-              {
-                "value": "Mrs Dash.*",
-                "type": "REGEX"
-              }
-            ],
-            "concat": "true",
-            "dataTypes": [
-              "Text"
-            ],
-            "javascript": "function transform(data) {\n  if(!data) return null;\n\n\n  var replaceStrings = [\n    {oldStr:/[\\*©®ǂ‡†±→§™¹›]/g, newStr: \"\"},\n    {oldStr: /Shop\\s+Now.*/i, newStr: \"\"},\n    {oldStr: /Wellness.*online enrollment required.*/, newStr: \"\"},\n    {oldStr: /ONE WEEK LEFT.*, don't miss these special savings!?/i, newStr: \"\"},\n    {oldStr: /How to Reduce Your Chance of Stroke.*/i, newStr: \"\"},\n    {oldStr: /.*(Shop With Us Again)/i, newStr: \"$1\"},\n    {oldStr: /The flu has arrived.*/i, newStr: \"\"},\n    {oldStr: /December 5th wellness 65 members.*/i, newStr: \"\"},\n    {oldStr: /In-Store.*/i, newStr: \"\"},\n    {oldStr: /Online Use.*/i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    //{oldStr: //i, newStr: \"\"},\n    {oldStr: /\\. \\..*/i, newStr: \"\"},\n    {oldStr: /-\\s?$/i, newStr: \"\"},\n  ];\n\n  replaceStrings.forEach(function(el) {\n    data = data.replace(el.oldStr, el.newStr);\n  });\n\n return data.trim();\n}",
-            "listOfValidNodeTypes": [
-              {
-                "name": "TEXT",
-                "type": "node"
-              },
-              {
-                "name": "ALT",
-                "type": "attr"
-              },
-              {
-                "name": "HREF",
-                "type": "attr"
-              }
-            ],
-            "location": [
-              {
-                "xpath": ""
-              }
-            ],
-            "mandatory": "true",
-            "maxLength": "500",
-            "minLength": "2",
-            "allowEmpty": "false",
-            "similarityScore": "1.1",
-            "name": "http://schema.org/description",
-            "whiteList": [
-              {
-                "value": "% ",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "[Ff][Rr][Ee]{2}",
-                "type": "REGEX"
-              },
-              {
-                "value": "\\$\\d+(\\.\\d{1,2})?\\s([Oo][Ff]{2})",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)save\\s((over|more\\sthan|up\\sto)\\s)?\\$\\d+",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)savings\\sof\\s\\$",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)\\$\\d{1,3}\\sreward",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)down\\sto\\s\\$\\d{1,}(\\.\\d{2})?",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)\\(\\?$\\d{1,4}\\svalue\\)?",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)\\$\\d+(\\.\\d{2})?\\sdiscount",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)discount\\sof\\s\\$\\d+(\\.\\d{2})?",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)as\\slow\\sas\\$",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)\\$\\d+\\scredit",
-                "type": "REGEX"
-              },
-              {
-                "value": "(?i)Buy one,? Get one",
-                "type": "REGEX"
-              }
-            ]
-          },
-          {
-            "blackList": [
-              {
-                "value": "sale ends",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "valid through",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "ends",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2} -",
-                "type": "SUBSTRING"
-              }
-            ],
-            "dataTypes": [
-              "DateTime"
-            ],
-            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
-            "listOfValidNodeTypes": [],
-            "location": [
-              {
-                "xpath": ""
-              }
-            ],
-            "mandatory": "true",
-            "maxLength": "-1",
-            "minLength": "-1",
-            "name": "http://schema.org/validThrough",
-            "whiteList": []
-          },
-          {
-            "blackList": [
-              {
-                "value": "sale ends",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "valid through",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "ends",
-                "type": "SUBSTRING"
-              }
-            ],
-            "dataTypes": [
-              "DateTime"
-            ],
-            "javascript": "function transform(data) {if (data) {var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];var regex = /(\\s*\\d+)\\/(\\s*\\d+)/i;var match = regex.exec(data);if (match && match[1]) {return monthNames[match[1] - 1] + ', ' + match[2];}else{return data;}}return null;}",
-            "listOfValidNodeTypes": [],
-            "location": [
-              {
-                "xpath": ""
-              }
-            ],
-            "mandatory": "true",
-            "maxLength": "-1",
-            "minLength": "-1",
-            "name": "http://schema.org/validFrom",
-            "whiteList": []
-          },
-          {
-            "blackList": [],
-            "dataTypes": [
-              "Number"
-            ],
-            "javascript": null,
-            "listOfValidNodeTypes": [],
-            "location": [
-              {
-                "xpath": ""
-              }
-            ],
-            "mandatory": "true",
-            "maxLength": "-1",
-            "minLength": "-1",
-            "name": "http://schema.org/offerPrice",
-            "whiteList": [
-              {
-                "value": "Free shipping",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "(?i)off",
-                "type": "REGEX"
-              }
-            ]
-          },
-          {
-            "blackList": [],
-            "dataTypes": [
-              "Number"
-            ],
-            "javascript": null,
-            "listOfValidNodeTypes": [],
-            "location": [
-              {
-                "xpath": ""
-              }
-            ],
-            "mandatory": "true",
-            "maxLength": "-1",
-            "minLength": "-1",
-            "name": "http://schema.org/originalPrice",
-            "whiteList": [
-              {
-                "value": "Free shipping",
-                "type": "SUBSTRING"
-              },
-              {
-                "value": "(?i)off",
-                "type": "REGEX"
-              }
-            ]
-          },
-          {
-            "blackList": null,
-            "dataTypes": [
-              "Text"
-            ],
-            "javascript": "function transform(data){content=data.trim();if(content&&content.startsWith('C$')){return'CAD'}else if(content&&content.startsWith('$')){return'USD'}else{return null}};",
-            "listOfValidNodeTypes": null,
-            "location": null,
-            "mandatory": "true",
-            "maxLength": -1,
-            "minLength": -1,
-            "name": "http://schema.org/priceCurrency",
-            "whiteList": null
-          },
-          {
-            "blackList": null,
-            "dataTypes": [
-              "Text"
-            ],
-            "javascript": "",
-            "listOfValidNodeTypes": null,
-            "location": null,
-            "mandatory": "true",
-            "maxLength": -1,
-            "minLength": -1,
-            "name": "http://schema.org/url",
-            "whiteList": null
-          }
-        ],
-        "bundleInfo": {
-          "minBundleSize": "-1",
-          "maxBundleSize": "-1",
-          "minLeafNodesSize": "-1",
-          "maxLeafNodesSize": "-1",
-          "maxDepth": "-1",
-          "defaultPatternAnnotationThreshold": "0.8",
-          "linkThreshold": "8",
-          "dedupCondition": {
-            "matchThreshold": 0.4,
-            "stopWords": ["% OFF", "string2"]
-          },
-          "footerPercentage": 0.8,
-          "overRideValidThroughFromFooter": false,
-          "listOfValidNodeTypes": [],
-          "linkMatcher": [
-            {
-              "regex": ".*"
-            }
-          ]
-        },
-        "id": "b4917ca5-ee83-4569-87c7-37feef5474af",
-        "javascript": null,
-        "type": "http://schema.org/Coupon"
-      },
-      {
-        "attributes": [
-          {
-            "dataTypes": [
-              "Text"
-            ],
-            "javascript": null,
-            "location": [
-              {
-                "xpath": "concat(\"email.beallsflorida.com\",\"\")"
-              }
-            ],
-            "mandatory": "true",
-            "name": "http://schema.org/name"
-          }
-        ],
-        "bundleInfo": {
-          "clusterAlgo": {
-            "endIdx": -1,
-            "regex": "",
-            "replaceInfo": [
-              {
-                "regexStr": "",
-                "replaceAll": "true",
-                "replacement": ""
-              }
-            ],
-            "startIdx": 0,
-            "type": "SUBSTRING"
-          },
-          "linkMatcher": [
-            {
-              "regex": ".*"
-            }
-          ],
-          "listOfValidNodeTypes": null,
-          "maxBundleSize": -1,
-          "maxDepth": -1,
-          "maxLeafNodesSize": -1,
-          "minBundleSize": -1,
-          "minLeafNodesSize": -1,
-          "defaultPatternAnnotationThreshold": 0.8,
-          "linkThreshold": 2
-        },
-        "id": "b4917ca5-ee83-4569-87c7-37feef5474au",
-        "javascript": null,
-        "type": "http://schema.org/Organization"
-      },
-      {
-        "attributes": [
-          {
-            "blackList": null,
-            "dataTypes": [
-              "Text"
-            ],
-            "javascript": "",
-            "listOfValidNodeTypes": null,
-            "location": null,
-            "mandatory": "true",
-            "maxLength": -1,
-            "minLength": -1,
-            "name": "http://schema.org/url",
-            "whiteList": null
-          }
-        ],
-        "bundleInfo": {
-          "clusterAlgo": {
-            "endIdx": -1,
-            "regex": "",
-            "replaceInfo": [
-              {
-                "regexStr": "",
-                "replaceAll": "true",
-                "replacement": ""
-              }
-            ],
-            "startIdx": 0,
-            "type": "SUBSTRING"
-          },
-          "linkMatcher": null,
-          "listOfValidNodeTypes": null,
-          "maxBundleSize": -1,
-          "maxDepth": -1,
-          "maxLeafNodesSize": -1,
-          "minBundleSize": -1,
-          "minLeafNodesSize": -1,
-          "linkThreshold": 2,
-          "defaultPatternAnnotationThreshold": 0.8
-        },
-        "id": "b4917ca5-ee83-4569-87c7-37feef5474aj",
-        "javascript": null,
-        "type": "http://schema.org/ImageObject"
-      }
-    ]
+    "entityNS": null
   },
   "metaData": {
-    "debug": "true",
-    "linkAlgoHandler": "LinkExtractor15",
-    "decodeHtmlEntity": "true"
+    "useVTDXML": "true",
+    "ignoredValidations": null
   }
 }
