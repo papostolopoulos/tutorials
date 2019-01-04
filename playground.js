@@ -1,24 +1,34 @@
-var animals = [
-	{name: 'Fluffykins', species: 'rabbit'},
-	{name: 'Monroe', species: 'dog'},
-	{name: 'Lily', species: 'cat'},
-	{name: 'Orlando', species: 'dog'},
-	{name: 'Harold', species: 'rabbit'},
-	{name: 'Marilyn', species: 'cat'},
-	{name: 'Maud', species: 'bird'},
-	{name: 'Hyde', species: 'snake'},
-	{name: 'Hamilton', species: 'dog'},
-	{name: 'Doc', species: 'bird'}
-];
+function Person(name, surname){
+	this.name = name;
+	this.surname = surname;
+}
 
-var animalType = (item) => {
-  return animals.filter(function(el){
-    if(item === el.species)
-    return el;
-  });
-	};
+var mike = new Person("Mike", "Knight");
 
-animalType('cat');
+Person.prototype.sayHi = function() {
+	return "Hello, I am " + this.name + " " + this.surname + "and I am happy to be here";
+}
 
-var rabbits = animals.filter(el => animals === el.species);
-console.log(rabbits);
+mike.gender = "male";
+
+mike.stateGender = function() {
+	return `I am ${this.name} and my gender is ${this.gender}`;
+}
+
+
+class Car {
+	constructor(make, model, year, color){
+		this.make = make;
+		this.model = model;
+		this.year = year;
+		this.color = color;
+	}
+
+	showMake(){
+		return `This car is a ${this.make}`;
+	}
+
+	showAllInfo(){
+		return `This car is a ${this.color} ${this.year} ${this.make} ${this.model}`;
+	}
+}
