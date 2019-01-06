@@ -1,24 +1,18 @@
-var animals = [
-	{name: 'Fluffykins', species: 'rabbit'},
-	{name: 'Monroe', species: 'dog'},
-	{name: 'Lily', species: 'cat'},
-	{name: 'Orlando', species: 'dog'},
-	{name: 'Harold', species: 'rabbit'},
-	{name: 'Marilyn', species: 'cat'},
-	{name: 'Maud', species: 'bird'},
-	{name: 'Hyde', species: 'snake'},
-	{name: 'Hamilton', species: 'dog'},
-	{name: 'Doc', species: 'bird'}
-];
+var headingsArr = ["a", "a.iWantYou", "a", "a", "a.youWantMe", "a", "a"];
 
-var animalType = (item) => {
-  return animals.filter(function(el){
-    if(item === el.species)
-    return el;
-  });
-	};
 
-animalType('cat');
+headingsArr.indexOf("a.iWantYou")
+headingsArr.findIndex(/a\..*/, headingsArr.indexOf("a.iWantYou"))
 
-var rabbits = animals.filter(el => animals === el.species);
-console.log(rabbits);
+headingsArr.findIndex((el)=>{
+
+});
+
+for (let i = headingsArr.indexOf("a.iWantYou") + 1; i < headingsArr.length; i++) {
+	if (headingsArr[i].length == 1) {
+		console.log(i, headingsArr[i]);
+	}
+	else {
+		break;
+	}
+}
