@@ -13,29 +13,39 @@
 // text should be easy to read in different light
 // single colors is better
 
-var str = `Thank you for using our online services.
+function transform(data) {
+  if(!data) return null;
 
-This confirms your Payment Arrangement for Account Number ******6864.
 
-Your Payment Arrangement schedule is shown below:
+  var replaceStrings = [
+    {oldStr: /[\*©®ǂ‡†±→§™¹›]/g, newStr: ""},
+    {oldStr: /(([A-Z฿\$€£¥¢₹₨₱₩฿₫₪]{1,3})?\s?\d+([,\.]\d+)?)\s(([A-Z฿\$€£¥¢₹₨₱₩฿₫₪]{1,3})\s?\d+([,\.]\d+)?)/, newStr: " Was: $1 Now only: $4"},
+    {oldStr: /(Use\scode.*at\scheckout).*/i, newStr: "$1"},
+    // {oldStr: /\s(\dstar|Excep|Very).*?(reviews|score)\s*(\$\d+)\s(\$\d+)\s.*/i, newStr: " Now only: $3 Was: $4"},
+    // {oldStr: /\s(\d\.\dstar|Excep|Very).*?(reviews|score)\s*(\$\d+)\s(\$\d+)\s.*/i, newStr: " Now only: $3 Was: $4"},
+    // {oldStr: /\s(\dstar|Excep|Very).*?(reviews|score)\s*(\d+)\s(\$\d+)\s.*/i, newStr: " Now only: $ $3 Was: $4"},
+    // {oldStr: /\d\.\dstar.*\s((?:\d+\,)?\d+)\s(\d+)\s.*Discover\smore/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /\d\.\dstar.*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /\d+\sreviews.*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /Book\snow.*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /(\$\d+\sGift\sCard).*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: "$1 Now only: $ $3 Was: $ $2"},
+    // {oldStr: /(PHP)\s(\d)/, newStr: "$1$2"},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    {oldStr: /.*得分自.*/i, newStr: ""},
+    {oldStr: /\%\s*\%/i, newStr: "%"},
+    {oldStr: /(\$)\s(\d+)/g, newStr: "$1$2"},
+    {oldStr: /\%(\S)/i, newStr: "% $1"},
+    //{oldStr: //i, newStr: ""},
+  ];
 
-First Payment:
-Date: 12/28/2018
-Amount:$ 39.11
+  replaceStrings.forEach(function(el) {
+    data = data.replace(el.oldStr, el.newStr);
+  });
 
-Second Payment:
-Date: 01/22/2019
-Amount:$ 30.42
-
-Third Payment:
-Date: 02/21/2019
-Amount:$ 30.42
-
-Fourth Payment:
-Date: 03/23/2019
-Amount:$ 30.41
-
-IMPORTANT NOTE:To avoid service interruption, pay your Payment Arrangement installments and any future charges on time.`
-
-str.split(/(amount\s?(:|of)\s?\$\s?\d{1,}(\.\d{2})?)/i);
-str.split("Amount:")
+ return data.trim();
+}
