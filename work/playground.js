@@ -14,69 +14,38 @@
 // single colors is better
 
 function transform(data) {
-  var compareArr = [
-    //{keyword: /FAMILY & FRIENDS/, regex: /Event\sends\s(\d{1,2}\/){2}(\d{2,4})?/i},
-    {keyword: /\$\d{1,3}(\.\d{1,2})? CASHBACK/, regex: /Offer\svalid\s(\d{1,2}\/){2}(\d{2,4})?/i},
-    {keyword: /†/, regex: /(Offer|Event)\sends\s(\d{1,2}\/){2}(\d{2,4})?/i},
-    {keyword: /%\sOFF/i, regex: /Offer\sends\s(\d{1,2}\/){2}(\d{2,4})?/i},
-    {keyword: /SHOP\sNOW/, regex: /offers\send\s(\d{1,2}\/){2}(\d{2,4})?/i},
-    {keyword: /PRIVATE\sEVENT/, regex: /Event\sends\s(\d{1,2}\/){2}(\d{2,4})?/i}
+  if(!data) return null;
+
+
+  var replaceStrings = [
+    {oldStr: /[\*©®ǂ‡†±→§™¹›]/g, newStr: ""},
+    {oldStr: /(([A-Z฿\$€£¥¢₹₨₱₩฿₫₪]{1,3})?\s?\d+([,\.]\d+)?)\s(([A-Z฿\$€£¥¢₹₨₱₩฿₫₪]{1,3})\s?\d+([,\.]\d+)?)/, newStr: " Was: $1 Now only: $4"},
+    {oldStr: /(Use\scode.*at\scheckout).*/i, newStr: "$1"},
+    // {oldStr: /\s(\dstar|Excep|Very).*?(reviews|score)\s*(\$\d+)\s(\$\d+)\s.*/i, newStr: " Now only: $3 Was: $4"},
+    // {oldStr: /\s(\d\.\dstar|Excep|Very).*?(reviews|score)\s*(\$\d+)\s(\$\d+)\s.*/i, newStr: " Now only: $3 Was: $4"},
+    // {oldStr: /\s(\dstar|Excep|Very).*?(reviews|score)\s*(\d+)\s(\$\d+)\s.*/i, newStr: " Now only: $ $3 Was: $4"},
+    // {oldStr: /\d\.\dstar.*\s((?:\d+\,)?\d+)\s(\d+)\s.*Discover\smore/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /\d\.\dstar.*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /\d+\sreviews.*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /Book\snow.*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: " Now only: $ $2 Was: $ $1"},
+    // {oldStr: /(\$\d+\sGift\sCard).*\s((?:\d+\,)?\d+)\s(\d+)\s.*(SEE\sTHIS|Check).*/i, newStr: "$1 Now only: $ $3 Was: $ $2"},
+    // {oldStr: /(PHP)\s(\d)/, newStr: "$1$2"},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    //{oldStr: //i, newStr: ""},
+    {oldStr: /.*得分自.*/i, newStr: ""},
+    {oldStr: /\%\s*\%/i, newStr: "%"},
+    {oldStr: /(\$)\s(\d+)/g, newStr: "$1$2"},
+    {oldStr: /\%(\S)/i, newStr: "% $1"},
+    //{oldStr: //i, newStr: ""},
   ];
 
-  for (var i = 0; i < compareArr.length; i++) {
-    var el = compareArr[i];
-    if (el.keyword.test(data.split("~~~")[0])) return el.regex.exec(data)[0].replace(/[^(\d{1,2}\/){2}(\d{2,4})]/g,"") || "";
-  }
+  replaceStrings.forEach(function(el) {
+    data = data.replace(el.oldStr, el.newStr);
+  });
 
-  return "";
-}
-
-
-
-
-
-
-
-
-
-
-var str = "Text JOLLY to 73277 & get $10 off your next in-store purchase of $10+ | By texting the code JOLLY, I agree to receive recurring autodialed messages from Sears alerts to my mobile number, and also agree to the program terms and privacy policy at www.shcterms.com/mobile. Message and data rates apply. Text STOP to cancel. Text HELP for info. Consent is not a condition of any purchase. ~~~ PRE-HOLIDAY BLOWOUT EVENT | SHOP ALL DEALS | Event ends 12/23/18.";
-
-
-
-
-function transform(data) {
-  return /(Event|Offer|valid)s?\s(ends?|valid|until)\s(\d{1,2}\/){2}(\d{2,4})/.exec(data)[0].replace(/[^(\d{1,2}\/){2}(\d{2,4})]/g,"") || "";
-}
-
-
-function transform(data,node,headers){
-  if(/(LAST DAY!|GET IT BY)/.test(data)) {
-    var n = headers.get("Date");
-    var n1 = new Date(n * 1000);
-    var day1 = n1.getDate();
-    var mon1 = n1.getMonth();
-    var vt = new Date("1970", mon1, day1);
-    return vt;
-  }
-
-
-  var stringsArr = [
-    /\$\d{1,3}(\.\d{1,2})? CASHBACK/,
-    /†/,
-    /%\sOFF/,
-    /PRIVATE\sEVENT/,
-    /FAMILY & FRIENDS/,
-    /BLOWOUT/
-  ];
-
-  for(var i = 0; i < stringsArr.length; i++){
-  	if(stringsArr[i].test(data)){
-      console.log(stringsArr[i].exec(data)[0]);
-      return /(Event|Offer|valid)s?\s(ends?|valid|until)\s(\d{1,2}\/){2}(\d{2,4})/.exec(data)[0].replace(/[^(\d{1,2}\/){2}(\d{2,4})]/g,"");
-    }
-  }
-
-
-  return "";
+ return data.trim();
 }
