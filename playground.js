@@ -1,18 +1,23 @@
-var headingsArr = ["a", "a.iWantYou", "a", "a", "a.youWantMe", "a", "a"];
+function Product(name, price) {
+  this.name = name;
+  this.price = price;
+}
 
+function Food(name, price) {
+  Product.call(this, name, price);
+  this.category = 'food';
+}
 
-headingsArr.indexOf("a.iWantYou")
-headingsArr.findIndex(/a\..*/, headingsArr.indexOf("a.iWantYou"))
-
-headingsArr.findIndex((el)=>{
-
-});
-
-for (let i = headingsArr.indexOf("a.iWantYou") + 1; i < headingsArr.length; i++) {
-	if (headingsArr[i].length == 1) {
-		console.log(i, headingsArr[i]);
+class Product1{
+	constructor(name, price){
+		this.name = name;
+		this.price = price;
 	}
-	else {
-		break;
+}
+
+class Food1 extends Product1{
+	constructor(name, price, category){
+		super(name, price);
+		this.category = category;
 	}
 }
