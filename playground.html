@@ -2,67 +2,25 @@
 <html lang="en">
 <head>
 <title>Event Propagation</title>
-
-<style>
-#t-daddy { border: 1px solid red }
-#c1 { background-color: pink; }
-</style>
-
-<script>
-function stopEvent(ev) {
-  c2 = document.getElementById("c2");
-  c2.innerHTML = "hello";
-
-  // this ought to keep t-daddy from getting the click.
-  ev.stopPropagation();
-  alert("event propagation halted.");
-}
-
-function load() {
-  elem = document.getElementById("tbl1");
-  elem.addEventListener("click", stopEvent, false);
-}
-</script>
 </head>
 
-<body onload="load();">
+<body>
 
-<table id="t-daddy" onclick="alert('hi');">
-  <tr id="tbl1">
-    <td id="c1">one</td>
-  </tr>
-  <tr>
-    <td id="c2">two</td>
-  </tr>
-</table>
-
-<p>-----------------------------------</p>
-
-<div class="" id="wrapper">
-  <p>"div is here"</p>
-  <button type="button" name="button" id="button">Click me</button>
-</div>
 
 <script>
 
-function buttonClick() {
-  console.log('button:', window['button']);
+function talk(){
+  return this.speak;
 }
 
-function wrapperClick() {
-  console.log('wrapper:', window['wrapper']);
+var animal = {
+  saySomething: talk,
+  speak: "Hello, I am the animal"
 }
 
-// Option 1
-// document.querySelector("#button").onclick = buttonClick;
+var talkToMe = animal;
 
-// Option 2
-// document.getElementById("button").addEventListener("click", buttonClick);
-
-// Option 3
-window["wrapper"].addEventListener("click", wrapperClick);
-window['button'].addEventListener("click", buttonClick);
-
+document.write(talkToMe.saySomething());
 </script>
 
 </body>
