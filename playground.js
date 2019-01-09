@@ -21,3 +21,14 @@ class Food1 extends Product1{
 		this.category = category;
 	}
 }
+
+var o = {
+  a: 2,
+  get m: function() {
+    return this.a + 1;
+  },
+
+  set m: function(arg){
+    this.a = arg * 2;
+  }
+};
