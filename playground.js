@@ -3,10 +3,16 @@ function Product(name, price) {
   this.price = price;
 }
 
-function Food(name, price) {
+function Food(name, price, category) {
   Product.call(this, name, price);
-  this.category = 'food';
+  this.category = category;
 }
+
+function Food1(name, price, category){
+  this.category = category;
+}
+
+Food1.prototype = new Product();
 
 class Product1{
 	constructor(name, price){

@@ -3668,7 +3668,7 @@
         "id": "931e95e6-6011-491a-81b9-ee2246fb0554",
         "repeating": true,
         "locations": [
-          "/descendant::body"
+          "/descendant::body/descendant::text()[contains(.,\"Payment:\") or contains(.,\"Extension\")]"
         ],
         "type": "http://schema.org/Invoice",
         "javascript": "function transform (data){\n\t  var status =  Util.getSchemaAttributeFirstValue(data, \"http://schema.org/paymentStatus\");\n  \tif (status){\n    \treturn data;\n    }\n  \telse return null;\n}",
@@ -3683,17 +3683,20 @@
                   "regex": "\\d+"
                 },
                 {
-                  "xpath": "substring-before(substring-after(./descendant::text()[contains(.,\"Account Number\")],\"Account Number ******\"), \".\")"
+                  "xpath": "substring-before(substring-after(/descendant::text()[contains(.,\"Account Number\")],\"Account Number ******\"), \".\")"
                 },
                 {
-                  "xpath": "substring-before(substring-after(./descendant::text()[contains(.,\"account ******\")],\"account ******\"), \". \")"
+                  "xpath": "substring-before(substring-after(/descendant::text()[contains(.,\"account ******\")],\"account ******\"), \". \")"
+                },
+                {
+                  "xpath": "substring-after(/descendant::text()[contains(.,\"Account: ******\")],\"Account: ******\")"
                 }
               ]
             },
             "name": "http://schema.org/accountId",
             "relative": true,
             "transient": false,
-            "javascript": null,
+            "javascript": "function transform(data){\n  return data.replace(/\\*+(\\d{4}(-\\d)?).*/g, \"$1\");\n}",
             "dataTypes": [
               "Text"
             ],
@@ -3705,14 +3708,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "."
+                  "xpath": "/descendant::body"
                 }
               ]
             },
             "name": "http://schema.org/paymentStatus",
             "relative": true,
             "transient": false,
-            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    'Payment Arrangement schedule': 'PaymentScheduled',\n    'automatic recurring payment plan': 'PaymentScheduled',\n  };\n  for(var key in textMatchObj){\n  if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n}\nreturn \"\";\n}",
+            "javascript": "function transform(data) {\n  var textMatchObj = {\n    //'keyword1': 'PaymentDue',\n    //'keyword2': 'PaymentPastDue',\n    //'keyword3': 'PaymentComplete',\n    //'keyword4': 'PaymentDeclined',\n    //'keyword5': 'PaymentAutomaticallyApplied',\n    'Payment Arrangement schedule': 'PaymentScheduled',\n  };\n  for(var key in textMatchObj){\n  if(data.trim().indexOf(key) !== -1) return textMatchObj[key];\n}\nreturn \"\";\n}",
             "dataTypes": [
               "Text"
             ],
@@ -3724,7 +3727,7 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "./descendant::a[contains(.,'www.pge.com')]/@href"
+                  "xpath": "\"http://www.pge.com/myprofile\""
                 }
               ]
             },
@@ -3746,11 +3749,11 @@
         "id": "d5f6938e-6765-404f-b8c7-b5748c0d0858",
         "repeating": true,
         "locations": [
-          "/"
+          "/descendant::body"
         ],
         "type": "http://schema.org/Organization",
         "javascript": null,
-        "entityIdRef": null,
+        "entityIdRef": "",
         "attributes": [
           {
             "repeating": false,
@@ -3775,14 +3778,14 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "\"https://www.pge.com/\""
+                  "xpath": "./descendant::a/@href"
                 }
               ]
             },
             "name": "http://schema.org/url",
             "relative": true,
             "transient": false,
-            "javascript": null,
+            "javascript": "function transform(data) {\n  return /.*pge.com/.exec(data);\n}",
             "dataTypes": [
               "URL"
             ],
@@ -3794,18 +3797,18 @@
         "id": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
         "repeating": true,
         "locations": [
-          "/"
+          "/descendant::body/descendant::text()[contains(.,\"Payment:\") or contains(.,\"Extension\")]"
         ],
         "type": "http://schema.org/PriceSpecification",
         "javascript": null,
-        "entityIdRef": null,
+        "entityIdRef": "",
         "attributes": [
           {
             "repeating": false,
             "locations": {
               "-1": [
                 {
-                  "xpath": "."
+                  "xpath": "./following::text()[contains(.,\"$\")][1]"
                 }
               ]
             },
@@ -3823,7 +3826,7 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "."
+                  "xpath": "./following::text()[contains(.,\"$\")][1]"
                 }
               ]
             },
@@ -3842,7 +3845,7 @@
         "id": "0f742efb-194f-4680-8d5d-c46e93e85966",
         "repeating": true,
         "locations": [
-          "/"
+          "/descendant::body"
         ],
         "type": "http://schema.org/Person",
         "javascript": null,
@@ -3853,7 +3856,7 @@
             "locations": {
               "-1": [
                 {
-                  "xpath": "./descendant::*[contains(.,'Dear')]"
+                  "xpath": "."
                 }
               ]
             },
@@ -3888,10 +3891,10 @@
           "matchAttr": ""
         },
         "to": {
-          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
+          "entityRule": "0f742efb-194f-4680-8d5d-c46e93e85966",
           "matchAttr": ""
         },
-        "predicate": "http://schema.org/totalPaymentDue",
+        "predicate": "http://schema.org/customer",
         "cardinality": "ONE_TO_ONE"
       },
       {
@@ -3900,10 +3903,10 @@
           "matchAttr": ""
         },
         "to": {
-          "entityRule": "0f742efb-194f-4680-8d5d-c46e93e85966",
+          "entityRule": "fb8e35e4-0fed-4967-8b91-05020aebfce6",
           "matchAttr": ""
         },
-        "predicate": "http://schema.org/customer",
+        "predicate": "http://schema.org/totalPaymentDue",
         "cardinality": "ONE_TO_ONE"
       }
     ],
