@@ -62,8 +62,9 @@ LinkedList.prototype.addToTail = function(value) {
 };
 
 
-LinkedList.prototype.removeFromHead = function() {
-  if (!this.head) return;
+LinkedList.prototype.removeHead = function() {
+  if (!this.head) return null;
+  var val = this.head.value;
   if (this.head && !this.head.next) {
     this.head = null;
     this.tail = null;
@@ -71,12 +72,13 @@ LinkedList.prototype.removeFromHead = function() {
   else {
     this.head = this.head.next;
     this.head.prev = null;
-    return this.head.value;
   }
+  return val;
 }
 
-LinkedList.prototype.removeFromTail = function() {
-  if(!this.tail) return;
+LinkedList.prototype.removeTail = function() {
+  if(!this.tail) return null;
+  var val = this.tail.value;
   if (this.tail && !this.tail.prev) {
     this.tail = null;
     this.head = null;
@@ -84,8 +86,8 @@ LinkedList.prototype.removeFromTail = function() {
   else {
     this.tail = this.tail.prev;
     this.tail.next = null;
-    return this.tail.value;
   }
+  return val;
 }
 
 
