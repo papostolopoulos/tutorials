@@ -231,7 +231,9 @@ for ( int v : array) {
 
 
 
-//03. Nested with two arrays (This is O(n^2))
+//03. Nested with two arrays (This is O(n^2)???)
+//No, according to the lady, this is O(A * B) because there are two different arrays
+//that are looping within each other
 for (int a : A) {
   for (int b : B) {
     if(a * b < a + b){

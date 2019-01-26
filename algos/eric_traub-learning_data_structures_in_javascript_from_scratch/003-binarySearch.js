@@ -1,3 +1,7 @@
+//RECURSION
+
+//What is factorial --> 4! = 4 * 3 * 2 * 1
+//My solution
 function factorial(num, result = 1){
   if (num === 1) {
     return result;
@@ -28,6 +32,10 @@ function factorial(num) {
   return result;
 }
 
+
+
+
+//BINARY SEARCH TREE
 //Create a constructor for binary search therefore
 function BST(value) {
   this.value = value;
@@ -35,20 +43,99 @@ function BST(value) {
   this.right = null;
 }
 
+
 BST.prototype.insert = function(value) {
-  var newBST = new BST(value)
-  if (value <= this.value){
-    var nextLeft = this.left;
-    if (nextLeft === null) {
-      nextLeft = new BST(value);
-    }
-    else {
-      
-    }
+  if (value <= this.value) {
+    if (!this.left) this.left = new BST(value);
+    else this.left.insert(value);
   }
-  else this.right = value;
+  else {
+    if (!this.right) this.right = new BST(value);
+    else this.right.insert(value);
+  }
 }
 
-function Node(value) {
 
+var bst = new BST(50);
+
+bst.insert(100);
+bst.insert(90);
+bst.insert(80);
+bst.insert(70);
+bst.insert(60);
+bst.insert(40);
+bst.insert(30);
+bst.insert(20);
+bst.insert(10);
+bst.insert(5);
+bst.insert(95);
+bst.insert(85);
+bst.insert(75);
+bst.insert(65);
+bst.insert(55);
+bst.insert(45);
+bst.insert(35);
+bst.insert(25);
+bst.insert(15);
+
+
+
+//Contains - My solution
+BST.prototype.contains = function(value) {
+  if (value < this.value) return this.left ? this.left.contains(value) : false;
+  if(value > this.value) return this.right ? this.right.contains(value) : false;
+  return true;
+};
+
+bst.contains(100);
+bst.contains(99);
+
+
+//Expanded solution
+BST.prototype.contains = function() {
+  if (this.value === value) return true;
+  else {
+
+    if(value < this.value){
+      if (!this.left) return false;
+      return this.left.contains(value);
+    }
+
+    else {
+      if (!this.right) return false;
+      return this.right.contains(value);
+    }
+
+  }
+
+};
+
+
+
+
+//Depth First Traversal
+BST.prototype.depthFirstTraversal = function(iterFunc) {
+  if(this.left) this.left.depthFirstTraversal(iterFunc);
+  iterFunc(this.value);
+  if(this.right) this.right.depthFirstTraversal(iterFunc);
 }
+
+function log(value){
+  console.log(value);
+}
+
+bst.depthFirstTraversal(log);
+
+
+
+
+//Depth First Traversal refactoring
+BST.prototype.depthFirstTraversalRefactoring = function(iterFunc, order) {
+  if(order === "pre-order") iterFunc(this.value);
+  if (this.left) this.left.depthFirstTraversalRefactoring(iterFunc, order);
+  if (order === "in-order") iterFunc(this.value);
+  if (this.right) this.right.depthFirstTraversalRefactoring(iterFunc, order);
+}
+
+bst.depthFirstTraversalRefactoring(log, 'in-order');
+bst.depthFirstTraversalRefactoring(log, 'pre-order');
