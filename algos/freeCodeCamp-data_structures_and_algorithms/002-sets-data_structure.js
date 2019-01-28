@@ -1,6 +1,7 @@
-/*Sets are similar to arrays but contrary to them, they do not accept duplicate values
-and they are not in any particular order.
-The use for a set is typicaly to check if an item is included in a collection or not.
+/*Sets are similar to arrays but contrary to them, they do not accept duplicate
+values and they are not in any particular order.
+The use for a set is typicaly to check if an item is included in a collection
+or not.
 */
 
 function mySet(){
