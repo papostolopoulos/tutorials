@@ -19,7 +19,7 @@ function Queue(){
   //Remove from the collection
   this.dequeue = function() {
     return collection.shift();
-  }
+  };
 
   //First element of collection
   this.front = function() {

@@ -136,7 +136,7 @@ LinkedList.prototype.indexOf = function(searchValue) {
     index ++;
   }
   return -1;
-}
+};
 
 
 

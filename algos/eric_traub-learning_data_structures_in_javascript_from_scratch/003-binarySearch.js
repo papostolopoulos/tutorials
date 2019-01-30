@@ -24,7 +24,7 @@ function factorial(num) {
   if (num === 1) {
     return num;
   }
-  let result = 1;
+  var result = 1;
   while (num > 1) {
     result *= num;
     num --;
@@ -53,7 +53,7 @@ BST.prototype.insert = function(value) {
     if (!this.right) this.right = new BST(value);
     else this.right.insert(value);
   }
-}
+};
 
 
 var bst = new BST(50);
@@ -118,7 +118,7 @@ BST.prototype.depthFirstTraversal = function(iterFunc) {
   if(this.left) this.left.depthFirstTraversal(iterFunc);
   iterFunc(this.value);
   if(this.right) this.right.depthFirstTraversal(iterFunc);
-}
+};
 
 function log(value){
   console.log(value);
@@ -135,7 +135,39 @@ BST.prototype.depthFirstTraversalRefactoring = function(iterFunc, order) {
   if (this.left) this.left.depthFirstTraversalRefactoring(iterFunc, order);
   if (order === "in-order") iterFunc(this.value);
   if (this.right) this.right.depthFirstTraversalRefactoring(iterFunc, order);
-}
+  if (order === "post-order") iterFunc(this.value);
+};
 
 bst.depthFirstTraversalRefactoring(log, 'in-order');
 bst.depthFirstTraversalRefactoring(log, 'pre-order');
+
+
+//Breadth First traversal - Traverses through the tree for every node.
+//Moving level by level
+//Breadth First traversal - Traverses through the tree for every node.
+//Moving level by level
+BST.prototype.breadthFirstTraversal = function(iterFunc) {
+  var queue = [this];
+  while(queue.length){
+    var treeNode = queue.shift();
+    iterFunc(treeNode.value);
+    if(treeNode.left) queue.push(treeNode.left);
+    if(treeNode.right) queue.push(treeNode.right);
+  }
+};
+
+
+BST.prototype.getMinVal = function() {
+  if(this.left) return this.left.getMinVal();
+  return this.value;
+};
+
+
+BST.prototype.getMaxVal = function() {
+  if(this.right) return this.right.getMaxVal();
+  return this.value;
+};
+
+
+
+//Exercise
