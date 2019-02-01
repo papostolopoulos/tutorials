@@ -21,9 +21,6 @@ function factorial(num) {
 
 //My solution without recursion
 function factorial(num) {
-  if (num === 1) {
-    return num;
-  }
   var result = 1;
   while (num > 1) {
     result *= num;

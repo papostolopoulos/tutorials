@@ -21,7 +21,7 @@ HashTable.prototype.hash = function(key) {
     total += key.charCodeAt(i);
   }
   return total % this.numBuckets;
-}
+};
 
 
 hashTable.hash("Paris");
@@ -45,23 +45,22 @@ HashTable.prototype.insert = function(key, value) {
     }
     currentNode.next = new HashNode(key, value);
   }
-}
+};
 
 
 hashTable.insert("Paris", "papostolopoulos@gmail.com");
 hashTable.insert("Lefteris", "elefnApostolopoulos@gmail.com");
 hashTable.insert("Pasri", "pasri@gmail.com");
 
-hashTable.buckets;
+console.log(hashTable.buckets);
 
 hashTable.insert("Pasri", "pasri@protonmail.com");
-hashTable.buckets;
-
+console.log(hashTable.buckets);
 
 
 //Get information about a certain person in the hast HashTable
-HashTable.prototype.get - function(key) {
-  var index = key.charCodeAt(key);
+HashTable.prototype.get = function(key) {
+  var index = this.hash(key);
   var currentNode = this.buckets[index];
   if (!this.buckets[index]) return null;
   while(currentNode){
@@ -69,7 +68,7 @@ HashTable.prototype.get - function(key) {
     currentNode = currentNode.next;
   }
   return null;
-}
+};
 
 HashTable.prototype.get = function(key) {
   var index = this.hash(key);
@@ -81,4 +80,18 @@ HashTable.prototype.get = function(key) {
     slot = slot.next;
   }
   return null;
-}
+};
+
+
+//Display all the nodes in an Array
+HashTable.prototype.retrieveAll = function() {
+  var allNodes = [];
+  for (var i = 0; i < this.buckets.length; i++) {
+    var currentNode = this.buckets[i];
+    while(currentNode){
+      allNodes.push(currentNode);
+      currentNode = currentNode.next;
+    }
+  }
+  return allNodes;
+};

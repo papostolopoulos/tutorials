@@ -80,7 +80,7 @@ LinkedList.prototype.removeHead = function() {
     this.head.prev = null;
   }
   return val;
-}
+};
 
 
 
@@ -98,7 +98,7 @@ LinkedList.prototype.removeTail = function() {
     this.tail.next = null;
   }
   return val;
-}
+};
 
 
 var ll = new LinkedList();
@@ -120,7 +120,7 @@ LinkedList.prototype.search = function(searchValue){
   }
 
   return null;
-}
+};
 
 
 
@@ -153,4 +153,4 @@ LinkedList.prototype.indexesOf = function(searchValue) {
     index ++;
   }
   return endArr;
-}
+};
