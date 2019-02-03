@@ -1,7 +1,7 @@
 // object properties and methods
 var obj = {
 	greet: 'Hello'
-}
+};
 
 console.log(obj.greet);
 console.log(obj['greet']);

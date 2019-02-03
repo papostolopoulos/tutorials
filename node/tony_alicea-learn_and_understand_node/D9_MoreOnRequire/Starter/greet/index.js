@@ -6,4 +6,4 @@ module.exports = {
     english: english,
     greek: greek,
     spanish: spanish
-}
+};

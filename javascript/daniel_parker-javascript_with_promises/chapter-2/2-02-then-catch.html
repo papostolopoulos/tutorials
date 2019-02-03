@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2-2. Promise then and catch</title>
+<link href="../prism.css" rel="stylesheet">
+<script src="../prism.js"></script>
+
+<script>
+var promise = loadImage('the_general_problem.png');
+
+promise.then(function (img) {
+	console.log('received image');
+});
+
+promise.catch(function (e) {
+	console.log('Error occurred while loading image');
+	console.log(e);
+});
+
+// Additional code so example can run
+function loadImage(url) {
+	return new Promise(function (resolve) {
+		resolve(new Image());
+	});
+}
+</script>
+
+</head>
+<body>
+
+<nav>
+<a href="2-01-using-callbacks.html">Previous</a> | <a href="2-03-chaining-then-catch.html">Next</a>
+</nav>
+
+<h1>Example 2-2. Promise then and catch</h1>
+
+<pre>
+<code class="language-javascript">
+// Assume loadImage returns a promise
+var promise = loadImage('the_general_problem.png');
+
+promise.then(function (img) {
+	console.log('received image');
+});
+
+promise.catch(function (e) {
+	console.log('Error occurred while loading image');
+	console.log(e);
+});
+</code>
+</pre>
+
+</body>
+</html>

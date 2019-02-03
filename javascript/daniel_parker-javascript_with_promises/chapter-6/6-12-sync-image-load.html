@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>6-12. Hypothetical use of loadImage as a synchronous function</title>
+<link href="../prism.css" rel="stylesheet">
+<script src="../prism.js"></script>
+
+<script>
+try {
+	var img = loadImage('thesis_defense.png');
+	console.log('received image');
+} catch (e) {
+	console.log('Error occured while loading the image');
+	console.log(e);
+}
+
+// Additional code so example can run
+function loadImage(url) {
+	return new Image();
+}
+</script>
+
+</head>
+<body>
+
+<nav>
+<a href="6-11-aync-image-load.html">Previous</a> | <a href="6-13-generator-image-load.html">Next</a>
+</nav>
+
+<h1>Example 6-12. Hypothetical use of loadImage as a synchronous function</h1>
+
+<pre>
+<code class="language-javascript">
+try {
+	var img = loadImage('thesis_defense.png');
+	console.log('received image');
+} catch (e) {
+	console.log('Error occured while loading the image');
+	console.log(e);
+}
+</code>
+</pre>
+
+</body>
+</html>
