@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>001 Transform - CSS Animations and transitions</title>
+
+    <style media="screen">
+
+      *{
+        box-sizing: border-box;
+      }
+
+      body{
+        font-family: arial;
+      }
+
+      h1, h2{
+        text-align: center;
+      }
+
+      article{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
+      }
+
+      .container{
+        width: 200px;
+        height: 200px;
+        outline: 1px solid red;
+        display: inline-block;
+        margin-right: 30px;
+      }
+
+      .afterwards{
+        width: 300px;
+        height: 300px;
+        outline: 1px solid blue;
+        background: black;
+        color: white;
+        display: inline-block;
+        margin-left: 30px;
+        padding: 20px;
+      }
+
+      code{
+        white-space: pre-line;
+      }
+
+      .box1 {
+        width: 200px;
+        height: 200px;
+        background: #475;
+        -ms-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+
+      .box2 {
+        width: 200px;
+        height: 200px;
+        background: #475;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+      }
+
+      .box3 {
+        border-radius: 50%;
+        outline: 1px solid blue;
+        width: 200px;
+        height: 200px;
+        background: #475;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+      }
+
+      .box4 {
+        outline: 1px solid blue;
+        width: 200px;
+        height: 200px;
+        background: #475;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        padding: 30px;
+        background-clip: content-box;
+      }
+
+      .box5 {
+        width: 200px;
+        height: 200px;
+        background: #475;
+        -ms-transform: translate(50px, 100px);
+        -webkit-transform: translate(50px, 100px);
+        transform: translate(50px, 100px);
+      }
+
+      .box6 {
+        width: 200px;
+        height: 200px;
+        background: #475;
+        -ms-transform: scale(.5, .1);
+        -webkit-transform: scale(.5, .1);
+        transform: scale(.5, .1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Transforms</h1>
+    <article class="">
+      <div class="container">
+        <div class="box1">
+        </div>
+      </div>
+
+      <div class="afterwards">
+        <code>
+          .box1 {
+            width: 200px;
+            height: 200px;
+            background: #475;
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+        </code>
+      </div>
+    </article>
+
+    <article class="">
+        <div class="container">
+          <div class="box2"></div>
+        </div>
+
+        <div class="afterwards">
+          <code>
+            .box2 {
+              width: 200px;
+              height: 200px;
+              background: #475;
+              transform: rotate(45deg);
+              -webkit-transform: rotate(45deg);
+              -ms-transform: rotate(45deg);
+              transform-origin: 0 0;
+              -webkit-transform-origin: 0 0;
+              -ms-transform-origin: 0 0;
+            }
+          </code>
+        </div>
+      </article>
+
+    <article class="">
+        <div class="container">
+          <div class="box3"></div>
+        </div>
+
+        <div class="afterwards">
+          <code>
+            .box3 {
+              border-radius: 50%;
+              outline: 1px solid blue;
+              width: 200px;
+              height: 200px;
+              background: #475;
+              transform: rotate(45deg);
+              -webkit-transform: rotate(45deg);
+              -ms-transform: rotate(45deg);
+            }
+          </code>
+        </div>
+      </article>
+
+    <article class="">
+        <div class="container">
+          <div class="box4"></div>
+        </div>
+
+        <div class="afterwards">
+          <code>
+            .box4 {
+              outline: 1px solid blue;
+              width: 200px;
+              height: 200px;
+              background: #475;
+              transform: rotate(45deg);
+              -webkit-transform: rotate(45deg);
+              -ms-transform: rotate(45deg);
+              padding: 30px;
+              background-clip: content-box;
+            }
+          </code>
+        </div>
+      </article>
+
+
+
+    <h2>translate() function</h2>
+    <p>
+      Means moving the element to a different location. We can use translateX for
+      moving them horizontally, translateY for moving them vertically and both at
+      the same time when we use translate().
+    </p>
+
+    <article class="">
+        <div class="container">
+          <div class="box5"></div>
+        </div>
+
+        <div class="afterwards">
+          <code>
+            .box5 {
+              width: 200px;
+              height: 200px;
+              background: #475;
+              -ms-transform: translate(50px, 100px);
+              -webkit-transform: translate(50px, 100px);
+              transform: translate(50px, 100px);
+            }
+          </code>
+        </div>
+      </article>
+
+    <h2>scale() function</h2>
+    <p>
+      Means making the element larger or smaller. Similar to translate(), scaleX
+      for horizontal and scaleY() for vertical modifications.
+    </p>
+
+    <article class="">
+      <div class="container">
+        <div class="box6"></div>
+      </div>
+
+      <div class="afterwards">
+        <code>
+          .box6 {
+            width: 200px;
+            height: 200px;
+            background: #475;
+            -ms-transform: scale(.5, .1);
+            -webkit-transform: scale(.5, .1);
+            transform: scale(.5, .1);
+          }
+        </code>
+      </div>
+    </article>
+
+
+  </body>
+</html>
+
+
+
+
+<!--
+Dear Barbara,
+I would like to ask you to investigate on today's driver for the MS10 shuttle.
+I have not seen this driver before but I would like to mention my experience because
+it has not been pleasant and I hope I will not have to experience the same thing
+on my daily commute. These are the things that I found disturbing:
+
+1. The shuttle wi-fi was turned off.
+2. When the driver approached the ramp for the 101 both in the city and after leaving
+the 92 parking, the driver was being impatient with the traffic. He was making
+comments about the other drivers and he said "shit" a couple of times.
+3. When there was traffic on the 101, the driver would hit on his brakes in a sudden
+way that would not allow me to work on my computer since I was getting uncomfortable
+with the sudden decreases of speed and accelerations.
+4. Same experience when we got on Mathilda. A lot of sudden stops, comments towards
+other drivers like "Com' on man!" and driving that would not allow me to work.
+
+Overall the driver had his attention on the road but I was given the impression that
+he was more concerned on being able to commute on time rather than offering a pleasant ride.
+
+Even though I understand that I am giving a negative review to today's driver, please
+take my comments with a grain of salt and confirm if others experienced the same
+things like me or not.
+
+Kind regards,
+Paris Apostolopoulos
+
+ -->
