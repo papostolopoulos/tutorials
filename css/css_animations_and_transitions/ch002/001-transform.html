@@ -109,6 +109,15 @@
         -webkit-transform: scale(.5, .1);
         transform: scale(.5, .1);
       }
+
+      .box7 {
+        width: 200px;
+        height: 200px;
+        background: #475;
+        -ms-transform: skewX(10deg) skewY(30deg);
+        -webkit-transform: skewX(10deg) skewY(30deg);
+        transform: skewX(10deg) skewY(30deg);
+      }
     </style>
   </head>
   <body>
@@ -229,7 +238,10 @@
     <h2>scale() function</h2>
     <p>
       Means making the element larger or smaller. Similar to translate(), scaleX
-      for horizontal and scaleY() for vertical modifications.
+      for horizontal and scaleY() for vertical modifications. Values taken are
+      positive numbers. Decimals less than 1.0 mean a percentage of the original
+      size while values larger than 1.0 mean a size more than 100% of the original
+      size.
     </p>
 
     <article class="">
@@ -250,6 +262,70 @@
         </code>
       </div>
     </article>
+
+
+    <h2>rotate() function</h2>
+    <p>
+      Means we rotate objects in a two dimentional space. The rotation happens around
+      a single point which is set with the <code>transform-origin</code> property.
+      If the transform-origin property is not set to a different value, the
+      rotation happens from the center of the element. Values that can be used are
+      degrees (deg) or radians (rad).
+    </p>
+
+    <article class="">
+      <div class="container">
+        <div class="box1">
+        </div>
+      </div>
+
+      <div class="afterwards">
+        <code>
+          .box1 {
+            width: 200px;
+            height: 200px;
+            background: #475;
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+        </code>
+      </div>
+    </article>
+
+    <h2>skew() function</h2>
+    <p>
+      This property is used when we want an object to be distorted. skewX() is used
+      when we want to distort an element horizontaly, while skewY() is used when we
+      want to distort the element vertically. The values that we use are the same like
+      the rotate() function (degrees and radians).
+    </p>
+
+    <article class="">
+      <div class="container">
+        <div class="box7">
+        </div>
+      </div>
+
+      <div class="afterwards">
+        <code>
+          .box7 {
+            width: 200px;
+            height: 200px;
+            background: #475;
+            -ms-transform: skewX(10deg) skewY(30deg);
+            -webkit-transform: skewX(10deg) skewY(30deg);
+            transform: skewX(10deg) skewY(30deg);
+          }
+        </code>
+      </div>
+    </article>
+
+    <h2>matrix</h2>
+    <p>
+      A matrix is an array of numbers that use matrix math for adding, subtracting,
+      multiplying and dividing matrices. 
+    </p>
 
 
   </body>
