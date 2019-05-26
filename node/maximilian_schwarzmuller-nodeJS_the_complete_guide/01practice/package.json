@@ -1,0 +1,15 @@
+{
+  "name": "practice01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "appPractice.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon appPractice.js"
+  },
+  "author": "Paraskevas Apostolopoulos <papostolopoulos@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

@@ -25,3 +25,13 @@ setTimeout(() => {
 
 console.log("Hello!");
 console.log("Hi. I am after Hello");
+
+let person = {
+  name: "Paraskevas",
+  surname: "Apostolopoulos",
+  greet() {
+    return `Hello, I am ${this.name}`;
+  }
+};
+
+let { name } = person;
