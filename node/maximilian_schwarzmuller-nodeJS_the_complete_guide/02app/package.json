@@ -1,16 +1,20 @@
 {
-  "name": "practice01",
+  "name": "02app",
   "version": "1.0.0",
-  "description": "Node practice",
-  "main": "appPractice.js",
+  "description": "2nd group of lectures - express",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon appPractice.js",
-    "start-server": "nodemon appPractice.js"
+    "start": "nodemon app.js",
+    "start-server": "nodemon app.js"
   },
   "author": "Paraskevas Apostolopoulos <papostolopoulos@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
   }
 }

@@ -20,3 +20,14 @@ upon button click
 add a /create-user rpite amd parse the incoming data (username) and simply log it to the console
 Then redirect to the "/" route or to /users
 */
+
+/*
+call the http module
+call the create server method http.createserver
+Save the createServer method in a constant called server
+After that we listen to the server with server.listen
+
+We handle two different routes. the / and the /users
+We parse the url by req.url
+
+*/
