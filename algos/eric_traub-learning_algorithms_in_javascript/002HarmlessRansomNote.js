@@ -51,6 +51,7 @@ function harmlessRansomNote(noteText, magazineText){
       if(magazineObj[el] < 0) return false;
     }
   }
+  return true;
 }
 
 //Solution from dude using a hash table
