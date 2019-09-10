@@ -16,3 +16,4 @@ Ordered by the date of upload
 * [] Flexbox CSS in 20 minutes: https://www.youtube.com/watch?v=JJSoEo8JSnc&index=16&list=PLillGF-RfqbYeckUaD1z6nviTp31GLTH8 (traversy_media)
 * [] Sass & SCSS Tutorial for Beginners Playlist: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBxQO2r_kmxn-0UqL_Rkj0t (the new Boston)
 * [] Mozilla CSS tutorial https://developer.mozilla.org/en-US/docs/Web/CSS
+* [] CSS3 first look (THIS COMES FROM THE LYNDA VIDEO TUTORIALS)
