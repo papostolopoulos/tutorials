@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>6-14. Computing a series of values without using a generator</title>
+<link href="../prism.css" rel="stylesheet">
+<script src="../prism.js"></script>
+
+<script>
+var a = 0;
+var b = 1;
+
+function fib() {
+	b = a + b;
+	a = b - a;
+	return b;
+}
+
+var i;
+for (i = 0; i < 5; i++) console.log(fib());
+</script>
+
+</head>
+<body>
+
+<nav>
+<a href="6-13-generator-image-load.html">Previous</a> | <a href="6-15-series-generator.html">Next</a>
+</nav>
+
+<h1>Example 6-14. Computing a series of values without using a generator</h1>
+
+<pre>
+<code class="language-javascript">
+var a = 0;
+var b = 1;
+
+function fib() {
+	b = a + b;
+	a = b - a;
+	return b;
+}
+
+var i;
+for (i = 0; i < 5; i++) console.log(fib());
+
+// Console output:
+// 1
+// 2
+// 3
+// 5
+// 8
+</code>
+</pre>
+
+</body>
+</html>

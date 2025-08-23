@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>2D Rotation</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of the rotate transform function" />
+
+<script src="utility.js"></script>
+<script>
+var init = function() {
+  var box = document.getElementsByClassName('box');
+  
+  document.getElementById('transform').addEventListener( 'click', function(){
+    box[0].toggleClassName('transformed');
+  }, false);
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+    font-family: helvetica;
+    font-size: 100%;
+}
+
+button {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background: #ccc;
+    border: 1px solid #777;
+    margin: 3em auto;
+}
+
+.box {
+	width: 200px;
+	height: 200px;
+	background: #575;
+	
+	margin: 5em auto;
+}
+
+.transformed {
+	-webkit-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box"></div>
+<button id="transform">Transform</button>
+
+</body>
+</html>

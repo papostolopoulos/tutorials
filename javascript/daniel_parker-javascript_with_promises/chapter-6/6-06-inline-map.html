@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>6-6. Using array.map() with an inline callback</title>
+<link href="../prism.css" rel="stylesheet">
+<script src="../prism.js"></script>
+
+<script>
+var accounts = ['A', 'B', 'C'];
+
+var requests = accounts.map(function (account) {
+    return ajax('/balances/' + account);
+});
+
+// Additional code so example can run
+function ajax() {
+	return Promise.resolve(Math.round(Math.random() * 1000));
+}
+</script>
+
+</head>
+<body>
+
+<nav>
+<a href="6-05-destructure-promise-all.html">Previous</a> | <a href="6-07-arrow-function.html">Next</a>
+</nav>
+
+<h1>Example 6-6. Using array.map() with an inline callback</h1>
+
+<p>
+	This example has been corrected from the original version by changing <code>forEach</code> to <code>map</code>.
+</p>
+
+<pre>
+<code class="language-javascript">
+var requests = accounts.map(function (account) {
+    return ajax('/balances/' + account);
+});
+</code>
+</pre>
+
+</body>
+</html>

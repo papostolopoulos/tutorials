@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Animation Events: animationend</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example of JavaScript listening for the animationiteration event and running a second animation once the event fires." />
+
+
+<script>
+var init = function() {
+	var box = document.getElementById("box");
+      
+	box.addEventListener("webkitAnimationEnd", updateAnimation , false);
+	box.addEventListener("oAnimationEnd", updateAnimation , false);
+	box.addEventListener("animationEnd", updateAnimation , false);
+    
+	function updateAnimation (e) {
+		box.style.webkitAnimationName = "slidedown";
+		box.style.animationName = "slidedown";
+		
+		// alert("The " + e.animationName + " animation has been running for " + e.elapsedTime + "s");
+
+	}
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto 2em auto;
+    text-align: center;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 5%;
+}
+
+.btn:hover {
+    background-color: #ccd;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #393;
+}
+
+.box {
+    -webkit-animation: slide 2s linear 0s 2 alternate both;
+            animation: slide 2s linear 0s 2 alternate both;
+
+}
+
+
+@-webkit-keyframes slide {
+
+    to {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+        
+    }
+
+}
+
+@keyframes slide {
+
+    to {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+
+}
+
+
+
+@-webkit-keyframes slidedown {
+    to {
+    -webkit-transform: translate(0px, 300px);
+        -ms-transform: translate(0px, 300px);
+            transform: translate(0px, 300px);
+    }
+}
+
+@keyframes slidedown {
+    to {
+    -webkit-transform: translate(0px, 300px);
+        -ms-transform: translate(0px, 300px);
+            transform: translate(0px, 300px);
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <p>Listening for the <strong>animationend</strong> event<br />Reload and listen for:</p>
+    <a href="example-4.11-animation-start-event.html" class="btn" id="start">animationstart</a>
+    <a href="example-4.12-animation-iteration-event.html" class="btn"  id="iteration">animationiteration</a>
+    <a href="example-4.13-animation-end-event.html" class="btn" id="end">animationend</a>
+</div>
+
+<div class="container">
+    <div class="box" id="box"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1-2. Example callback</title>
+<link href="../prism.css" rel="stylesheet">
+<script src="../prism.js"></script>
+
+<script>
+var cities = ['Tokyo', 'London', 'Boston', 'Berlin', 'Chicago', 'New York'];
+
+cities.forEach(function callback(city) {
+	console.log(city);
+});
+</script>
+
+</head>
+<body>
+
+<nav>
+<a href="1-01-async-xhr.html">Previous</a> | <a href="1-03-predefined-callback.html">Next</a>
+</nav>
+
+<h1>Example 1-2. Example callback</h1>
+
+<pre>
+<code class="language-javascript">
+var cities = ['Tokyo', 'London', 'Boston', 'Berlin', 'Chicago', 'New York'];
+
+cities.forEach(function callback(city) {
+	console.log(city);
+});
+
+// Console output:
+// Tokyo
+// London
+// Boston
+// Berlin
+// Chicago
+// New York
+</code>
+</pre>
+
+</body>
+</html>

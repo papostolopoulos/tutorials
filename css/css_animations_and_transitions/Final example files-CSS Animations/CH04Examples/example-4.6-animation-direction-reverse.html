@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Example 4.6 - Animation Direction: Reverse</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing the animation-direction property set to reverse." />
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 5%;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #393;
+}
+
+.box {
+	-webkit-animation-name: slide;
+	        animation-name: slide;
+
+	-webkit-animation-duration: 5s;
+	        animation-duration: 5s;
+
+	-webkit-animation-timing-function: linear;
+	        animation-timing-function: linear;
+
+	-webkit-animation-iteration-count: 3;
+	        animation-iteration-count: 3;
+
+	-webkit-animation-direction: reverse;
+	        animation-direction: reverse;
+
+}
+
+
+@-webkit-keyframes slide {
+
+    to {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+
+}
+
+
+@keyframes slide {
+
+    to {
+        -webkit-transform: translate(600px, 0px);
+            -ms-transform: translate(600px, 0px);
+                transform: translate(600px, 0px);
+    }
+  
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box"></div>
+    <p>animation-direction currently set to <strong>reverse</strong><br />Reload with animation direction set to:</p>
+    <a href="example-4.6-animation-direction-reverse.html" class="btn" id="reverse">Reverse</a>
+    <a href="example-4.7-animation-direction-alternate.html" class="btn"  id="alternate">Alternate</a>
+</div>
+
+</body>
+</html>

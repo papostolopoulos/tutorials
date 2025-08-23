@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>4-18. Deferred throws synchronous errors</title>
+<link href="../prism.css" rel="stylesheet">
+<script src="../prism.js"></script>
+
+<script>
+function loadImage(url) {
+	var deferred = jQuery.Deferred();
+	// ...
+	return deferred.promise();
+}
+
+function loadImageWithoutDeferred(url) {
+	return new Promise(function resolver(resolve, reject) {
+		var image = new Image();
+		image.src = url;
+		image.onload = function () {
+			resolve(image);
+		};
+		image.onerror = reject;
+	});
+}
+</script>
+
+</head>
+<body>
+
+<nav>
+<a href="4-17-jquery-deferred.html">Previous</a> | <a href="4-19-web-worker.html">Next</a>
+</nav>
+
+<h1>Example 4-18. Deferred throws synchronous errors</h1>
+<p>This example has been renamed from <b>Simple deferred object in jQuery</b></p>
+
+<pre>
+<code class="language-javascript">
+function loadImage(url) {
+	var deferred = jQuery.Deferred();
+	// ...
+	return deferred.promise();
+}
+
+function loadImageWithoutDeferred(url) {
+	return new Promise(function resolver(resolve, reject) {
+		var image = new Image();
+		image.src = url;
+		image.onload = function () {
+			resolve(image);
+		};
+		image.onerror = reject;
+	});
+}
+</code>
+</pre>
+
+</body>
+</html>

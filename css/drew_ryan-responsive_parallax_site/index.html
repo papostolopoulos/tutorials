@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>The Parallax Template</title>
+		<link href="css/jquery.bxslider.css" rel="stylesheet" />
+		<link href="style.css" rel="stylesheet">
+		<link href="css/nav.css" rel="stylesheet">
+		<link rel="shortcut icon" type="image/png" href="img/w3-favicon.png"/>
+	</head>
+	<body>
+		<a name="home"></a>
+	<!--- Start Navigation -->
+			<script src="js/jquery-1.11.2.min.js"></script>
+			<script src="js/main.js"></script> <!--- For Navigation -->
+
+	<!---ADD NAVIGATION HERE-->
+		<div class="nav-outer">
+			<div class="nav-wrap">
+				<nav class="navigation">
+					<div class="logo">
+						<img src="img/logo.png" alt="">
+						<div class='nav' nav-menu-style="yoga"></div>
+						<ul class="nav-menu">
+							<li>
+								<a href="#home">Home</a>
+							</li>
+							<li>
+								<a href="#about">About</a>
+							</li>
+							<li>
+								<a href="#services">Services</a>
+							</li>
+							<li>
+								<a href="#reviews">Reviews</a>
+							</li>
+							<li>
+								<a href="#contact">Contact</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+
+			</div>
+		</div>
+		<div class="nav-clear"></div>
+	<!--- End Navigation -->
+		<div class="clearfix"></div>
+	<!--- Start Slider -->
+			<script src="js/jquery.bxslider.min.js"></script><!--For Image Slider-->
+			<div class="slide-wrap">
+
+	<!--ADD IMAGE SLIDES HERE-->
+			<section class="slider">
+				<ul class="slider1">
+					<li>
+						<img src="https://www.w3newbie.com/wp-content/uploads" alt="">
+					</li>
+					<li>
+						<img src="https://www.w3newbie.com/wp-content/uploads" alt="">
+					</li>
+					<li>
+						<img src="https://www.w3newbie.com/wp-content/uploads" alt="">
+					</li>
+					<li>
+						<img src="https://www.w3newbie.com/wp-content/uploads" alt="">
+					</li>
+					<li>
+						<img src="https://www.w3newbie.com/wp-content/uploads" alt="">
+					</li>
+					<li>
+						<img src="https://www.w3newbie.com/wp-content/uploads" alt="">
+					</li>
+				</ul>
+			</section>
+
+			</div>
+			<script type="text/javascript">
+				$('.slider1').bxSlider({
+					mode: 'fade',
+					captions: false,
+					auto:true,
+					pager:false,
+
+				});
+				$('.slider2').bxSlider({
+					pager:false,
+					captions: true,
+					maxSlides: 3,
+					minSlides: 1,
+					slideWidth: 230,
+					slideMargin: 10
+				});
+				$('.slider3').bxSlider({
+					mode: 'fade',
+					captions: false,
+					auto:true,
+					pager:false,
+					controls:false,
+				});
+			</script>
+	<!--- End Slider -->
+
+	  <p style="text-align: center;"><a href="https://www.w3newbie.com/survey/" target="_blank">Designed by Drew Ryan - w3newbie</a></p>
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="handlebars-v4.0.5.js" type="text/javascript"></script>
+  <title>Document</title>
+</head>
+<body>
+<h3>Beginning</h3>
+<a href="https://www.youtube.com/watch?v=4HuAnM6b2d8&index=30&list=PLGLfVvz_LVvSX7fVd4OUFp_ODd86H0ZIY">Source</a>
+
+<div class="codeUsed">
+  The code that was used is: <br>
+  <code>
+    var myInfo = "&#60;p&#62;My name is {{name}} and I live at {{street}} in {{city}}, {{state}}&#60;/p&#62;" <br>
+
+    var template = Handlebars.compile(myInfo); <br>
+
+    var data = template({ <br>
+      name: "Paraskevas", <br>
+      street: "823 Kansas Street", <br>
+      city: "San Francisco",<br>
+      state: "CA"<br>
+    });<br>
+
+    document.getElementById("derekData").innerHTML += data;<br>
+  </code>
+</div>
+
+<h4>Result:</h4>
+<div id="derekData"></div>
+
+  <script type="text/javascript">
+    var myInfo = "<p>My name is {{name}} and I live at {{street}} in {{city}}, {{state}}</p>"
+
+    let template = Handlebars.compile(myInfo);
+
+    var data = template({
+      name: "Paraskevas",
+      street: "823 Kansas Street",
+      city: "San Francisco",
+      state: "CA"
+    });
+
+    document.getElementById("derekData").innerHTML += data;
+
+
+  </script>
+
+
+</body>
+</html>

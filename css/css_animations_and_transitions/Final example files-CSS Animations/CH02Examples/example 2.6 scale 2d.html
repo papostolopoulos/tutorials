@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Scaling</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example scaling an element larger" />
+
+<script src="utility.js"></script>
+<script>
+var init = function() {
+  var box = document.getElementsByClassName('box');
+  
+  document.getElementById('transform').addEventListener( 'click', function(){
+    box[0].toggleClassName('transformed');
+  }, false);
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+    font-family: helvetica;
+    font-size: 100%;
+}
+
+button {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background: #ccc;
+    border: 1px solid #777;
+    margin: 3em auto;
+}
+
+.container {
+	width: 400px;
+	height: 400px;
+	outline: 1px solid red;
+	margin: 5em auto;
+}
+
+.box {
+	width: 200px;
+	height: 200px;
+	background: #575;
+}
+
+.transformed {
+    -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+            transform: scale(1.5);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box"></div>
+</div>
+<button id="transform">Transform</button>
+
+</body>
+</html>

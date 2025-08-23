@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Transform Style</title>
+
+<meta charset="utf-8">
+<meta name="description" content="An example showing the difference between preserve-3d and flatten" />
+
+<script src="utility.js"></script>
+<script>
+var init = function() {
+  var parent = document.getElementsByClassName('parent');
+  var child = document.getElementsByClassName('child');
+  
+  document.getElementById('transform').addEventListener( 'click', function(){
+    parent[0].toggleClassName('transformed');
+    child[0].toggleClassName('transformed');
+  }, false);
+
+  document.getElementById('tstyle').addEventListener( 'click', function(){
+    parent[0].toggleClassName('transform-style');
+    var text = document.getElementById('tstyle');
+    text.innerHTML = (text.innerHTML == "Flatten") ? "Preserve-3d" : "Flatten";
+  }, false);
+};
+
+window.addEventListener('DOMContentLoaded', init, false);
+</script>
+
+<style>
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+    font-family: helvetica;
+    font-size: 100%;
+}
+
+button {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background: #ccc;
+    border: 1px solid #777;
+    margin: 3em auto;
+}
+
+.container {
+	width: 300px;
+	height: 300px;
+	outline: 1px solid red;
+	margin: 5em auto;
+
+  /* ----- Experiment with the value of perspecitve ----- */
+  -webkit-perspective: 500;
+      -ms-perspective: 500;
+          perspective: 500;
+
+  /* ----- Experiment with the value of perspecitve-origin ----- */
+  -webkit-perspective-origin: 50% 50%;
+      -ms-perspective-origin: 50% 50%;
+          perspective-origin: 50% 50%;
+
+}
+
+.parent {
+    width: 300px;
+    height: 300px;
+    background: #575;
+    padding: 50px;
+}
+
+.transform-style{
+    /* ----- change transform style to flat and see what happens ----- */
+    -webkit-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+}
+
+.parent.transformed {
+    -webkit-transform: rotateY(45deg);
+        -ms-transform: rotateY(45deg);
+            transform: rotateY(45deg);
+
+}
+
+.child {
+    width: 200px;
+    height: 200px;
+    background: #557;
+}
+
+.child.transformed {    
+    -webkit-transform: rotateX(30deg) translateZ(75px) translateY(40px);
+        -ms-transform: rotateX(30deg) translateZ(75px) translateY(40px);
+            transform: rotateX(30deg) translateZ(75px) translateY(40px);
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+	<div class="parent transform-style">
+	  <div class="child"></div>
+	</div>
+</div>
+<button id="transform">Transform</button>
+<button id="tstyle">Flatten</button>
+
+</body>
+</html>

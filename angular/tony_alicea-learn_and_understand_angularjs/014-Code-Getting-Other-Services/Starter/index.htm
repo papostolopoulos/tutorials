@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="myApp">
+    <head>
+        <title>Learn and Understand AngularJS</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="UTF-8">
+
+        <!-- load bootstrap and fontawesome via CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- load angular via CDN -->
+        <script src="https://code.angularjs.org/1.6.5/angular.min.js"></script>
+        <script src="https://code.angularjs.org/1.6.5/angular-messages.min.js"></script>
+        <script scr="https://code.angularjs.org/1.6.5/angular-resource.min.js"></script>
+        <script src="app.js"></script>
+
+        <style>
+            html, body, input, select, textarea
+            {
+                font-size: 1.05em;
+            }
+        </style>
+
+    </head>
+    <body>
+
+        <header>
+			<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">AngularJS</a>
+				</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+				</ul>
+			</div>
+			</nav>
+		</header>
+
+        <div class="container">
+
+            <div ng-controller="mainController">
+
+                <h1>14. Getting other services</h1>
+
+                <form name="myForm">
+                   <label>
+                     Enter text:
+                     <input type="email" ng-model="field" name="myField" required maxlength="50" />
+                   </label>
+                   <div ng-messages="myForm.myField.$error" role="alert">
+                     <div class="alert alert-danger" ng-message="required">Please enter a value for this field.</div>
+                     <div class="alert alert-danger" ng-message="email">This field must be a valid email address.</div>
+                     <div class="alert alert-danger" ng-message="maxlength">This field can be at most 15 characters long.</div>
+                   </div>
+                </form>
+
+            </div>
+
+		</div>
+
+    </body>
+</html>
