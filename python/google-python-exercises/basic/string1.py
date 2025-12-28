@@ -24,9 +24,14 @@
 # So donuts(5) returns 'Number of donuts: 5'
 # and donuts(23) returns 'Number of donuts: many'
 def donuts(count):
-  # +++your code here+++
-  return
+  if count < 10:
+    return f"Number of donuts: {count}"
+  else:
+    return "Number of donuts: many"
 
+print("\ndonuts")  
+print(donuts(5))
+print(donuts(23))
 
 # B. both_ends
 # Given a string s, return a string made of the first 2
@@ -34,9 +39,16 @@ def donuts(count):
 # so 'spring' yields 'spng'. However, if the string length
 # is less than 2, return instead the empty string.
 def both_ends(s):
-  # +++your code here+++
-  return
+  if len(s) < 2:
+    return ""
+  else:
+    return s[:2] + s[-2:]
 
+print("\nboth_ends")  
+print(both_ends('spring'))
+print(both_ends('Hello'))
+print(both_ends('a'))
+print(both_ends('xyz'))
 
 # C. fix_start
 # Given a string s, return a string
@@ -48,9 +60,13 @@ def both_ends(s):
 # Hint: s.replace(stra, strb) returns a version of string s
 # where all instances of stra have been replaced by strb.
 def fix_start(s):
-  # +++your code here+++
-  return
+  firstChar = s[0]
+  modifiedString = s.replace(firstChar, '*')
+  return firstChar + modifiedString[1:]
 
+print("\nfix_start")
+print(f"The modified string of the word 'babble' is {fix_start('babble')}")
+print(f"The modified string of the word 'aardvark' is {fix_start('aardvark')}")
 
 # D. MixUp
 # Given strings a and b, return a single string with a and b separated
@@ -60,9 +76,13 @@ def fix_start(s):
 #   'dog', 'dinner' -> 'dig donner'
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
-  # +++your code here+++
-  return
+  return b[:2] + a[2:] + " " + a[:2] + b[2:]
 
+print("\nmix_up")
+print(mix_up('mix', 'pod'))
+print(mix_up('dog', 'dinner'))
+print(mix_up('gnash', 'sport'))
+print(mix_up('pezzy', 'firm'))
 
 # Provided simple test() function used in main() to print
 # what each function returns vs. what it's supposed to return.

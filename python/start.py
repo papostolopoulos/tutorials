@@ -18,3 +18,22 @@ if __name__ == "__main__":
     main()
 
     bday()
+
+
+def line():
+    print("-" * 40)
+line()
+
+
+def drink(time_hour):
+    if time_hour >= 0 and time_hour <= 24:
+       print('Suggesting a drink option...')
+    if mood == 'sleepy' and time_hour < 10:
+       print('coffee')
+    elif mood == 'thirsty' or time_hour < 2:
+        print('lemonade')
+    else:
+        print('water')
+
+drink(9)
+drink(14)
