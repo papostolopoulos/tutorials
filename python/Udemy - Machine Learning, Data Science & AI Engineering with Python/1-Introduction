@@ -1,0 +1,92 @@
+jupyter notebook
+
+
+Master Machine Learning & AI Engineering — From Data Analytics to Agentic AI Solutions
+
+Launch your career in AI with a comprehensive, hands-on course that takes you from beginner to advanced. Learn Python, data science, classical machine learning, and the latest in AI engineering—including generative AI, transformers, and LLM agents / agentic AI.
+
+Why This Course?
+
+Learn by Doing
+
+With over 145 lectures and 21+ hours of video content, this course is built around practical Python projects and real-world use cases—not just theory.
+
+Built for the Real World
+
+Learn how companies like Google, Amazon, and OpenAI use AI to drive innovation. Our curriculum is based on skills in demand from leading tech employers.
+
+No Experience? No Problem
+
+Start from scratch with beginner-friendly lessons in Python and statistics. By the end, you’ll be building intelligent systems with cutting-edge AI tools.
+
+A Structured Path from Beginner to AI Engineer
+
+1. Programming Foundations
+Start with a crash course in Python, designed for beginners. You’ll learn the language fundamentals needed for data science and AI work.
+
+2. Data Science and Statistics
+Build a solid foundation in data analysis, visualization, descriptive and inferential statistics, and feature engineering—essential skills for working with real-world datasets.
+
+3. Classical Machine Learning
+Explore supervised and unsupervised learning, including linear regression, decision trees, SVMs, clustering, ensemble models, and reinforcement learning.
+
+4. Deep Learning with TensorFlow and Keras
+Understand neural networks, convolutional neural networks (CNNs), and recurrent neural networks (RNNs), using real code examples and exercises.
+
+5. Advanced AI Engineering and Generative AI
+Go beyond traditional ML to learn the latest AI tools and techniques:
+
+Transformers and self-attention mechanisms
+
+GPT, ChatGPT, and the OpenAI API
+
+Fine-tuning foundation models
+
+Advanced Retrieval-Augmented Generation (RAG)
+
+LangChain and LLM agents
+
+Designing and building multi-agent systems with the OpenAI Agents SDK
+
+Real-world GenAI projects and deployment strategies
+
+6. Big Data and Apache Spark
+Learn how to scale machine learning to large datasets using Spark, and apply ML techniques on distributed computing clusters.
+
+Designed for Career Growth
+
+Whether you're a programmer looking to pivot into AI or a tech professional seeking to expand your skills, this course delivers a complete, industry-relevant education. Concepts are explained clearly, in plain English, with a focus on applying what you learn.
+
+What Students Are Saying
+
+"I started doing your course... and it was pivotal in helping me transition into a role where I now solve corporate problems using AI. Your course demystified how to succeed in corporate AI research, making you the most impressive instructor in ML I've encountered."
+— Kanad Basu, PhD
+
+Enroll Today and Build Your Future in AI
+
+Join thousands of learners who have used this course to land jobs, lead projects, and build real AI applications. Stay ahead in one of the fastest-growing fields in tech.
+
+Start your journey today—from Python beginner to AI engineer.
+
+What you’ll learn
+Build generative AI systems with OpenAI, RAG, and LLM Agents
+Build artificial neural networks with Tensorflow and Keras
+Implement machine learning at massive scale with Apache Spark's MLLib
+Classify images, data, and sentiments using deep learning
+Make predictions using linear regression, polynomial regression, and multivariate regression
+Data Visualization with MatPlotLib and Seaborn
+Understand reinforcement learning - and how to build a Pac-Man bot
+Classify data using K-Means clustering, Support Vector Machines (SVM), KNN, Decision Trees, Naive Bayes, and PCA
+Use train/test and K-Fold cross validation to choose and tune your models
+Build a movie recommender system using item-based and user-based collaborative filtering
+Clean your input data to remove outliers
+Design and evaluate A/B tests using T-Tests and P-Values
+Are there any course requirements or prerequisites?
+You'll need a desktop computer (Windows, Mac, or Linux) capable of running Anaconda 3 or newer. The course will walk you through installing the necessary free software.
+Some prior coding or scripting experience is required.
+At least high school level math skills will be required.
+Who this course is for:
+Software developers or programmers who want to transition into the lucrative data science and machine learning career path will learn a lot from this course.
+Technologists curious about how deep learning really works
+Data analysts in the finance or other non-tech industries who want to transition into the tech industry can use this course to learn how to analyze data using code instead of tools. But, you'll need some prior experience in coding or scripting to be successful.
+If you have no prior coding or scripting experience, you should NOT take this course - yet. Go take an introductory Python course first.
