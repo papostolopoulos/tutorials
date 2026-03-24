@@ -1,0 +1,61 @@
+<!--
+Prompt
+Using only HTML and CSS (no JavaScript):
+Create a 3D cube with six faces.
+Place this cube in the center of the page.
+The cube should rotate horizontally to show different faces when you hover over it, alternating between the left, front and right faces in the following manner:
+
+Default State: Show the front face.
+Hover on the right side (near the right edge of the cube): Rotate 90 degrees around the Y-axis to show the right face.
+Hover on the left side (near the left edge of the cube): Rotate -90 degrees around the Y-axis to show the left face.
+
+On the front face, add a scrollable section with text. Style the scrollbar to be narrow and rounded on the corners.
+Make the cube responsive so it adjusts to smaller screens (should be visible and working on 320px by 480px screens) by shrinking proportionally. 
+Keep everything centered on the page and ensure the cube’s content stays within bounds.
+-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>3D Cube</title>
+        <link rel="stylesheet" href="meta_style_b.css">
+    </head>
+
+
+    <body>
+        <div class="cube-container">
+            <div class="hover-area left-hover-area"></div>
+            <div class="hover-area right-hover-area"></div>
+            <div class="cube">
+                <div class="face front">
+                    <div class="scrollable-section">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                        pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                        est laborum.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                        pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                        est laborum.
+                    </div>
+                </div>
+                <div class="face left">Left Face</div>
+                <div class="face right">Right Face</div>
+                <div class="face top">Top Face</div>
+                <div class="face bottom">Bottom Face</div>
+                <div class="face back">Back Face</div>
+            </div>
+        </div>
+    </body>
+</html>

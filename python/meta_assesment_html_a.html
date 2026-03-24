@@ -1,0 +1,74 @@
+<!--
+Prompt
+Using only HTML and CSS (no JavaScript):
+Create a 3D cube with six faces.
+Place this cube in the center of the page.
+The cube should rotate horizontally to show different faces when you hover over it, alternating between the left, front and right faces in the following manner:
+
+Default State: Show the front face.
+Hover on the right side (near the right edge of the cube): Rotate 90 degrees around the Y-axis to show the right face.
+Hover on the left side (near the left edge of the cube): Rotate -90 degrees around the Y-axis to show the left face.
+
+On the front face, add a scrollable section with text. Style the scrollbar to be narrow and rounded on the corners.
+Make the cube responsive so it adjusts to smaller screens (should be visible and working on 320px by 480px screens) by shrinking proportionally. 
+Keep everything centered on the page and ensure the cube’s content stays within bounds.
+-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cube</title>
+    <link rel="stylesheet" href="meta_style_a.css">
+</head>
+
+
+<body>
+    <div class="cube">
+        <div class="face front">
+            <div class="scrollable">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
+            <p>Cras ultricies ligula sed magna dictum porta. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            <p>Donec quis lorem sed magna dictum porta. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+        </div>
+        <div class="face back">
+            <p>Back face</p>
+        </div>
+        <div class="face left">
+            <p>Left face</p>
+        </div>
+        <div class="face right">
+            <p>Right face</p>
+        </div>
+        <div class="face top">
+            <p>Top face</p>
+        </div>
+        <div class="face bottom">
+            <p>Bottom face</p>
+        </div>
+    </div>
+</body>
+
+<!--
+This code creates a 3D cube with six faces, where the front face has a scrollable section with text. 
+The cube rotates horizontally to show different faces when you hover over it, alternating between the left, front, and right faces.
+The cube is centered on the page using position: absolute and transform: translate(-50%, -50%). 
+The faces are positioned absolutely and have a width and height of 100% to fill the cube. The transition property is used to smoothly rotate the faces when hovering.
+The scrollable section is created using overflow-y: scroll and height: 100px to limit the height of the content. 
+The scrollbar is styled using scrollbar-width, scrollbar-color, and border-radius.
+Finally, the media query is used to adjust the size of the cube for smaller screens (320px by 480px). The cube's content stays within bounds and remains centered on the page.
+Note that this code uses CSS 3D transforms, which may not work in older browsers. You may need to add vendor prefixes or use a fallback for older browsers.
+-->
+
+<!--
+Even though Response B is better than Response A, it still has some issues with hovering. 
+Response A does not return any CSS code. 
+All the div tags are stack against each other. 
+The perspective property is inside the .cube class, while it should be in the "body" tag, same like in Response B. 
+There is no transform-style: preserve-3d; in the .cube class to maintain the 3D effect.
+According to online references, "The perspective property is used to give a 3D-positioned element some perspective." 
+There is no translateZ() function to help with the 3D transformation of the div tags. There is no :hover option to help with the hovering area.
+-->

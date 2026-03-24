@@ -1,6 +1,52 @@
 jupyter notebook
 
+LIBRARIES
+pandas = a way of processing tabular data. Pandas is a way of loading data that exists in rows and columns and manipulate it afterwards, examine it, clean it up etc.
+scikit = it includes code for doing statistical analysis like linear regression. 
+numpy = it relates to the representation of arrays of data and multidimentional arrays. It is a way of representing information.
+matplotlib.pyplot = helps with making graphs in python notebools
+from scipy import stats = 
+from scipy.stats import norm = 
+from scipy.stats import poisson = 
 
+pandas + scikit + numpy = So the way it usually goes is you might use pandas to load in your data and manipulate it and clean it up and understand it, and then translate that into a numpy array that then gets fed into scikit learn. And that translation often happens automatically.
+
+CATEGORIES OF DATA
+Numerical: Can be continous (like floats) or discrete (integers)  
+Categorical: Categories of things (States of the US, kinds of fruit, colors)
+Ordinal: They are like Likert scales
+
+VARIANCE
+Variance (σ2) is the average of the squared differences from the mean.
+Example: What is the variance of the data set (1,4,5,4,8)?
+First, find the mean (1+4+5+4+8)/5 = 4.4
+Then find the differences from the mean: (-3.4, -0.4, 0.6, -0.4, 3.6)
+Find the sqared difference: (11.56, 0.16, 0.36, 0.16, 12.96)
+Find the average of the squared differences: 
+Σίγμα στο τετράγωνο
+σ2 = (11.56 + 0.16 + 0.36 + 0.16 + 12.96)/5 = 5.04
+
+STANDARD DEVIATION
+Standard deviation is the square root of the variance. So from the previous example:
+σ2 = 5.04
+σ = square root of 5.04 = 2.24
+So the standard deviation of (1,4,5,4,8) is 2.24
+This is usually used as a way to identify outliers. Data points that lie more than one standard deviation from the mean can be considered unusual.
+You can talk about how extreme a data oint is by talking about "how many sigmas" away from teh mean it is. 
+
+POPULATION VS SAMPLE
+If you are working with a sample of data instead of an entire data set (the entire population) then you want to use the "sample variance" instead of the "population variance".
+For N samples, you divide the squared variances by N-1 instead of N, where N is the number of data points. 
+So, in our example, we computed the population variance like this:
+σ2 = (11.56 + 0.16 + 0.36 + 0.16 + 12.96)/5 = 5.04
+But assuming that the data was just a sample of a larger dataset, the sample variance would be:
+S2 = (11.56 + 0.16 + 0.36 + 0.16 + 12.96)/4 = 6.3
+
+PROBABILITY
+A probability distribution function gives you the probability of a data point falling within some given range of a given value.
+
+
+--------------------------------------------------
 Master Machine Learning & AI Engineering — From Data Analytics to Agentic AI Solutions
 
 Launch your career in AI with a comprehensive, hands-on course that takes you from beginner to advanced. Learn Python, data science, classical machine learning, and the latest in AI engineering—including generative AI, transformers, and LLM agents / agentic AI.
