@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Project Lifecycle Tracker · TPM Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c0f;
+    --surface: #13151a;
+    --surface2: #1a1d24;
+    --surface3: #21252f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0efe8;
+    --muted: #7a7d88;
+    --accent: #00e5a0;
+    --accent-dim: rgba(0,229,160,0.12);
+    --accent-glow: rgba(0,229,160,0.25);
+    --warn: #f5a623;
+    --warn-dim: rgba(245,166,35,0.12);
+    --danger: #ff5f5f;
+    --danger-dim: rgba(255,95,95,0.1);
+    --blue: #4d9fff;
+    --blue-dim: rgba(77,159,255,0.12);
+    --purple: #b57bff;
+    --purple-dim: rgba(181,123,255,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow orb */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .header-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .eyebrow-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .eyebrow-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  header h1 span { color: var(--accent); }
+
+  .header-sub {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  /* API KEY NOTICE */
+  .api-notice {
+    background: var(--warn-dim);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--warn);
+    font-family: 'DM Mono', monospace;
+  }
+  .api-notice span { color: rgba(245,166,35,0.6); }
+
+  /* STAGE RAIL */
+  .stage-rail {
+    display: flex;
+    gap: 0;
+    margin-bottom: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 6px;
+    overflow-x: auto;
+  }
+  .stage-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .stage-btn:hover { color: var(--text); background: var(--surface2); }
+  .stage-btn.active {
+    background: var(--accent);
+    color: #000;
+  }
+  .stage-btn .stage-num {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    opacity: 0.6;
+    margin-bottom: 2px;
+    font-weight: 400;
+  }
+
+  /* STAGE CONTEXT */
+  .stage-context {
+    display: none;
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    font-size: 13px;
+    color: var(--accent);
+    line-height: 1.6;
+    animation: fadeIn 0.3s ease;
+  }
+  .stage-context.visible { display: block; }
+  .stage-context strong { font-weight: 700; }
+
+  /* FORM */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+  }
+
+  input, textarea, select {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13.5px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+  select { appearance: none; cursor: pointer; }
+  select option { background: var(--surface2); }
+
+  .api-input-wrap { position: relative; }
+  .api-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 8px;
+  }
+  .api-toggle:hover { color: var(--text); }
+
+  /* ANALYZE BUTTON */
+  .analyze-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .analyze-btn:hover { background: #00ffb3; box-shadow: 0 0 20px var(--accent-glow); }
+  .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .analyze-btn .btn-icon { font-size: 18px; }
+
+  /* LOADING */
+  .loading-state {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .loading-state.visible { display: block; }
+  .loader {
+    display: inline-block;
+    width: 40px; height: 40px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* RESULTS */
+  .results { display: none; animation: slideUp 0.4s ease; }
+  .results.visible { display: block; }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .results-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .results-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .meta-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .meta-tag.stage { color: var(--accent); border-color: rgba(0,229,160,0.25); background: var(--accent-dim); }
+
+  .result-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .result-section-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .icon-risk { background: var(--danger-dim); }
+  .icon-questions { background: var(--blue-dim); }
+  .icon-actions { background: var(--accent-dim); }
+  .icon-igaming { background: var(--purple-dim); }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+
+  .result-section-body {
+    padding: 20px;
+  }
+
+  /* Parsed output items */
+  .output-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn 0.3s ease;
+  }
+  .output-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .output-item:first-child { padding-top: 0; }
+
+  .item-bullet {
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-family: 'DM Mono', monospace;
+  }
+  .bullet-risk { background: var(--danger-dim); color: var(--danger); }
+  .bullet-q { background: var(--blue-dim); color: var(--blue); }
+  .bullet-action { background: var(--accent-dim); color: var(--accent); }
+  .bullet-igaming { background: var(--purple-dim); color: var(--purple); }
+
+  .item-text {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .item-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 3px;
+  }
+  .label-risk { color: var(--danger); }
+  .label-q { color: var(--blue); }
+  .label-action { color: var(--accent); }
+  .label-igaming { color: var(--purple); }
+
+  /* Raw fallback */
+  .raw-output {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #c8c8be;
+    white-space: pre-wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+  }
+
+  .reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { color: var(--text); border-color: var(--border2); }
+
+  /* FOOTER */
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .footer-left strong { color: var(--text); }
+  .footer-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .stage-btn .stage-num { display: none; }
+    header h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-eyebrow">
+      <div class="eyebrow-dot"></div>
+      <div class="eyebrow-text">TPM Toolkit · Service Delivery</div>
+    </div>
+    <h1>AI Project<br><span>Lifecycle Tracker</span></h1>
+    <p class="header-sub">Enter your project details and current stage. The tool surfaces the risks you should be managing, the questions you should be asking, and the actions a senior TPM would take next — tailored for AI projects in complex enterprise environments.</p>
+  </header>
+
+  <!-- API NOTICE -->
+  <div class="api-notice">
+    ⚠ &nbsp;<span>API KEY:</span> Replace <code>YOUR_API_KEY_HERE</code> in the source before sharing.
+  </div>
+
+  <!-- STAGE RAIL -->
+  <div class="stage-rail">
+    <button class="stage-btn active" onclick="selectStage('poc', this)">
+      <span class="stage-num">01</span>
+      PoC
+    </button>
+    <button class="stage-btn" onclick="selectStage('pilot', this)">
+      <span class="stage-num">02</span>
+      Pilot
+    </button>
+    <button class="stage-btn" onclick="selectStage('development', this)">
+      <span class="stage-num">03</span>
+      Development
+    </button>
+    <button class="stage-btn" onclick="selectStage('uat', this)">
+      <span class="stage-num">04</span>
+      UAT
+    </button>
+    <button class="stage-btn" onclick="selectStage('production', this)">
+      <span class="stage-num">05</span>
+      Production
+    </button>
+    <button class="stage-btn" onclick="selectStage('post_launch', this)">
+      <span class="stage-num">06</span>
+      Post-Launch
+    </button>
+  </div>
+
+  <!-- STAGE CONTEXT -->
+  <div class="stage-context" id="stage-context"></div>
+
+  <!-- FORM -->
+  <div id="form-area">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Project Name</label>
+        <input type="text" id="project-name" placeholder="e.g. Internal Support Chatbot" />
+      </div>
+      <div class="form-group">
+        <label>Project Type</label>
+        <select id="project-type">
+          <option value="">Select type...</option>
+          <option value="Agentic AI / LLM-based automation">Agentic AI / LLM automation</option>
+          <option value="Internal chatbot / virtual assistant">Internal chatbot</option>
+          <option value="AI-powered analytics or reporting">AI analytics / reporting</option>
+          <option value="ML model integration into product">ML model integration</option>
+          <option value="AI vendor / third-party platform onboarding">AI vendor onboarding</option>
+          <option value="Predictive modelling (risk, fraud, churn)">Predictive modelling</option>
+          <option value="Computer vision / voice AI">Computer vision / voice AI</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Project Description</label>
+        <textarea id="project-desc" placeholder="Briefly describe what the project does, who it serves, and what problem it solves. Include any relevant context about the team, vendors, or constraints."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Key Stakeholders</label>
+        <input type="text" id="stakeholders" placeholder="e.g. Engineering, Legal, Customer Ops" />
+      </div>
+      <div class="form-group">
+        <label>Primary Concern (optional)</label>
+        <input type="text" id="concern" placeholder="e.g. vendor delay, data privacy, adoption" />
+      </div>
+      <div class="form-group full">
+        <label>OpenAI API Key</label>
+        <div class="api-input-wrap">
+          <input type="password" id="api-key" placeholder="sk-..." value="YOUR_OPENAI_KEY_HERE" />
+          <button class="api-toggle" onclick="toggleKey()">show</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="analyze-btn" onclick="runAnalysis()" id="analyze-btn">
+      <span class="btn-icon">⚡</span>
+      Analyse Project
+    </button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-state" id="loading">
+    <div class="loader"></div>
+    <div class="loading-label">Analysing project context...</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="results-title">Project Analysis</div>
+        <div style="font-size:12px; color: var(--muted); margin-top:4px;" id="results-sub"></div>
+      </div>
+      <div class="results-meta">
+        <div class="meta-tag stage" id="results-stage-tag"></div>
+        <div class="meta-tag" id="results-type-tag"></div>
+      </div>
+    </div>
+
+    <!-- RISKS -->
+    <div class="result-section">
+      <div class="result-section-header">
+        <div class="section-icon icon-risk">⚠️</div>
+        <div class="section-title">Stage Risks to Manage</div>
+      </div>
+      <div class="result-section-body" id="risks-body"></div>
+    </div>
+
+    <!-- QUESTIONS -->
+    <div class="result-section">
+      <div class="result-section-header">
+        <div class="section-icon icon-questions">💬</div>
+        <div class="section-title">Questions a Senior TPM Should Be Asking</div>
+      </div>
+      <div class="result-section-body" id="questions-body"></div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="result-section">
+      <div class="result-section-header">
+        <div class="section-icon icon-actions">✅</div>
+        <div class="section-title">Recommended Next Actions</div>
+      </div>
+      <div class="result-section-body" id="actions-body"></div>
+    </div>
+
+    <!-- IGAMING LENS -->
+    <div class="result-section">
+      <div class="result-section-header">
+        <div class="section-icon icon-igaming">🎯</div>
+        <div class="section-title">iGaming / Regulated Environment Considerations</div>
+      </div>
+      <div class="result-section-body" id="igaming-body"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetForm()">← New Analysis</button>
+  </div>
+
+  <footer>
+    <div class="footer-left">Built for <strong>Service Delivery · Kaizen Gaming</strong> — AI Project TPM Toolkit</div>
+    <div class="footer-badge">GPT-4o · Live Analysis</div>
+  </footer>
+
+</div>
+
+<script>
+  let currentStage = 'poc';
+
+  const stageContexts = {
+    poc: '<strong>Proof of Concept:</strong> The goal is to validate feasibility, not build for production. The TPM's job here is to define success criteria upfront, constrain scope ruthlessly, and ensure learnings are documented for the next stage decision.',
+    pilot: '<strong>Pilot:</strong> A limited real-world test with real users and real data. The TPM must manage expectations carefully — a pilot is not a commitment to ship. Failure modes are still acceptable; undocumented failure modes are not.',
+    development: '<strong>Development:</strong> Full build in progress. The TPM owns dependency tracking, sprint health, and stakeholder communication. Scope creep, integration delays, and resource gaps are the primary risks.',
+    uat: '<strong>User Acceptance Testing:</strong> The last gate before production. The TPM owns the testing plan, defect prioritisation, and go/no-go decision framework. Business sign-off must be explicit, not assumed.',
+    production: '<strong>Production:</strong> Live. The TPM shifts from delivery to operational stability — monitoring, incident response, SLA management, and hypercare planning. Rollback plans must be active.',
+    post_launch: '<strong>Post-Launch:</strong> Measuring real impact against the original business case. The TPM owns retrospective analysis, adoption tracking, and the case for what comes next.'
+  };
+
+  function selectStage(stage, btn) {
+    currentStage = stage;
+    document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const ctx = document.getElementById('stage-context');
+    ctx.innerHTML = stageContexts[stage];
+    ctx.classList.add('visible');
+  }
+
+  // Show initial context
+  selectStage('poc', document.querySelector('.stage-btn.active'));
+
+  function toggleKey() {
+    const input = document.getElementById('api-key');
+    const btn = document.querySelector('.api-toggle');
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = 'hide';
+    } else {
+      input.type = 'password';
+      btn.textContent = 'show';
+    }
+  }
+
+  async function runAnalysis() {
+    const name = document.getElementById('project-name').value.trim();
+    const type = document.getElementById('project-type').value;
+    const desc = document.getElementById('project-desc').value.trim();
+    const stakeholders = document.getElementById('stakeholders').value.trim();
+    const concern = document.getElementById('concern').value.trim();
+    const apiKey = document.getElementById('api-key').value.trim();
+
+    if (!name || !desc || !apiKey || apiKey === 'YOUR_OPENAI_KEY_HERE') {
+      alert('Please fill in the project name, description, and a valid API key before analysing.');
+      return;
+    }
+
+    const stageLabel = {
+      poc: 'Proof of Concept', pilot: 'Pilot', development: 'Development',
+      uat: 'User Acceptance Testing', production: 'Production', post_launch: 'Post-Launch'
+    }[currentStage];
+
+    document.getElementById('form-area').style.display = 'none';
+    document.getElementById('loading').classList.add('visible');
+    document.getElementById('results').classList.remove('visible');
+
+    const systemPrompt = `You are a senior Technical Program Manager with 15+ years of experience delivering AI and enterprise software projects in complex, regulated environments — specifically iGaming and online betting platforms operating across 20+ regulated markets.
+
+Your role is to help TPMs at every stage of an AI project lifecycle by surfacing risks, generating the right questions, and recommending concrete actions.
+
+You have deep knowledge of:
+- AI project lifecycles: PoC, Pilot, Development, UAT, Production, Post-Launch
+- Agentic AI, LLM deployments, and AI vendor onboarding
+- Regulated industry constraints: data privacy (GDPR), responsible gambling compliance, regional licensing
+- Vendor management with hyperscalers (Google, Microsoft, AWS) and specialist AI vendors
+- Cross-functional alignment between Engineering, Product, Legal, and Operations
+
+Always be specific and actionable. Avoid generic project management advice. Frame everything for a fast-moving GameTech company with a global footprint.
+
+Return your response in this EXACT JSON format with no markdown, no preamble, just valid JSON:
+{
+  "risks": [
+    {"label": "short risk name", "detail": "one to two sentence explanation of the risk and why it matters at this stage"},
+    ...
+  ],
+  "questions": [
+    {"label": "short question topic", "detail": "the full question a senior TPM should ask, and who to ask it to"},
+    ...
+  ],
+  "actions": [
+    {"label": "short action name", "detail": "specific, concrete action to take this week or sprint"},
+    ...
+  ],
+  "igaming": [
+    {"label": "consideration topic", "detail": "specific consideration for iGaming, regulated markets, or enterprise AI compliance"},
+    ...
+  ]
+}
+
+Return 4-5 items per section. Be specific to the project described.`;
+
+    const userPrompt = `Analyse this AI project:
+
+Project Name: ${name}
+Project Type: ${type || 'AI project'}
+Current Stage: ${stageLabel}
+Description: ${desc}
+Key Stakeholders: ${stakeholders || 'Not specified'}
+Primary Concern: ${concern || 'Not specified'}
+
+Company context: Kaizen Gaming (Betano) — a GameTech company operating in 20+ regulated markets, with 800 people in tech and product. The Service Delivery team manages internal AI projects and vendor relationships with hyperscalers.
+
+Provide stage-specific, highly actionable analysis for a senior TPM.`;
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          max_tokens: 1800,
+          temperature: 0.4,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+          ]
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'API error');
+      }
+
+      const raw = data.choices[0].message.content;
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch(e) {
+        // Try to extract JSON from the response
+        const match = raw.match(/\{[\s\S]*\}/);
+        if (match) parsed = JSON.parse(match[0]);
+        else throw new Error('Could not parse response');
+      }
+
+      renderResults(parsed, name, stageLabel, type);
+
+    } catch (err) {
+      document.getElementById('loading').classList.remove('visible');
+      document.getElementById('form-area').style.display = 'block';
+      alert('Error: ' + err.message);
+    }
+  }
+
+  function renderItems(containerId, items, bulletClass, labelClass) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    items.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'output-item';
+      div.style.animationDelay = (i * 0.05) + 's';
+      div.innerHTML = `
+        <div class="item-bullet ${bulletClass}">${i + 1}</div>
+        <div class="item-text">
+          <div class="item-label ${labelClass}">${item.label}</div>
+          ${item.detail}
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function renderResults(data, name, stage, type) {
+    document.getElementById('loading').classList.remove('visible');
+
+    document.getElementById('results-title').textContent = name;
+    document.getElementById('results-sub').textContent = 'AI-generated lifecycle analysis · ' + new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+    document.getElementById('results-stage-tag').textContent = stage;
+    document.getElementById('results-type-tag').textContent = type || 'AI Project';
+
+    renderItems('risks-body', data.risks || [], 'bullet-risk', 'label-risk');
+    renderItems('questions-body', data.questions || [], 'bullet-q', 'label-q');
+    renderItems('actions-body', data.actions || [], 'bullet-action', 'label-action');
+    renderItems('igaming-body', data.igaming || [], 'bullet-igaming', 'label-igaming');
+
+    document.getElementById('results').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetForm() {
+    document.getElementById('results').classList.remove('visible');
+    document.getElementById('form-area').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
