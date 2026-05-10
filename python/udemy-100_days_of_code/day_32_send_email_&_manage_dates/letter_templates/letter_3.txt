@@ -1,0 +1,9 @@
+Dear [NAME],
+
+It's your birthday! Have a great day!
+
+All my love,
+
+Paris
+
+*: This was sent automatically from a small program that I built.
