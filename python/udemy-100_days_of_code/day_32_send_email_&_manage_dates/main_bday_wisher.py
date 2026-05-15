@@ -6,6 +6,7 @@ import smtplib
 
 MY_EMAIL = "papostolopoulosp@gmail.com"
 MY_PASSWORD = "uujh xlft qzie mygb"
+# For papostolopoulos@gmail.com the password is ptbi wmci hdlv lsmg
 
 # Define today's date in order to check if it matches a birthday in the birthdays.csv file
 today = dt.datetime.now()
@@ -28,7 +29,7 @@ if today_tuple in birthdays_dict:
         contents = letter_file.read()
         contents = contents.replace("[NAME]", birthday_person["name"])
 
-    # Email the birthday letter
+    # Email the notification
     with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         # starttls is used to secure our connection to the server by encrypting the message.
         connection.starttls()
